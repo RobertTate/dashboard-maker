@@ -1,0 +1,4 @@
+.dashBoardCreator {
+  display: flex;
+  flex-direction: column;
+}

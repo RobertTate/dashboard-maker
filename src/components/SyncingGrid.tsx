@@ -1,0 +1,152 @@
+import localforage from 'localforage';
+import { v4 as uuidv4 } from 'uuid';
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { WidthProvider, Responsive } from "react-grid-layout";
+import startingLayouts from '../partials/startingLayout';
+import cross from "../assets/cross.svg";
+import WidgetContainer from "./Widget";
+import type { SyncingGridProps, WidgetProps, DashboardItemsProps } from '../types';
+
+export default function SyncingGrid({ dashName }: SyncingGridProps) {
+  const ResponsiveReactGridLayout = useMemo(() => WidthProvider(Responsive), []);
+
+  const [layouts, setLayouts] = useState<ReactGridLayout.Layouts | null>(null);
+  const [widgets, setWidgets] = useState<WidgetProps[] | null>(null);
+  const [syncStorage, setSyncStorage] = useState(0);
+
+  useEffect(() => {
+    const getSavedItems = async () => {
+      const dashboardItems: DashboardItemsProps | null = await localforage.getItem(dashName);
+      const savedLayouts = dashboardItems!?.layouts;
+      const savedWidgets = dashboardItems!?.widgets;
+      let firstTimeLayoutSave = false;
+      let firstTimeWidgetSave = false;
+
+      if (savedLayouts) {
+        setLayouts(savedLayouts);
+      } else {
+        firstTimeLayoutSave = true;
+        setLayouts(startingLayouts);
+      }
+
+      if (savedWidgets) {
+        setWidgets(savedWidgets);
+      } else {
+        firstTimeWidgetSave = true;
+        setWidgets([]);
+      }
+
+      if (firstTimeLayoutSave || firstTimeWidgetSave) {
+        const newdashboardItems: DashboardItemsProps = {
+          layouts: firstTimeLayoutSave ? startingLayouts : savedLayouts,
+          widgets: firstTimeWidgetSave ? [] : savedWidgets
+        }
+        await localforage.setItem(dashName, newdashboardItems);
+      }
+
+    };
+    getSavedItems();
+  }, [])
+
+  useEffect(() => {
+    const updateLayouts = async () => {
+      if (layouts && widgets) {
+        const newdashboardItems: DashboardItemsProps = {
+          layouts: layouts,
+          widgets: widgets
+        };
+        await localforage.setItem(dashName, newdashboardItems);
+      }
+    }
+    updateLayouts();
+  }, [syncStorage])
+
+  const onLayoutChange = useCallback((_layout: ReactGridLayout.Layout[], newLayouts: ReactGridLayout.Layouts) => {
+    if (JSON.stringify(layouts) !== JSON.stringify(newLayouts)) {
+      setLayouts(newLayouts);
+      setSyncStorage((prev) => prev + 1);
+    }
+  }, []);
+
+  const addNewWidget = () => {
+    const uniqueKey = uuidv4();
+
+    const newWidget = {
+      id: uniqueKey,
+      content: 'Edit Me!'
+    }
+
+    const newWidgetsArray = [
+      ...(widgets ? widgets : []),
+      newWidget
+    ]
+
+    setWidgets([...newWidgetsArray]);
+    setSyncStorage((prev) => prev + 1);
+  };
+
+  const deleteWidget = (selectedWidgetId: string) => {
+    const newWidgetsArray = widgets!.filter((widget) => {
+      return widget.id !== selectedWidgetId;
+    });
+    setWidgets([...newWidgetsArray]);
+    setSyncStorage((prev) => prev + 1);
+  };
+
+  const updateWidgetContent = (item: WidgetProps, content: string) => {
+    console.dir(content)
+    const updatedWidgetsArray = widgets!.map((widget) => {
+      if (widget.id === item.id) {
+        widget.content = content;
+      }
+      return widget;
+    });
+    setWidgets([...updatedWidgetsArray]);
+    setSyncStorage((prev) => prev + 1);
+  }
+
+  return (
+    <>
+      {layouts && (
+        <ResponsiveReactGridLayout
+          className="layout"
+          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+          rowHeight={30}
+          layouts={layouts}
+          onLayoutChange={onLayoutChange}
+          draggableCancel='.cancelDrag'
+        >
+          <div
+            title="Add New Widget"
+            key="New Widget"
+            id="addWidget"
+            data-grid={{ x: 0, y: 0, w: 1, h: 1, static: true, isDraggable: false, isResizable: false }}
+            onClick={addNewWidget}
+          >
+            <img src={cross} alt="Add Widget" />
+          </div>
+          {widgets && widgets.map((item) => {
+            return (
+              <div key={item.id}>
+                <div className='cancelDrag'>
+                  <WidgetContainer
+                    item={item}
+                    updateWidgetContent={updateWidgetContent}
+                  />
+                </div>
+                <span
+                  id="deleteWidget"
+                  title="Delete Widget"
+                  onClick={() => deleteWidget(item.id)}
+                  className='cancelDrag'
+                >
+                  <img src={cross} alt="" />
+                </span>
+              </div>
+            )
+          })}
+        </ResponsiveReactGridLayout>
+      )}
+    </>
+  );
+};
