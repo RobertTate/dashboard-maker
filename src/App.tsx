@@ -4,15 +4,15 @@ import OBR from '@owlbear-rodeo/sdk';
 import PopOver from './components/PopOver';
 
 export default function App() {
-  const [obrIsReady, setObrIsReady] = useState(false);
+  const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
     OBR.onReady(() => {
-      setObrIsReady(true);
+      setAppIsReady(true);
     });
   }, []);
 
-  if (obrIsReady) {
+  if (appIsReady) {
     return (
       <PopOver />
     )

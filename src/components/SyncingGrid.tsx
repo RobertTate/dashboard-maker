@@ -124,7 +124,7 @@ export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: 
           draggableCancel='.cancelDrag'
         >
           <div
-            title="Add New Widget"
+            title="Add a new dashboard item"
             key="New Widget"
             id="addWidget"
             data-grid={{ x: 0, y: 0, w: 1, h: 1, static: true, isDraggable: false, isResizable: false }}

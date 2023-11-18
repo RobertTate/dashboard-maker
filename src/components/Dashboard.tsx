@@ -28,10 +28,10 @@ export default function Dashboard(props: DashboardProps) {
       <div className={styles.dashboardNav}>
         <button title="Go Back" onClick={() => selectADashboard('')}><img alt="Go Back Icon" src={leftArrow}></img></button>
         <button title="Delete Dashboard" onClick={() => deleteADashboard(selectedDashboard)}><img alt="Delete Dashboard" src={fire}></img></button>
-        <h3>{selectedDashboard}</h3>
-        <button title="Toggle Widget Lock" onClick={() => setIsLocked((prev) => !prev)}>
+        <button title={isLocked ? "Click To Unlock" : "Click To Lock"} onClick={() => setIsLocked((prev) => !prev)}>
           <img src={isLocked ? locked : unlocked} alt={isLocked ? "Locked Padlock" : "Unlocked Padlock"} />
         </button>
+        <h2>{selectedDashboard}</h2>
       </div>
       <SyncingGrid isLocked={isLocked} updateLockedStatus={updateLockedStatus} dashName={selectedDashboard} />
     </div>

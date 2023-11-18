@@ -4,32 +4,35 @@
 
 /* For Chrome, Edge, and Safari */
 ::-webkit-scrollbar {
-  width: 1.125rem; /* width of the entire scrollbar */
+  width: 1.125rem;
+  /* width of the entire scrollbar */
 }
 
 ::-webkit-scrollbar-track {
-  background: #242424; /* color of the tracking area */
+  background: #242424;
+  /* color of the tracking area */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #494949; /* color of the scrollbar itself */
+  background-color: #494949;
+  /* color of the scrollbar itself */
   border-radius: 9px;
   border: 7px solid transparent;
-  background-clip: content-box; /* Prevents the background from bleeding into the border */
-  transition: background-color 0.3s; /* Smooth transition for background color */
-  -webkit-transition: background-color .5s;
-  -o-transition: background-color .5s;
-  -moz-transition: background-color .5s;
+  background-clip: content-box;
+  /* Prevents the background from bleeding into the border */
 }
 
 .scrolling ::-webkit-scrollbar-thumb {
-  background-color: #858585; /* color of the scrollbar itself */
+  background-color: #858585;
+  /* color of the scrollbar itself */
 }
 
 /* For Firefox */
 html {
-  scrollbar-width: thin; /* "auto" or "thin" */
-  scrollbar-color: #bb99ff #242424; /* thumb and track color */
+  scrollbar-width: thin;
+  /* "auto" or "thin" */
+  scrollbar-color: #bb99ff #242424;
+  /* thumb and track color */
   overflow-y: scroll;
 }
 
@@ -48,7 +51,7 @@ p {
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: #ffffff;
   background-color: #242424;
 
   font-synthesis: none;
@@ -58,16 +61,6 @@ p {
   -webkit-text-size-adjust: 100%;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-}
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -75,13 +68,13 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 3px solid transparent;
   padding: 0.5rem;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #343333;
-  color: rgba(255, 255, 255, 0.87);
+  background-color: #4c396e;
+  color: #ffffff;
   cursor: pointer;
   transition: border-color 0.25s;
   line-height: 0;
@@ -92,31 +85,10 @@ button:hover {
   border-color: #bb99ff;
 }
 
-/* @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-
-  button {
-    background-color: #bdbdbd;
-    color: #000000
-  }
-} */
-
 .react-grid-layout {
   background-color: #5f5f5f;
   border: 5px solid transparent;
   border-radius: 8px;
-  /* transition: border-color 0.25s; */
-}
-
-.react-grid-layout:hover {
-  /* border: 1px solid #bb99ff; */
 }
 
 .react-grid-layout .react-grid-item {
@@ -132,26 +104,26 @@ button:hover {
   border-bottom: 2px solid #bb99ff;
 }
 
-.react-grid-layout .react-grid-item#addWidget  {
+.react-grid-layout .react-grid-item#addWidget {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 25px !important;
   height: 25px !important;
-  border: 1px solid transparent;
+  border: 4px solid #bb99ff;
   transition: border-color 0.25s;
 }
 
-.react-grid-layout .react-grid-item#addWidget:hover  {
-  border-color: #bb99ff;
+.react-grid-layout .react-grid-item#addWidget:hover {
+  border: 4px solid #8447ff;
 }
-
 
 .react-grid-layout .react-grid-item#addWidget img {
   transform: rotate(45deg);
   width: 20px;
   height: 20px;
 }
+
 .react-grid-layout .react-grid-item {
   display: flex;
   align-items: center;
@@ -191,12 +163,12 @@ button:hover {
   padding: 0;
 }
 
-.editableMDWidget h1 + p:has(br), 
-.editableMDWidget h2 + p:has(br), 
-.editableMDWidget h3 + p:has(br), 
-.editableMDWidget h4 + p:has(br), 
-.editableMDWidget h5 + p:has(br), 
-.editableMDWidget h6 + p:has(br) {
+.editableMDWidget h1+p:has(br),
+.editableMDWidget h2+p:has(br),
+.editableMDWidget h3+p:has(br),
+.editableMDWidget h4+p:has(br),
+.editableMDWidget h5+p:has(br),
+.editableMDWidget h6+p:has(br) {
   display: none;
 }
 
@@ -216,3 +188,63 @@ button:hover {
   color: black;
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #000000;
+    background-color: #d2bff9;
+  }
+
+  button {
+    background-color: #1e1d1d;
+    color: #FFFFFF
+  }
+
+  button:hover {
+    border-color: #8447ff;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #d2bff9;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #d5c1ff;
+  }
+
+  .scrolling ::-webkit-scrollbar-thumb {
+    background-color: #9773e4;
+  }
+
+  .react-grid-layout {
+    background-color: #9773e4;
+  }
+
+  .react-grid-layout .react-grid-item {
+    background-color: #ffffff;
+  }
+
+  .react-grid-item>.react-resizable-handle::after {
+    border-right: 2px solid #bb99ff;
+    border-bottom: 2px solid #bb99ff;
+  }
+
+  .react-grid-layout .react-grid-item#addWidget {
+    border: 4px solid #bb99ff;
+  }
+
+  .react-grid-layout .react-grid-item#addWidget:hover {
+    border-color: #8447ff;
+  }
+
+  .react-grid-layout .react-grid-item {
+    border: 2px solid #8447ff;
+  }
+
+  .editableMDWidget {
+    color: #000000;
+  }
+
+  .editableMDWidget code {
+    color: #000000;
+  }
+}

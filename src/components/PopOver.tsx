@@ -3,6 +3,39 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import Dashboard from './Dashboard';
 import styles from '../styles/PopOver.module.css';
 import refresh from "../assets/refresh.svg";
+import dashboard from "../assets/dashboard.svg";
+
+type PremadeIdentifier = {
+  fileName: string;
+  dashName: string;
+}
+
+async function addPremade(premade: PremadeIdentifier) {
+  const premadeContent = await import(`../partials/${premade.fileName}.ts`);
+  await localforage.setItem(premade.dashName, premadeContent.default); 
+  return premade.dashName;
+}
+
+async function checkAndAddPremades(keys: string[]) {
+  const premadesArrayToCheckAgainst = [
+    {
+      fileName: 'armorDashPremade',
+      dashName: '⭐ Armor ⭐'
+    }
+  ];
+
+  const promises: Promise<string>[] = [];
+
+  premadesArrayToCheckAgainst.forEach((premade: PremadeIdentifier) => {
+    if (!keys.includes(premade.dashName)) {
+      promises.push(addPremade(premade))
+    }
+  });
+
+  const newPremades = await Promise.all(promises);
+
+  return newPremades;
+}
 
 export default function PopOver() {
   const [selectedDashboard, setSelectedDashboard] = useState('');
@@ -12,12 +45,18 @@ export default function PopOver() {
   
   useEffect(() => {
     const initDashboards = async () => {
-      const keys = await localforage.keys();
+      let keys = await localforage.keys();
+      const premades = await checkAndAddPremades(keys);
+      if (premades.length > 0) {
+        keys = [
+          ...keys,
+          ...premades
+        ]
+      }
       setDashboardsArray(keys);
     };
 
     initDashboards();
-    console.log('Dashboards Refreshed');
   }, [refreshCount]);
 
   const selectADashboard = useCallback((dashName: string) => {
@@ -45,7 +84,7 @@ export default function PopOver() {
     }
   }, []);
 
-  const createADashboard = useCallback(async () => {
+  const createADashboard = async () => {
     const keys = await localforage.keys();
     const dashName = newDashInput?.current!.value;
     if (dashName) {
@@ -61,31 +100,32 @@ export default function PopOver() {
       newDashInput!.current!.setCustomValidity("The Dashboard Name Cannot Be Blank.");
       newDashInput!.current!.reportValidity();
     }
-  }, []);
+  };
 
   return (
-    <main>
+    <main className={styles.popOver}>
       {selectedDashboard ? (
         <Dashboard deleteADashboard={deleteADashboard} selectADashboard={selectADashboard} selectedDashboard={selectedDashboard} />
       ) : (
         <>
-          <h1>Dashboard Maker</h1>
+          <h1><img id="headingImage" alt='Dashboard Maker Logo' src={dashboard}></img>Dashboard Maker</h1>
           <h3>DM Screens, Character Sheets, and Whatever Else.</h3>
-          <button 
-            title="Refresh"
+          <button
+            title="Refresh the app. Keep things in sync. Feel in control."
             onClick={() => setRefreshCount((prev) => prev + 1)}
           >
             <img style={{width: "20px"}} src={refresh} alt="Refresh" />
           </button>
           <div className={styles.dashBoardCreator}>
             <input ref={newDashInput} type="text" name="dashboardName" required />
-            <button onClick={createADashboard}><p>Create A Dashboard</p></button>
+            <button title="Create a dashboard. Feel good about your life choices." onClick={createADashboard}><h3>Create A Dashboard</h3></button>
           </div>
           <div>
             <p>My Dashboards:</p>
-            {dashBoardsArray.map((dash, index) => {
+            {dashBoardsArray.filter((dash) => !dash.startsWith('⭐')).map((dash, index) => {
               return (
                 <button
+                  title={`View and edit the ${dash} dashboard.`}
                   key={`${dash}-${index}`}
                   onClick={() => selectADashboard(dash)}
                 >
@@ -93,6 +133,21 @@ export default function PopOver() {
                 </button>
               )
             })}
+          </div>
+          <div>
+            <p>Premade Dashboards:</p>
+            {dashBoardsArray.filter((dash) => dash.startsWith('⭐')).map((dash, index) => {
+              return (
+                <button
+                  title={`View and edit the ${dash} premade dashboard.`}
+                  key={`${dash}-${index}`}
+                  onClick={() => selectADashboard(dash)}
+                >
+                  <p>{dash}</p>
+                </button>
+              )
+            })}
+            <p><em>(If any Premade Dashboards Are Deleted...Don't Worry. Just hit refresh above and you'll get a new one.)</em></p>
           </div>
         </>
       )}
