@@ -69,7 +69,8 @@ export default function PopOver() {
         <Dashboard deleteADashboard={deleteADashboard} selectADashboard={selectADashboard} selectedDashboard={selectedDashboard} />
       ) : (
         <>
-          <h1>Dashboards</h1>
+          <h1>Dashboard Maker</h1>
+          <h3>DM Screens, Character Sheets, and Whatever Else.</h3>
           <button 
             title="Refresh"
             onClick={() => setRefreshCount((prev) => prev + 1)}

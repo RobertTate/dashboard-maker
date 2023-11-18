@@ -7,7 +7,7 @@ import cross from "../assets/cross.svg";
 import WidgetContainer from "./Widget";
 import type { SyncingGridProps, WidgetProps, DashboardItemsProps } from '../types';
 
-export default function SyncingGrid({ dashName }: SyncingGridProps) {
+export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: SyncingGridProps) {
   const ResponsiveReactGridLayout = useMemo(() => WidthProvider(Responsive), []);
 
   const [layouts, setLayouts] = useState<ReactGridLayout.Layouts | null>(null);
@@ -19,6 +19,7 @@ export default function SyncingGrid({ dashName }: SyncingGridProps) {
       const dashboardItems: DashboardItemsProps | null = await localforage.getItem(dashName);
       const savedLayouts = dashboardItems!?.layouts;
       const savedWidgets = dashboardItems!?.widgets;
+      const savedLockStatus = dashboardItems!?.isLocked;
       let firstTimeLayoutSave = false;
       let firstTimeWidgetSave = false;
 
@@ -36,14 +37,18 @@ export default function SyncingGrid({ dashName }: SyncingGridProps) {
         setWidgets([]);
       }
 
+      if (savedLockStatus) {
+        updateLockedStatus(savedLockStatus);
+      }
+
       if (firstTimeLayoutSave || firstTimeWidgetSave) {
         const newdashboardItems: DashboardItemsProps = {
           layouts: firstTimeLayoutSave ? startingLayouts : savedLayouts,
-          widgets: firstTimeWidgetSave ? [] : savedWidgets
+          widgets: firstTimeWidgetSave ? [] : savedWidgets,
+          isLocked
         }
         await localforage.setItem(dashName, newdashboardItems);
       }
-
     };
     getSavedItems();
   }, [])
@@ -53,13 +58,14 @@ export default function SyncingGrid({ dashName }: SyncingGridProps) {
       if (layouts && widgets) {
         const newdashboardItems: DashboardItemsProps = {
           layouts: layouts,
-          widgets: widgets
+          widgets: widgets,
+          isLocked
         };
         await localforage.setItem(dashName, newdashboardItems);
       }
     }
     updateLayouts();
-  }, [syncStorage])
+  }, [syncStorage, isLocked])
 
   const onLayoutChange = useCallback((_layout: ReactGridLayout.Layout[], newLayouts: ReactGridLayout.Layouts) => {
     if (JSON.stringify(layouts) !== JSON.stringify(newLayouts)) {
@@ -73,7 +79,7 @@ export default function SyncingGrid({ dashName }: SyncingGridProps) {
 
     const newWidget = {
       id: uniqueKey,
-      content: 'Edit Me!'
+      content: 'Edit!'
     }
 
     const newWidgetsArray = [
@@ -94,7 +100,6 @@ export default function SyncingGrid({ dashName }: SyncingGridProps) {
   };
 
   const updateWidgetContent = (item: WidgetProps, content: string) => {
-    console.dir(content)
     const updatedWidgetsArray = widgets!.map((widget) => {
       if (widget.id === item.id) {
         widget.content = content;
@@ -110,10 +115,12 @@ export default function SyncingGrid({ dashName }: SyncingGridProps) {
       {layouts && (
         <ResponsiveReactGridLayout
           className="layout"
-          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+          cols={{ lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 }}
           rowHeight={30}
           layouts={layouts}
           onLayoutChange={onLayoutChange}
+          isDraggable={isLocked ? false : true}
+          isResizable={isLocked ? false : true}
           draggableCancel='.cancelDrag'
         >
           <div

@@ -92,12 +92,6 @@ button:hover {
   border-color: #bb99ff;
 }
 
-button:focus,
-button:focus-visible {
-  background-color: #6b44b7;
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
 /* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -111,12 +105,6 @@ button:focus-visible {
   button {
     background-color: #bdbdbd;
     color: #000000
-  }
-
-  button:focus,
-  button:focus-visible {
-    background-color: #d8c4ff;
-    outline: 4px auto -webkit-focus-ring-color;
   }
 } */
 
@@ -186,6 +174,10 @@ button:focus-visible {
   height: 15px;
 }
 
+#lockedDash .react-grid-layout .react-grid-item #deleteWidget {
+  display: none;
+}
+
 .react-grid-layout .react-grid-item#addWidget>.react-resizable-handle::after {
   display: none;
 }
@@ -196,8 +188,31 @@ button:focus-visible {
 
 .editableMDWidget {
   color: white;
+  padding: 0;
+}
+
+.editableMDWidget h1 + p:has(br), 
+.editableMDWidget h2 + p:has(br), 
+.editableMDWidget h3 + p:has(br), 
+.editableMDWidget h4 + p:has(br), 
+.editableMDWidget h5 + p:has(br), 
+.editableMDWidget h6 + p:has(br) {
+  display: none;
+}
+
+.editableMDWidget li[role=checkbox] {
+  text-decoration: none;
+}
+
+.editableMDWidget li[role=checkbox]::before {
+  top: 3px;
+}
+
+.editableMDWidget li[role=checkbox]::after {
+  top: 6px;
 }
 
 .editableMDWidget code {
   color: black;
 }
+

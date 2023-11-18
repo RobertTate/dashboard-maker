@@ -1,9 +1,9 @@
 {
-  "name": "OC Dashes",
+  "name": "Dashboard Maker",
   "version": "1.0.0",
   "manifest_version": 1,
   "action": {
-    "title": "OB Dashes",
+    "title": "Dashboard Maker",
     "icon": "/icon.svg",
     "popover": "/",
     "height": 600,

@@ -5,7 +5,9 @@ export type DashboardProps = {
 }
 
 export type SyncingGridProps = {
-  dashName: string
+  dashName: string;
+  isLocked: boolean;
+  updateLockedStatus: (isLockedStatus: boolean) => void;
 }
 
 export type WidgetProps = {
@@ -15,5 +17,6 @@ export type WidgetProps = {
 
 export type DashboardItemsProps = {
   layouts: ReactGridLayout.Layouts;
-  widgets: WidgetProps[]
+  widgets: WidgetProps[];
+  isLocked: boolean;
 }
