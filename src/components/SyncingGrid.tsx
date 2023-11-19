@@ -6,6 +6,7 @@ import startingLayouts from '../partials/startingLayout';
 import cross from "../assets/cross.svg";
 import WidgetContainer from "./Widget";
 import type { SyncingGridProps, WidgetProps, DashboardItemsProps } from '../types';
+import isEqual from 'lodash.isequal';
 
 export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: SyncingGridProps) {
   const ResponsiveReactGridLayout = useMemo(() => WidthProvider(Responsive), []);
@@ -20,34 +21,25 @@ export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: 
       const savedLayouts = dashboardItems!?.layouts;
       const savedWidgets = dashboardItems!?.widgets;
       const savedLockStatus = dashboardItems!?.isLocked;
-      let firstTimeLayoutSave = false;
-      let firstTimeWidgetSave = false;
 
       if (savedLayouts) {
-        setLayouts(savedLayouts);
+        setLayouts((prevLayouts) => {
+          return isEqual(prevLayouts, savedLayouts) ? prevLayouts : savedLayouts;
+        });
       } else {
-        firstTimeLayoutSave = true;
         setLayouts(startingLayouts);
       }
 
       if (savedWidgets) {
-        setWidgets(savedWidgets);
+        setWidgets((prevWidgets) => {
+          return isEqual(prevWidgets, savedWidgets) ? prevWidgets : savedWidgets;
+        });
       } else {
-        firstTimeWidgetSave = true;
         setWidgets([]);
       }
 
       if (savedLockStatus) {
         updateLockedStatus(savedLockStatus);
-      }
-
-      if (firstTimeLayoutSave || firstTimeWidgetSave) {
-        const newdashboardItems: DashboardItemsProps = {
-          layouts: firstTimeLayoutSave ? startingLayouts : savedLayouts,
-          widgets: firstTimeWidgetSave ? [] : savedWidgets,
-          isLocked
-        }
-        await localforage.setItem(dashName, newdashboardItems);
       }
     };
     getSavedItems();
@@ -61,7 +53,6 @@ export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: 
           widgets: widgets,
           isLocked
         };
-        console.log(newdashboardItems);
         await localforage.setItem(dashName, newdashboardItems);
       }
     }
@@ -69,8 +60,10 @@ export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: 
   }, [syncStorage, isLocked])
 
   const onLayoutChange = useCallback((_layout: ReactGridLayout.Layout[], newLayouts: ReactGridLayout.Layouts) => {
-    if (JSON.stringify(layouts) !== JSON.stringify(newLayouts)) {
-      setLayouts(newLayouts);
+    if (!isEqual(layouts, newLayouts)) {
+      setLayouts((prevLayouts) => {
+        return isEqual(prevLayouts, newLayouts) ? prevLayouts : newLayouts;
+      });
       setSyncStorage((prev) => prev + 1);
     }
   }, []);
@@ -88,7 +81,9 @@ export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: 
       newWidget
     ]
 
-    setWidgets([...newWidgetsArray]);
+    setWidgets((prevWidgets) => {
+      return isEqual(prevWidgets, newWidgetsArray) ? prevWidgets : newWidgetsArray;
+    });
     setSyncStorage((prev) => prev + 1);
   };
 
