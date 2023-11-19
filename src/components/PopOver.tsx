@@ -21,6 +21,10 @@ async function checkAndAddPremades(keys: string[]) {
     {
       fileName: 'armorDashPremade',
       dashName: '⭐ Armor ⭐'
+    },
+    {
+      fileName: 'simpleWeaponsDashPremade',
+      dashName: '⭐ Simple Weapons ⭐'
     }
   ];
 

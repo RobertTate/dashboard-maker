@@ -61,6 +61,7 @@ export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: 
           widgets: widgets,
           isLocked
         };
+        console.log(newdashboardItems);
         await localforage.setItem(dashName, newdashboardItems);
       }
     }
@@ -79,7 +80,7 @@ export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: 
 
     const newWidget = {
       id: uniqueKey,
-      content: 'Edit!'
+      content: 'Edit'
     }
 
     const newWidgetsArray = [

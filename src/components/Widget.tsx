@@ -22,7 +22,6 @@ export default function WidgetContainer({ item, updateWidgetContent }: WidgetCon
         headingsPlugin(),
         listsPlugin(),
         quotePlugin(),
-        linkPlugin(),
         thematicBreakPlugin(),
         markdownShortcutPlugin()
       ]}
