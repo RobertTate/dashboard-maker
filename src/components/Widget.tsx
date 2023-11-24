@@ -1,24 +1,26 @@
-import { useCallback } from 'react';
-import { MDXEditor } from '@mdxeditor/editor/MDXEditor'
-import { headingsPlugin } from '@mdxeditor/editor/plugins/headings'
-import { listsPlugin } from '@mdxeditor/editor/plugins/lists'
-import { quotePlugin } from '@mdxeditor/editor/plugins/quote'
-import { markdownShortcutPlugin } from '@mdxeditor/editor/plugins/markdown-shortcut'
-import debounce from 'lodash.debounce';
+import { useCallback } from "react";
+import { MDXEditor } from "@mdxeditor/editor/MDXEditor";
+import { headingsPlugin } from "@mdxeditor/editor/plugins/headings";
+import { listsPlugin } from "@mdxeditor/editor/plugins/lists";
+import { quotePlugin } from "@mdxeditor/editor/plugins/quote";
+import { markdownShortcutPlugin } from "@mdxeditor/editor/plugins/markdown-shortcut";
+import debounce from "lodash.debounce";
 
-import type { WidgetProps } from "../types"
+import type { WidgetProps } from "../types";
 
 type WidgetContainerProps = {
   item: WidgetProps;
-  updateWidgetContent: (item: WidgetProps, content: string) => void
-}
+  updateWidgetContent: (item: WidgetProps, content: string) => void;
+};
 
-export default function WidgetContainer({ item, updateWidgetContent }: WidgetContainerProps) {
-
-  const debouncedUpdate = useCallback(debounce(
-    (content: string) => updateWidgetContent(item, content), 
-    500
-  ), [item, updateWidgetContent]);
+export default function WidgetContainer({
+  item,
+  updateWidgetContent,
+}: WidgetContainerProps) {
+  const debouncedUpdate = useCallback(
+    debounce((content: string) => updateWidgetContent(item, content), 500),
+    [item, updateWidgetContent],
+  );
 
   return (
     <MDXEditor
@@ -27,10 +29,10 @@ export default function WidgetContainer({ item, updateWidgetContent }: WidgetCon
         headingsPlugin(),
         listsPlugin(),
         quotePlugin(),
-        markdownShortcutPlugin()
+        markdownShortcutPlugin(),
       ]}
       contentEditableClassName="editableMDWidget"
       onChange={(content: string) => debouncedUpdate(content)}
     />
-  )
+  );
 }

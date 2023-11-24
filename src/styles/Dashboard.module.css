@@ -1,11 +1,10 @@
 .dashboardAll {
-
 }
 
 .dashboardNav {
- display: flex;
- align-items: center;
- justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .dashboardNav *:first-child {
@@ -16,11 +15,9 @@
   margin-right: 0;
 }
 
-
 .dashboardNav img {
   width: 20px;
 }
 
 .dashboardContent {
-
 }

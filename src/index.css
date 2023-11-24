@@ -76,7 +76,9 @@ button {
   background-color: #4c396e;
   color: #ffffff;
   cursor: pointer;
-  transition: border-color 0.25s, background-color 0.25s;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s;
   line-height: 0;
   min-height: 38px;
 }
@@ -111,7 +113,7 @@ button:active {
   margin-left: -5px;
 }
 
-.react-grid-item>.react-resizable-handle::after {
+.react-grid-item > .react-resizable-handle::after {
   border-right: 2px solid #bb99ff;
   border-bottom: 2px solid #bb99ff;
 }
@@ -135,11 +137,11 @@ button:active {
   display: none;
 }
 
-.react-grid-layout .react-grid-item#addWidget>.react-resizable-handle::after {
+.react-grid-layout .react-grid-item#addWidget > .react-resizable-handle::after {
   display: none;
 }
 
-.react-grid-layout .react-grid-item#addWidget>.react-resizable-handle {
+.react-grid-layout .react-grid-item#addWidget > .react-resizable-handle {
   display: none;
 }
 
@@ -150,7 +152,7 @@ button:active {
 .editableMDWidget span,
 .editableMDWidget strong,
 .editableMDWidget em {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .editableMDWidget code span,
@@ -160,35 +162,39 @@ button:active {
 }
 
 .editableMDWidget blockquote {
-    font-weight: 500;
-    font-style: italic;
-    border-left: 3px solid #8447ff;
-    margin-top: 1.6em;
-    margin-bottom: 1.6em;
-    margin-left: 0.5em;
-    padding-left: 1em;
+  font-weight: 500;
+  font-style: italic;
+  border-left: 3px solid #8447ff;
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  margin-left: 0.5em;
+  padding-left: 1em;
 }
 
-.editableMDWidget h1+p:has(br),
-.editableMDWidget h2+p:has(br),
-.editableMDWidget h3+p:has(br),
-.editableMDWidget h4+p:has(br),
-.editableMDWidget h5+p:has(br),
-.editableMDWidget h6+p:has(br),
-.editableMDWidget ul+p:has(br) {
+.editableMDWidget h1 + p:has(br),
+.editableMDWidget h2 + p:has(br),
+.editableMDWidget h3 + p:has(br),
+.editableMDWidget h4 + p:has(br),
+.editableMDWidget h5 + p:has(br),
+.editableMDWidget h6 + p:has(br),
+.editableMDWidget ul + p:has(br) {
   display: none;
 }
 
-.editableMDWidget li[role=checkbox] {
+.editableMDWidget li[role="checkbox"] {
   text-decoration: none;
 }
 
-.editableMDWidget li[role=checkbox]::before {
+.editableMDWidget li[role="checkbox"]::before {
   top: 3px;
 }
 
-.editableMDWidget li[role=checkbox]::after {
+.editableMDWidget li[role="checkbox"]::after {
   top: 6px;
+}
+
+.editableMDWidget ul {
+  color: #FFFFFF
 }
 
 .react-grid-layout .react-grid-item#addWidget {
@@ -221,7 +227,7 @@ button:active {
 
   button {
     background-color: #9d73f1;
-    color: #000000
+    color: #000000;
   }
 
   button.iconButton {
@@ -252,7 +258,7 @@ button:active {
     background-color: #ffffff;
   }
 
-  .react-grid-item>.react-resizable-handle::after {
+  .react-grid-item > .react-resizable-handle::after {
     border-right: 2px solid #bb99ff;
     border-bottom: 2px solid #bb99ff;
   }
@@ -273,4 +279,7 @@ button:active {
     color: #000000;
   }
 
+  .editableMDWidget ul {
+    color: #000000
+  }
 }

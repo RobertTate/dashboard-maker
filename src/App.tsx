@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import OBR from '@owlbear-rodeo/sdk';
+import { useEffect, useState } from "react";
+import OBR from "@owlbear-rodeo/sdk";
 
-import PopOver from './components/PopOver';
+import PopOver from "./components/PopOver";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -13,9 +13,7 @@ export default function App() {
   }, []);
 
   if (appIsReady) {
-    return (
-      <PopOver />
-    )
+    return <PopOver />;
   } else {
     return (
       <>
