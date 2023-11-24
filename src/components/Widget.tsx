@@ -1,10 +1,10 @@
+import { useCallback } from 'react';
 import { MDXEditor } from '@mdxeditor/editor/MDXEditor'
 import { headingsPlugin } from '@mdxeditor/editor/plugins/headings'
 import { listsPlugin } from '@mdxeditor/editor/plugins/lists'
 import { quotePlugin } from '@mdxeditor/editor/plugins/quote'
-import { thematicBreakPlugin } from '@mdxeditor/editor/plugins/thematic-break'
 import { markdownShortcutPlugin } from '@mdxeditor/editor/plugins/markdown-shortcut'
-import { linkPlugin } from '@mdxeditor/editor/plugins/link'
+import debounce from 'lodash.debounce';
 
 import type { WidgetProps } from "../types"
 
@@ -15,6 +15,11 @@ type WidgetContainerProps = {
 
 export default function WidgetContainer({ item, updateWidgetContent }: WidgetContainerProps) {
 
+  const debouncedUpdate = useCallback(debounce(
+    (content: string) => updateWidgetContent(item, content), 
+    500
+  ), [item, updateWidgetContent]);
+
   return (
     <MDXEditor
       markdown={`${item.content}`}
@@ -22,11 +27,10 @@ export default function WidgetContainer({ item, updateWidgetContent }: WidgetCon
         headingsPlugin(),
         listsPlugin(),
         quotePlugin(),
-        thematicBreakPlugin(),
         markdownShortcutPlugin()
       ]}
       contentEditableClassName="editableMDWidget"
-      onChange={(content: string) => updateWidgetContent(item, content)}
+      onChange={(content: string) => debouncedUpdate(content)}
     />
   )
 }

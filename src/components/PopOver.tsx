@@ -10,6 +10,8 @@ type PremadeIdentifier = {
   dashName: string;
 }
 
+type DashboardPreset = "default" | "5eChar"
+
 async function addPremade(premade: PremadeIdentifier) {
   const premadeContent = await import(`../partials/${premade.fileName}.ts`);
   await localforage.setItem(premade.dashName, premadeContent.default); 
@@ -88,7 +90,7 @@ export default function PopOver() {
     }
   }, []);
 
-  const createADashboard = async () => {
+  const createADashboard = async (preset: DashboardPreset) => {
     const keys = await localforage.keys();
     const dashName = newDashInput?.current!.value;
     if (dashName) {
@@ -96,7 +98,12 @@ export default function PopOver() {
         newDashInput!.current!.setCustomValidity("The Dashboard Name Must Be Unique.");
         newDashInput!.current!.reportValidity();
       } else {
-        await localforage.setItem(dashName, {});
+        if (preset === "5eChar") {
+          const fifthEditionCharTemplate = await import('../partials/fifthEditionCharTemplate.ts');
+          await localforage.setItem(dashName, fifthEditionCharTemplate.default);
+        } else {
+          await localforage.setItem(dashName, {});
+        }
         updateDashboardsState(dashName, 'add');
         selectADashboard(dashName);
       }
@@ -115,6 +122,7 @@ export default function PopOver() {
           <h1><img id="headingImage" alt='Dashboard Maker Logo' src={dashboard}></img>Dashboard Maker</h1>
           <h3>DM Screens, Character Sheets, and Whatever Else.</h3>
           <button
+            className="iconButton"
             title="Refresh the app. Keep things in sync. Feel in control."
             onClick={() => setRefreshCount((prev) => prev + 1)}
           >
@@ -122,7 +130,10 @@ export default function PopOver() {
           </button>
           <div className={styles.dashBoardCreator}>
             <input ref={newDashInput} type="text" name="dashboardName" required />
-            <button title="Create a dashboard. Feel good about your life choices." onClick={createADashboard}><h3>Create A Dashboard</h3></button>
+            <button onClick={() => createADashboard("default")} title="Create a new empty dashboard."><h3>Create A New Dashboard</h3></button>
+            <button onClick={() => createADashboard("5eChar")} id="fifth-edition-char" title="Create a new dashboard using a 5e Character Template.">
+              <h3>Create a New 5e Character</h3>
+            </button>
           </div>
           <div>
             <p>My Dashboards:</p>

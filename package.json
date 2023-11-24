@@ -13,6 +13,7 @@
     "@mdxeditor/editor": "^1.9.1",
     "@owlbear-rodeo/sdk": "^2.0.0",
     "localforage": "^1.10.0",
+    "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -20,6 +21,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.9",
     "@types/lodash.isequal": "^4.5.8",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

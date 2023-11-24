@@ -53,6 +53,7 @@ export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: 
           widgets: widgets,
           isLocked
         };
+        console.log(newdashboardItems);
         await localforage.setItem(dashName, newdashboardItems);
       }
     }
@@ -60,6 +61,7 @@ export default function SyncingGrid({ dashName, isLocked, updateLockedStatus }: 
   }, [syncStorage, isLocked])
 
   const onLayoutChange = useCallback((_layout: ReactGridLayout.Layout[], newLayouts: ReactGridLayout.Layouts) => {
+    console.log('layout change')
     if (!isEqual(layouts, newLayouts)) {
       setLayouts((prevLayouts) => {
         return isEqual(prevLayouts, newLayouts) ? prevLayouts : newLayouts;

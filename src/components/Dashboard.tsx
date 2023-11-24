@@ -26,9 +26,9 @@ export default function Dashboard(props: DashboardProps) {
   return (
     <div id={isLocked ? "lockedDash" : "unlockedDash"} className={styles.dashboardAll}>
       <div className={styles.dashboardNav}>
-        <button title="Go Back" onClick={() => selectADashboard('')}><img alt="Go Back Icon" src={leftArrow}></img></button>
-        <button title="Delete Dashboard" onClick={() => deleteADashboard(selectedDashboard)}><img alt="Delete Dashboard" src={fire}></img></button>
-        <button title={isLocked ? "Click To Unlock" : "Click To Lock"} onClick={() => setIsLocked((prev) => !prev)}>
+        <button className="iconButton" title="Go Back" onClick={() => selectADashboard('')}><img alt="Go Back Icon" src={leftArrow}></img></button>
+        <button className="iconButton" title="Delete Dashboard" onClick={() => deleteADashboard(selectedDashboard)}><img alt="Delete Dashboard" src={fire}></img></button>
+        <button className="iconButton" title={isLocked ? "Click To Unlock" : "Click To Lock"} onClick={() => setIsLocked((prev) => !prev)}>
           <img src={isLocked ? locked : unlocked} alt={isLocked ? "Locked Padlock" : "Unlocked Padlock"} />
         </button>
         <h2>{selectedDashboard}</h2>

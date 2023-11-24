@@ -76,13 +76,21 @@ button {
   background-color: #4c396e;
   color: #ffffff;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.25s;
   line-height: 0;
   min-height: 38px;
 }
 
+button#fifth-edition-char {
+  background-color: #bf5d5d;
+}
+
 button:hover {
   border-color: #bb99ff;
+}
+
+button:active {
+  background-color: #8447ff;
 }
 
 .react-grid-layout {
@@ -92,6 +100,10 @@ button:hover {
 }
 
 .react-grid-layout .react-grid-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ba98ff;
   background-color: #3a3a3a;
   border-radius: 4px;
   padding: 0.25rem;
@@ -102,33 +114,6 @@ button:hover {
 .react-grid-item>.react-resizable-handle::after {
   border-right: 2px solid #bb99ff;
   border-bottom: 2px solid #bb99ff;
-}
-
-.react-grid-layout .react-grid-item#addWidget {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px !important;
-  height: 30px !important;
-  border: 2px solid #bb99ff;
-  transition: border-color 0.25s;
-}
-
-.react-grid-layout .react-grid-item#addWidget:hover {
-  border: 2px solid #8447ff;
-}
-
-.react-grid-layout .react-grid-item#addWidget img {
-  transform: rotate(45deg);
-  width: 20px;
-  height: 20px;
-}
-
-.react-grid-layout .react-grid-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #ba98ff;
 }
 
 .react-grid-layout .react-grid-item #deleteWidget {
@@ -159,8 +144,29 @@ button:hover {
 }
 
 .editableMDWidget {
-  color: white;
   padding: 0;
+}
+
+.editableMDWidget span,
+.editableMDWidget strong,
+.editableMDWidget em {
+  color: #FFFFFF;
+}
+
+.editableMDWidget code span,
+.editableMDWidget code strong,
+.editableMDWidget code em {
+  color: #000000;
+}
+
+.editableMDWidget blockquote {
+    font-weight: 500;
+    font-style: italic;
+    border-left: 3px solid #8447ff;
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+    margin-left: 0.5em;
+    padding-left: 1em;
 }
 
 .editableMDWidget h1+p:has(br),
@@ -168,7 +174,8 @@ button:hover {
 .editableMDWidget h3+p:has(br),
 .editableMDWidget h4+p:has(br),
 .editableMDWidget h5+p:has(br),
-.editableMDWidget h6+p:has(br) {
+.editableMDWidget h6+p:has(br),
+.editableMDWidget ul+p:has(br) {
   display: none;
 }
 
@@ -184,8 +191,26 @@ button:hover {
   top: 6px;
 }
 
-.editableMDWidget code {
-  color: black;
+.react-grid-layout .react-grid-item#addWidget {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4c2696;
+  transition: background-color 0.25s;
+}
+
+.react-grid-layout .react-grid-item#addWidget:hover {
+  background-color: #2b194f;
+}
+
+.react-grid-layout .react-grid-item#addWidget:active {
+  background-color: #8447ff;
+}
+
+.react-grid-layout .react-grid-item#addWidget img {
+  transform: rotate(45deg);
+  width: 20px;
+  height: 20px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -195,8 +220,12 @@ button:hover {
   }
 
   button {
-    background-color: #1e1d1d;
-    color: #FFFFFF
+    background-color: #9d73f1;
+    color: #000000
+  }
+
+  button.iconButton {
+    background-color: #4c2696;
   }
 
   button:hover {
@@ -228,23 +257,20 @@ button:hover {
     border-bottom: 2px solid #bb99ff;
   }
 
-  .react-grid-layout .react-grid-item#addWidget {
-    border: 2px solid #bb99ff;
-  }
-
-  .react-grid-layout .react-grid-item#addWidget:hover {
-    border-color: #8447ff;
-  }
-
   .react-grid-layout .react-grid-item {
     border: 2px solid #8447ff;
   }
 
-  .editableMDWidget {
+  .editableMDWidget span,
+  .editableMDWidget strong,
+  .editableMDWidget em {
     color: #000000;
   }
 
-  .editableMDWidget code {
+  .editableMDWidget code span,
+  .editableMDWidget code strong,
+  .editableMDWidget code em {
     color: #000000;
   }
+
 }
