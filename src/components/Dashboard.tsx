@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import SyncingGrid from "./SyncingGrid";
 import styles from "../styles/Dashboard.module.css";
 import leftArrow from "../assets/leftArrow.svg";
@@ -10,18 +10,29 @@ import "react-resizable/css/styles.css";
 import type { DashboardProps } from "../types";
 
 export default function Dashboard(props: DashboardProps) {
+  const { selectedDashboard, selectADashboard, deleteADashboard } = props;
   const [isLocked, setIsLocked] = useState(false);
+  const [deleteZoneIsOpen, setDeleteZoneIsOpen] = useState(false);
+  const deleteInputRef = useRef<HTMLInputElement>(null)
 
   const updateLockedStatus = useCallback((isLockedStatus: boolean) => {
     setIsLocked(isLockedStatus);
   }, []);
 
-  const { selectedDashboard, selectADashboard, deleteADashboard } = props;
+  const handleDelete = () => {
+    if (deleteInputRef.current?.value === "DELETE") {
+      deleteADashboard(selectedDashboard);
+    } else {
+      deleteInputRef!.current!.setCustomValidity(
+        "Only typing DELETE in all uppercase letters will trigger a dashboard deletion.",
+      );
+      deleteInputRef!.current!.reportValidity();
+    }
+  }
 
   return (
     <div
       id={isLocked ? "lockedDash" : "unlockedDash"}
-      className={styles.dashboardAll}
     >
       <div className={styles.dashboardNav}>
         <button
@@ -34,7 +45,7 @@ export default function Dashboard(props: DashboardProps) {
         <button
           className="iconButton"
           title="Delete Dashboard"
-          onClick={() => deleteADashboard(selectedDashboard)}
+          onClick={() => setDeleteZoneIsOpen((prev) => !prev)}
         >
           <img alt="Delete Dashboard" src={fire}></img>
         </button>
@@ -50,6 +61,20 @@ export default function Dashboard(props: DashboardProps) {
         </button>
         <h2>{selectedDashboard}</h2>
       </div>
+
+        <div className={`${styles.dashboardDeleteZone} ${deleteZoneIsOpen ? styles.showDeleteZone : ''}`}>
+          <p>Type "DELETE" to delete this Dashboard Permanently</p>
+          <div className={styles.dashboardDeleteZoneConfirm}>
+            <input
+              ref={deleteInputRef}
+              type="text"
+              name="dashboardDeleteField"
+              required
+            />
+            <button onClick={handleDelete}>Submit</button>
+          </div>
+        </div>
+      
       <SyncingGrid
         isLocked={isLocked}
         updateLockedStatus={updateLockedStatus}

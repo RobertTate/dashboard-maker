@@ -82,14 +82,9 @@ export default function PopOver() {
   );
 
   const deleteADashboard = useCallback(async (dashName: string) => {
-    const shouldDelete = prompt(
-      "Type DELETE to delete this Dashboard Permanently.",
-    );
-    if (String(shouldDelete) === "DELETE") {
-      await localforage.removeItem(dashName);
-      updateDashboardsState(dashName, "remove");
-      selectADashboard("");
-    }
+    await localforage.removeItem(dashName);
+    updateDashboardsState(dashName, "remove");
+    selectADashboard("");
   }, []);
 
   const createADashboard = async (preset: DashboardPreset) => {

@@ -1,6 +1,3 @@
-.dashboardAll {
-}
-
 .dashboardNav {
   display: flex;
   align-items: center;
@@ -19,5 +16,26 @@
   width: 20px;
 }
 
-.dashboardContent {
+.dashboardDeleteZone {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-height: 0px; /* Initial state - div is hidden */
+  transition: max-height 1.5s ease-out;
+  overflow: hidden;
+}
+
+.dashboardDeleteZone.showDeleteZone {
+  max-height: 1500px; /* Example max height */
+  transition: max-height 2s ease-in;
+}
+
+.dashboardDeleteZone input {
+  height: 2rem;
+  font-size: 1.25rem;
+}
+
+.dashboardDeleteZoneConfirm {
+  margin-bottom: 1rem;
 }
