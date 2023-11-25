@@ -15,17 +15,17 @@
 
 .scrolling ::-webkit-scrollbar-thumb {
   background-color: #858585;
-  /* color of the scrollbar itself */
 }
 
 /* For Firefox */
 html {
   scrollbar-width: thin;
-  scrollbar-color: #bb99ff #242424;
+  scrollbar-color: #bb99ff53 #242424;
 }
 
 html.scrolling {
-  scrollbar-color: #bb99ff53 #242424;
+  scrollbar-color: #bb99ff #242424;
+
 }
 
 input,
