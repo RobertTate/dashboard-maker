@@ -69,7 +69,6 @@ export default function SyncingGrid({
           widgets: widgets,
           isLocked,
         };
-        console.log(newdashboardItems);
         await localforage.setItem(dashName, newdashboardItems);
       }
     };
