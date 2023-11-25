@@ -82,7 +82,7 @@ export default function PopOver() {
   );
 
   const deleteADashboard = useCallback(async (dashName: string) => {
-    const shouldDelete = window.prompt(
+    const shouldDelete = prompt(
       "Type DELETE to delete this Dashboard Permanently.",
     );
     if (String(shouldDelete) === "DELETE") {
