@@ -1,25 +1,16 @@
-#root {
-  transform: translateX(8px);
-}
-
-/* For Chrome, Edge, and Safari */
 ::-webkit-scrollbar {
-  width: 1.125rem;
-  /* width of the entire scrollbar */
+  width: 0.5rem;
 }
 
 ::-webkit-scrollbar-track {
   background: #242424;
-  /* color of the tracking area */
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: #494949;
-  /* color of the scrollbar itself */
   border-radius: 9px;
-  border: 7px solid transparent;
+  border: 3px solid transparent;
   background-clip: content-box;
-  /* Prevents the background from bleeding into the border */
 }
 
 .scrolling ::-webkit-scrollbar-thumb {
@@ -30,10 +21,11 @@
 /* For Firefox */
 html {
   scrollbar-width: thin;
-  /* "auto" or "thin" */
   scrollbar-color: #bb99ff #242424;
-  /* thumb and track color */
-  overflow-y: scroll;
+}
+
+html.scrolling {
+  scrollbar-color: #bb99ff53 #242424;
 }
 
 input,

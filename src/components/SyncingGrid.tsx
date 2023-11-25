@@ -69,7 +69,6 @@ export default function SyncingGrid({
           widgets: widgets,
           isLocked,
         };
-        console.log(newdashboardItems);
         await localforage.setItem(dashName, newdashboardItems);
       }
     };
@@ -81,7 +80,6 @@ export default function SyncingGrid({
       _layout: ReactGridLayout.Layout[],
       newLayouts: ReactGridLayout.Layouts,
     ) => {
-      console.log("layout change");
       if (!isEqual(layouts, newLayouts)) {
         setLayouts((prevLayouts) => {
           return isEqual(prevLayouts, newLayouts) ? prevLayouts : newLayouts;
