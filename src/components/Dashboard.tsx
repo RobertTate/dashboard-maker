@@ -32,25 +32,25 @@ export default function Dashboard(props: DashboardProps) {
 
   return (
     <div
-      id={isLocked ? "lockedDash" : "unlockedDash"}
+      id={isLocked ? "locked-dash" : "unlocked-dash"}
     >
-      <div className={styles.dashboardNav}>
+      <div className={styles["dashboard-nav"]}>
         <button
-          className="iconButton"
+          className="icon-button"
           title="Go Back"
           onClick={() => selectADashboard("")}
         >
           <img alt="Go Back Icon" src={leftArrow}></img>
         </button>
         <button
-          className="iconButton"
+          className="icon-button"
           title="Delete Dashboard"
           onClick={() => setDeleteZoneIsOpen((prev) => !prev)}
         >
           <img alt="Delete Dashboard" src={fire}></img>
         </button>
         <button
-          className="iconButton"
+          className="icon-button"
           title={isLocked ? "Click To Unlock" : "Click To Lock"}
           onClick={() => setIsLocked((prev) => !prev)}
         >
@@ -62,9 +62,9 @@ export default function Dashboard(props: DashboardProps) {
         <h2>{selectedDashboard}</h2>
       </div>
 
-        <div className={`${styles.dashboardDeleteZone} ${deleteZoneIsOpen ? styles.showDeleteZone : ''}`}>
+        <div className={`${styles["dashboard-delete-zone"]} ${deleteZoneIsOpen ? styles["show-delete-zone"] : ''}`}>
           <p>Type "DELETE" to delete this Dashboard Permanently</p>
-          <div className={styles.dashboardDeleteZoneConfirm}>
+          <div className={styles["dashboard-delete-zone-confirm"]}>
             <input
               ref={deleteInputRef}
               type="text"

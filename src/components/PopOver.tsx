@@ -117,7 +117,7 @@ export default function PopOver() {
   };
 
   return (
-    <main className={styles.popOver}>
+    <main className={styles["pop-over"]}>
       {selectedDashboard ? (
         <Dashboard
           deleteADashboard={deleteADashboard}
@@ -136,13 +136,13 @@ export default function PopOver() {
           </h1>
           <h3>DM Screens, Character Sheets, and Whatever Else.</h3>
           <button
-            className="iconButton"
+            className="icon-button"
             title="Refresh the app. Keep things in sync. Feel in control."
             onClick={() => setRefreshCount((prev) => prev + 1)}
           >
             <img style={{ width: "20px" }} src={refresh} alt="Refresh" />
           </button>
-          <div className={styles.dashBoardCreator}>
+          <div className={styles["dashboard-creator"]}>
             <input
               ref={newDashInput}
               type="text"

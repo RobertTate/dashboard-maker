@@ -1,41 +1,41 @@
-.dashboardNav {
+.dashboard-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.dashboardNav *:first-child {
+.dashboard-nav *:first-child {
   margin-left: 0;
 }
 
-.dashboardNav *:last-child {
+.dashboard-nav *:last-child {
   margin-right: 0;
 }
 
-.dashboardNav img {
+.dashboard-nav img {
   width: 20px;
 }
 
-.dashboardDeleteZone {
+.dashboard-delete-zone {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  max-height: 0px; /* Initial state - div is hidden */
+  justify-content: center;
   transition: max-height 0.5s ease-out;
+  max-height: 0;
   overflow: hidden;
 }
 
-.dashboardDeleteZone.showDeleteZone {
-  max-height: 200px; /* Example max height */
+.dashboard-delete-zone.show-delete-zone {
   transition: max-height 0.3s ease-in;
+  max-height: 200px;
 }
 
-.dashboardDeleteZone input {
+.dashboard-delete-zone input {
   height: 2rem;
   font-size: 1.25rem;
 }
 
-.dashboardDeleteZoneConfirm {
+.dashboard-delete-zone-confirm {
   margin-bottom: 1rem;
 }

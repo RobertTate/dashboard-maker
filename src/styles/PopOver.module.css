@@ -1,16 +1,16 @@
-.popOver h1 img {
-  width: 40px;
-  height: auto;
+.pop-over h1 img {
   position: relative;
   top: 4px;
+  width: 40px;
+  height: auto;
 }
 
-.dashBoardCreator {
+.dashboard-creator {
   display: flex;
   flex-direction: column;
 }
 
-.dashBoardCreator input {
+.dashboard-creator input {
   height: 2rem;
   font-size: 1.25rem;
 }

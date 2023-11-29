@@ -143,7 +143,7 @@ export default function SyncingGrid({
           <div
             title="Add a new dashboard item"
             key="New Widget"
-            id="addWidget"
+            id="add-widget"
             data-grid={{
               x: 0,
               y: 0,
@@ -168,7 +168,7 @@ export default function SyncingGrid({
                     />
                   </div>
                   <span
-                    id="deleteWidget"
+                    id="delete-widget"
                     title="Delete Widget"
                     onClick={() => deleteWidget(item.id)}
                     className="cancelDrag"

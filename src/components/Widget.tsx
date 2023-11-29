@@ -31,7 +31,7 @@ export default function WidgetContainer({
         quotePlugin(),
         markdownShortcutPlugin(),
       ]}
-      contentEditableClassName="editableMDWidget"
+      contentEditableClassName="editable-md-widget"
       onChange={(content: string) => debouncedUpdate(content)}
     />
   );
