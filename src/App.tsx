@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import OBR from "@owlbear-rodeo/sdk";
+import { useEffect, useState } from "react";
 
 import PopOver from "./components/PopOver";
 

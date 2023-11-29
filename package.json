@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "format:css": "prettier --write **/*.css && stylelint **/*.css --fix"
+    "format:css": "prettier --write **/*.css && stylelint **/*.css --fix",
+    "format:all": "prettier . --write"
   },
   "dependencies": {
     "@mdxeditor/editor": "^1.9.1",
@@ -22,6 +23,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/lodash.debounce": "^4.0.9",
     "@types/lodash.isequal": "^4.5.8",
     "@types/react": "^18.2.15",

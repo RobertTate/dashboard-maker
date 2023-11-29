@@ -1,10 +1,15 @@
 import localforage from "localforage";
-import { useEffect, useState, useCallback, useRef } from "react";
-import Dashboard from "./Dashboard";
-import styles from "../styles/PopOver.module.css";
-import refresh from "../assets/refresh.svg";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import dashboard from "../assets/dashboard.svg";
-import type { PremadeDashConfig, NewDashboardTemplateOptions } from "../types/index.ts";
+import refresh from "../assets/refresh.svg";
+import styles from "../styles/PopOver.module.css";
+import Dashboard from "./Dashboard";
+
+import type {
+  NewDashboardTemplateOptions,
+  PremadeDashConfig,
+} from "../types/index.ts";
 
 async function addPremade(premade: PremadeDashConfig) {
   const premadeContent = await import(`../partials/${premade.fileName}.ts`);

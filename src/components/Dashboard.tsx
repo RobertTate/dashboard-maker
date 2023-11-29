@@ -1,19 +1,21 @@
 import { useCallback, useRef, useState } from "react";
-import SyncingGrid from "./SyncingGrid";
-import styles from "../styles/Dashboard.module.css";
-import leftArrow from "../assets/leftArrow.svg";
-import fire from "../assets/fire.svg";
-import unlocked from "../assets/unlocked.svg";
-import locked from "../assets/locked.svg";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+
+import fire from "../assets/fire.svg";
+import leftArrow from "../assets/leftArrow.svg";
+import locked from "../assets/locked.svg";
+import unlocked from "../assets/unlocked.svg";
+import styles from "../styles/Dashboard.module.css";
+import SyncingGrid from "./SyncingGrid";
+
 import type { DashboardProps } from "../types";
 
 export default function Dashboard(props: DashboardProps) {
   const { selectedDashboard, selectADashboard, deleteADashboard } = props;
   const [isLocked, setIsLocked] = useState(false);
   const [deleteZoneIsOpen, setDeleteZoneIsOpen] = useState(false);
-  const deleteInputRef = useRef<HTMLInputElement>(null)
+  const deleteInputRef = useRef<HTMLInputElement>(null);
 
   const updateLockedStatus = useCallback((isLockedStatus: boolean) => {
     setIsLocked(isLockedStatus);
@@ -28,12 +30,10 @@ export default function Dashboard(props: DashboardProps) {
       );
       deleteInputRef!.current!.reportValidity();
     }
-  }
+  };
 
   return (
-    <div
-      id={isLocked ? "locked-dash" : "unlocked-dash"}
-    >
+    <div id={isLocked ? "locked-dash" : "unlocked-dash"}>
       <div className={styles["dashboard-nav"]}>
         <button
           className="icon-button"
@@ -62,19 +62,23 @@ export default function Dashboard(props: DashboardProps) {
         <h2>{selectedDashboard}</h2>
       </div>
 
-        <div className={`${styles["dashboard-delete-zone"]} ${deleteZoneIsOpen ? styles["show-delete-zone"] : ''}`}>
-          <p>Type "DELETE" to delete this Dashboard Permanently</p>
-          <div className={styles["dashboard-delete-zone-confirm"]}>
-            <input
-              ref={deleteInputRef}
-              type="text"
-              name="dashboardDeleteField"
-              required
-            />
-            <button onClick={handleDelete}>Submit</button>
-          </div>
+      <div
+        className={`${styles["dashboard-delete-zone"]} ${
+          deleteZoneIsOpen ? styles["show-delete-zone"] : ""
+        }`}
+      >
+        <p>Type "DELETE" to delete this Dashboard Permanently</p>
+        <div className={styles["dashboard-delete-zone-confirm"]}>
+          <input
+            ref={deleteInputRef}
+            type="text"
+            name="dashboardDeleteField"
+            required
+          />
+          <button onClick={handleDelete}>Submit</button>
         </div>
-      
+      </div>
+
       <SyncingGrid
         isLocked={isLocked}
         updateLockedStatus={updateLockedStatus}

@@ -1,16 +1,18 @@
 import localforage from "localforage";
+import isEqual from "lodash.isequal";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Responsive, WidthProvider } from "react-grid-layout";
 import { v4 as uuidv4 } from "uuid";
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { WidthProvider, Responsive } from "react-grid-layout";
-import startingLayouts from "../partials/startingLayout";
+
 import cross from "../assets/cross.svg";
+import startingLayouts from "../partials/startingLayout";
 import WidgetContainer from "./Widget";
+
 import type {
+  DashboardItemsProps,
   SyncingGridProps,
   WidgetProps,
-  DashboardItemsProps,
 } from "../types";
-import isEqual from "lodash.isequal";
 
 export default function SyncingGrid({
   dashName,
