@@ -20,3 +20,10 @@ export type DashboardItemsProps = {
   widgets: WidgetProps[];
   isLocked: boolean;
 };
+
+export type PremadeDashConfig = {
+  fileName: string;
+  dashName: string;
+};
+
+export type NewDashboardTemplateOptions = "default" | "5eChar";

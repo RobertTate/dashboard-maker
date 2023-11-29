@@ -4,22 +4,16 @@ import Dashboard from "./Dashboard";
 import styles from "../styles/PopOver.module.css";
 import refresh from "../assets/refresh.svg";
 import dashboard from "../assets/dashboard.svg";
+import type { PremadeDashConfig, NewDashboardTemplateOptions } from "../types/index.ts";
 
-type PremadeIdentifier = {
-  fileName: string;
-  dashName: string;
-};
-
-type DashboardPreset = "default" | "5eChar";
-
-async function addPremade(premade: PremadeIdentifier) {
+async function addPremade(premade: PremadeDashConfig) {
   const premadeContent = await import(`../partials/${premade.fileName}.ts`);
   await localforage.setItem(premade.dashName, premadeContent.default);
   return premade.dashName;
 }
 
 async function checkAndAddPremades(keys: string[]) {
-  const premadesArrayToCheckAgainst = [
+  const premadesArrayToCheckAgainst: PremadeDashConfig[] = [
     {
       fileName: "armorDashPremade",
       dashName: "⭐ Armor ⭐",
@@ -32,7 +26,7 @@ async function checkAndAddPremades(keys: string[]) {
 
   const promises: Promise<string>[] = [];
 
-  premadesArrayToCheckAgainst.forEach((premade: PremadeIdentifier) => {
+  premadesArrayToCheckAgainst.forEach((premade) => {
     if (!keys.includes(premade.dashName)) {
       promises.push(addPremade(premade));
     }
@@ -87,7 +81,7 @@ export default function PopOver() {
     selectADashboard("");
   }, []);
 
-  const createADashboard = async (preset: DashboardPreset) => {
+  const createADashboard = async (template: NewDashboardTemplateOptions) => {
     const keys = await localforage.keys();
     const dashName = newDashInput?.current!.value;
     if (dashName) {
@@ -97,7 +91,7 @@ export default function PopOver() {
         );
         newDashInput!.current!.reportValidity();
       } else {
-        if (preset === "5eChar") {
+        if (template === "5eChar") {
           const fifthEditionCharTemplate = await import(
             "../partials/fifthEditionCharTemplate.ts"
           );
