@@ -4,8 +4,12 @@ import App from "./App.tsx";
 import "@mdxeditor/editor/style.css";
 import "./index.css";
 
+type ExtendedHTMLElement = HTMLElement & {
+  scrollTimeout?: number;
+}
+
 // Select the scrollable container
-const scrollContainer: HTMLElement | null =
+const scrollContainer: ExtendedHTMLElement | null =
   document.querySelector(".scroll-container");
 
 if (scrollContainer) {
@@ -14,8 +18,8 @@ if (scrollContainer) {
     scrollContainer.classList.add("scrolling");
 
     // Clear the class after a delay
-    clearTimeout((scrollContainer as any).scrollTimeout);
-    (scrollContainer as any).scrollTimeout = setTimeout(() => {
+    clearTimeout((scrollContainer).scrollTimeout);
+    (scrollContainer).scrollTimeout = setTimeout(() => {
       scrollContainer.classList.remove("scrolling");
     }, 300); // Timeout to remove class
   });

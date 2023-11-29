@@ -30,9 +30,9 @@ export default function SyncingGrid({
     const getSavedItems = async () => {
       const dashboardItems: DashboardItemsProps | null =
         await localforage.getItem(dashName);
-      const savedLayouts = dashboardItems!?.layouts;
-      const savedWidgets = dashboardItems!?.widgets;
-      const savedLockStatus = dashboardItems!?.isLocked;
+      const savedLayouts = dashboardItems?.layouts;
+      const savedWidgets = dashboardItems?.widgets;
+      const savedLockStatus = dashboardItems?.isLocked;
 
       if (savedLayouts) {
         setLayouts((prevLayouts) => {
