@@ -11,10 +11,14 @@
   height: 600px;
 }
 
-@media only screen and (min-width: 480px) {
-  #no-owlbear main:has(> .dashboard) {
+@media only screen and (max-width: 480px) {
+  #no-owlbear main {
     align-self: flex-start;
   }
+}
+
+#no-owlbear main:has(> .dashboard) {
+  align-self: flex-start;
 }
 
 ::-webkit-scrollbar {
