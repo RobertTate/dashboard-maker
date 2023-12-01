@@ -1,3 +1,4 @@
+import localforage from "localforage";
 import { useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -6,16 +7,19 @@ import fire from "../assets/fire.svg";
 import leftArrow from "../assets/leftArrow.svg";
 import locked from "../assets/locked.svg";
 import unlocked from "../assets/unlocked.svg";
+import duplicate from "../assets/duplicate.svg";
 import styles from "../styles/Dashboard.module.css";
 import SyncingGrid from "./SyncingGrid";
 
-import type { DashboardProps } from "../types";
+import type { DashboardProps, DashboardItemsProps } from "../types";
 
 export default function Dashboard(props: DashboardProps) {
-  const { selectedDashboard, selectADashboard, deleteADashboard } = props;
+  const { selectedDashboard, selectADashboard, createADashboard, deleteADashboard } = props;
   const [isLocked, setIsLocked] = useState(false);
   const [deleteZoneIsOpen, setDeleteZoneIsOpen] = useState(false);
   const deleteInputRef = useRef<HTMLInputElement>(null);
+  const [duplicateZoneIsOpen, setDuplicateZoneIsOpen] = useState(false);
+  const duplicateInputRef = useRef<HTMLInputElement>(null);
 
   const updateLockedStatus = useCallback((isLockedStatus: boolean) => {
     setIsLocked(isLockedStatus);
@@ -32,8 +36,20 @@ export default function Dashboard(props: DashboardProps) {
     }
   };
 
+  const handleDuplicate = async () => {
+    const currentDashboard: DashboardItemsProps | null = await localforage.getItem(selectedDashboard);
+    if (currentDashboard) {
+      createADashboard("duplicate", duplicateInputRef, currentDashboard)
+    } else {
+      duplicateInputRef!.current!.setCustomValidity(
+        "Something Went Wrong. Good lord.",
+      );
+      duplicateInputRef!.current!.reportValidity();
+    }
+  }
+
   return (
-    <div id={isLocked ? "locked-dash" : "unlocked-dash"}>
+    <div className="dashboard" id={isLocked ? "locked-dash" : "unlocked-dash"}>
       <div className={styles["dashboard-nav"]}>
         <button
           className="icon-button"
@@ -47,7 +63,7 @@ export default function Dashboard(props: DashboardProps) {
           title="Delete Dashboard"
           onClick={() => setDeleteZoneIsOpen((prev) => !prev)}
         >
-          <img alt="Delete Dashboard" src={fire}></img>
+          <img alt="Delete Icon" src={fire}></img>
         </button>
         <button
           className="icon-button"
@@ -56,7 +72,17 @@ export default function Dashboard(props: DashboardProps) {
         >
           <img
             src={isLocked ? locked : unlocked}
-            alt={isLocked ? "Locked Padlock" : "Unlocked Padlock"}
+            alt={isLocked ? "Locked Padlock Icon" : "Unlocked Padlock Icon"}
+          />
+        </button>
+        <button
+          className="icon-button"
+          title="Duplicate Dashboard"
+          onClick={() => setDuplicateZoneIsOpen((prev) => !prev)}
+        >
+          <img 
+            src={duplicate}
+            alt="Duplicate Icon"
           />
         </button>
         <h2>{selectedDashboard}</h2>
@@ -67,7 +93,7 @@ export default function Dashboard(props: DashboardProps) {
           deleteZoneIsOpen ? styles["show-delete-zone"] : ""
         }`}
       >
-        <p>Type "DELETE" to delete this Dashboard Permanently</p>
+        <p>Type "DELETE" to delete this dashboard permanently.</p>
         <div className={styles["dashboard-delete-zone-confirm"]}>
           <input
             ref={deleteInputRef}
@@ -76,6 +102,23 @@ export default function Dashboard(props: DashboardProps) {
             required
           />
           <button onClick={handleDelete}>Submit</button>
+        </div>
+      </div>
+
+      <div
+        className={`${styles["dashboard-duplicate-zone"]} ${
+          duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
+        }`}
+      >
+        <p>Clone this dashboard by typing in a new name for the duplicate.</p>
+        <div className={styles["dashboard-duplicate-zone-confirm"]}>
+          <input
+            ref={duplicateInputRef}
+            type="text"
+            name="dashboardDeleteField"
+            required
+          />
+          <button onClick={handleDuplicate}>Submit</button>
         </div>
       </div>
 

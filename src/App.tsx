@@ -17,8 +17,14 @@ export default function App() {
   } else {
     return (
       <>
-        <h1>Scene isn't ready...</h1>
+        {
+          OBR.isAvailable ?
+            <h1>Loading...</h1> :
+            <div id="no-owlbear">
+              <PopOver />
+            </div>
+        }
       </>
-    );
+    )
   }
 }

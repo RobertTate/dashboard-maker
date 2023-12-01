@@ -2,6 +2,11 @@ export type DashboardProps = {
   selectedDashboard: string;
   selectADashboard: (dashboardId: string) => void;
   deleteADashboard: (dashName: string) => Promise<void>;
+  createADashboard: (
+    template: NewDashboardTemplateOptions, 
+    duplicateDashInputRef?: React.RefObject<HTMLInputElement>,
+    contentToDuplicate?: DashboardItemsProps
+  ) => Promise<void>;
 };
 
 export type SyncingGridProps = {
@@ -26,4 +31,4 @@ export type PremadeDashConfig = {
   dashName: string;
 };
 
-export type NewDashboardTemplateOptions = "default" | "5eChar";
+export type NewDashboardTemplateOptions = "default" | "5eChar" | "duplicate";

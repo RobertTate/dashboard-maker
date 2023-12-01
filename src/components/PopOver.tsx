@@ -9,6 +9,7 @@ import Dashboard from "./Dashboard";
 import type {
   NewDashboardTemplateOptions,
   PremadeDashConfig,
+  DashboardItemsProps
 } from "../types/index.ts";
 
 async function addPremade(premade: PremadeDashConfig) {
@@ -46,7 +47,7 @@ export default function PopOver() {
   const [selectedDashboard, setSelectedDashboard] = useState("");
   const [dashBoardsArray, setDashboardsArray] = useState<string[]>([]);
   const [refreshCount, setRefreshCount] = useState(0);
-  const newDashInput = useRef<HTMLInputElement>(null);
+  const newDashInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const initDashboards = async () => {
@@ -86,34 +87,45 @@ export default function PopOver() {
     selectADashboard("");
   }, []);
 
-  const createADashboard = async (template: NewDashboardTemplateOptions) => {
+  const createADashboard = useCallback(async (
+    template: NewDashboardTemplateOptions, 
+    duplicateDashInputRef?: React.RefObject<HTMLInputElement>,
+    contentToDuplicate?: DashboardItemsProps
+  ) => {
     const keys = await localforage.keys();
-    const dashName = newDashInput?.current!.value;
+    const inputRefInUse = duplicateDashInputRef ? duplicateDashInputRef : newDashInputRef
+    const dashName = inputRefInUse?.current!.value;
     if (dashName) {
       if (keys.includes(dashName)) {
-        newDashInput!.current!.setCustomValidity(
+        inputRefInUse!.current!.setCustomValidity(
           "The Dashboard Name Must Be Unique.",
         );
-        newDashInput!.current!.reportValidity();
+        inputRefInUse!.current!.reportValidity();
       } else {
         if (template === "5eChar") {
           const fifthEditionCharTemplate = await import(
             "../partials/fifthEditionCharTemplate.ts"
           );
           await localforage.setItem(dashName, fifthEditionCharTemplate.default);
+        } else if (template === "duplicate") {
+          await localforage.setItem(dashName, contentToDuplicate);
         } else {
           await localforage.setItem(dashName, {});
         }
         updateDashboardsState(dashName, "add");
-        selectADashboard(dashName);
+        if (duplicateDashInputRef) {
+          selectADashboard("");
+        } else {
+          selectADashboard(dashName);
+        }
       }
     } else {
-      newDashInput!.current!.setCustomValidity(
+      inputRefInUse!.current!.setCustomValidity(
         "The Dashboard Name Cannot Be Blank.",
       );
-      newDashInput!.current!.reportValidity();
+      inputRefInUse!.current!.reportValidity();
     }
-  };
+  }, []);
 
   return (
     <main className={styles["pop-over"]}>
@@ -121,6 +133,7 @@ export default function PopOver() {
         <Dashboard
           deleteADashboard={deleteADashboard}
           selectADashboard={selectADashboard}
+          createADashboard={createADashboard}
           selectedDashboard={selectedDashboard}
         />
       ) : (
@@ -143,7 +156,7 @@ export default function PopOver() {
           </button>
           <div className={styles["dashboard-creator"]}>
             <input
-              ref={newDashInput}
+              ref={newDashInputRef}
               type="text"
               name="dashboardName"
               required

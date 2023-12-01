@@ -1,3 +1,25 @@
+#no-owlbear {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+#no-owlbear main {
+  height: 600px;
+  max-width: 621px;
+  width: 100%;
+  align-self: center;
+}
+
+#no-owlbear main:has(> .dashboard) {
+  align-self: flex-start;
+}
+
+#isNotEmbedded {
+  width: 600px;
+  height: 621px;
+}
+
 ::-webkit-scrollbar {
   width: 0.5rem;
 }
