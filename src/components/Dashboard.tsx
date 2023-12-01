@@ -65,7 +65,7 @@ export default function Dashboard(props: DashboardProps) {
         </button>
         <button
           className="icon-button"
-          title="Delete Dashboard"
+          title="Delete This Dashboard"
           onClick={() => setDeleteZoneIsOpen((prev) => !prev)}
         >
           <img alt="Delete Icon" src={fire}></img>
@@ -82,7 +82,7 @@ export default function Dashboard(props: DashboardProps) {
         </button>
         <button
           className="icon-button"
-          title="Duplicate Dashboard"
+          title="Duplicate This Dashboard"
           onClick={() => setDuplicateZoneIsOpen((prev) => !prev)}
         >
           <img src={duplicate} alt="Duplicate Icon" />
