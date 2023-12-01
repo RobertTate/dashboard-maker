@@ -3,18 +3,22 @@ import { useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
+import duplicate from "../assets/duplicate.svg";
 import fire from "../assets/fire.svg";
 import leftArrow from "../assets/leftArrow.svg";
 import locked from "../assets/locked.svg";
 import unlocked from "../assets/unlocked.svg";
-import duplicate from "../assets/duplicate.svg";
 import styles from "../styles/Dashboard.module.css";
+import type { DashboardItemsProps, DashboardProps } from "../types";
 import SyncingGrid from "./SyncingGrid";
 
-import type { DashboardProps, DashboardItemsProps } from "../types";
-
 export default function Dashboard(props: DashboardProps) {
-  const { selectedDashboard, selectADashboard, createADashboard, deleteADashboard } = props;
+  const {
+    selectedDashboard,
+    selectADashboard,
+    createADashboard,
+    deleteADashboard,
+  } = props;
   const [isLocked, setIsLocked] = useState(false);
   const [deleteZoneIsOpen, setDeleteZoneIsOpen] = useState(false);
   const deleteInputRef = useRef<HTMLInputElement>(null);
@@ -37,16 +41,17 @@ export default function Dashboard(props: DashboardProps) {
   };
 
   const handleDuplicate = async () => {
-    const currentDashboard: DashboardItemsProps | null = await localforage.getItem(selectedDashboard);
+    const currentDashboard: DashboardItemsProps | null =
+      await localforage.getItem(selectedDashboard);
     if (currentDashboard) {
-      createADashboard("duplicate", duplicateInputRef, currentDashboard)
+      createADashboard("duplicate", duplicateInputRef, currentDashboard);
     } else {
       duplicateInputRef!.current!.setCustomValidity(
         "Something Went Wrong. Good lord.",
       );
       duplicateInputRef!.current!.reportValidity();
     }
-  }
+  };
 
   return (
     <div className="dashboard" id={isLocked ? "locked-dash" : "unlocked-dash"}>
@@ -80,10 +85,7 @@ export default function Dashboard(props: DashboardProps) {
           title="Duplicate Dashboard"
           onClick={() => setDuplicateZoneIsOpen((prev) => !prev)}
         >
-          <img 
-            src={duplicate}
-            alt="Duplicate Icon"
-          />
+          <img src={duplicate} alt="Duplicate Icon" />
         </button>
         <h2>{selectedDashboard}</h2>
       </div>

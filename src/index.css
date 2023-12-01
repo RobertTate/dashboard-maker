@@ -5,19 +5,14 @@
 }
 
 #no-owlbear main {
-  height: 600px;
-  max-width: 621px;
-  width: 100%;
   align-self: center;
+  width: 100%;
+  max-width: 621px;
+  height: 600px;
 }
 
 #no-owlbear main:has(> .dashboard) {
   align-self: flex-start;
-}
-
-#isNotEmbedded {
-  width: 600px;
-  height: 621px;
 }
 
 ::-webkit-scrollbar {

@@ -4,13 +4,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
 import styles from "../styles/PopOver.module.css";
-import Dashboard from "./Dashboard";
-
 import type {
+  DashboardItemsProps,
   NewDashboardTemplateOptions,
   PremadeDashConfig,
-  DashboardItemsProps
 } from "../types/index.ts";
+import Dashboard from "./Dashboard";
 
 async function addPremade(premade: PremadeDashConfig) {
   const premadeContent = await import(`../partials/${premade.fileName}.ts`);
@@ -87,45 +86,53 @@ export default function PopOver() {
     selectADashboard("");
   }, []);
 
-  const createADashboard = useCallback(async (
-    template: NewDashboardTemplateOptions, 
-    duplicateDashInputRef?: React.RefObject<HTMLInputElement>,
-    contentToDuplicate?: DashboardItemsProps
-  ) => {
-    const keys = await localforage.keys();
-    const inputRefInUse = duplicateDashInputRef ? duplicateDashInputRef : newDashInputRef
-    const dashName = inputRefInUse?.current!.value;
-    if (dashName) {
-      if (keys.includes(dashName)) {
+  const createADashboard = useCallback(
+    async (
+      template: NewDashboardTemplateOptions,
+      duplicateDashInputRef?: React.RefObject<HTMLInputElement>,
+      contentToDuplicate?: DashboardItemsProps,
+    ) => {
+      const keys = await localforage.keys();
+      const inputRefInUse = duplicateDashInputRef
+        ? duplicateDashInputRef
+        : newDashInputRef;
+      const dashName = inputRefInUse?.current!.value;
+      if (dashName) {
+        if (keys.includes(dashName)) {
+          inputRefInUse!.current!.setCustomValidity(
+            "The Dashboard Name Must Be Unique.",
+          );
+          inputRefInUse!.current!.reportValidity();
+        } else {
+          if (template === "5eChar") {
+            const fifthEditionCharTemplate = await import(
+              "../partials/fifthEditionCharTemplate.ts"
+            );
+            await localforage.setItem(
+              dashName,
+              fifthEditionCharTemplate.default,
+            );
+          } else if (template === "duplicate") {
+            await localforage.setItem(dashName, contentToDuplicate);
+          } else {
+            await localforage.setItem(dashName, {});
+          }
+          updateDashboardsState(dashName, "add");
+          if (duplicateDashInputRef) {
+            selectADashboard("");
+          } else {
+            selectADashboard(dashName);
+          }
+        }
+      } else {
         inputRefInUse!.current!.setCustomValidity(
-          "The Dashboard Name Must Be Unique.",
+          "The Dashboard Name Cannot Be Blank.",
         );
         inputRefInUse!.current!.reportValidity();
-      } else {
-        if (template === "5eChar") {
-          const fifthEditionCharTemplate = await import(
-            "../partials/fifthEditionCharTemplate.ts"
-          );
-          await localforage.setItem(dashName, fifthEditionCharTemplate.default);
-        } else if (template === "duplicate") {
-          await localforage.setItem(dashName, contentToDuplicate);
-        } else {
-          await localforage.setItem(dashName, {});
-        }
-        updateDashboardsState(dashName, "add");
-        if (duplicateDashInputRef) {
-          selectADashboard("");
-        } else {
-          selectADashboard(dashName);
-        }
       }
-    } else {
-      inputRefInUse!.current!.setCustomValidity(
-        "The Dashboard Name Cannot Be Blank.",
-      );
-      inputRefInUse!.current!.reportValidity();
-    }
-  }, []);
+    },
+    [],
+  );
 
   return (
     <main className={styles["pop-over"]}>

@@ -39,7 +39,7 @@
   font-size: 1.25rem;
 }
 
-.dashboard-delete-zone-confirm
+.dashboard-delete-zone-confirm,
 .dashboard-duplicate-zone-confirm {
   margin-bottom: 1rem;
 }

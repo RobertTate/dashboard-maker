@@ -3,9 +3,9 @@ export type DashboardProps = {
   selectADashboard: (dashboardId: string) => void;
   deleteADashboard: (dashName: string) => Promise<void>;
   createADashboard: (
-    template: NewDashboardTemplateOptions, 
+    template: NewDashboardTemplateOptions,
     duplicateDashInputRef?: React.RefObject<HTMLInputElement>,
-    contentToDuplicate?: DashboardItemsProps
+    contentToDuplicate?: DashboardItemsProps,
   ) => Promise<void>;
 };
 

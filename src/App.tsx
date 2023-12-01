@@ -17,14 +17,14 @@ export default function App() {
   } else {
     return (
       <>
-        {
-          OBR.isAvailable ?
-            <h1>Loading...</h1> :
-            <div id="no-owlbear">
-              <PopOver />
-            </div>
-        }
+        {OBR.isAvailable ? (
+          <h1>Loading...</h1>
+        ) : (
+          <div id="no-owlbear">
+            <PopOver />
+          </div>
+        )}
       </>
-    )
+    );
   }
 }

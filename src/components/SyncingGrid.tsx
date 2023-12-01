@@ -6,13 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 
 import cross from "../assets/cross.svg";
 import startingLayouts from "../partials/startingLayout";
-import WidgetContainer from "./Widget";
-
 import type {
   DashboardItemsProps,
   SyncingGridProps,
   WidgetProps,
 } from "../types";
+import WidgetContainer from "./Widget";
 
 export default function SyncingGrid({
   dashName,
