@@ -2,6 +2,10 @@
 
 An Owlbear Rodeo extension for making DM Screens, Character Sheets, and Whatever Else.
 
+Check it out as a standalone app here: https://owlbear-dashboard-maker.vercel.app/
+
+*(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.rodeo/))*
+
 ![Dashboard Maker](./docs/DashboardMaker1.png)
 
 ## Features
@@ -20,6 +24,6 @@ Click **Create A New 5e Character** to create a new dashboard space, using a 5e 
 
 ### Premades
 
-Dashboard Maker comes with a couple of "Premades" - dashboards that are just already there for you, with some useful DM Screen info particular to D&D 5th Edition.
+Dashboard Maker comes with a couple of "Premades". These are dashboards that are already there, with some useful DM Screen info particular to D&D 5th Edition.
 
-I plan to add more Premades as I go, so expect to see more here whenever you return to the extension.
+More "Premades" to come.
