@@ -1,6 +1,12 @@
 import localforage from "localforage";
 import isEqual from "lodash.isequal";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { v4 as uuidv4 } from "uuid";
 
@@ -23,6 +29,8 @@ export default function SyncingGrid({
     [],
   );
 
+  const [loading, setLoading] = useState(true);
+  const [isPending, startTransition] = useTransition();
   const [layouts, setLayouts] = useState<ReactGridLayout.Layouts | null>(null);
   const [widgets, setWidgets] = useState<WidgetProps[] | null>(null);
   const [syncStorage, setSyncStorage] = useState(0);
@@ -34,30 +42,32 @@ export default function SyncingGrid({
       const savedLayouts = dashboardItems?.layouts;
       const savedWidgets = dashboardItems?.widgets;
       const savedLockStatus = dashboardItems?.isLocked;
+      startTransition(() => {
+        if (savedLayouts) {
+          setLayouts((prevLayouts) => {
+            return isEqual(prevLayouts, savedLayouts)
+              ? prevLayouts
+              : savedLayouts;
+          });
+        } else {
+          setLayouts(startingLayouts);
+        }
 
-      if (savedLayouts) {
-        setLayouts((prevLayouts) => {
-          return isEqual(prevLayouts, savedLayouts)
-            ? prevLayouts
-            : savedLayouts;
-        });
-      } else {
-        setLayouts(startingLayouts);
-      }
+        if (savedWidgets) {
+          setWidgets((prevWidgets) => {
+            return isEqual(prevWidgets, savedWidgets)
+              ? prevWidgets
+              : savedWidgets;
+          });
+        } else {
+          setWidgets([]);
+        }
 
-      if (savedWidgets) {
-        setWidgets((prevWidgets) => {
-          return isEqual(prevWidgets, savedWidgets)
-            ? prevWidgets
-            : savedWidgets;
-        });
-      } else {
-        setWidgets([]);
-      }
-
-      if (savedLockStatus) {
-        updateLockedStatus(savedLockStatus);
-      }
+        if (savedLockStatus) {
+          updateLockedStatus(savedLockStatus);
+        }
+        setLoading(false);
+      });
     };
     getSavedItems();
   }, []);
@@ -130,56 +140,67 @@ export default function SyncingGrid({
 
   return (
     <>
-      {layouts && (
-        <ResponsiveReactGridLayout
-          className="layout"
-          cols={{ lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 }}
-          rowHeight={30}
-          layouts={layouts}
-          onLayoutChange={onLayoutChange}
-          isDraggable={isLocked ? false : true}
-          isResizable={isLocked ? false : true}
-          draggableCancel=".cancelDrag"
-        >
-          <div
-            title="Add a new dashboard item"
-            key="New Widget"
-            id="add-widget"
-            data-grid={{
-              x: 0,
-              y: 0,
-              w: 1,
-              h: 1,
-              static: true,
-              isDraggable: false,
-              isResizable: false,
-            }}
-            onClick={addNewWidget}
-          >
-            <img src={cross} alt="Add Widget" />
-          </div>
-          {widgets &&
-            widgets.map((item) => {
-              return (
-                <div key={item.id}>
-                  <div className="cancelDrag">
-                    <WidgetContainer
-                      item={item}
-                      updateWidgetContent={updateWidgetContent}
-                    />
-                  </div>
-                  <span
-                    id="delete-widget"
-                    title="Delete Widget"
-                    onClick={() => deleteWidget(item.id)}
-                    className="cancelDrag"
-                  >
-                    <img src={cross} alt="" />
-                  </span>
-                </div>
-              );
-            })}
-        </ResponsiveReactGridLayout>
+      {loading && isPending ? (
+        <div className="lds-ellipsis">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ) : (
+        <>
+          {layouts && (
+            <ResponsiveReactGridLayout
+              className="layout"
+              cols={{ lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 }}
+              rowHeight={30}
+              layouts={layouts}
+              onLayoutChange={onLayoutChange}
+              isDraggable={isLocked ? false : true}
+              isResizable={isLocked ? false : true}
+              draggableCancel=".cancelDrag"
+            >
+              <div
+                title="Add a new dashboard item"
+                key="New Widget"
+                id="add-widget"
+                data-grid={{
+                  x: 0,
+                  y: 0,
+                  w: 1,
+                  h: 1,
+                  static: true,
+                  isDraggable: false,
+                  isResizable: false,
+                }}
+                onClick={addNewWidget}
+              >
+                <img src={cross} alt="Add Widget" />
+              </div>
+              {widgets &&
+                widgets.map((item) => {
+                  return (
+                    <div key={item.id}>
+                      <div className="cancelDrag">
+                        <WidgetContainer
+                          item={item}
+                          updateWidgetContent={updateWidgetContent}
+                        />
+                      </div>
+                      <span
+                        id="delete-widget"
+                        title="Delete Widget"
+                        onClick={() => deleteWidget(item.id)}
+                        className="cancelDrag"
+                      >
+                        <img src={cross} alt="" />
+                      </span>
+                    </div>
+                  );
+                })}
+            </ResponsiveReactGridLayout>
+          )}
+        </>
       )}
     </>
   );

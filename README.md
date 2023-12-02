@@ -4,7 +4,7 @@ An Owlbear Rodeo extension for making DM Screens, Character Sheets, and Whatever
 
 Check it out as a standalone app here: https://owlbear-dashboard-maker.vercel.app/
 
-*(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.rodeo/))*
+_(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.rodeo/))_
 
 ![Dashboard Maker](./docs/DashboardMaker1.png)
 

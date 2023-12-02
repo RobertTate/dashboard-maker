@@ -27,6 +27,10 @@ async function checkAndAddPremades(keys: string[]) {
       fileName: "simpleWeaponsDashPremade",
       dashName: "⭐ Simple Weapons ⭐",
     },
+    {
+      fileName: "martialWeaponsDashPremade",
+      dashName: "⭐ Martial Weapons ⭐",
+    },
   ];
 
   const promises: Promise<string>[] = [];
