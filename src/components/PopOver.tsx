@@ -183,7 +183,7 @@ export default function PopOver() {
               id="fifth-edition-char"
               title="Create a new dashboard using a 5e Character Template."
             >
-              <h3>Create New 5e Character Dashboard</h3>
+              <h3>Create New 5e Character</h3>
             </button>
           </div>
           <div>

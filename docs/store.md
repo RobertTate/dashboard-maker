@@ -15,7 +15,7 @@ learn-more: https://github.com/RobertTate/dashboard-maker
 
 **An Owlbear Rodeo extension for keeping game content you need on hand.**
 
-Whether it's useful notes & reminders, initiative trackers, character sheets, or something else, Dashboard Maker is a place to put it.
+Whether it's useful notes & reminders, initiative trackers, character sheets, or something else, Dashboard Maker is a place to put it. All content is saved in your browser.
 
 The more you put in Dashboard Maker, the less you have to leave Owlbear Rodeo. Why is this good? Because context switching during a game sucks.
 
