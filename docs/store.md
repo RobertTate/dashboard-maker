@@ -2,7 +2,7 @@
 title: Dashboard Maker
 description: An extension for keeping game content you need on hand.
 author: Robert Tate
-image: 
+image: https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMaker1.png
 icon: https://owlbear-dashboard-maker.vercel.app/icon.svg
 tags:
   - tool
