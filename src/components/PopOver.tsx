@@ -176,14 +176,14 @@ export default function PopOver() {
               onClick={() => createADashboard("default")}
               title="Create a new empty dashboard."
             >
-              <h3>Create A New Dashboard</h3>
+              <h3>Create New Dashboard</h3>
             </button>
             <button
               onClick={() => createADashboard("5eChar")}
               id="fifth-edition-char"
               title="Create a new dashboard using a 5e Character Template."
             >
-              <h3>Create A New 5e Character</h3>
+              <h3>Create New 5e Character Dashboard</h3>
             </button>
           </div>
           <div>
