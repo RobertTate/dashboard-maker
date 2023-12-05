@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "./App.tsx";
+import "./dbInstance.ts";
 import "./index.css";
 
 type ExtendedHTMLElement = HTMLElement & {

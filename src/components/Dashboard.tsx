@@ -1,4 +1,3 @@
-import localforage from "localforage";
 import { useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -8,6 +7,7 @@ import fire from "../assets/fire.svg";
 import leftArrow from "../assets/leftArrow.svg";
 import locked from "../assets/locked.svg";
 import unlocked from "../assets/unlocked.svg";
+import db from "../dbInstance";
 import styles from "../styles/Dashboard.module.css";
 import type { DashboardItemsProps, DashboardProps } from "../types";
 import SyncingGrid from "./SyncingGrid";
@@ -42,7 +42,7 @@ export default function Dashboard(props: DashboardProps) {
 
   const handleDuplicate = async () => {
     const currentDashboard: DashboardItemsProps | null =
-      await localforage.getItem(selectedDashboard);
+      await db.getItem(selectedDashboard);
     if (currentDashboard) {
       createADashboard("duplicate", duplicateInputRef, currentDashboard);
     } else {

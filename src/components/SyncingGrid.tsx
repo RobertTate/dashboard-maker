@@ -1,4 +1,3 @@
-import localforage from "localforage";
 import isEqual from "lodash.isequal";
 import {
   useCallback,
@@ -11,6 +10,7 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 import { v4 as uuidv4 } from "uuid";
 
 import cross from "../assets/cross.svg";
+import db from "../dbInstance";
 import startingLayouts from "../partials/startingLayout";
 import type {
   DashboardItemsProps,
@@ -38,7 +38,7 @@ export default function SyncingGrid({
   useEffect(() => {
     const getSavedItems = async () => {
       const dashboardItems: DashboardItemsProps | null =
-        await localforage.getItem(dashName);
+        await db.getItem(dashName);
       const savedLayouts = dashboardItems?.layouts;
       const savedWidgets = dashboardItems?.widgets;
       const savedLockStatus = dashboardItems?.isLocked;
@@ -80,7 +80,7 @@ export default function SyncingGrid({
           widgets: widgets,
           isLocked,
         };
-        await localforage.setItem(dashName, newdashboardItems);
+        await db.setItem(dashName, newdashboardItems);
       }
     };
     updateLayouts();

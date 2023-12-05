@@ -46,15 +46,14 @@ Click **Create A New 5e Character** on the home page to create a new dashboard s
 
 ![Dashboard "Premades"](./DashboardMaker4.png)
 
-
 Dashboard Maker comes with a couple of "Premades". These are dashboards that are already there, with some useful DM Screen info particular to D&D 5th Edition.
 
 More "Premades" to come.
 
 ## Additional Features
+
 - You can delete dashboards as needed
 - You can clone/duplicate any dashboard as needed
 - You can lock/unlock the state of a dashboard, affecting the editable boxes within it.
-
 
 _Have fun!_
