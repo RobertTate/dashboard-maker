@@ -2,7 +2,7 @@
 title: Dashboard Maker
 description: An extension for keeping game content you need on hand.
 author: Robert Tate
-image: https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPreviewOpt.gif
+image: https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPreview.gif
 icon: https://owlbear-dashboard-maker.vercel.app/icon.svg
 tags:
   - other
@@ -22,7 +22,7 @@ Check it out as a standalone app here: https://owlbear-dashboard-maker.vercel.ap
 
 _(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.rodeo/))_
 
-![Dashboard Maker](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPreviewOpt.gif)
+![Dashboard Maker](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPreview.gif)
 
 ## Features
 
