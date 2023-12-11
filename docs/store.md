@@ -22,7 +22,7 @@ Check it out as a standalone app here: https://owlbear-dashboard-maker.vercel.ap
 
 _(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.rodeo/))_
 
-![Dashboard Maker](./docs/DashboardMakerPreview.gif)
+![Dashboard Maker](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPreview.gif)
 
 ## Features
 
@@ -30,7 +30,7 @@ _(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.ro
 
 ### Blank Dashboards
 
-![Blank Dashboards](./DashboardMaker2.png)
+![Blank Dashboards](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMaker2.png)
 
 Click **Create A New Dashboard** on the home screen to create a new empty dashboard space.
 
@@ -38,13 +38,13 @@ Click **Create A New Dashboard** on the home screen to create a new empty dashbo
 
 ### 5e Character Template Dashboards
 
-![5e Character Template Dashboards](./DashboardMaker3.png)
+![5e Character Template Dashboards](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMaker3.png)
 
 Click **Create A New 5e Character** on the home page to create a new dashboard space using a 5e Character Template.
 
 ### Premades
 
-![Dashboard "Premades"](./DashboardMaker4.png)
+![Dashboard "Premades"](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMaker4.png)
 
 Dashboard Maker comes with a couple of "Premades". These are dashboards that are already there, with some useful DM Screen info particular to D&D 5th Edition.
 
