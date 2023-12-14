@@ -2,7 +2,7 @@
 title: Dashboard Maker
 description: An extension for keeping game content you need on hand.
 author: Robert Tate
-image: https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPreview.gif
+image: https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMaker1.png
 icon: https://owlbear-dashboard-maker.vercel.app/icon.svg
 tags:
   - other
@@ -56,4 +56,4 @@ More "Premades" to come.
 - You can clone/duplicate any dashboard as needed
 - You can lock/unlock the state of a dashboard, affecting the editable boxes within it.
 
-_Have fun!_
+_Have fun! And if you're a dev type, feel free to [check out the source code on Github](https://github.com/RobertTate/dashboard-maker)._

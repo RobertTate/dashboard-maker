@@ -10,7 +10,7 @@ Check it out as a standalone app here: https://owlbear-dashboard-maker.vercel.ap
 
 _(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.rodeo/))_
 
-![Dashboard Maker](./docs/DashboardMakerPreview.gif)
+<img src="./docs/DashboardMakerPreview.gif" alt="Dashboard Maker Preview" width="722">
 
 ## Features
 
