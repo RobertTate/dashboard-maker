@@ -15,6 +15,10 @@
   #no-owlbear main {
     align-self: flex-start;
   }
+  #upload-button,
+  #download-button {
+    display: none;
+  }
 }
 
 #no-owlbear main:has(> .dashboard) {

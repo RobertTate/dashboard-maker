@@ -107,6 +107,7 @@ export default function Dashboard(props: DashboardProps) {
         </button>
         <button
           className="icon-button"
+          id="download-button"
           title="Download This Dashboard"
           onClick={() => downloadDashboard()}
         >

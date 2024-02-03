@@ -233,6 +233,7 @@ export default function PopOver() {
           />
           <button
             className="icon-button"
+            id="upload-button"
             title="Upload A Dashboard."
             onClick={() => handleUploadClick()}
           >
