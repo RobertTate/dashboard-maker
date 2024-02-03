@@ -191,7 +191,8 @@ button:active {
 .editable-md-widget h4 + p:has(br),
 .editable-md-widget h5 + p:has(br),
 .editable-md-widget h6 + p:has(br),
-.editable-md-widget ul + p:has(br) {
+.editable-md-widget ul + p:has(br),
+.editable-md-widget ol + p:has(br) {
   display: none;
 }
 
@@ -207,7 +208,8 @@ button:active {
   top: 6px;
 }
 
-.editable-md-widget ul {
+.editable-md-widget ul,
+.editable-md-widget ol {
   color: #fff;
 }
 
@@ -290,7 +292,8 @@ button:active {
     color: #000;
   }
 
-  .editable-md-widget ul {
+  .editable-md-widget ul,
+  .editable-md-widget ol {
     color: #000;
   }
 }

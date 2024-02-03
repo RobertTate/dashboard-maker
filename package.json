@@ -14,6 +14,7 @@
   "dependencies": {
     "@mdxeditor/editor": "^1.9.1",
     "@owlbear-rodeo/sdk": "^2.0.0",
+    "ajv": "^8.12.0",
     "localforage": "^1.10.0",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",

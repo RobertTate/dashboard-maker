@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
+import download from "../assets/download.svg";
 import duplicate from "../assets/duplicate.svg";
 import fire from "../assets/fire.svg";
 import leftArrow from "../assets/leftArrow.svg";
@@ -53,6 +54,23 @@ export default function Dashboard(props: DashboardProps) {
     }
   };
 
+  const downloadDashboard = async () => {
+    const currentDashboard: DashboardItemsProps | null =
+      await db.getItem(selectedDashboard);
+    if (currentDashboard) {
+      const jsonString = JSON.stringify(currentDashboard);
+      const blob = new Blob([jsonString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = selectedDashboard;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  };
+
   return (
     <div className="dashboard" id={isLocked ? "locked-dash" : "unlocked-dash"}>
       <div className={styles["dashboard-nav"]}>
@@ -86,6 +104,13 @@ export default function Dashboard(props: DashboardProps) {
           onClick={() => setDuplicateZoneIsOpen((prev) => !prev)}
         >
           <img src={duplicate} alt="Duplicate Icon" />
+        </button>
+        <button
+          className="icon-button"
+          title="Download This Dashboard"
+          onClick={() => downloadDashboard()}
+        >
+          <img src={download} alt="Download Icon" />
         </button>
         <h2>{selectedDashboard}</h2>
       </div>

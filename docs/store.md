@@ -22,11 +22,9 @@ Check it out as a standalone app here: https://owlbear-dashboard-maker.vercel.ap
 
 _(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.rodeo/))_
 
-![Dashboard Maker](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPreview.gif)
+<img src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPreview.gif" alt="Dashboard Maker Preview" width="722">
 
-## Features
-
-**Create Dashboards!**
+## Dashboard Types
 
 ### Blank Dashboards
 
@@ -50,10 +48,36 @@ Dashboard Maker comes with a couple of "Premades". These are dashboards that are
 
 More "Premades" to come.
 
-## Additional Features
+## Features
 
-- You can delete dashboards as needed
-- You can clone/duplicate any dashboard as needed
-- You can lock/unlock the state of a dashboard, affecting the editable boxes within it.
+* You can delete dashboards as needed
+* You can lock/unlock the state of a dashboard, affecting the editable state of the items within it.
+* You can clone/duplicate any dashboard as needed
+  * Right now, this is the best way to rename them (duplicate it, give it a new name, and then delete the old one)
+* You can also download/upload dashboards as `json` files, so you can store them offline, share them between browsers, etc!
+
+
+## Formatting
+Here are some text formatting guidelines to help share what's possible with Dashboard Maker.
+
+### Headings
+Type `#` and then hit `space` to create an `h1` in the body of your dashboard item text. This pattern applies to `h2`'s (`##`), `h3`'s (`###`), and so on.
+
+### Text Styling
+You can apply bold, italics, and underline to text by using the keyboard shortcuts: `ctrl+b` for bold, `ctrl+i` for italics, and `ctrl+u` for underline.
+
+Make sure to use `command` instead of `ctrl` on a mac. 😊
+
+### Checkboxes
+Type `[]` and then `space` to create a checkbox. Make sure you type in a label to the right of the checkbox immediately after, or else if you hit return the checkbox will just disappear.
+
+### Bulleted Lists
+Type `-` and then hit `space` to create a bulleted list. you can indent lists however much you need using the `tab` key.
+
+### Numbered Lists
+Type `1.` and then hit `space` to create a numbered list starting at 1. You can also indent numbered lists with `tab`.
+
+### Code Formatting
+To make your text have `that cool code` look, type a backtick ( ` ), followed by the text you want formatted this way, followed by another backtick.
 
 _Have fun! And if you're a dev type, feel free to [check out the source code on Github](https://github.com/RobertTate/dashboard-maker)._
