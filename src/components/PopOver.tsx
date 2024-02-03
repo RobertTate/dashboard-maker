@@ -2,7 +2,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
+import upload from "../assets/upload.svg";
 import db from "../dbInstance";
+import validateUpload from "../functions/validateUpload.ts";
 import styles from "../styles/PopOver.module.css";
 import type {
   DashboardItemsProps,
@@ -51,6 +53,7 @@ export default function PopOver() {
   const [dashBoardsArray, setDashboardsArray] = useState<string[]>([]);
   const [refreshCount, setRefreshCount] = useState(0);
   const newDashInputRef = useRef<HTMLInputElement>(null);
+  const uploadRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const initDashboards = async () => {
@@ -135,6 +138,61 @@ export default function PopOver() {
     [],
   );
 
+  const handleUploadClick = () => {
+    if (uploadRef.current) {
+      uploadRef.current.click();
+    }
+  };
+
+  const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      const dashboardName = file.name.replace(".json", "");
+      if (dashBoardsArray.includes(dashboardName)) {
+        uploadRef!.current!.setCustomValidity("");
+        uploadRef!.current!.setCustomValidity(
+          "The Dashboard Name Must Be Unique. Rename the file!",
+        );
+        uploadRef!.current!.reportValidity();
+        event.target.value = "";
+      } else {
+        uploadRef!.current!.setCustomValidity("");
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const text = e.target && e.target.result;
+          try {
+            const uploadedDashboard: DashboardItemsProps = JSON.parse(
+              text as string,
+            );
+            const isValidDashboard = validateUpload(uploadedDashboard);
+            if (isValidDashboard) {
+              await db.setItem(dashboardName, uploadedDashboard);
+              updateDashboardsState(dashboardName, "add");
+            } else {
+              uploadRef!.current!.setCustomValidity("");
+              uploadRef!.current!.setCustomValidity("Invalid Dashboard File!");
+            }
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+            uploadRef!.current!.setCustomValidity("");
+            uploadRef!.current!.setCustomValidity("Error Reading the file.");
+          } finally {
+            uploadRef!.current!.reportValidity();
+            event.target.value = "";
+          }
+        };
+        reader.onerror = () => {
+          // To debug, check for reader.error
+          uploadRef!.current!.setCustomValidity("");
+          uploadRef!.current!.setCustomValidity("Error Uploading the file.");
+          uploadRef!.current!.reportValidity();
+          event.target.value = "";
+        };
+        reader.readAsText(file);
+      }
+    }
+  };
+
   return (
     <main className={styles["pop-over"]}>
       {selectedDashboard ? (
@@ -161,6 +219,24 @@ export default function PopOver() {
             onClick={() => setRefreshCount((prev) => prev + 1)}
           >
             <img style={{ width: "20px" }} src={refresh} alt="Refresh" />
+          </button>
+          <input
+            type="file"
+            accept=".json"
+            ref={uploadRef}
+            onChange={handleUpload}
+            style={{
+              opacity: 0,
+              position: "absolute",
+              zIndex: -1,
+            }}
+          />
+          <button
+            className="icon-button"
+            title="Upload A Dashboard."
+            onClick={() => handleUploadClick()}
+          >
+            <img style={{ width: "20px" }} src={upload} alt="Refresh" />
           </button>
           <div className={styles["dashboard-creator"]}>
             <input
@@ -190,7 +266,7 @@ export default function PopOver() {
               .map((dash, index) => {
                 return (
                   <button
-                    title={`View and edit the ${dash} dashboard.`}
+                    title={`Click to view and edit this dashboard.`}
                     key={`${dash}-${index}`}
                     onClick={() => selectADashboard(dash)}
                   >

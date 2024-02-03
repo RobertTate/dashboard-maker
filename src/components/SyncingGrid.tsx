@@ -17,7 +17,7 @@ import type {
   SyncingGridProps,
   WidgetProps,
 } from "../types";
-import WidgetContainer from "./Widget";
+import Widget from "./Widget";
 
 export default function SyncingGrid({
   dashName,
@@ -182,7 +182,7 @@ export default function SyncingGrid({
                   return (
                     <div key={item.id}>
                       <div className="cancelDrag">
-                        <WidgetContainer
+                        <Widget
                           item={item}
                           updateWidgetContent={updateWidgetContent}
                         />

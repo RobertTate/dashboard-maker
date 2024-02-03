@@ -13,7 +13,7 @@ type WidgetContainerProps = {
   updateWidgetContent: (item: WidgetProps, content: string) => void;
 };
 
-export default function WidgetContainer({
+export default function Widget({
   item,
   updateWidgetContent,
 }: WidgetContainerProps) {
