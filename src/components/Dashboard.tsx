@@ -113,9 +113,10 @@ export default function Dashboard(props: DashboardProps) {
         >
           <img src={download} alt="Download Icon" />
         </button>
+      </div>
+      <div className={styles["dashboard-nav-header"]}>
         <h2>{selectedDashboard}</h2>
       </div>
-
       <div
         className={`${styles["dashboard-delete-zone"]} ${
           deleteZoneIsOpen ? styles["show-delete-zone"] : ""
