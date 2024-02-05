@@ -25,33 +25,8 @@
   align-self: flex-start;
 }
 
-::-webkit-scrollbar {
-  width: 0.5rem;
-}
-
-::-webkit-scrollbar-track {
-  background: #242424;
-}
-
-::-webkit-scrollbar-thumb {
-  border: 3px solid transparent;
-  border-radius: 9px;
-  background-clip: content-box;
-  background-color: #494949;
-}
-
-.scrolling ::-webkit-scrollbar-thumb {
-  background-color: #858585;
-}
-
-/* For Firefox */
 html {
-  scrollbar-width: thin;
-  scrollbar-color: #bb99ff53 #242424;
-}
-
-html.scrolling {
-  scrollbar-color: #b9f #242424;
+  scrollbar-width: none;
 }
 
 input,
@@ -239,6 +214,19 @@ button:active {
   height: 20px;
 }
 
+.react-grid-item {
+  overflow: clip;
+}
+
+.react-grid-item img {
+ width: 100%;
+ height: auto;
+}
+
+.react-grid-item [data-editor-block-type="image"] button {
+  display: none;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     background-color: #d2bff9;
@@ -256,18 +244,6 @@ button:active {
 
   button:hover {
     border-color: #8447ff;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #d2bff9;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #d5c1ff;
-  }
-
-  .scrolling ::-webkit-scrollbar-thumb {
-    background-color: #9773e4;
   }
 
   .react-grid-layout {

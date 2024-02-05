@@ -16,6 +16,10 @@
   width: 20px;
 }
 
+.dashboard-nav button {
+  margin-bottom: 0;
+}
+
 .dashboard-delete-zone,
 .dashboard-duplicate-zone {
   display: flex;
@@ -42,4 +46,9 @@
 .dashboard-delete-zone-confirm,
 .dashboard-duplicate-zone-confirm {
   margin-bottom: 1rem;
+}
+
+.dashboard-nav-header {
+  display: flex;
+  justify-content: flex-start;
 }
