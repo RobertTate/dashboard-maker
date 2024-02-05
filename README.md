@@ -45,7 +45,8 @@ More "Premades" to come.
 * You can also download/upload dashboards as `json` files, so you can store them offline, share them between browsers, etc!
 
 ## Image Support
-![Image Support Example](./docs/DMImageSupportExample.png)
+<img src="./docs/DMImageSupportExample.png" alt="Image Support Example" width="602">
+
 
 **Dashboard Maker now supports adding images to a dashboard item.**
 

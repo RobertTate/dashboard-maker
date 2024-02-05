@@ -58,7 +58,8 @@ More "Premades" to come.
 
 ## Image Support
 
-![Image Support Example](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DMImageSupportExample.png)
+<img src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DMImageSupportExample.png" alt="Image Support Example" width="602">
+
 
 **Dashboard Maker now supports adding images to a dashboard item.**
 
