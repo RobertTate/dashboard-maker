@@ -214,6 +214,19 @@ button:active {
   height: 20px;
 }
 
+.react-grid-item {
+  overflow: clip;
+}
+
+.react-grid-item img {
+ width: 100%;
+ height: auto;
+}
+
+.react-grid-item [data-editor-block-type="image"] button {
+  display: none;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     background-color: #d2bff9;
