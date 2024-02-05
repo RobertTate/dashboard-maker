@@ -44,6 +44,21 @@ More "Premades" to come.
   * Right now, this is the best way to rename them (duplicate it, give it a new name, and then delete the old one)
 * You can also download/upload dashboards as `json` files, so you can store them offline, share them between browsers, etc!
 
+## Image Support
+![Image Support Example](./docs/DMImageSupportExample.png)
+
+**Dashboard Maker now supports adding images to a dashboard item.**
+
+### Prerequisites:
+- The image must already be hosted somewhere, thus having a valid image url.
+
+### How To:
+1. Right click the image you want to add (this works in a browser or discord) and select "Copy Image"
+2. Back in Dashboard Maker, paste that image into a dashboard content box either by right clicking inside the text area and selecting "Paste", or by pressing `ctrl+v` once you've already clicked into the text area (you know you've clicked into the text area if you see the text cursor).
+
+### Caveats:
+- While it's not impossible - putting images and text into the same context box is a bit clunky. Consider keeping them seperated into different content boxes.
+
 
 ## Formatting
 Here are some text formatting guidelines to help share what's possible with Dashboard Maker.
