@@ -21,7 +21,7 @@ export default function App() {
           <h1>Loading...</h1>
         ) : (
           <div id="no-owlbear">
-            <PopOver />
+            <PopOver standalone={true} />
           </div>
         )}
       </>

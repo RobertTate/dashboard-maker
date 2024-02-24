@@ -10,6 +10,7 @@ import type {
   DashboardItemsProps,
   NewDashboardTemplateOptions,
   PremadeDashConfig,
+  PopOverProps
 } from "../types/index.ts";
 import Dashboard from "./Dashboard";
 
@@ -48,7 +49,7 @@ async function checkAndAddPremades(keys: string[]) {
   return newPremades;
 }
 
-export default function PopOver() {
+export default function PopOver({ standalone = false }: PopOverProps) {
   const [selectedDashboard, setSelectedDashboard] = useState("");
   const [dashBoardsArray, setDashboardsArray] = useState<string[]>([]);
   const [refreshCount, setRefreshCount] = useState(0);
@@ -201,6 +202,7 @@ export default function PopOver() {
           selectADashboard={selectADashboard}
           createADashboard={createADashboard}
           selectedDashboard={selectedDashboard}
+          standalone={standalone}
         />
       ) : (
         <>

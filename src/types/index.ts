@@ -7,6 +7,7 @@ export type DashboardProps = {
     duplicateDashInputRef?: React.RefObject<HTMLInputElement>,
     contentToDuplicate?: DashboardItemsProps,
   ) => Promise<void>;
+  standalone: boolean;
 };
 
 export type SyncingGridProps = {
@@ -30,5 +31,9 @@ export type PremadeDashConfig = {
   fileName: string;
   dashName: string;
 };
+
+export type PopOverProps = {
+  standalone?: boolean;
+}
 
 export type NewDashboardTemplateOptions = "default" | "5eChar" | "duplicate";
