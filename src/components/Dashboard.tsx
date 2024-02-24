@@ -19,6 +19,7 @@ export default function Dashboard(props: DashboardProps) {
     selectADashboard,
     createADashboard,
     deleteADashboard,
+    standalone
   } = props;
   const [isLocked, setIsLocked] = useState(false);
   const [deleteZoneIsOpen, setDeleteZoneIsOpen] = useState(false);
@@ -72,8 +73,8 @@ export default function Dashboard(props: DashboardProps) {
   };
 
   return (
-    <div className="dashboard" id={isLocked ? "locked-dash" : "unlocked-dash"}>
-      <div className={styles["dashboard-nav"]}>
+    <div className={styles["dashboard"]} id={isLocked ? "locked-dash" : "unlocked-dash"}>
+      <div className={`${styles["dashboard-nav"]} ${standalone ? styles["dashboard-nav--standalone"] : ''}`}>
         <button
           className="icon-button"
           title="Go Back"
@@ -114,13 +115,12 @@ export default function Dashboard(props: DashboardProps) {
           <img src={download} alt="Download Icon" />
         </button>
       </div>
-      <div className={styles["dashboard-nav-header"]}>
+      <div className={`${styles["dashboard-nav-header"]} ${standalone ? styles["dashboard-nav-header--standalone"] : ''}`}>
         <h2>{selectedDashboard}</h2>
       </div>
       <div
-        className={`${styles["dashboard-delete-zone"]} ${
-          deleteZoneIsOpen ? styles["show-delete-zone"] : ""
-        }`}
+        className={`${styles["dashboard-delete-zone"]} ${deleteZoneIsOpen ? styles["show-delete-zone"] : ""
+          }`}
       >
         <p>Type "DELETE" to delete this dashboard permanently.</p>
         <div className={styles["dashboard-delete-zone-confirm"]}>
@@ -135,9 +135,8 @@ export default function Dashboard(props: DashboardProps) {
       </div>
 
       <div
-        className={`${styles["dashboard-duplicate-zone"]} ${
-          duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
-        }`}
+        className={`${styles["dashboard-duplicate-zone"]} ${duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
+          }`}
       >
         <p>Clone this dashboard by typing in a new name for the duplicate.</p>
         <div className={styles["dashboard-duplicate-zone-confirm"]}>
