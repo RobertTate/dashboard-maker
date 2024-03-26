@@ -11,8 +11,15 @@
   justify-content: space-between;
   z-index: 1;
   margin-top: -8px;
+  background: #242424;
   padding: 8px 0 12px;
   width: 97.5vw;
+}
+
+@media (prefers-color-scheme: light) {
+  .dashboard-nav {
+    background: #d2bff9;
+  }
 }
 
 .dashboard-nav--standalone {
