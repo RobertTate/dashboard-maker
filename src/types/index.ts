@@ -38,11 +38,11 @@ export type PremadeDashConfig = {
 export type PopOverProps = {
   standalone?: boolean;
   role: Role;
-}
+};
 
 export type SharedDashboard = {
   sharedDashboardTitle: string;
   sharedDashboardContent: DashboardItemsProps;
-}
+};
 
 export type NewDashboardTemplateOptions = "default" | "5eChar" | "duplicate";

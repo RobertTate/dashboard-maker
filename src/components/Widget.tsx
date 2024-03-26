@@ -1,9 +1,9 @@
 import { MDXEditor } from "@mdxeditor/editor/MDXEditor";
 import { headingsPlugin } from "@mdxeditor/editor/plugins/headings";
+import { imagePlugin } from "@mdxeditor/editor/plugins/image";
 import { listsPlugin } from "@mdxeditor/editor/plugins/lists";
 import { markdownShortcutPlugin } from "@mdxeditor/editor/plugins/markdown-shortcut";
 import { quotePlugin } from "@mdxeditor/editor/plugins/quote";
-import { imagePlugin } from "@mdxeditor/editor/plugins/image";
 import debounce from "lodash.debounce";
 import { useCallback } from "react";
 
@@ -33,8 +33,8 @@ export default function Widget({
         markdownShortcutPlugin(),
         imagePlugin({
           imagePreviewHandler(imageSource) {
-            return Promise.resolve(imageSource)
-          }
+            return Promise.resolve(imageSource);
+          },
         }),
       ]}
       contentEditableClassName="editable-md-widget"

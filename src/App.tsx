@@ -1,8 +1,8 @@
 import OBR from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
-import { Role } from "./types";
 
 import PopOver from "./components/PopOver";
+import { Role } from "./types";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -13,7 +13,7 @@ export default function App() {
       const roleValue = await OBR.player.getRole();
       setRole(roleValue);
       setAppIsReady(true);
-    }
+    };
 
     OBR.onReady(() => {
       initDashboardMaker();

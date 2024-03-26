@@ -7,8 +7,8 @@ import {
   useTransition,
 } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
+
 import cross from "../assets/cross.svg";
-import randomUUID from "../uid";
 import db from "../dbInstance";
 import startingLayouts from "../partials/startingLayout";
 import type {
@@ -16,6 +16,7 @@ import type {
   SyncingGridProps,
   WidgetProps,
 } from "../types";
+import randomUUID from "../uid";
 import Widget from "./Widget";
 
 export default function SyncingGrid({

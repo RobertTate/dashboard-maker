@@ -10,9 +10,9 @@ import styles from "../styles/PopOver.module.css";
 import type {
   DashboardItemsProps,
   NewDashboardTemplateOptions,
-  PremadeDashConfig,
   PopOverProps,
-  SharedDashboard
+  PremadeDashConfig,
+  SharedDashboard,
 } from "../types/index.ts";
 import Dashboard from "./Dashboard";
 
@@ -59,14 +59,21 @@ export default function PopOver({ standalone = false, role }: PopOverProps) {
   const uploadRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    return OBR.broadcast.onMessage("com.roberttate.dashboard-maker", async (event) => {
-      const sharedDashboard = event?.data as SharedDashboard;
-      const {sharedDashboardTitle, sharedDashboardContent} = sharedDashboard;
-      await db.setItem(sharedDashboardTitle, sharedDashboardContent);
-      setRefreshCount((prev) => prev + 1);
-      selectADashboard("");
-      await OBR.notification.show(`"${sharedDashboardTitle}" has just been shared with you!`, "SUCCESS");
-    });
+    return OBR.broadcast.onMessage(
+      "com.roberttate.dashboard-maker",
+      async (event) => {
+        const sharedDashboard = event?.data as SharedDashboard;
+        const { sharedDashboardTitle, sharedDashboardContent } =
+          sharedDashboard;
+        await db.setItem(sharedDashboardTitle, sharedDashboardContent);
+        setRefreshCount((prev) => prev + 1);
+        selectADashboard("");
+        await OBR.notification.show(
+          `"${sharedDashboardTitle}" has just been shared with you!`,
+          "SUCCESS",
+        );
+      },
+    );
   }, []);
 
   useEffect(() => {

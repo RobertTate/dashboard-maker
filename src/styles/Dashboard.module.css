@@ -5,20 +5,20 @@
 
 .dashboard-nav {
   display: flex;
-  align-self: center;
-  align-items: center;
-  justify-content: space-between;
   position: fixed;
-  background: #242424;
-  width: 97.5vw;
+  align-items: center;
+  align-self: center;
+  justify-content: space-between;
   z-index: 1;
-  padding: 8px 0px 12px 0px;
   margin-top: -8px;
+  background: #242424;
+  padding: 8px 0 12px;
+  width: 97.5vw;
 }
 
 .dashboard-nav--standalone {
-  width: 631px;
   position: relative;
+  width: 631px;
 }
 
 .dashboard-nav *:first-child {
