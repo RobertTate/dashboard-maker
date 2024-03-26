@@ -7,7 +7,6 @@ import {
   useTransition,
 } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import { v4 as uuidv4 } from "uuid";
 
 import cross from "../assets/cross.svg";
 import db from "../dbInstance";
@@ -17,6 +16,7 @@ import type {
   SyncingGridProps,
   WidgetProps,
 } from "../types";
+import randomUUID from "../uid";
 import Widget from "./Widget";
 
 export default function SyncingGrid({
@@ -102,7 +102,7 @@ export default function SyncingGrid({
   );
 
   const addNewWidget = () => {
-    const uniqueKey = uuidv4();
+    const uniqueKey = randomUUID();
 
     const newWidget = {
       id: uniqueKey,

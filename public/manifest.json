@@ -4,6 +4,7 @@
   "manifest_version": 1,
   "author": "Robert Tate",
   "description": "An extension for keeping game content you need on hand.",
+  "icon": "/icon.svg",
   "action": {
     "title": "Dashboard Maker",
     "icon": "/icon.svg",
