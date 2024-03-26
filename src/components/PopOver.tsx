@@ -1,3 +1,4 @@
+import OBR from "@owlbear-rodeo/sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import dashboard from "../assets/dashboard.svg";
@@ -10,7 +11,8 @@ import type {
   DashboardItemsProps,
   NewDashboardTemplateOptions,
   PremadeDashConfig,
-  PopOverProps
+  PopOverProps,
+  SharedDashboard
 } from "../types/index.ts";
 import Dashboard from "./Dashboard";
 
@@ -49,12 +51,23 @@ async function checkAndAddPremades(keys: string[]) {
   return newPremades;
 }
 
-export default function PopOver({ standalone = false }: PopOverProps) {
+export default function PopOver({ standalone = false, role }: PopOverProps) {
   const [selectedDashboard, setSelectedDashboard] = useState("");
   const [dashBoardsArray, setDashboardsArray] = useState<string[]>([]);
   const [refreshCount, setRefreshCount] = useState(0);
   const newDashInputRef = useRef<HTMLInputElement>(null);
   const uploadRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    return OBR.broadcast.onMessage("com.roberttate.dashboard-maker", async (event) => {
+      const sharedDashboard = event?.data as SharedDashboard;
+      const {sharedDashboardTitle, sharedDashboardContent} = sharedDashboard;
+      await db.setItem(sharedDashboardTitle, sharedDashboardContent);
+      setRefreshCount((prev) => prev + 1);
+      selectADashboard("");
+      await OBR.notification.show(`"${sharedDashboardTitle}" has just been shared with you!`, "SUCCESS");
+    });
+  }, []);
 
   useEffect(() => {
     const initDashboards = async () => {
@@ -203,6 +216,7 @@ export default function PopOver({ standalone = false }: PopOverProps) {
           createADashboard={createADashboard}
           selectedDashboard={selectedDashboard}
           standalone={standalone}
+          role={role}
         />
       ) : (
         <>
@@ -247,6 +261,7 @@ export default function PopOver({ standalone = false }: PopOverProps) {
               type="text"
               name="dashboardName"
               required
+              title="Enter your new dashboard name here."
             />
             <button
               onClick={() => createADashboard("default")}

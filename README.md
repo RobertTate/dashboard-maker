@@ -36,19 +36,24 @@ Dashboard Maker comes with a couple of "Premades". These are dashboards that are
 
 More "Premades" to come.
 
-## Features
+## Dashboard Features
+<img style="margin-bottom:-4px" src="./src/assets/fire.svg" alt="Image Support Example" width="30"> You can delete dashboards as needed.
 
-* You can delete dashboards as needed
-* You can lock/unlock the state of a dashboard, affecting the editable state of the items within it.
-* You can clone/duplicate any dashboard as needed
-  * Right now, this is the best way to rename them (duplicate it, give it a new name, and then delete the old one)
-* You can also download/upload dashboards as `json` files, so you can store them offline, share them between browsers, etc!
+<img style="margin-bottom:-4px" src="./src/assets/locked.svg" alt="Image Support Example" width="30"> You can lock/unlock the state of a dashboard, affecting the editable state of the items within it.
 
-## Image Support
+<img style="margin-bottom:-4px" src="./src/assets/duplicate.svg" alt="Image Support Example" width="30"> You can clone/duplicate any dashboard as needed. Right now, this is the best way to rename them (duplicate it, give it a new name, and then delete the old one)
+
+<img style="margin-bottom:-4px" src="./src/assets/download.svg" alt="Image Support Example" width="30"> You can download/upload dashboards as `json` files, so you can store them offline, share them between browsers, etc!
+
+<img style="margin-bottom:-4px" src="./src/assets/share.svg" alt="Image Support Example" width="30"> If you are the GM for a room, you will see an additional button to share your dashboard with all other players in the room. **Be careful with this feature! Sharing your dashboard will overwrite any dashboards your players have with the same dashboard name.**
+
+*Note: If a dashboard reaches over 16kb in size, it can no longer be shared with the sharing feature. I will look for ways to mitigate this further in the future!*
+
+## Images
+
+Dashboard Maker now supports adding images inside a dashboard content box.
+
 <img src="./docs/DMImageSupportExample.png" alt="Image Support Example" width="602">
-
-
-**Dashboard Maker now supports adding images to a dashboard item.**
 
 ### Prerequisites:
 - The image must already be hosted somewhere, thus having a valid image url.

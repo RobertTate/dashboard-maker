@@ -1,3 +1,5 @@
+export type Role = "GM" | "PLAYER" | undefined;
+
 export type DashboardProps = {
   selectedDashboard: string;
   selectADashboard: (dashboardId: string) => void;
@@ -8,6 +10,7 @@ export type DashboardProps = {
     contentToDuplicate?: DashboardItemsProps,
   ) => Promise<void>;
   standalone: boolean;
+  role: Role;
 };
 
 export type SyncingGridProps = {
@@ -34,6 +37,12 @@ export type PremadeDashConfig = {
 
 export type PopOverProps = {
   standalone?: boolean;
+  role: Role;
+}
+
+export type SharedDashboard = {
+  sharedDashboardTitle: string;
+  sharedDashboardContent: DashboardItemsProps;
 }
 
 export type NewDashboardTemplateOptions = "default" | "5eChar" | "duplicate";
