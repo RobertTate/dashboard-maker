@@ -1,5 +1,6 @@
 import OBR from "@owlbear-rodeo/sdk";
 import { useCallback, useRef, useState } from "react";
+import pako from "pako";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
@@ -72,17 +73,23 @@ export default function Dashboard(props: DashboardProps) {
           sharedDashboardTitle: selectedDashboard,
           sharedDashboardContent: currentDashboard,
         };
+        const stringified = JSON.stringify(sharedDashboard);
+        const compressedUint8Array = pako.gzip(stringified);
+        const compressedUint8ArrayString = String.fromCharCode(...compressedUint8Array);
+        const b64EncodedCompressedUint8ArrayString = btoa(compressedUint8ArrayString);
         await OBR.broadcast.sendMessage(
           "com.roberttate.dashboard-maker",
-          sharedDashboard,
+          b64EncodedCompressedUint8ArrayString,
         );
         await OBR.notification.show("Dashboard Sharing Succeeded!", "SUCCESS");
       } catch (e: any) {
-        const error: Error = e.error;
-        await OBR.notification.show(
-          `Dashboard Sharing Failed: ${error.name}`,
-          "ERROR",
-        );
+        if (e.error) {
+          const error: Error = e.error;
+          await OBR.notification.show(
+            `Dashboard Sharing Failed: ${error.name}`,
+            "ERROR",
+          );
+        }
       } finally {
         setShareZoneIsOpen((prev) => !prev);
       }

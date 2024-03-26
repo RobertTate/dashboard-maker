@@ -1,5 +1,6 @@
 import OBR from "@owlbear-rodeo/sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
+import pako from "pako";
 
 import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
@@ -63,16 +64,31 @@ export default function PopOver({ standalone = false, role }: PopOverProps) {
       return OBR.broadcast.onMessage(
         "com.roberttate.dashboard-maker",
         async (event) => {
-          const sharedDashboard = event?.data as SharedDashboard;
-          const { sharedDashboardTitle, sharedDashboardContent } =
-            sharedDashboard;
-          await db.setItem(sharedDashboardTitle, sharedDashboardContent);
-          setRefreshCount((prev) => prev + 1);
-          selectADashboard("");
-          await OBR.notification.show(
-            `"${sharedDashboardTitle}" has just been shared with you!`,
-            "SUCCESS",
-          );
+          try {
+            const b64EncodedCompressedUint8ArrayString = event?.data as string;
+            const compressedUint8ArrayString = atob(b64EncodedCompressedUint8ArrayString);
+            const compressedUint8Array = new Uint8Array(compressedUint8ArrayString.length);
+            for (let i = 0; i < compressedUint8ArrayString.length; i++) {
+              compressedUint8Array[i] = compressedUint8ArrayString.charCodeAt(i);
+            };
+            const stringified = pako.ungzip(compressedUint8Array, { to: "string" });
+            const sharedDashboard: SharedDashboard = JSON.parse(stringified);
+            const { sharedDashboardTitle, sharedDashboardContent } =
+              sharedDashboard;
+            await db.setItem(sharedDashboardTitle, sharedDashboardContent);
+            setRefreshCount((prev) => prev + 1);
+            selectADashboard("");
+            await OBR.notification.show(
+              `"${sharedDashboardTitle}" has just been shared with you!`,
+              "SUCCESS",
+            );
+          } catch (e) {
+            console.error(e);
+            await OBR.notification.show(
+              "Dashboard Sharing Failed.",
+              "ERROR",
+            );
+          }
         },
       );
     }
