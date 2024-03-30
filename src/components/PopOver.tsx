@@ -1,6 +1,6 @@
 import OBR from "@owlbear-rodeo/sdk";
-import { useCallback, useEffect, useRef, useState } from "react";
 import pako from "pako";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
@@ -37,6 +37,10 @@ async function checkAndAddPremades(keys: string[]) {
       fileName: "martialWeaponsDashPremade",
       dashName: "⭐ Martial Weapons ⭐",
     },
+    {
+      fileName: "adventuringGearDashPremade",
+      dashName: "⭐ Adventuring Gear ⭐",
+    },
   ];
 
   const promises: Promise<string>[] = [];
@@ -66,12 +70,19 @@ export default function PopOver({ standalone = false, role }: PopOverProps) {
         async (event) => {
           try {
             const b64EncodedCompressedUint8ArrayString = event?.data as string;
-            const compressedUint8ArrayString = atob(b64EncodedCompressedUint8ArrayString);
-            const compressedUint8Array = new Uint8Array(compressedUint8ArrayString.length);
+            const compressedUint8ArrayString = atob(
+              b64EncodedCompressedUint8ArrayString,
+            );
+            const compressedUint8Array = new Uint8Array(
+              compressedUint8ArrayString.length,
+            );
             for (let i = 0; i < compressedUint8ArrayString.length; i++) {
-              compressedUint8Array[i] = compressedUint8ArrayString.charCodeAt(i);
-            };
-            const stringified = pako.ungzip(compressedUint8Array, { to: "string" });
+              compressedUint8Array[i] =
+                compressedUint8ArrayString.charCodeAt(i);
+            }
+            const stringified = pako.ungzip(compressedUint8Array, {
+              to: "string",
+            });
             const sharedDashboard: SharedDashboard = JSON.parse(stringified);
             const { sharedDashboardTitle, sharedDashboardContent } =
               sharedDashboard;
@@ -84,10 +95,7 @@ export default function PopOver({ standalone = false, role }: PopOverProps) {
             );
           } catch (e) {
             console.error(e);
-            await OBR.notification.show(
-              "Dashboard Sharing Failed.",
-              "ERROR",
-            );
+            await OBR.notification.show("Dashboard Sharing Failed.", "ERROR");
           }
         },
       );

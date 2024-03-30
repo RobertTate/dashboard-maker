@@ -1,6 +1,6 @@
 import OBR from "@owlbear-rodeo/sdk";
-import { useCallback, useRef, useState } from "react";
 import pako from "pako";
+import { useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
@@ -75,8 +75,12 @@ export default function Dashboard(props: DashboardProps) {
         };
         const stringified = JSON.stringify(sharedDashboard);
         const compressedUint8Array = pako.gzip(stringified);
-        const compressedUint8ArrayString = String.fromCharCode(...compressedUint8Array);
-        const b64EncodedCompressedUint8ArrayString = btoa(compressedUint8ArrayString);
+        const compressedUint8ArrayString = String.fromCharCode(
+          ...compressedUint8Array,
+        );
+        const b64EncodedCompressedUint8ArrayString = btoa(
+          compressedUint8ArrayString,
+        );
         await OBR.broadcast.sendMessage(
           "com.roberttate.dashboard-maker",
           b64EncodedCompressedUint8ArrayString,
