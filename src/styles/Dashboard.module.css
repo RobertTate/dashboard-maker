@@ -24,7 +24,7 @@
 
 .dashboard-nav--standalone {
   position: relative;
-  width: 631px;
+  max-width: 631px;
 }
 
 .dashboard-nav *:first-child {

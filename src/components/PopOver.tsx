@@ -327,7 +327,7 @@ export default function PopOver({ standalone = false, role }: PopOverProps) {
               })}
           </div>
           <div>
-            <p>Premade Dashboards:</p>
+            <p>Premade 5e Dashboards:</p>
             {dashBoardsArray
               .filter((dash) => dash.startsWith("⭐"))
               .map((dash, index) => {
