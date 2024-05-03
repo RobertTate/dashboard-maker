@@ -95,6 +95,9 @@ You can apply bold, italics, and underline to text by using the keyboard shortcu
 
 Make sure to use `command` instead of `ctrl` on a mac. 😊
 
+### Block Quotes
+Type `>` and then hit `space` to create a block quote.
+
 ### Checkboxes
 
 Type `[]` and then `space` to create a checkbox. Make sure you type in a label to the right of the checkbox immediately after, or else if you hit return the checkbox will just disappear.
