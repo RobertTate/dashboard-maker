@@ -94,6 +94,12 @@
   padding-bottom: 10px;
 }
 
+@media only screen and (width <= 480px) {
+  .dashboard-toolbar-container {
+    display: none;
+  }
+}
+
 .dashboard-toolbar-zone {
   /* Using --baseBorderHover for the disabled styling of undo/redo buttons */
   --baseBorderHover: #ba98ff8a;
