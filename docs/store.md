@@ -2,7 +2,7 @@
 title: Dashboard Maker
 description: An extension for keeping game content you need on hand.
 author: Robert Tate
-image: https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMaker1.png
+image: https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerHero.png
 icon: https://owlbear-dashboard-maker.vercel.app/icon.svg
 tags:
   - other
@@ -14,39 +14,39 @@ learn-more: https://github.com/RobertTate/dashboard-maker
 
 **An Owlbear Rodeo extension for keeping game content you need on hand.**
 
-Whether it's useful notes & reminders, initiative trackers, character sheets, or something else, Dashboard Maker is a place to put it. All content is saved in your browser.
+Whether it's useful notes & reminders, initiative trackers, character sheets, or something else, Dashboard Maker is a way to keep it in Owlbear Rodeo.
+
+All content is saved in your browser. Dashboards are also downloadable, uploadable, and shareable between the GM and their players.
 
 The more you put in Dashboard Maker, the less you have to leave Owlbear Rodeo. Why is this good? Because context switching during a game sucks.
 
-Check it out as a standalone app here: https://owlbear-dashboard-maker.vercel.app/
+Check it out as a standalone app [here](https://owlbear-dashboard-maker.vercel.app/).
 
 _(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.rodeo/))_
 
-<img src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPreview.gif" alt="Dashboard Maker Preview" width="722">
+<img src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPreview2.gif" alt="Dashboard Maker Preview" width="722">
 
 ## Dashboard Types
 
 ### Blank Dashboards
 
-![Blank Dashboards](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMaker2.png)
+![Blank Dashboards](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerBlankDash1.png)
 
-Click **Create A New Dashboard** on the home screen to create a new empty dashboard space.
+Click **Create A New Dashboard** on the home screen to create a new empty dashboard.
 
 ---
 
 ### 5e Character Template Dashboards
 
-![5e Character Template Dashboards](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMaker3.png)
+![5e Character Template Dashboards](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMaker5eDash1.png)
 
-Click **Create A New 5e Character** on the home page to create a new dashboard space using a 5e Character Template.
+Click **Create A New 5e Character** on the home page to create a new dashboard that uses a 5e character template.
 
 ### Premades
 
-![Dashboard "Premades"](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMaker4.png)
+![Dashboard "Premades"](https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerPremadeDash1.png)
 
-Dashboard Maker comes with a couple of "Premades". These are dashboards that are already there, with some useful DM Screen info particular to D&D 5th Edition.
-
-More "Premades" to come.
+Dashboard Maker comes with some "Premades". These are dashboards that I made to offer some useful DM Screen info, right now specifically for D&D 5th Edition.
 
 ## Dashboard Features
 
@@ -60,13 +60,11 @@ More "Premades" to come.
 
 <img style="margin-bottom:-4px" src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/src/assets/share.svg" alt="Image Support Example" width="30"> If you are the GM for a room, you will see an additional button to share your dashboard with all other players in the room. **Be careful with this feature! Sharing your dashboard will overwrite any dashboards your players have with the same dashboard name.**
 
-_Note: If a dashboard reaches over 16kb in size, it can no longer be shared with the sharing feature. I will look for ways to mitigate this further in the future!_
-
 ## Images
 
 Dashboard Maker now supports adding images inside a dashboard content box.
 
-<img src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DMImageSupportExample.png" alt="Image Support Example" width="602">
+<img src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerImageSupportExample.png" alt="Image Support Example" width="602">
 
 ### Prerequisites:
 
@@ -81,9 +79,14 @@ Dashboard Maker now supports adding images inside a dashboard content box.
 
 - While it's not impossible - putting images and text into the same context box is a bit clunky. Consider keeping them seperated into different content boxes.
 
-## Formatting
+## The Toolbar
+<img src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerToolbar1.png" alt="Toolbar Example" width="602">
 
-Here are some text formatting guidelines to help share what's possible with Dashboard Maker.
+**Dashboard Maker now comes with an editing toolbar.** This lets you edit and format your content with ease, and also allows you to drop in new content types such as tables, thematic breaks, links, and admonitions.
+
+## Formatting Keyboard Shortcuts
+
+In addition to using the toolbar, Dashboard Maker also supports keyboard shortcuts to format your content while typing.
 
 ### Headings
 
@@ -114,4 +117,4 @@ Type `1.` and then hit `space` to create a numbered list starting at 1. You can 
 
 To make your text have `that cool code` look, type a backtick ( ` ), followed by the text you want formatted this way, followed by another backtick.
 
-_Have fun! And if you're a dev type, feel free to [check out the source code on Github](https://github.com/RobertTate/dashboard-maker)._
+_Have fun and thank you for trying out this passion project! Also, if you're into coding, feel free to [check out the source code on Github](https://github.com/RobertTate/dashboard-maker)._

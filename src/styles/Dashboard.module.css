@@ -5,7 +5,7 @@
 
 .dashboard-nav {
   display: flex;
-  position: fixed;
+  position: sticky;
   align-items: center;
   align-self: center;
   justify-content: space-between;
@@ -14,6 +14,7 @@
   background: #242424;
   padding: 8px 0 12px;
   width: 97.5vw;
+  top: 0;
 }
 
 @media (prefers-color-scheme: light) {
@@ -23,7 +24,7 @@
 }
 
 .dashboard-nav--standalone {
-  position: relative;
+  top: -1px;
   max-width: 631px;
 }
 
@@ -77,9 +78,77 @@
 .dashboard-nav-header {
   display: flex;
   justify-content: flex-start;
-  margin-top: 50px;
 }
 
-.dashboard-nav-header--standalone {
+.dashboard-nav-header h2 {
   margin-top: 0;
+}
+
+.dashboard-toolbar-container {
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 68px;
+  z-index: 1;
+  background-color: #242424;
+  padding-bottom: 10px;
+}
+
+.dashboard-toolbar-zone {
+  display: flex;
+  justify-content: space-evenly;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s;
+  border: 3px solid transparent;
+  border-radius: 8px;
+  background-color: #4c396e;
+  min-height: 40px;
+  width: 100%;
+  /* Using --baseBorderHover for the disabled styling of undo/redo buttons */
+  --baseBorderHover: #ba98ff8a;
+}
+
+.dashboard-toolbar-zone button {
+  color: #ceb6fe;
+}
+
+.dashboard-toolbar-zone:hover {
+  border-color: #ba98ff;
+}
+
+.dashboard-toolbar-zone > * {
+  display: none;
+}
+
+.dashboard-toolbar-zone > *:nth-last-child(-n+9) {
+  display: flex;
+}
+
+.dashboard-toolbar-zone div[role=group] {
+  display: flex;
+}
+
+
+@media (prefers-color-scheme: light) {
+  .dashboard-toolbar-container {
+    background-color: #d2bff9;
+  }
+
+  .dashboard-toolbar-zone {
+    background-color: #4c2696;
+    --baseBorderHover: #ceb6fe84;
+  }
+
+  .dashboard-toolbar-zone:hover {
+    border-color: #8447ff;
+  }
+
+  .dashboard-toobar-zone-placeholder {
+    color: white;
+  }
+
+  .dashboard-toobar-zone-placeholder a {
+    color: #d2bff9;
+  }
 }

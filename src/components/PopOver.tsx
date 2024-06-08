@@ -270,40 +270,43 @@ export default function PopOver({ standalone = false, role }: PopOverProps) {
             Dashboard Maker
           </h1>
           <h3>DM Screens, Character Sheets, and Whatever Else.</h3>
-          <button
-            className="icon-button"
-            title="Refresh the app. Keep things in sync. Feel in control."
-            onClick={() => setRefreshCount((prev) => prev + 1)}
-          >
-            <img style={{ width: "20px" }} src={refresh} alt="Refresh" />
-          </button>
-          <input
-            type="file"
-            accept=".json"
-            ref={uploadRef}
-            onChange={handleUpload}
-            style={{
-              opacity: 0,
-              position: "absolute",
-              zIndex: -1,
-            }}
-          />
-          <button
-            className="icon-button"
-            id="upload-button"
-            title="Upload A Dashboard."
-            onClick={() => handleUploadClick()}
-          >
-            <img style={{ width: "20px" }} src={upload} alt="Refresh" />
-          </button>
           <div className={styles["dashboard-creator"]}>
-            <input
-              ref={newDashInputRef}
-              type="text"
-              name="dashboardName"
-              required
-              title="Enter your new dashboard name here."
-            />
+            <div className={styles["dashboard-input"]}>
+              <button
+                className="icon-button"
+                title="Refresh the app. Keep things in sync. Feel in control."
+                onClick={() => setRefreshCount((prev) => prev + 1)}
+                id="refresh-button"
+              >
+                <img style={{ width: "20px" }} src={refresh} alt="Refresh" />
+              </button>
+              <input
+                type="file"
+                accept=".json"
+                ref={uploadRef}
+                onChange={handleUpload}
+                style={{
+                  opacity: 0,
+                  position: "absolute",
+                  zIndex: -1,
+                }}
+              />
+              <button
+                className="icon-button"
+                id="upload-button"
+                title="Upload A Dashboard."
+                onClick={() => handleUploadClick()}
+              >
+                <img style={{ width: "20px" }} src={upload} alt="Refresh" />
+              </button>
+              <input
+                ref={newDashInputRef}
+                type="text"
+                name="dashboardName"
+                required
+                title="Enter your new dashboard name here."
+              />
+            </div>
             <button
               onClick={() => createADashboard("default")}
               title="Create a new empty dashboard."
@@ -334,7 +337,7 @@ export default function PopOver({ standalone = false, role }: PopOverProps) {
                 );
               })}
           </div>
-          <div>
+          <div className={styles["premade-dashboards"]}>
             <p>Premade 5e Dashboards:</p>
             {dashBoardsArray
               .filter((dash) => dash.startsWith("⭐"))

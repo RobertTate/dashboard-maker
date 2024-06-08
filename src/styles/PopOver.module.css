@@ -14,3 +14,16 @@
   height: 2rem;
   font-size: 1.25rem;
 }
+
+.premade-dashboards button {
+  font-size: 0.75rem;  
+}
+
+.dashboard-input {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-input input[name="dashboardName"] {
+  flex-grow: 1;
+}

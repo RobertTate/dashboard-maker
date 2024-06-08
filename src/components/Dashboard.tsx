@@ -122,11 +122,7 @@ export default function Dashboard(props: DashboardProps) {
       className={styles["dashboard"]}
       id={isLocked ? "locked-dash" : "unlocked-dash"}
     >
-      <div
-        className={`${styles["dashboard-nav"]} ${
-          standalone ? styles["dashboard-nav--standalone"] : ""
-        }`}
-      >
+      <div className={`${styles["dashboard-nav"]} ${standalone ? styles["dashboard-nav--standalone"] : ""}`}>
         <button
           className="icon-button"
           title="Go Back"
@@ -178,17 +174,17 @@ export default function Dashboard(props: DashboardProps) {
           </button>
         )}
       </div>
+      <div className={`${styles["dashboard-toolbar-container"]} cancelDrag`}>
+        <div className={`${styles["dashboard-toolbar-zone"]}`} id="toolbar"><p className={styles["dashboard-toobar-zone-placeholder"]}>Useful Links: &nbsp;<a target="_blank" href="https://extensions.owlbear.rodeo/dashboard-maker">Docs</a>&nbsp;/&nbsp;<a target="_blank" href="https://github.com/RobertTate/dashboard-maker">Codebase</a>&nbsp;/&nbsp;<a target="_blank" href="https://discord.com/channels/795808973743194152/1248695489558483007">Community Made Dashboards</a></p></div>
+      </div>
       <div
-        className={`${styles["dashboard-nav-header"]} ${
-          standalone ? styles["dashboard-nav-header--standalone"] : ""
-        }`}
+        className={`${styles["dashboard-nav-header"]}`}
       >
         <h2>{selectedDashboard}</h2>
       </div>
       <div
-        className={`${styles["dashboard-delete-zone"]} ${
-          deleteZoneIsOpen ? styles["show-delete-zone"] : ""
-        }`}
+        className={`${styles["dashboard-delete-zone"]} ${deleteZoneIsOpen ? styles["show-delete-zone"] : ""
+          }`}
       >
         <p>Type "DELETE" to delete this dashboard permanently.</p>
         <div className={styles["dashboard-delete-zone-confirm"]}>
@@ -203,9 +199,8 @@ export default function Dashboard(props: DashboardProps) {
       </div>
 
       <div
-        className={`${styles["dashboard-duplicate-zone"]} ${
-          duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
-        }`}
+        className={`${styles["dashboard-duplicate-zone"]} ${duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
+          }`}
       >
         <p>Clone this dashboard by typing in a new name for the duplicate.</p>
         <div className={styles["dashboard-duplicate-zone-confirm"]}>
@@ -220,9 +215,8 @@ export default function Dashboard(props: DashboardProps) {
       </div>
 
       <div
-        className={`${styles["dashboard-share-zone"]} ${
-          shareZoneIsOpen ? styles["show-share-zone"] : ""
-        }`}
+        className={`${styles["dashboard-share-zone"]} ${shareZoneIsOpen ? styles["show-share-zone"] : ""
+          }`}
       >
         <p>
           Do you want to share this dashboard in its current state with your
