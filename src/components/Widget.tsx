@@ -1,24 +1,24 @@
 import {
+  AdmonitionDirectiveDescriptor,
   MDXEditor,
+  directivesPlugin,
   headingsPlugin,
   imagePlugin,
+  linkDialogPlugin,
+  linkPlugin,
   listsPlugin,
   markdownShortcutPlugin,
   quotePlugin,
-  linkPlugin,
-  linkDialogPlugin,
-  directivesPlugin,
-  thematicBreakPlugin,
   tablePlugin,
-  AdmonitionDirectiveDescriptor,
-  toolbarPlugin
+  thematicBreakPlugin,
+  toolbarPlugin,
 } from "@mdxeditor/editor";
 import debounce from "lodash.debounce";
 import { useCallback } from "react";
-import CustomToolbar from "./CustomToolbar";
-import CustomLinkDialog from "./CustomLinkDialog";
 
 import type { WidgetProps } from "../types";
+import CustomLinkDialog from "./CustomLinkDialog";
+import CustomToolbar from "./CustomToolbar";
 
 type WidgetContainerProps = {
   item: WidgetProps;
@@ -31,11 +31,11 @@ export default function Widget({
   item,
   updateWidgetContent,
   activeToolbarKey,
-  setActiveToolbarKey
+  setActiveToolbarKey,
 }: WidgetContainerProps) {
   const debouncedUpdate = useCallback(
     debounce((content: string) => {
-      return updateWidgetContent(item, content)
+      return updateWidgetContent(item, content);
     }, 500),
     [item, updateWidgetContent],
   );
@@ -56,15 +56,17 @@ export default function Widget({
         tablePlugin(),
         linkPlugin(),
         linkDialogPlugin({
-          LinkDialog: (() => {
+          LinkDialog: () => {
             return (
               <>
                 <CustomLinkDialog />
               </>
-            )
-          })
+            );
+          },
         }),
-        directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
+        directivesPlugin({
+          directiveDescriptors: [AdmonitionDirectiveDescriptor],
+        }),
         toolbarPlugin({
           toolbarContents: () => (
             <>
@@ -73,7 +75,7 @@ export default function Widget({
                 setActiveToolbarKey={setActiveToolbarKey}
               />
             </>
-          )
+          ),
         }),
         markdownShortcutPlugin(),
       ]}

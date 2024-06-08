@@ -34,7 +34,7 @@ export default function SyncingGrid({
   const [layouts, setLayouts] = useState<ReactGridLayout.Layouts | null>(null);
   const [widgets, setWidgets] = useState<WidgetProps[] | null>(null);
   const [syncStorage, setSyncStorage] = useState(0);
-  const [activeToolbarKey, setActiveToolbarKey] = useState<string>('');
+  const [activeToolbarKey, setActiveToolbarKey] = useState<string>("");
 
   useEffect(() => {
     const getSavedItems = async () => {

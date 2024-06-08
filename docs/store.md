@@ -80,6 +80,7 @@ Dashboard Maker now supports adding images inside a dashboard content box.
 - While it's not impossible - putting images and text into the same context box is a bit clunky. Consider keeping them seperated into different content boxes.
 
 ## The Toolbar
+
 <img src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerToolbar1.png" alt="Toolbar Example" width="602">
 
 **Dashboard Maker now comes with an editing toolbar.** This lets you edit and format your content with ease, and also allows you to drop in new content types such as tables, thematic breaks, links, and admonitions.
@@ -99,6 +100,7 @@ You can apply bold, italics, and underline to text by using the keyboard shortcu
 Make sure to use `command` instead of `ctrl` on a mac. 😊
 
 ### Block Quotes
+
 Type `>` and then hit `space` to create a block quote.
 
 ### Checkboxes

@@ -1,26 +1,24 @@
 import {
-  UndoRedo,
+  BlockTypeSelect,
   BoldItalicUnderlineToggles,
+  CodeToggle,
   CreateLink,
   InsertAdmonition,
-  BlockTypeSelect,
-  CodeToggle,
   InsertTable,
-  ListsToggle,
   InsertThematicBreak,
-  useCellValue,
+  ListsToggle,
+  UndoRedo,
+  activeEditor$,
   inFocus$,
-  activeEditor$
+  useCellValue,
 } from "@mdxeditor/editor";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-
 
 type CustomToolbarProps = {
   activeToolbarKey: string;
   setActiveToolbarKey: (key: string) => void;
 };
-
 
 export default function CustomToolbar(props: CustomToolbarProps) {
   const { activeToolbarKey, setActiveToolbarKey } = props;
@@ -45,7 +43,7 @@ export default function CustomToolbar(props: CustomToolbarProps) {
     <>
       {createPortal(
         <>
-          {' '}
+          {" "}
           <UndoRedo />
           <BlockTypeSelect />
           <BoldItalicUnderlineToggles />
@@ -56,8 +54,8 @@ export default function CustomToolbar(props: CustomToolbarProps) {
           <InsertTable />
           <InsertAdmonition />
         </>,
-        document.getElementById("toolbar") as Element
+        document.getElementById("toolbar") as Element,
       )}
     </>
-  ) : null
+  ) : null;
 }

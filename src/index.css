@@ -140,25 +140,20 @@ button:active {
 }
 
 .editable-md-widget {
+  --basePageBg: #3a3a3a;
+  --admonitionTipBg: hsl(187deg 71% 88% / 50%);
+  --admonitionTipBorder: hsl(189deg 60% 53% / 50%);
+  --admonitionInfoBg: hsl(123deg 45% 90% / 50%);
+  --admonitionInfoBorder: hsl(131deg 38% 56% / 50%);
+  --admonitionCautionBg: hsl(50deg 100% 81% / 50%);
+  --admonitionCautionBorder: hsl(38deg 75% 55% / 50%);
+  --admonitionDangerBg: hsl(358deg 100% 93% / 50%);
+  --admonitionDangerBorder: hsl(359deg 70% 74% / 50%);
+  --admonitionNoteBg: hsl(240deg 10% 92% / 50%);
+  --admonitionNoteBorder: hsl(231deg 10% 75% / 50%);
+
   padding: 0;
   caret-color: #8447ff;
-
-  --basePageBg: #3a3a3a;
-  
-  --admonitionTipBg: hsl(187, 71%, 88%, 0.5);
-  --admonitionTipBorder: hsl(189, 60%, 53%, 0.5);
-  
-  --admonitionInfoBg: hsl(123, 45%, 90%, 0.5);
-  --admonitionInfoBorder: hsl(131, 38%, 56%, 0.5);
-
-  --admonitionCautionBg: hsl(50, 100%, 81%, 0.5);
-  --admonitionCautionBorder: hsl(38, 75%, 55%, 0.5);
-
-  --admonitionDangerBg: hsl(358, 100%, 93%, 0.5);
-  --admonitionDangerBorder: hsla(359, 70%, 74%, 0.5);
-
-  --admonitionNoteBg: hsl(240, 10%, 92%, 0.5);
-  --admonitionNoteBorder: hsl(231, 10%, 75%, 0.5);
 }
 
 /* Border Radius of Admonitions */
@@ -168,55 +163,74 @@ button:active {
 
 /* Had to override dynamically applied Link Dialog styles, to keep the link dialog in one place. */
 .mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]) {
-  transform: none !important;
-  left: 8px !important;
   top: 590px !important;
+  left: 8px !important;
+  transform: none !important;
 }
 
 /* Shifting the location of the link dialog when it's open */
-.mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]):has(form) {
-  transform: none !important;
-  left: 8px !important;
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"]):has(form) {
   top: 412px !important;
+  left: 8px !important;
+  transform: none !important;
 }
 
 /* Styling the Link Dialog */
-.mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]) > div {
-  background-color: #4c396e;
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"])
+  > div {
   border: 3px solid #ba98ff;
+  background-color: #4c396e;
 }
 
 /* Style the displayed link in the Closed Link Dialog  */
-.mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]) > div a[class^="_linkDialogPreviewAnchor"] {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"])
+  > div
+  a[class^="_linkDialogPreviewAnchor"] {
   color: #ba98ff;
 }
 
 /* Style the other icons in the Closed Link Dialog */
-.mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]) > div button[class^="_actionButton"] > svg {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"])
+  > div
+  button[class^="_actionButton"]
+  > svg {
   fill: #ba98ff;
 }
 
-.mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]) > div button[class^="_actionButton"] {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"])
+  > div
+  button[class^="_actionButton"] {
   margin: 0;
 }
 
 /* Style the Text Labels in the Open Link Dialog */
-.mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]):has(form) label {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"]):has(form)
+  label {
   color: #d2bff9;
 }
 
 /* Style the button borders of the Open Link Dialog */
-.mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]):has(form) button {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"]):has(form)
+  button {
   border: none;
 }
 
 /* Style the background color of the submit button of the Open Link Dialog */
-.mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]):has(form) button[type="submit"] {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"]):has(form)
+  button[type="submit"] {
   background-color: #8447ff;
 }
 
-
 /* Remove the text highlighting when the link dialog is open. Wasn't lining up with the text correctly. */
+
 /* This also gets rid of the link dialog caret */
 .mdxeditor div[class^="_linkDialogAnchor"] {
   display: none;
@@ -279,9 +293,9 @@ button:active {
 .editable-md-widget a span,
 .editable-md-widget a strong,
 .editable-md-widget a em {
-  font-weight: bold;
-  color: #8447ff;
   cursor: pointer;
+  color: #8447ff;
+  font-weight: bold;
 }
 
 .editable-md-widget a span:hover,
@@ -305,13 +319,12 @@ button:active {
 }
 
 *[class^="_tableEditor"] *[class^="_tableColumnEditorTrigger"],
-*[class^="_tableEditor"] *[class^="_tableRowEditorTrigger"], 
-*[class^="_tableEditor"] *[class^="_addRowButton"], 
-*[class^="_tableEditor"] *[class^="_addColumnButton"], 
+*[class^="_tableEditor"] *[class^="_tableRowEditorTrigger"],
+*[class^="_tableEditor"] *[class^="_addRowButton"],
+*[class^="_tableEditor"] *[class^="_addColumnButton"],
 *[class^="_tableEditor"] *[class^="_iconButton"] {
   opacity: 0;
 }
-
 
 .react-grid-layout .react-grid-item#add-widget {
   display: flex;
@@ -366,23 +379,18 @@ button:active {
     color: #000;
   }
 
-  .editable-md-widget {  
+  .editable-md-widget {
     --basePageBg: #f0e9e9;
-    
-    --admonitionTipBg: hsl(187, 71%, 88%);
-    --admonitionTipBorder: hsl(189, 60%, 53%);
-    
-    --admonitionInfoBg: hsl(123, 45%, 90%);
-    --admonitionInfoBorder: hsl(131, 38%, 56%);
-  
-    --admonitionCautionBg: hsl(50, 100%, 81%);
-    --admonitionCautionBorder: hsl(38, 75%, 55%);
-  
-    --admonitionDangerBg: hsl(358, 100%, 93%);
-    --admonitionDangerBorder: hsla(359, 70%, 74%);
-  
-    --admonitionNoteBg: hsl(240, 10%, 92%);
-    --admonitionNoteBorder: hsl(231, 10%, 75%);
+    --admonitionTipBg: hsl(187deg 71% 88%);
+    --admonitionTipBorder: hsl(189deg 60% 53%);
+    --admonitionInfoBg: hsl(123deg 45% 90%);
+    --admonitionInfoBorder: hsl(131deg 38% 56%);
+    --admonitionCautionBg: hsl(50deg 100% 81%);
+    --admonitionCautionBorder: hsl(38deg 75% 55%);
+    --admonitionDangerBg: hsl(358deg 100% 93%);
+    --admonitionDangerBorder: hsl(359deg 70% 74%);
+    --admonitionNoteBg: hsl(240deg 10% 92%);
+    --admonitionNoteBorder: hsl(231deg 10% 75%);
   }
 
   button {
@@ -421,8 +429,8 @@ button:active {
   .editable-md-widget code span,
   .editable-md-widget code strong,
   .editable-md-widget code em {
-    color: #FFFFFF;
     background-color: #3a3a3a;
+    color: #fff;
   }
 
   .editable-md-widget a code span,

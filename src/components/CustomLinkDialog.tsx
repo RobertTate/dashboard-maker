@@ -1,115 +1,130 @@
-import * as Popover from '@radix-ui/react-popover'
-import * as Tooltip from '@radix-ui/react-tooltip'
-import React from 'react'
-
-import { 
-  editorRootElementRef$, 
-  iconComponentFor$, 
-  useTranslation, 
+import {
   cancelLinkEdit$,
+  editorRootElementRef$,
+  iconComponentFor$,
   linkDialogState$,
   removeLink$,
   switchFromPreviewToLinkEdit$,
-  updateLink$
-} from "@mdxeditor/editor"
+  updateLink$,
+  useTranslation,
+} from "@mdxeditor/editor";
+import { useCellValues, usePublisher } from "@mdxeditor/gurx";
+import * as Popover from "@radix-ui/react-popover";
+import * as Tooltip from "@radix-ui/react-tooltip";
+import classNames from "classnames";
+import React from "react";
+import { useForm } from "react-hook-form";
 
-import { useForm } from 'react-hook-form'
-import styles from '../styles/CustomLinkDialog.module.css';
-import classNames from 'classnames'
-import { useCellValues, usePublisher } from '@mdxeditor/gurx'
+import styles from "../styles/CustomLinkDialog.module.css";
 
 interface LinkEditFormProps {
-  url: string
-  title: string
-  onSubmit: (link: { url: string; title: string }) => void
-  onCancel: () => void
+  url: string;
+  title: string;
+  onSubmit: (link: { url: string; title: string }) => void;
+  onCancel: () => void;
 }
 
 interface LinkFormFields {
-  url: string
-  title: string
+  url: string;
+  title: string;
 }
 
 function LinkEditForm({ url, title, onSubmit, onCancel }: LinkEditFormProps) {
   const {
     register,
     handleSubmit,
-    reset: _
+    reset: _,
   } = useForm<LinkFormFields>({
     values: {
       url,
-      title
-    }
-  })
-  const t = useTranslation()
+      title,
+    },
+  });
+  const t = useTranslation();
 
   return (
     <form
       onSubmit={(e) => {
-        void handleSubmit(onSubmit)(e)
-        e.stopPropagation()
-        e.preventDefault()
+        void handleSubmit(onSubmit)(e);
+        e.stopPropagation();
+        e.preventDefault();
       }}
       onReset={(e) => {
-        e.stopPropagation()
-        onCancel()
+        e.stopPropagation();
+        onCancel();
       }}
       className={classNames(styles.multiFieldForm, styles.linkDialogEditForm)}
     >
       <div className={styles.formField}>
-        <label htmlFor="link-url">{t('createLink.url', 'URL')}</label>
-        <input id="link-url" className={styles.textInput} size={40} {...register('url')} />
+        <label htmlFor="link-url">{t("createLink.url", "URL")}</label>
+        <input
+          id="link-url"
+          className={styles.textInput}
+          size={40}
+          {...register("url")}
+        />
       </div>
 
       <div className={styles.formField}>
-        <label htmlFor="link-title">{t('createLink.title', 'Title')}</label>
-        <input id="link-title" className={styles.textInput} size={40} {...register('title')} />
+        <label htmlFor="link-title">{t("createLink.title", "Title")}</label>
+        <input
+          id="link-title"
+          className={styles.textInput}
+          size={40}
+          {...register("title")}
+        />
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--spacing-2)' }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          gap: "var(--spacing-2)",
+        }}
+      >
         <button
           type="submit"
-          title={t('createLink.saveTooltip', 'Set URL')}
-          aria-label={t('createLink.saveTooltip', 'Set URL')}
+          title={t("createLink.saveTooltip", "Set URL")}
+          aria-label={t("createLink.saveTooltip", "Set URL")}
           className={classNames(styles.primaryButton)}
         >
-          {t('dialogControls.save', 'Save')}
+          {t("dialogControls.save", "Save")}
         </button>
         <button
           type="reset"
-          title={t('createLink.cancelTooltip', 'Cancel change')}
-          aria-label={t('createLink.cancelTooltip', 'Cancel change')}
+          title={t("createLink.cancelTooltip", "Cancel change")}
+          aria-label={t("createLink.cancelTooltip", "Cancel change")}
           className={classNames(styles.secondaryButton)}
         >
-          {t('dialogControls.cancel', 'Cancel')}
+          {t("dialogControls.cancel", "Cancel")}
         </button>
       </div>
     </form>
-  )
+  );
 }
 
 export default function LinkDialog() {
   const [editorRootElementRef, iconComponentFor, linkDialogState] =
-    useCellValues(
-      editorRootElementRef$,
-      iconComponentFor$,
-      linkDialogState$
-    )
-  const updateLink = usePublisher(updateLink$)
-  const cancelLinkEdit = usePublisher(cancelLinkEdit$)
-  const switchFromPreviewToLinkEdit = usePublisher(switchFromPreviewToLinkEdit$)
-  const removeLink = usePublisher(removeLink$)
+    useCellValues(editorRootElementRef$, iconComponentFor$, linkDialogState$);
+  const updateLink = usePublisher(updateLink$);
+  const cancelLinkEdit = usePublisher(cancelLinkEdit$);
+  const switchFromPreviewToLinkEdit = usePublisher(
+    switchFromPreviewToLinkEdit$,
+  );
+  const removeLink = usePublisher(removeLink$);
 
-  const [copyUrlTooltipOpen, setCopyUrlTooltipOpen] = React.useState(false)
+  const [copyUrlTooltipOpen, setCopyUrlTooltipOpen] = React.useState(false);
 
-  const t = useTranslation()
+  const t = useTranslation();
 
-  const urlIsExternal = linkDialogState.type === 'preview' && linkDialogState.url.startsWith('http')
+  const urlIsExternal =
+    linkDialogState.type === "preview" &&
+    linkDialogState.url.startsWith("http");
 
   return (
-    <Popover.Root open={linkDialogState.type !== 'inactive'}>
+    <Popover.Root open={linkDialogState.type !== "inactive"}>
       <Popover.Anchor
-        data-visible={linkDialogState.type === 'edit'}
+        data-visible={linkDialogState.type === "edit"}
         className={styles.linkDialogAnchor}
       />
 
@@ -118,11 +133,11 @@ export default function LinkDialog() {
           className={classNames(styles.linkDialogPopoverContent, "cancelDrag")}
           sideOffset={5}
           onOpenAutoFocus={(e) => {
-            e.preventDefault()
+            e.preventDefault();
           }}
           key={linkDialogState.linkNodeKey}
         >
-          {linkDialogState.type === 'edit' && (
+          {linkDialogState.type === "edit" && (
             <LinkEditForm
               url={linkDialogState.url}
               title={linkDialogState.title}
@@ -131,50 +146,69 @@ export default function LinkDialog() {
             />
           )}
 
-          {linkDialogState.type === 'preview' && (
+          {linkDialogState.type === "preview" && (
             <>
               <a
                 className={styles.linkDialogPreviewAnchor}
                 href={linkDialogState.url}
-                {...(urlIsExternal ? { target: '_blank', rel: 'noreferrer' } : {})}
+                {...(urlIsExternal
+                  ? { target: "_blank", rel: "noreferrer" }
+                  : {})}
                 title={
-                  urlIsExternal ? t('linkPreview.open', `Open {{url}} in new window`, { url: linkDialogState.url }) : linkDialogState.url
+                  urlIsExternal
+                    ? t("linkPreview.open", `Open {{url}} in new window`, {
+                        url: linkDialogState.url,
+                      })
+                    : linkDialogState.url
                 }
               >
                 <span>{linkDialogState.url}</span>
-                {urlIsExternal && iconComponentFor('open_in_new')}
+                {urlIsExternal && iconComponentFor("open_in_new")}
               </a>
 
               <ActionButton
                 onClick={() => {
-                  switchFromPreviewToLinkEdit()
+                  switchFromPreviewToLinkEdit();
                 }}
-                title={t('linkPreview.edit', 'Edit link URL')}
-                aria-label={t('linkPreview.edit', 'Edit link URL')}
+                title={t("linkPreview.edit", "Edit link URL")}
+                aria-label={t("linkPreview.edit", "Edit link URL")}
               >
-                {iconComponentFor('edit')}
+                {iconComponentFor("edit")}
               </ActionButton>
               <Tooltip.Provider>
                 <Tooltip.Root open={copyUrlTooltipOpen}>
                   <Tooltip.Trigger asChild>
                     <ActionButton
-                      title={t('linkPreview.copyToClipboard', 'Copy to clipboard')}
-                      aria-label={t('linkPreview.copyToClipboard', 'Copy to clipboard')}
+                      title={t(
+                        "linkPreview.copyToClipboard",
+                        "Copy to clipboard",
+                      )}
+                      aria-label={t(
+                        "linkPreview.copyToClipboard",
+                        "Copy to clipboard",
+                      )}
                       onClick={() => {
-                        void window.navigator.clipboard.writeText(linkDialogState.url).then(() => {
-                          setCopyUrlTooltipOpen(true)
-                          setTimeout(() => {
-                            setCopyUrlTooltipOpen(false)
-                          }, 1000)
-                        })
+                        void window.navigator.clipboard
+                          .writeText(linkDialogState.url)
+                          .then(() => {
+                            setCopyUrlTooltipOpen(true);
+                            setTimeout(() => {
+                              setCopyUrlTooltipOpen(false);
+                            }, 1000);
+                          });
                       }}
                     >
-                      {copyUrlTooltipOpen ? iconComponentFor('check') : iconComponentFor('content_copy')}
+                      {copyUrlTooltipOpen
+                        ? iconComponentFor("check")
+                        : iconComponentFor("content_copy")}
                     </ActionButton>
                   </Tooltip.Trigger>
                   <Tooltip.Portal container={editorRootElementRef?.current}>
-                    <Tooltip.Content className={classNames(styles.tooltipContent)} sideOffset={5}>
-                      {t('linkPreview.copied', 'Copied!')}
+                    <Tooltip.Content
+                      className={classNames(styles.tooltipContent)}
+                      sideOffset={5}
+                    >
+                      {t("linkPreview.copied", "Copied!")}
                       <Tooltip.Arrow />
                     </Tooltip.Content>
                   </Tooltip.Portal>
@@ -182,13 +216,13 @@ export default function LinkDialog() {
               </Tooltip.Provider>
 
               <ActionButton
-                title={t('linkPreview.remove', 'Remove link')}
-                aria-label={t('linkPreview.remove', 'Remove link')}
+                title={t("linkPreview.remove", "Remove link")}
+                aria-label={t("linkPreview.remove", "Remove link")}
                 onClick={() => {
-                  removeLink()
+                  removeLink();
                 }}
               >
-                {iconComponentFor('link_off')}
+                {iconComponentFor("link_off")}
               </ActionButton>
             </>
           )}
@@ -196,10 +230,18 @@ export default function LinkDialog() {
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
-  )
+  );
 }
 
-const ActionButton = React.forwardRef<HTMLButtonElement, React.ComponentPropsWithoutRef<'button'>>(({ className, ...props }, ref) => {
-  return <button className={classNames(styles.actionButton, className)} ref={ref} {...props} />
-})
-
+const ActionButton = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentPropsWithoutRef<"button">
+>(({ className, ...props }, ref) => {
+  return (
+    <button
+      className={classNames(styles.actionButton, className)}
+      ref={ref}
+      {...props}
+    />
+  );
+});
