@@ -8,7 +8,7 @@ import {
   updateLink$,
   useTranslation,
 } from "@mdxeditor/editor";
-import { useCellValues, usePublisher } from "@mdxeditor/gurx";
+import { useCellValues, usePublisher, withLatestFrom, Action } from "@mdxeditor/gurx";
 import * as Popover from "@radix-ui/react-popover";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import classNames from "classnames";
@@ -28,6 +28,22 @@ interface LinkFormFields {
   url: string;
   title: string;
 }
+
+const closeLinkDialog$ = Action((r) => {
+  r.sub(
+    r.pipe(
+      closeLinkDialog$,
+      withLatestFrom(linkDialogState$),
+    ),
+    ([, state]) => {
+      if (state.type !== "inactive") {
+        r.pub(linkDialogState$, {
+          type: "inactive",
+        });
+      }
+    }
+  )
+});
 
 function LinkEditForm({ url, title, onSubmit, onCancel }: LinkEditFormProps) {
   const {
@@ -112,6 +128,7 @@ export default function LinkDialog() {
     switchFromPreviewToLinkEdit$,
   );
   const removeLink = usePublisher(removeLink$);
+  const closeLink = usePublisher(closeLinkDialog$);
 
   const [copyUrlTooltipOpen, setCopyUrlTooltipOpen] = React.useState(false);
 
@@ -223,6 +240,15 @@ export default function LinkDialog() {
                 }}
               >
                 {iconComponentFor("link_off")}
+              </ActionButton>
+              <ActionButton
+                title={t("linkPreview.close", "Close")}
+                aria-label={t("linkPreview.close", "Close")}
+                onClick={() => {
+                  closeLink();
+                }}
+              >
+                {iconComponentFor("close")}
               </ActionButton>
             </>
           )}
