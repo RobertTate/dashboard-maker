@@ -56,6 +56,10 @@ export default function App() {
           diceBoxCanvas = document.getElementById("dice-canvas");
           const eventTarget = event.target as HTMLElement;
           if (eventTarget.dataset?.diceNotation) {
+            if (event.type === "touchend") {
+              event.preventDefault();
+              event.stopPropagation();
+            }
             diceNotation = eventTarget.dataset?.diceNotation;
             const rollObj = DP.parseNotation(diceNotation);
             Dice.roll(rollObj);
