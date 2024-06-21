@@ -162,7 +162,7 @@ button:active {
 
 /* Had to override dynamically applied Link Dialog styles, to keep the link dialog in one place. */
 .mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]) {
-  top: 590px !important;
+  top: 90vh !important;
   left: 8px !important;
   transform: none !important;
 }
@@ -170,7 +170,7 @@ button:active {
 /* Shifting the location of the link dialog when it's open */
 .mdxeditor-popup-container
   > div:has(div[class^="_linkDialogPopoverContent"]):has(form) {
-  top: 412px !important;
+  top: 60vh !important;
   left: 8px !important;
   transform: none !important;
 }
@@ -293,14 +293,14 @@ button:active {
 .editable-md-widget a strong,
 .editable-md-widget a em {
   cursor: pointer;
-  color: #8447ff;
+  color: #9773e4;
   font-weight: bold;
 }
 
 .editable-md-widget a span:hover,
 .editable-md-widget a strong:hover,
 .editable-md-widget a em:hover {
-  color: #9773e4;
+  color: #c9b0ff;
 }
 
 .editable-md-widget hr {
@@ -511,4 +511,74 @@ button:active {
   100% {
     transform: translate(24px, 0);
   }
+}
+
+#dice-box {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  pointer-events: none;
+}
+
+#dice-box .displayResults .results {
+  background: #4c2696;
+  border: 2px solid #ba98ff;
+  display: flex;
+  align-items: flex-start;
+}
+
+#dice-box .displayResults .results .mod-positive,
+#dice-box .displayResults .results .mod-multiply {
+  color: #027002;
+  font-size: 1.25rem;
+}
+
+#dice-box .displayResults .results .mod-negative,
+#dice-box .displayResults .results .mod-divide {
+  color: #b70000;
+  font-size: 1.25rem;
+}
+
+#dice-box .displayResults .results .crit-success {
+  color: #0ad666;
+}
+
+#dice-box .displayResults .results svg {
+  fill: #ddccff;
+}
+
+#dice-box .displayResults .results .crit-success svg {
+  fill: #0ad666;
+}
+
+#dice-box .displayResults .results .crit-failure {
+  color: #ff4848;
+}
+
+#dice-box .displayResults .results .crit-failure svg {
+  fill: #ff4848;
+}
+
+#dice-box .displayResults .results strong[data-success="true"] {
+  color:#0ad666
+}
+
+#dice-box .displayResults .results strong[data-success="false"] {
+  color: #ff4848;
+}
+
+#dice-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.editable-md-widget .dice-notation {
+  cursor: pointer;
+  color: #9773e4;
+  font-weight: bold;
+}
+
+.editable-md-widget .dice-notation:hover {
+  color: #c9b0ff;
 }
