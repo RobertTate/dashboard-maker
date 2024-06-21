@@ -35,7 +35,7 @@ export const DiceNotationDirectiveDescriptor: DirectiveDescriptor<DiceNotationDi
     }
 
     return (
-      <span data-dice-notation={getNotation()} className="dice-notation">{textChildValue}</span>
+      <span inputMode="none" data-dice-notation={getNotation()} className="dice-notation">{textChildValue}</span>
     )
   }
 };
