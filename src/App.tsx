@@ -1,19 +1,18 @@
+// @ts-ignore
+import DiceBox from "@3d-dice/dice-box";
+// @ts-ignore
+import DiceParser from "@3d-dice/dice-parser-interface";
+// @ts-ignore
+import { DiceRoller } from "@3d-dice/dice-roller-parser";
+// @ts-ignore
+import DisplayResults from "@3d-dice/dice-ui/src/displayResults";
 import OBR from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 
 import PopOver from "./components/PopOver";
 import { Role } from "./types";
 
-// @ts-ignore
-import DiceBox from "@3d-dice/dice-box";
-// @ts-ignore
-import DisplayResults from "@3d-dice/dice-ui/src/displayResults";
-// @ts-ignore
-import DiceParser from '@3d-dice/dice-parser-interface'
-// @ts-ignore
-import { DiceRoller } from "@3d-dice/dice-roller-parser"
-
-const DR = new DiceRoller()
+const DR = new DiceRoller();
 const DP = new DiceParser();
 const DiceResults = new DisplayResults("#dice-box");
 
@@ -64,11 +63,14 @@ export default function App() {
             const rollObj = DP.parseNotation(diceNotation);
             Dice.roll(rollObj);
             DiceResults.clear();
-          } else if (diceBoxCanvas && window.getComputedStyle(diceBoxCanvas).display !== "none") {
+          } else if (
+            diceBoxCanvas &&
+            window.getComputedStyle(diceBoxCanvas).display !== "none"
+          ) {
             Dice.clear();
             DiceResults.clear();
           }
-        }
+        };
 
         const handleClickSetup = (event: Event) => {
           if (wasJustTouchedOnMobile) {
@@ -76,16 +78,16 @@ export default function App() {
             return;
           }
           handleSetup(event);
-        }
+        };
 
         const handleTouchSetup = (event: Event) => {
           wasJustTouchedOnMobile = true;
           handleSetup(event);
-        }
+        };
 
         document.addEventListener("mousedown", handleClickSetup);
         document.addEventListener("touchend", handleTouchSetup);
-        setDice(Dice)
+        setDice(Dice);
       });
 
       Dice.onRollComplete = (results: any) => {
@@ -94,15 +96,15 @@ export default function App() {
           rerolls.forEach((roll: any) => Dice.add(roll, roll.groupId));
           return rerolls;
         }
-        const parsedNotationForMods = DR.parse(diceNotation)
+        const parsedNotationForMods = DR.parse(diceNotation);
         const finalResults = DP.parseFinalResults(results);
         DiceResults.showResults(finalResults, parsedNotationForMods);
-      }
+      };
     }
   }, []);
 
   useEffect(() => {
-    return () => dice?.clear()
+    return () => dice?.clear();
   }, [dice]);
 
   if (appIsReady) {

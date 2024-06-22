@@ -15,9 +15,9 @@ import {
 } from "@mdxeditor/editor";
 import debounce from "lodash.debounce";
 import { useCallback } from "react";
+
 import { DiceNotationDirectiveDescriptor } from "../plugins/DiceNotationDirectiveDescriptor";
 import { diceNotationMarkdownShortcutPlugin } from "../plugins/diceNotationMarkdownShortcutPlugin";
-
 import type { WidgetProps } from "../types";
 import CustomLinkDialog from "./CustomLinkDialog";
 import CustomToolbar from "./CustomToolbar";
@@ -67,7 +67,10 @@ export default function Widget({
           },
         }),
         directivesPlugin({
-          directiveDescriptors: [AdmonitionDirectiveDescriptor, DiceNotationDirectiveDescriptor],
+          directiveDescriptors: [
+            AdmonitionDirectiveDescriptor,
+            DiceNotationDirectiveDescriptor,
+          ],
         }),
         toolbarPlugin({
           toolbarContents: () => (

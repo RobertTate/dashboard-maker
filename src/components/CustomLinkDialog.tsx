@@ -8,7 +8,12 @@ import {
   updateLink$,
   useTranslation,
 } from "@mdxeditor/editor";
-import { useCellValues, usePublisher, withLatestFrom, Action } from "@mdxeditor/gurx";
+import {
+  Action,
+  useCellValues,
+  usePublisher,
+  withLatestFrom,
+} from "@mdxeditor/gurx";
 import * as Popover from "@radix-ui/react-popover";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import classNames from "classnames";
@@ -31,18 +36,15 @@ interface LinkFormFields {
 
 const closeLinkDialog$ = Action((r) => {
   r.sub(
-    r.pipe(
-      closeLinkDialog$,
-      withLatestFrom(linkDialogState$),
-    ),
+    r.pipe(closeLinkDialog$, withLatestFrom(linkDialogState$)),
     ([, state]) => {
       if (state.type !== "inactive") {
         r.pub(linkDialogState$, {
           type: "inactive",
         });
       }
-    }
-  )
+    },
+  );
 });
 
 function LinkEditForm({ url, title, onSubmit, onCancel }: LinkEditFormProps) {

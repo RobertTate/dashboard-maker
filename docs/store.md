@@ -63,6 +63,7 @@ Dashboard Maker comes with some "Premades". These are dashboards that I made to 
 <img style="margin-bottom:-4px" src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/src/assets/share.svg" alt="Image Support Example" width="30"> If you are the GM for a room, you will see an additional button to share your dashboard with all other players in the room. **Be careful with this feature! Sharing your dashboard will overwrite any dashboards your players have with the same dashboard name.**
 
 ## Dice Notation
+
 Dashboard Maker now supports a dice notation syntax. Simply type things like "1d6+3" in the editor, hit space, and watch as the text gets captured as "dice notation". Then, you just click on what you typed, and it will roll those dice.
 
 <img src="https://raw.githubusercontent.com/RobertTate/dashboard-maker/main/docs/DashboardMakerDicePreview.gif" alt="Dashboard Maker Preview" width="722">

@@ -1,11 +1,17 @@
-import { realmPlugin, addComposerChild$, addNestedEditorChild$, $createDirectiveNode, $isDirectiveNode, DirectiveNode } from "@mdxeditor/editor"
-import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin.js";
-
 import {
   ElementTransformer,
   TextFormatTransformer,
   TextMatchTransformer,
-} from '@lexical/markdown'
+} from "@lexical/markdown";
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin.js";
+import {
+  $createDirectiveNode,
+  $isDirectiveNode,
+  DirectiveNode,
+  addComposerChild$,
+  addNestedEditorChild$,
+  realmPlugin,
+} from "@mdxeditor/editor";
 
 import type { DiceNotationDirectiveNode } from "./DiceNotationDirectiveDescriptor";
 
@@ -13,14 +19,22 @@ const diceNotationMarkdownShortcutPlugin = realmPlugin({
   init(realm) {
     const transformers = pickTransformersForActivePlugins();
     realm.pubIn({
-      [addComposerChild$]: () => <MarkdownShortcutPlugin transformers={transformers} />,
-      [addNestedEditorChild$]: () => <MarkdownShortcutPlugin transformers={transformers} />
-    })
-  }
+      [addComposerChild$]: () => (
+        <MarkdownShortcutPlugin transformers={transformers} />
+      ),
+      [addNestedEditorChild$]: () => (
+        <MarkdownShortcutPlugin transformers={transformers} />
+      ),
+    });
+  },
 });
 
 function pickTransformersForActivePlugins() {
-  const transformers: (ElementTransformer | TextFormatTransformer | TextMatchTransformer)[] = [];
+  const transformers: (
+    | ElementTransformer
+    | TextFormatTransformer
+    | TextMatchTransformer
+  )[] = [];
   const DICE_NOTATION_REGEX = new RegExp(/\b\d+d\d+\S*/);
   const DICE_NOTATION: TextMatchTransformer = {
     dependencies: [DirectiveNode],
@@ -30,7 +44,7 @@ function pickTransformersForActivePlugins() {
       }
 
       // @ts-ignore
-      return `:dice[${node?.__mdastNode?.children?.[0]?.value}]`
+      return `:dice[${node?.__mdastNode?.children?.[0]?.value}]`;
     },
     importRegExp: DICE_NOTATION_REGEX,
     regExp: DICE_NOTATION_REGEX,
@@ -41,16 +55,16 @@ function pickTransformersForActivePlugins() {
         children: [
           {
             type: "text",
-            value: match[0]
-          }
-        ]
+            value: match[0],
+          },
+        ],
       };
 
       const diceNotationNode = $createDirectiveNode(mdastNode);
       textNode.replace(diceNotationNode);
     },
     trigger: " ",
-    type: "text-match"
+    type: "text-match",
   };
   transformers.push(DICE_NOTATION);
 
@@ -63,7 +77,7 @@ function pickTransformersForActivePlugins() {
       }
 
       // @ts-ignore
-      return `:dice[${node?.__mdastNode?.children?.[0]?.value}]{isDCNotation="true"}`
+      return `:dice[${node?.__mdastNode?.children?.[0]?.value}]{isDCNotation="true"}`;
     },
     importRegExp: DC_NOTATION_REGEX,
     regExp: DC_NOTATION_REGEX,
@@ -77,17 +91,17 @@ function pickTransformersForActivePlugins() {
         children: [
           {
             type: "text",
-            value: match[0]
-          }
-        ]
+            value: match[0],
+          },
+        ],
       };
 
       const diceNotationNode = $createDirectiveNode(mdastNode);
       textNode.replace(diceNotationNode);
     },
     trigger: " ",
-    type: "text-match"
-  }
+    type: "text-match",
+  };
   transformers.push(DC_NOTATION);
 
   const MOD_NOTATION_REGEX = new RegExp(/(?<=^|\s)\+\d+\b/);
@@ -99,7 +113,7 @@ function pickTransformersForActivePlugins() {
       }
 
       // @ts-ignore
-      return `:dice[${node?.__mdastNode?.children?.[0]?.value}]{isModNotation="true"}`
+      return `:dice[${node?.__mdastNode?.children?.[0]?.value}]{isModNotation="true"}`;
     },
     importRegExp: MOD_NOTATION_REGEX,
     regExp: MOD_NOTATION_REGEX,
@@ -113,22 +127,20 @@ function pickTransformersForActivePlugins() {
         children: [
           {
             type: "text",
-            value: match[0]
-          }
-        ]
+            value: match[0],
+          },
+        ],
       };
 
       const diceNotationNode = $createDirectiveNode(mdastNode);
       textNode.replace(diceNotationNode);
     },
     trigger: " ",
-    type: "text-match"
-  }
+    type: "text-match",
+  };
   transformers.push(MOD_NOTATION);
 
   return transformers;
-};
+}
 
-export {
-  diceNotationMarkdownShortcutPlugin
-};
+export { diceNotationMarkdownShortcutPlugin };
