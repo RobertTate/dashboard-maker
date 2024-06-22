@@ -354,8 +354,8 @@ export default function PopOver({ standalone = false, role }: PopOverProps) {
               })}
             <p>
               <em>
-                (If any Premade Dashboards Are Deleted...Don't Worry. Just hit
-                refresh above and you'll get a new one.)
+                (If any Premade Dashboards are deleted, just hit
+                refresh above to get a new one.)
               </em>
             </p>
           </div>
