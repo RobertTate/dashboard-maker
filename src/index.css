@@ -515,17 +515,17 @@ button:active {
 
 #dice-box {
   position: fixed;
+  z-index: 100;
   width: 100%;
   height: 100%;
-  z-index: 100;
   pointer-events: none;
 }
 
 #dice-box .displayResults .results {
-  background: #4c2696;
-  border: 2px solid #ba98ff;
   display: flex;
   align-items: flex-start;
+  border: 2px solid #ba98ff;
+  background: #4c2696;
 }
 
 #dice-box .displayResults .results .mod-positive,
@@ -545,7 +545,7 @@ button:active {
 }
 
 #dice-box .displayResults .results svg {
-  fill: #ddccff;
+  fill: #dcf;
 }
 
 #dice-box .displayResults .results .crit-success svg {
@@ -561,7 +561,7 @@ button:active {
 }
 
 #dice-box .displayResults .results strong[data-success="true"] {
-  color:#0ad666
+  color: #0ad666;
 }
 
 #dice-box .displayResults .results strong[data-success="false"] {
