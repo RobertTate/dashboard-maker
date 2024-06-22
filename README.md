@@ -1,14 +1,14 @@
 # Dashboard Maker
 
-**An Owlbear Rodeo extension for keeping game content you need on hand.**
+### An [Owlbear Rodeo](https://www.owlbear.rodeo/) extension for keeping game content you need on hand.
 
 Whether it's useful notes & reminders, initiative trackers, character sheets, or something else, Dashboard Maker is a way to keep it in Owlbear Rodeo.
 
-Dashboard Maker provides a rich text editor experience that allows for [markdown style text shortcuts](#formatting-keyboard-shortcuts), an [editing bar](#the-toolbar), and a [magic dice notation](#dice-notation) feature.
+You get fun boxes to drag around, [markdown style text shortcuts](#formatting-keyboard-shortcuts), a decked out [editing bar](#the-toolbar), and a [magic dice syntax](#dice-notation) that lets you roll 3d dice in the app. All the things a TTRPG note-taking enthusiast could want.
 
 All content is saved in your browser. Dashboards are also downloadable, uploadable, and shareable between the GM and their players.
 
-The more you put in Dashboard Maker, the less you have to leave Owlbear Rodeo. Why is this good? Because context switching during a game sucks.
+**The more you put in Dashboard Maker, the less you have to leave Owlbear Rodeo. Why is this good? Because context switching during a game sucks.**
 
 Check it out as a standalone app [here](https://owlbear-dashboard-maker.vercel.app/).
 
