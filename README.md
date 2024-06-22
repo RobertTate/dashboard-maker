@@ -20,7 +20,7 @@ _(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.ro
 
 ### Blank Dashboards
 
-![Blank Dashboards](./docs/DashboardMakerBlankDash1.png)
+<img src="./docs/DashboardMakerBlankDash1.png" alt="Blank Dashboards" width="722">
 
 Click **Create A New Dashboard** on the home screen to create a new empty dashboard.
 
@@ -28,13 +28,13 @@ Click **Create A New Dashboard** on the home screen to create a new empty dashbo
 
 ### 5e Character Template Dashboards
 
-![5e Character Template Dashboards](./docs/DashboardMakerNew5eCharacterSheet.png)
+<img src="./docs/DashboardMakerNew5eCharacterSheet.png" alt="5e Character Template Dashboards" width="722">
 
 Click **Create A New 5e Character** on the home page to create a new dashboard that uses a 5e character template.
 
 ### Premades
 
-![Dashboard "Premades"](./docs/DashboardMakerPremadeDash1.png)
+<img src="./docs/DashboardMakerPremadeDash1.png" alt="Dashboard Premades" width="722">
 
 Dashboard Maker comes with some "Premades". These are dashboards that I made to offer some useful DM Screen info, right now specifically for D&D 5th Edition.
 
@@ -61,7 +61,7 @@ For more information on the full list of dice notation syntax that Dashboard Mak
 
 Dashboard Maker now supports adding images inside a dashboard content box.
 
-<img src="./docs/DashboardMakerImageSupportExample.png" alt="Image Support Example" width="602">
+<img src="./docs/DashboardMakerImageSupportExample.png" alt="Image Support Example" width="722">
 
 ### Prerequisites:
 
@@ -78,7 +78,7 @@ Dashboard Maker now supports adding images inside a dashboard content box.
 
 ## The Toolbar
 
-<img src="./docs/DashboardMakerToolbar1.png" alt="Toolbar Example" width="602">
+<img src="./docs/DashboardMakerToolbar1.png" alt="Toolbar Example" width="722">
 
 **Dashboard Maker now comes with an editing toolbar.** This lets you edit and format your content with ease, and also allows you to drop in new content types such as tables, thematic breaks, links, and admonitions.
 
