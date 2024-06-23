@@ -1,12 +1,14 @@
 # Dashboard Maker
 
-**An Owlbear Rodeo extension for keeping game content you need on hand.**
+### An [Owlbear Rodeo](https://www.owlbear.rodeo/) extension for keeping game content you need on hand.
 
 Whether it's useful notes & reminders, initiative trackers, character sheets, or something else, Dashboard Maker is a way to keep it in Owlbear Rodeo.
 
+You get fun boxes to drag around, [markdown style text shortcuts](#formatting-keyboard-shortcuts), a decked out [editing bar](#the-toolbar), and a [magic dice syntax](#dice-notation) that lets you roll 3d dice in the app. All the things a TTRPG note-taking enthusiast could want.
+
 All content is saved in your browser. Dashboards are also downloadable, uploadable, and shareable between the GM and their players.
 
-The more you put in Dashboard Maker, the less you have to leave Owlbear Rodeo. Why is this good? Because context switching during a game sucks.
+**The more you put in Dashboard Maker, the less you have to leave Owlbear Rodeo. Why is this good? Because context switching during a game sucks.**
 
 Check it out as a standalone app [here](https://owlbear-dashboard-maker.vercel.app/).
 
@@ -18,7 +20,7 @@ _(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.ro
 
 ### Blank Dashboards
 
-![Blank Dashboards](./docs/DashboardMakerBlankDash1.png)
+<img src="./docs/DashboardMakerBlankDash1.png" alt="Blank Dashboards" width="722">
 
 Click **Create A New Dashboard** on the home screen to create a new empty dashboard.
 
@@ -26,13 +28,13 @@ Click **Create A New Dashboard** on the home screen to create a new empty dashbo
 
 ### 5e Character Template Dashboards
 
-![5e Character Template Dashboards](./docs/DashboardMaker5eDash1.png)
+<img src="./docs/DashboardMakerNew5eCharacterSheet.png" alt="5e Character Template Dashboards" width="722">
 
 Click **Create A New 5e Character** on the home page to create a new dashboard that uses a 5e character template.
 
 ### Premades
 
-![Dashboard "Premades"](./docs/DashboardMakerPremadeDash1.png)
+<img src="./docs/DashboardMakerPremadeDash1.png" alt="Dashboard Premades" width="722">
 
 Dashboard Maker comes with some "Premades". These are dashboards that I made to offer some useful DM Screen info, right now specifically for D&D 5th Edition.
 
@@ -48,11 +50,19 @@ Dashboard Maker comes with some "Premades". These are dashboards that I made to 
 
 <img style="margin-bottom:-4px" src="./src/assets/share.svg" alt="Image Support Example" width="30"> If you are the GM for a room, you will see an additional button to share your dashboard with all other players in the room. **Be careful with this feature! Sharing your dashboard will overwrite any dashboards your players have with the same dashboard name.**
 
+## Dice Notation
+
+Dashboard Maker now supports a dice notation syntax. Simply type things like "1d6+3" in the editor, hit space, and watch as the text gets captured as "dice notation". Then, you just click on what you typed, and it will roll those dice.
+
+<img src="./docs/DashboardMakerDicePreview.gif" alt="Dashboard Maker Dice Preview" width="722">
+
+For more information on the full list of dice notation syntax that Dashboard Maker will recognize & accept, download and import the "Dice Demo" dashboard `.json` file into Dashboard Maker. This dashboard can be found on the [User Made Dashboards](https://discord.com/channels/795808973743194152/1248695489558483007) Discord thread, on the [Owlbear Rodeo Discord](https://discord.gg/u5RYMkV98s).
+
 ## Images
 
 Dashboard Maker now supports adding images inside a dashboard content box.
 
-<img src="./docs/DashboardMakerImageSupportExample.png" alt="Image Support Example" width="602">
+<img src="./docs/DashboardMakerImageSupportExample.png" alt="Image Support Example" width="722">
 
 ### Prerequisites:
 
@@ -69,7 +79,7 @@ Dashboard Maker now supports adding images inside a dashboard content box.
 
 ## The Toolbar
 
-<img src="./docs/DashboardMakerToolbar1.png" alt="Toolbar Example" width="602">
+<img src="./docs/DashboardMakerToolbar1.png" alt="Toolbar Example" width="722">
 
 **Dashboard Maker now comes with an editing toolbar.** This lets you edit and format your content with ease, and also allows you to drop in new content types such as tables, thematic breaks, links, and admonitions.
 

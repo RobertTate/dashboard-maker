@@ -16,6 +16,8 @@ import {
 import debounce from "lodash.debounce";
 import { useCallback } from "react";
 
+import { DiceNotationDirectiveDescriptor } from "../plugins/DiceNotationDirectiveDescriptor";
+import { diceNotationMarkdownShortcutPlugin } from "../plugins/diceNotationMarkdownShortcutPlugin";
 import type { WidgetProps } from "../types";
 import CustomLinkDialog from "./CustomLinkDialog";
 import CustomToolbar from "./CustomToolbar";
@@ -65,7 +67,10 @@ export default function Widget({
           },
         }),
         directivesPlugin({
-          directiveDescriptors: [AdmonitionDirectiveDescriptor],
+          directiveDescriptors: [
+            AdmonitionDirectiveDescriptor,
+            DiceNotationDirectiveDescriptor,
+          ],
         }),
         toolbarPlugin({
           toolbarContents: () => (
@@ -78,6 +83,7 @@ export default function Widget({
           ),
         }),
         markdownShortcutPlugin(),
+        diceNotationMarkdownShortcutPlugin(),
       ]}
       contentEditableClassName="editable-md-widget"
       onChange={(content: string) => debouncedUpdate(content)}

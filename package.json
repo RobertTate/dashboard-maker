@@ -12,6 +12,9 @@
     "format:all": "prettier . --write"
   },
   "dependencies": {
+    "@3d-dice/dice-box": "^1.0.12",
+    "@3d-dice/dice-parser-interface": "^0.2.1",
+    "@3d-dice/dice-ui": "https://github.com/RobertTate/dice-ui.git",
     "@mdxeditor/editor": "^3.0.4",
     "@owlbear-rodeo/sdk": "^2.3.0",
     "ajv": "^8.12.0",
