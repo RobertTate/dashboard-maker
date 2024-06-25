@@ -28,8 +28,14 @@ export const DiceNotationDirectiveDescriptor: DirectiveDescriptor<DiceNotationDi
           const dc = textChildValue.replace("DC", "");
           return `1d20>${dc}`;
         } else if (isModNoation) {
-          const modifier = textChildValue.replace("+", "");
-          return `1d20+${modifier}`;
+          const regex = /^([+-])(\d+)$/;
+          const match = textChildValue.match(regex);
+          if (match) {
+            const [, modifier, num] = match;
+            if (modifier && num) {
+              return `1d20${modifier}${num}`;
+            }
+          }
         } else {
           return textChildValue;
         }

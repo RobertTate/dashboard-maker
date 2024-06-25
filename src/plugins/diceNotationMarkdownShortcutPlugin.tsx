@@ -104,7 +104,7 @@ function pickTransformersForActivePlugins() {
   };
   transformers.push(DC_NOTATION);
 
-  const MOD_NOTATION_REGEX = new RegExp(/(?<=^|\s)\+\d+\b/);
+  const MOD_NOTATION_REGEX = new RegExp(/(?<=^|\s)[+-]\d+\b/);
   const MOD_NOTATION: TextMatchTransformer = {
     dependencies: [DirectiveNode],
     export: (node) => {
