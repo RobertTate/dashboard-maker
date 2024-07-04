@@ -4,6 +4,7 @@
   "manifest_version": 1,
   "author": "Robert Tate",
   "description": "An extension for keeping game content you need on hand.",
+  "homepage_url": "https://github.com/RobertTate/dashboard-maker",
   "icon": "/icon.svg",
   "action": {
     "title": "Dashboard Maker",
