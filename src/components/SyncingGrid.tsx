@@ -22,7 +22,9 @@ import Widget from "./Widget";
 export default function SyncingGrid({
   dashName,
   isLocked,
+  columns,
   updateLockedStatus,
+  updateColsStatus
 }: SyncingGridProps) {
   const ResponsiveReactGridLayout = useMemo(
     () => WidthProvider(Responsive),
@@ -43,6 +45,7 @@ export default function SyncingGrid({
       const savedLayouts = dashboardItems?.layouts;
       const savedWidgets = dashboardItems?.widgets;
       const savedLockStatus = dashboardItems?.isLocked;
+      const savedColumns = dashboardItems?.columns;
       startTransition(() => {
         if (savedLayouts) {
           setLayouts((prevLayouts) => {
@@ -67,6 +70,11 @@ export default function SyncingGrid({
         if (savedLockStatus) {
           updateLockedStatus(savedLockStatus);
         }
+
+        if (savedColumns) {
+          updateColsStatus(savedColumns);
+        }
+
         setLoading(false);
       });
     };
@@ -80,12 +88,13 @@ export default function SyncingGrid({
           layouts: layouts,
           widgets: widgets,
           isLocked,
+          columns
         };
         await db.setItem(dashName, newdashboardItems);
       }
     };
     updateLayouts();
-  }, [syncStorage, isLocked]);
+  }, [syncStorage, isLocked, columns]);
 
   const onLayoutChange = useCallback(
     (
@@ -107,7 +116,7 @@ export default function SyncingGrid({
 
     const newWidget = {
       id: uniqueKey,
-      content: "Edit",
+      content: "✏️",
     };
 
     const newWidgetsArray = [...(widgets ? widgets : []), newWidget];
@@ -153,7 +162,7 @@ export default function SyncingGrid({
           {layouts && (
             <ResponsiveReactGridLayout
               className="layout"
-              cols={{ lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 }}
+              cols={{ lg: 24, md: 20, sm: 12, xs: (columns ? columns : 8), xxs: 4 }}
               rowHeight={30}
               layouts={layouts}
               onLayoutChange={onLayoutChange}

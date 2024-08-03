@@ -11,6 +11,7 @@ import leftArrow from "../assets/leftArrow.svg";
 import locked from "../assets/locked.svg";
 import share from "../assets/share.svg";
 import unlocked from "../assets/unlocked.svg";
+import toggle from "../assets/toggle.svg";
 import db from "../dbInstance";
 import styles from "../styles/Dashboard.module.css";
 import type {
@@ -19,6 +20,7 @@ import type {
   SharedDashboard,
 } from "../types";
 import SyncingGrid from "./SyncingGrid";
+import ColumnToggle from "./ColumnToggle";
 
 export default function Dashboard(props: DashboardProps) {
   const {
@@ -30,14 +32,20 @@ export default function Dashboard(props: DashboardProps) {
     role,
   } = props;
   const [isLocked, setIsLocked] = useState(false);
+  const [columns, setColumns] = useState(8);
   const [deleteZoneIsOpen, setDeleteZoneIsOpen] = useState(false);
   const deleteInputRef = useRef<HTMLInputElement>(null);
   const [duplicateZoneIsOpen, setDuplicateZoneIsOpen] = useState(false);
+  const [columntoggleZoneIsOpen, setColumnToggleZoneIsOpen] = useState(false);
   const duplicateInputRef = useRef<HTMLInputElement>(null);
   const [shareZoneIsOpen, setShareZoneIsOpen] = useState(false);
 
   const updateLockedStatus = useCallback((isLockedStatus: boolean) => {
     setIsLocked(isLockedStatus);
+  }, []);
+
+  const updateColsStatus = useCallback((cols: number) => {
+    setColumns(cols);
   }, []);
 
   const handleDelete = () => {
@@ -153,6 +161,13 @@ export default function Dashboard(props: DashboardProps) {
         </button>
         <button
           className="icon-button"
+          title="Toggle The Number of Dashboard Columns"
+          onClick={() => setColumnToggleZoneIsOpen((prev) => !prev)}
+        >
+          <img src={toggle} alt="Duplicate Icon" />
+        </button>
+        <button
+          className="icon-button"
           title="Duplicate This Dashboard"
           onClick={() => setDuplicateZoneIsOpen((prev) => !prev)}
         >
@@ -226,6 +241,17 @@ export default function Dashboard(props: DashboardProps) {
       </div>
 
       <div
+        className={`${styles["dashboard-columntoggle-zone"]} ${
+          columntoggleZoneIsOpen ? styles["show-columntoggle-zone"] : ""
+        }`}
+      >
+        <p>Behold, <strong>the column toggler.</strong> Use its power to change the base number of columns in the dashboard between 8 and 12. Use wisely.</p>
+        <div className={styles["dashboard-columntoggle-zone-confirm"]}>
+        <ColumnToggle columns={columns} updateColsStatus={updateColsStatus} />
+        </div>
+      </div>
+
+      <div
         className={`${styles["dashboard-duplicate-zone"]} ${
           duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
         }`}
@@ -235,7 +261,7 @@ export default function Dashboard(props: DashboardProps) {
           <input
             ref={duplicateInputRef}
             type="text"
-            name="dashboardDeleteField"
+            name="dashboardDuplicateField"
             required
           />
           <button onClick={handleDuplicate}>Submit</button>
@@ -262,7 +288,9 @@ export default function Dashboard(props: DashboardProps) {
 
       <SyncingGrid
         isLocked={isLocked}
+        columns={columns}
         updateLockedStatus={updateLockedStatus}
+        updateColsStatus={updateColsStatus}
         dashName={selectedDashboard}
       />
     </div>

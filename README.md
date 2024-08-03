@@ -40,15 +40,17 @@ Dashboard Maker comes with some "Premades". These are dashboards that I made to 
 
 ## Dashboard Features
 
-<img style="margin-bottom:-4px" src="./src/assets/fire.svg" alt="Image Support Example" width="30"> You can delete dashboards as needed.
+<img style="margin-bottom:-4px" src="./src/assets/fire.svg" alt="Delete Icon" width="30"> You can delete dashboards as needed.
 
-<img style="margin-bottom:-4px" src="./src/assets/locked.svg" alt="Image Support Example" width="30"> You can lock/unlock the state of a dashboard, affecting the editable state of the items within it.
+<img style="margin-bottom:-4px" src="./src/assets/locked.svg" alt="Locked Icon" width="30"> You can lock/unlock the state of a dashboard, affecting the editable state of the items within it.
 
-<img style="margin-bottom:-4px" src="./src/assets/duplicate.svg" alt="Image Support Example" width="30"> You can clone/duplicate any dashboard as needed. Right now, this is the best way to rename them (duplicate it, give it a new name, and then delete the old one)
+<img style="margin-bottom:-4px" src="./src/assets/toggle.svg" alt="Toggle Icon" width="30"> You can toggle the base number of columns in a dashboard, between either 8 (default) or 12 columns. Note: this only affects the dashboard layout on desktop. Mobile layout is still set to a base of 4 columns.
 
-<img style="margin-bottom:-4px" src="./src/assets/download.svg" alt="Image Support Example" width="30"> You can download/upload dashboards as `json` files, so you can store them offline, share them between browsers, etc!
+<img style="margin-bottom:-4px" src="./src/assets/duplicate.svg" alt="Duplicate Icon" width="30"> You can clone/duplicate any dashboard as needed. Right now, this is the best way to rename them (duplicate it, give it a new name, and then delete the old one)
 
-<img style="margin-bottom:-4px" src="./src/assets/share.svg" alt="Image Support Example" width="30"> If you are the GM for a room, you will see an additional button to share your dashboard with all other players in the room. **Be careful with this feature! Sharing your dashboard will overwrite any dashboards your players have with the same dashboard name.**
+<img style="margin-bottom:-4px" src="./src/assets/download.svg" alt="Download Icon" width="30"> You can download/upload dashboards as `json` files, so you can store them offline, share them between browsers, etc!
+
+<img style="margin-bottom:-4px" src="./src/assets/share.svg" alt="Share Icon" width="30"> If you are the GM for a room, you will see an additional button to share your dashboard with all other players in the room. **Be careful with this feature! Sharing your dashboard will overwrite any dashboards your players have with the same dashboard name.**
 
 ## Dice Notation
 
