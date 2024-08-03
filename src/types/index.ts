@@ -16,7 +16,14 @@ export type DashboardProps = {
 export type SyncingGridProps = {
   dashName: string;
   isLocked: boolean;
+  columns: number;
   updateLockedStatus: (isLockedStatus: boolean) => void;
+  updateColsStatus: (columns: number) => void;
+};
+
+export type ColumnToggleProps = {
+  updateColsStatus: (columns: number) => void;
+  columns: number;
 };
 
 export type WidgetProps = {
@@ -28,6 +35,7 @@ export type DashboardItemsProps = {
   layouts: ReactGridLayout.Layouts;
   widgets: WidgetProps[];
   isLocked: boolean;
+  columns: number;
 };
 
 export type PremadeDashConfig = {

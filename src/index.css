@@ -87,6 +87,7 @@ button:active {
 }
 
 .react-grid-layout {
+  margin-top: 0.25rem;
   border: 5px solid transparent;
   border-radius: 8px;
   background-color: #5f5f5f;
