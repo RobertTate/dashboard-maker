@@ -15,6 +15,9 @@ const schema = {
     isLocked: {
       type: "boolean",
     },
+    columns: {
+      type: "number",
+    },
   },
   required: ["layouts", "widgets", "isLocked"],
   additionalProperties: false,
