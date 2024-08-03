@@ -24,7 +24,7 @@ export type SyncingGridProps = {
 export type ColumnToggleProps = {
   updateColsStatus: (columns: number) => void;
   columns: number;
-}
+};
 
 export type WidgetProps = {
   id: string;

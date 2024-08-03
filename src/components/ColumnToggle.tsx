@@ -1,18 +1,22 @@
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
+
 import styles from "../styles/ColumnToggle.module.css";
 import type { ColumnToggleProps } from "../types";
 
-export default function ColumnToggle({ updateColsStatus, columns }: ColumnToggleProps) {
+export default function ColumnToggle({
+  updateColsStatus,
+  columns,
+}: ColumnToggleProps) {
   const sliderRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (inputRef.current) {
       let initialCheckedValue = false;
-      if (columns && columns === 12) {  
+      if (columns && columns === 12) {
         initialCheckedValue = true;
       }
-      inputRef.current.checked = initialCheckedValue;   
+      inputRef.current.checked = initialCheckedValue;
     }
   }, [columns]);
 
@@ -26,17 +30,21 @@ export default function ColumnToggle({ updateColsStatus, columns }: ColumnToggle
   };
 
   return (
-    <label 
+    <label
       title="Toggle the number of base columns between 8 (default) and 12."
       className={styles["columnToggle-label"]}
     >
-      <input 
+      <input
         ref={inputRef}
         className={styles["columnToggle-checkbox"]}
         type="checkbox"
-        onChange={handleToggle} 
+        onChange={handleToggle}
       />
-      <span data-before={`${columns ? columns : 8}`} ref={sliderRef} className={styles["columnToggle-slider"]}></span>    
+      <span
+        data-before={`${columns ? columns : 8}`}
+        ref={sliderRef}
+        className={styles["columnToggle-slider"]}
+      ></span>
     </label>
-  )
+  );
 }

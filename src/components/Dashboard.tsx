@@ -10,8 +10,8 @@ import fire from "../assets/fire.svg";
 import leftArrow from "../assets/leftArrow.svg";
 import locked from "../assets/locked.svg";
 import share from "../assets/share.svg";
-import unlocked from "../assets/unlocked.svg";
 import toggle from "../assets/toggle.svg";
+import unlocked from "../assets/unlocked.svg";
 import db from "../dbInstance";
 import styles from "../styles/Dashboard.module.css";
 import type {
@@ -19,8 +19,8 @@ import type {
   DashboardProps,
   SharedDashboard,
 } from "../types";
-import SyncingGrid from "./SyncingGrid";
 import ColumnToggle from "./ColumnToggle";
+import SyncingGrid from "./SyncingGrid";
 
 export default function Dashboard(props: DashboardProps) {
   const {
@@ -245,9 +245,13 @@ export default function Dashboard(props: DashboardProps) {
           columntoggleZoneIsOpen ? styles["show-columntoggle-zone"] : ""
         }`}
       >
-        <p>Behold, <strong>the column toggler.</strong> Use its power to change the base number of columns in the dashboard between 8 and 12. Use wisely.</p>
+        <p>
+          Behold, <strong>the column toggler.</strong> Use its power to change
+          the base number of columns in the dashboard between 8 and 12. Use
+          wisely.
+        </p>
         <div className={styles["dashboard-columntoggle-zone-confirm"]}>
-        <ColumnToggle columns={columns} updateColsStatus={updateColsStatus} />
+          <ColumnToggle columns={columns} updateColsStatus={updateColsStatus} />
         </div>
       </div>
 
