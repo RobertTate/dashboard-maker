@@ -161,10 +161,11 @@ export default function Dashboard(props: DashboardProps) {
         </button>
         <button
           className="icon-button"
+          id="toggle-button"
           title="Toggle The Number of Dashboard Columns"
           onClick={() => setColumnToggleZoneIsOpen((prev) => !prev)}
         >
-          <img src={toggle} alt="Duplicate Icon" />
+          <img src={toggle} alt="Toggle Icon" />
         </button>
         <button
           className="icon-button"

@@ -21,6 +21,12 @@
   }
 }
 
+@media only screen and (width <= 506px) {
+  #toggle-button {
+    display: none;
+  }
+}
+
 #no-owlbear main:has(> .dashboard) {
   align-self: flex-start;
 }
