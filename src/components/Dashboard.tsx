@@ -1,6 +1,6 @@
 import OBR from "@owlbear-rodeo/sdk";
 import pako from "pako";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, memo } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
@@ -22,7 +22,7 @@ import type {
 import ColumnToggle from "./ColumnToggle";
 import SyncingGrid from "./SyncingGrid";
 
-export default function Dashboard(props: DashboardProps) {
+const Dashboard = memo((props: DashboardProps) => {
   const {
     selectedDashboard,
     selectADashboard,
@@ -300,4 +300,6 @@ export default function Dashboard(props: DashboardProps) {
       />
     </div>
   );
-}
+});
+
+export default Dashboard;

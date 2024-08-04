@@ -1,6 +1,6 @@
 import OBR from "@owlbear-rodeo/sdk";
 import pako from "pako";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, memo } from "react";
 
 import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
@@ -64,7 +64,7 @@ async function checkAndAddPremades(keys: string[]) {
   return newPremades;
 }
 
-export default function PopOver({ standalone = false, role }: PopOverProps) {
+const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
   const [selectedDashboard, setSelectedDashboard] = useState("");
   const [dashBoardsArray, setDashboardsArray] = useState<string[]>([]);
   const [refreshCount, setRefreshCount] = useState(0);
@@ -363,4 +363,6 @@ export default function PopOver({ standalone = false, role }: PopOverProps) {
       )}
     </main>
   );
-}
+});
+
+export default PopOver;

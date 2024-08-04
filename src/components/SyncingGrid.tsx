@@ -5,6 +5,7 @@ import {
   useMemo,
   useState,
   useTransition,
+  memo,
 } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 
@@ -19,13 +20,13 @@ import type {
 import randomUUID from "../uid";
 import Widget from "./Widget";
 
-export default function SyncingGrid({
+const SyncingGrid = memo(({
   dashName,
   isLocked,
   columns,
   updateLockedStatus,
   updateColsStatus,
-}: SyncingGridProps) {
+}: SyncingGridProps) => {
   const ResponsiveReactGridLayout = useMemo(
     () => WidthProvider(Responsive),
     [],
@@ -222,4 +223,6 @@ export default function SyncingGrid({
       )}
     </>
   );
-}
+});
+
+export default SyncingGrid;
