@@ -302,4 +302,6 @@ const Dashboard = memo((props: DashboardProps) => {
   );
 });
 
+Dashboard.displayName = "Dashboard";
+
 export default Dashboard;

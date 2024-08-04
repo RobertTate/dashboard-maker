@@ -49,4 +49,6 @@ const ColumnToggle = memo(({
   );
 });
 
+ColumnToggle.displayName = "ColumnToggle";
+
 export default ColumnToggle;

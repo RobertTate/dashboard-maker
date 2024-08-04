@@ -365,4 +365,6 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
   );
 });
 
+PopOver.displayName = "PopOver";
+
 export default PopOver;

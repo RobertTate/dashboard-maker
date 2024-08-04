@@ -91,4 +91,6 @@ const Widget = memo(({
   );
 });
 
+Widget.displayName = "Widget";
+
 export default Widget;

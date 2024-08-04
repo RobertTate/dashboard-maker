@@ -138,7 +138,7 @@ const SyncingGrid = memo(({
     setSyncStorage((prev) => prev + 1);
   };
 
-  const updateWidgetContent = (item: WidgetProps, content: string) => {
+  const updateWidgetContent = useCallback((item: WidgetProps, content: string) => {
     const updatedWidgetsArray = widgets!.map((widget) => {
       if (widget.id === item.id) {
         widget.content = content;
@@ -147,7 +147,7 @@ const SyncingGrid = memo(({
     });
     setWidgets([...updatedWidgetsArray]);
     setSyncStorage((prev) => prev + 1);
-  };
+  }, [widgets]);
 
   return (
     <>
@@ -224,5 +224,7 @@ const SyncingGrid = memo(({
     </>
   );
 });
+
+SyncingGrid.displayName = "SyncingGrid";
 
 export default SyncingGrid;
