@@ -534,6 +534,25 @@ button:active {
   flex-wrap: wrap;
   border: 2px solid #ba98ff;
   background: #4c2696;
+  color: #fff;
+}
+
+#dice-box .displayResults .results button {
+  font-size: 0.75rem;
+  position: absolute;
+  width: max-content;
+  top: -58px;
+  left: -10px;
+  border: 2px solid #ba98ff;
+  background: #4c2696;
+}
+
+#dice-box .displayResults .results button:hover {
+  background: #8447ff;
+}
+
+#dice-box .displayResults .results button img {
+  width: 30px;
 }
 
 #dice-box .displayResults .results .mod-positive,

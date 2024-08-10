@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 
 import PopOver from "./components/PopOver";
 import { Role } from "./types";
+import shareRoll from "./assets/shareRoll.svg";
 
 const DR = new DiceRoller();
 const DP = new DiceParser();
@@ -99,6 +100,39 @@ export default function App() {
         const parsedNotationForMods = DR.parse(diceNotation);
         const finalResults = DP.parseFinalResults(results);
         DiceResults.showResults(finalResults, parsedNotationForMods);
+
+        if (OBR.isAvailable) {
+          const diceResultsBox = document.querySelector("div.results.showEffect");
+          const shareButton = document.createElement("button");
+          const icon = document.createElement("img");
+          icon.src = shareRoll;
+          icon.alt = "Share Roll Result?"
+          icon.title = "Share Roll Result?"
+          shareButton.appendChild(icon);
+          diceResultsBox?.appendChild(shareButton);
+
+          shareButton.addEventListener('click', async () => {
+            try {
+              const playerName = await OBR.player.getName();
+    
+              await OBR.broadcast.sendMessage(
+                "com.roberttate.dashboard-maker-dice-notification",
+                {
+                  rollResult: finalResults.value,
+                  playerName
+                },
+              );
+              await OBR.notification.show("Your roll was shared with the room!", "SUCCESS");
+            } catch (e: any) {
+              if (e.error) {
+                await OBR.notification.show(
+                  `Something went wrong`,
+                  "ERROR",
+                );
+              }
+            }
+          });
+        }
       };
     }
   }, []);

@@ -54,3 +54,8 @@ export type SharedDashboard = {
 };
 
 export type NewDashboardTemplateOptions = "default" | "5eChar" | "duplicate";
+
+export type RollBroadcast = {
+  playerName: string;
+  rollResult: number;
+};
