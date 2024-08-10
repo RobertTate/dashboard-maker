@@ -531,6 +531,7 @@ button:active {
 #dice-box .displayResults .results {
   display: flex;
   align-items: flex-start;
+  flex-wrap: wrap;
   border: 2px solid #ba98ff;
   background: #4c2696;
 }

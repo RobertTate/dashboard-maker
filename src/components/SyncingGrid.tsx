@@ -5,6 +5,7 @@ import {
   useMemo,
   useState,
   useTransition,
+  memo,
 } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 
@@ -19,13 +20,13 @@ import type {
 import randomUUID from "../uid";
 import Widget from "./Widget";
 
-export default function SyncingGrid({
+const SyncingGrid = memo(({
   dashName,
   isLocked,
   columns,
   updateLockedStatus,
   updateColsStatus,
-}: SyncingGridProps) {
+}: SyncingGridProps) => {
   const ResponsiveReactGridLayout = useMemo(
     () => WidthProvider(Responsive),
     [],
@@ -137,16 +138,75 @@ export default function SyncingGrid({
     setSyncStorage((prev) => prev + 1);
   };
 
-  const updateWidgetContent = (item: WidgetProps, content: string) => {
-    const updatedWidgetsArray = widgets!.map((widget) => {
-      if (widget.id === item.id) {
-        widget.content = content;
-      }
-      return widget;
+  const updateWidgetContent = useCallback((item: WidgetProps, content: string) => {
+    if (widgets) {
+      const updatedWidgetsArray = widgets.map((widget) => {
+        if (widget.id === item.id) {
+          widget.content = content;
+        }
+        return widget;
+      });
+      setWidgets([...updatedWidgetsArray]);
+      setSyncStorage((prev) => prev + 1);
+    }
+  }, [widgets]);
+
+  const memoizedChildren = useMemo(() => {
+    const newWidgetChild = (
+      <div
+        title="Add a new dashboard item"
+        key="New Widget"
+        id="add-widget"
+        data-grid={{
+          x: 0,
+          y: 0,
+          w: 1,
+          h: 1,
+          static: true,
+          isDraggable: false,
+          isResizable: false,
+        }}
+        onClick={addNewWidget}
+      >
+        <img src={cross} alt="Add Widget" />
+      </div>
+    )
+
+    const widgetChildren = widgets && widgets.map((item) => {
+      return (
+        <div key={item.id}>
+          <div className="cancelDrag">
+            <Widget
+              item={item}
+              updateWidgetContent={updateWidgetContent}
+              activeToolbarKey={activeToolbarKey}
+              setActiveToolbarKey={setActiveToolbarKey}
+            />
+          </div>
+          <span
+            id="delete-widget"
+            title="Delete Widget"
+            onClick={() => deleteWidget(item.id)}
+            className="cancelDrag"
+          >
+            <img src={cross} alt="" />
+          </span>
+        </div>
+      );
     });
-    setWidgets([...updatedWidgetsArray]);
-    setSyncStorage((prev) => prev + 1);
-  };
+
+    return [newWidgetChild, widgetChildren]
+  }, [widgets, activeToolbarKey, isLocked]);
+
+  const memoizedCols = useMemo(() => {
+    return {
+      lg: 24,
+      md: 20,
+      sm: 12,
+      xs: columns ? columns : 8,
+      xxs: 4,
+    }
+  }, [columns]);
 
   return (
     <>
@@ -162,13 +222,7 @@ export default function SyncingGrid({
           {layouts && (
             <ResponsiveReactGridLayout
               className="layout"
-              cols={{
-                lg: 24,
-                md: 20,
-                sm: 12,
-                xs: columns ? columns : 8,
-                xxs: 4,
-              }}
+              cols={memoizedCols}
               rowHeight={30}
               layouts={layouts}
               onLayoutChange={onLayoutChange}
@@ -176,50 +230,15 @@ export default function SyncingGrid({
               isResizable={isLocked ? false : true}
               draggableCancel=".cancelDrag"
             >
-              <div
-                title="Add a new dashboard item"
-                key="New Widget"
-                id="add-widget"
-                data-grid={{
-                  x: 0,
-                  y: 0,
-                  w: 1,
-                  h: 1,
-                  static: true,
-                  isDraggable: false,
-                  isResizable: false,
-                }}
-                onClick={addNewWidget}
-              >
-                <img src={cross} alt="Add Widget" />
-              </div>
-              {widgets &&
-                widgets.map((item) => {
-                  return (
-                    <div key={item.id}>
-                      <div className="cancelDrag">
-                        <Widget
-                          item={item}
-                          updateWidgetContent={updateWidgetContent}
-                          activeToolbarKey={activeToolbarKey}
-                          setActiveToolbarKey={setActiveToolbarKey}
-                        />
-                      </div>
-                      <span
-                        id="delete-widget"
-                        title="Delete Widget"
-                        onClick={() => deleteWidget(item.id)}
-                        className="cancelDrag"
-                      >
-                        <img src={cross} alt="" />
-                      </span>
-                    </div>
-                  );
-                })}
+            {memoizedChildren}
             </ResponsiveReactGridLayout>
           )}
         </>
       )}
     </>
   );
-}
+});
+
+SyncingGrid.displayName = "SyncingGrid";
+
+export default SyncingGrid;

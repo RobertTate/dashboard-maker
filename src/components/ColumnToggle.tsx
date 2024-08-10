@@ -1,12 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo } from "react";
 
 import styles from "../styles/ColumnToggle.module.css";
 import type { ColumnToggleProps } from "../types";
 
-export default function ColumnToggle({
+const ColumnToggle = memo(({
   updateColsStatus,
   columns,
-}: ColumnToggleProps) {
+}: ColumnToggleProps) => {
   const sliderRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -47,4 +47,8 @@ export default function ColumnToggle({
       ></span>
     </label>
   );
-}
+});
+
+ColumnToggle.displayName = "ColumnToggle";
+
+export default ColumnToggle;
