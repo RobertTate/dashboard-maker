@@ -14,6 +14,7 @@ import type {
   PopOverProps,
   PremadeDashConfig,
   SharedDashboard,
+  RollBroadcast,
 } from "../types/index.ts";
 import Dashboard from "./Dashboard";
 
@@ -109,6 +110,26 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
       );
     }
   }, []);
+
+  useEffect(() => {
+    if (standalone === false) {
+      return OBR.broadcast.onMessage(
+        "com.roberttate.dashboard-maker-dice-notification",
+        async (event) => {
+          try {
+            const rollBroadcast = event?.data as RollBroadcast;
+            const { playerName, rollResult } = rollBroadcast;
+            await OBR.notification.show(
+              `${playerName} rolled a ${rollResult}`,
+              "SUCCESS",
+            );
+          } catch(e) {
+            await OBR.notification.show("Something went wrong.", "ERROR");
+          }
+        },
+      );
+    }
+  },[]);
 
   useEffect(() => {
     const initDashboards = async () => {
