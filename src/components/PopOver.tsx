@@ -1,22 +1,27 @@
 import OBR from "@owlbear-rodeo/sdk";
 import pako from "pako";
-import { useCallback, useEffect, useRef, useState, memo } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
 import upload from "../assets/upload.svg";
 import db from "../dbInstance";
+import { generateLayouts } from "../functions/generateLayouts.ts";
 import validateUpload from "../functions/validateUpload.ts";
 import styles from "../styles/PopOver.module.css";
 import type {
   DashboardItemsProps,
+  Folder,
+  MenuObject,
   NewDashboardTemplateOptions,
   PopOverProps,
   PremadeDashConfig,
-  SharedDashboard,
   RollBroadcast,
+  SharedDashboard,
 } from "../types/index.ts";
 import Dashboard from "./Dashboard";
+import DashboardFileSystem from "./DashboardFileSystem.tsx";
+import { FolderCreator } from "./FolderCreator";
 
 async function addPremade(premade: PremadeDashConfig) {
   const premadeContent = await import(`../partials/${premade.fileName}.ts`);
@@ -68,9 +73,18 @@ async function checkAndAddPremades(keys: string[]) {
 const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
   const [selectedDashboard, setSelectedDashboard] = useState("");
   const [dashBoardsArray, setDashboardsArray] = useState<string[]>([]);
+  const [menuObject, setMenuObject] = useState<MenuObject>({
+    folders: {},
+    dashboards: [],
+    currentFolder: [],
+  });
   const [refreshCount, setRefreshCount] = useState(0);
   const newDashInputRef = useRef<HTMLInputElement>(null);
   const uploadRef = useRef<HTMLInputElement>(null);
+
+  const selectADashboard = useCallback((dashName: string) => {
+    setSelectedDashboard(dashName);
+  }, []);
 
   useEffect(() => {
     if (standalone === false) {
@@ -123,13 +137,13 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               `${playerName} rolled a ${rollResult}`,
               "SUCCESS",
             );
-          } catch(e) {
+          } catch (e) {
             await OBR.notification.show("Something went wrong.", "ERROR");
           }
         },
       );
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     const initDashboards = async () => {
@@ -139,14 +153,50 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
         keys = [...keys, ...premades];
       }
       setDashboardsArray(keys);
-    };
 
+      const DnDFolder: Folder = {
+        dashboards: [
+          "⭐ Adventuring Gear ⭐",
+          "⭐ Armor ⭐",
+          "⭐ Conditions ⭐",
+          "⭐ Martial Weapons ⭐",
+          "⭐ Simple Weapons ⭐",
+          "⭐ Skills ⭐",
+        ],
+      };
+
+      if (keys.includes("Menu_Object")) {
+        const storedMenu = (await db.getItem("Menu_Object")) as MenuObject;
+        // Check if the 5th Edition D&D Folder has been deleted...and add it back.
+        const storedMenuToPass = storedMenu.folders["5th Edition D&D"]
+          ? storedMenu
+          : {
+              ...storedMenu,
+              folders: {
+                ...storedMenu.folders,
+                "5th Edition D&D": DnDFolder,
+              },
+            };
+
+        setMenuObject(storedMenuToPass);
+      } else {
+        const startingMenuLayouts = generateLayouts([
+          ...keys,
+          "5th Edition D&D",
+        ]);
+
+        const startingMenu = {
+          layouts: startingMenuLayouts,
+          currentFolder: [],
+          folders: { "5th Edition D&D": DnDFolder },
+          dashboards: [...keys.filter((key) => !key.includes("⭐"))],
+        };
+
+        setMenuObject(startingMenu);
+      }
+    };
     initDashboards();
   }, [refreshCount]);
-
-  const selectADashboard = useCallback((dashName: string) => {
-    setSelectedDashboard(dashName);
-  }, []);
 
   const updateDashboardsState = useCallback(
     (dashName: string, type: "add" | "remove") => {
@@ -182,9 +232,11 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
       const dashName = inputRefInUse?.current!.value;
       if (dashName) {
         if (keys.includes(dashName)) {
-          inputRefInUse!.current!.setCustomValidity(
-            "The Dashboard Name Must Be Unique.",
-          );
+          const inputResponse =
+            dashName === "Menu_Object"
+              ? "Can't call it that! I'm using that for something under the hood."
+              : "The Dashboard Name Must Be Unique.";
+          inputRefInUse!.current!.setCustomValidity(inputResponse);
           inputRefInUse!.current!.reportValidity();
         } else {
           if (template === "5eChar") {
@@ -328,58 +380,45 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 title="Enter your new dashboard name here."
               />
             </div>
-            <button
-              onClick={() => createADashboard("default")}
-              title="Create a new empty dashboard."
-            >
-              <h3>Create New Dashboard</h3>
-            </button>
-            <button
-              onClick={() => createADashboard("5eChar")}
-              id="fifth-edition-char"
-              title="Create a new dashboard using a 5e Character Template."
-            >
-              <h3>Create New 5e Character</h3>
-            </button>
+            <div className={styles["dashboard-input-selections"]}>
+              <button
+                onClick={() => createADashboard("default")}
+                title="Create a new empty dashboard."
+              >
+                <svg viewBox="0 0 170 16">
+                  <text x="0" y="14" lengthAdjust="spacingAndGlyphs">
+                    Create New Dashboard
+                  </text>
+                </svg>
+              </button>
+              <button
+                onClick={() => createADashboard("5eChar")}
+                title="Create a new dashboard using a 5e Character Template."
+              >
+                <svg viewBox="0 0 180 16">
+                  <text x="0" y="14" lengthAdjust="spacingAndGlyphs">
+                    Create New 5e Character
+                  </text>
+                </svg>
+              </button>
+            </div>
           </div>
           <div>
-            <p>My Dashboards:</p>
-            {dashBoardsArray
-              .filter((dash) => !dash.startsWith("⭐"))
-              .map((dash, index) => {
-                return (
-                  <button
-                    title={`Click to view and edit this dashboard.`}
-                    key={`${dash}-${index}`}
-                    onClick={() => selectADashboard(dash)}
-                  >
-                    <p>{dash}</p>
-                  </button>
-                );
-              })}
+            <hr></hr>
+            <FolderCreator
+              menuObject={menuObject}
+              setMenuObject={setMenuObject}
+            />
+            <hr></hr>
+            <DashboardFileSystem
+              dashBoardsArray={dashBoardsArray}
+              menuObject={menuObject}
+              setMenuObject={setMenuObject}
+              selectADashboard={selectADashboard}
+              refreshCount={refreshCount}
+            />
           </div>
-          <div className={styles["premade-dashboards"]}>
-            <p>Premade 5e Dashboards:</p>
-            {dashBoardsArray
-              .filter((dash) => dash.startsWith("⭐"))
-              .map((dash, index) => {
-                return (
-                  <button
-                    title={`View and edit the ${dash} premade dashboard.`}
-                    key={`${dash}-${index}`}
-                    onClick={() => selectADashboard(dash)}
-                  >
-                    <p>{dash}</p>
-                  </button>
-                );
-              })}
-            <p>
-              <em>
-                (If any Premade Dashboards are deleted, just hit refresh above
-                to get a new one.)
-              </em>
-            </p>
-          </div>
+          <div className={styles["premade-dashboards"]}></div>
         </>
       )}
     </main>

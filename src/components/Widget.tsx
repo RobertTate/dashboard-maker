@@ -14,7 +14,7 @@ import {
   toolbarPlugin,
 } from "@mdxeditor/editor";
 import debounce from "lodash.debounce";
-import { useCallback, memo } from "react";
+import { memo, useCallback } from "react";
 
 import { DiceNotationDirectiveDescriptor } from "../plugins/DiceNotationDirectiveDescriptor";
 import { diceNotationMarkdownShortcutPlugin } from "../plugins/diceNotationMarkdownShortcutPlugin";
@@ -29,67 +29,69 @@ type WidgetContainerProps = {
   setActiveToolbarKey: (key: string) => void;
 };
 
-const Widget = memo(({
-  item,
-  updateWidgetContent,
-  activeToolbarKey,
-  setActiveToolbarKey,
-}: WidgetContainerProps) => {
-  const debouncedUpdate = useCallback(
-    debounce((content: string) => {
-      return updateWidgetContent(item, content);
-    }, 500),
-    [item, updateWidgetContent],
-  );
+const Widget = memo(
+  ({
+    item,
+    updateWidgetContent,
+    activeToolbarKey,
+    setActiveToolbarKey,
+  }: WidgetContainerProps) => {
+    const debouncedUpdate = useCallback(
+      debounce((content: string) => {
+        return updateWidgetContent(item, content);
+      }, 500),
+      [item, updateWidgetContent],
+    );
 
-  return (
-    <MDXEditor
-      markdown={`${item.content}`}
-      plugins={[
-        headingsPlugin(),
-        listsPlugin(),
-        quotePlugin(),
-        imagePlugin({
-          imagePreviewHandler(imageSource) {
-            return Promise.resolve(imageSource);
-          },
-        }),
-        thematicBreakPlugin(),
-        tablePlugin(),
-        linkPlugin(),
-        linkDialogPlugin({
-          LinkDialog: () => {
-            return (
+    return (
+      <MDXEditor
+        markdown={`${item.content}`}
+        plugins={[
+          headingsPlugin(),
+          listsPlugin(),
+          quotePlugin(),
+          imagePlugin({
+            imagePreviewHandler(imageSource) {
+              return Promise.resolve(imageSource);
+            },
+          }),
+          thematicBreakPlugin(),
+          tablePlugin(),
+          linkPlugin(),
+          linkDialogPlugin({
+            LinkDialog: () => {
+              return (
+                <>
+                  <CustomLinkDialog />
+                </>
+              );
+            },
+          }),
+          directivesPlugin({
+            directiveDescriptors: [
+              AdmonitionDirectiveDescriptor,
+              DiceNotationDirectiveDescriptor,
+            ],
+          }),
+          toolbarPlugin({
+            toolbarContents: () => (
               <>
-                <CustomLinkDialog />
+                <CustomToolbar
+                  activeToolbarKey={activeToolbarKey}
+                  setActiveToolbarKey={setActiveToolbarKey}
+                />
               </>
-            );
-          },
-        }),
-        directivesPlugin({
-          directiveDescriptors: [
-            AdmonitionDirectiveDescriptor,
-            DiceNotationDirectiveDescriptor,
-          ],
-        }),
-        toolbarPlugin({
-          toolbarContents: () => (
-            <>
-              <CustomToolbar
-                activeToolbarKey={activeToolbarKey}
-                setActiveToolbarKey={setActiveToolbarKey}
-              />
-            </>
-          ),
-        }),
-        markdownShortcutPlugin(),
-        diceNotationMarkdownShortcutPlugin(),
-      ]}
-      contentEditableClassName="editable-md-widget"
-      onChange={(content: string) => debouncedUpdate(content)}
-    />
-  );
-});
+            ),
+          }),
+          markdownShortcutPlugin(),
+          diceNotationMarkdownShortcutPlugin(),
+        ]}
+        contentEditableClassName="editable-md-widget"
+        onChange={(content: string) => debouncedUpdate(content)}
+      />
+    );
+  },
+);
 
 Widget.displayName = "Widget";
 

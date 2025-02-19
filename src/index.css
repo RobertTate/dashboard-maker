@@ -609,3 +609,98 @@ button:active {
 .editable-md-widget .dice-notation:hover {
   color: #c9b0ff;
 }
+
+.file-system {
+  background-color: unset;
+  height: auto;
+}
+
+.file-system .react-grid-item {
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    opacity 0.25s;
+  border: 3px solid transparent;
+  border-radius: 8px;
+  background-color: #4c396e;
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 0;
+  fill: #fff;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.file-system .react-grid-item:hover {
+  border-color: #b9f;
+}
+
+.file-system .react-grid-item:active {
+  background-color: #8447ff;
+}
+
+.file-system .react-grid-placeholder {
+  padding: 0;
+  background-color: #5e5e5e;
+}
+
+@media (prefers-color-scheme: light) {
+  .file-system .react-grid-item {
+    background-color: #9d73f1;
+    fill: #000;
+  }
+
+  .file-system .react-grid-item:hover {
+    border-color: #8447ff;
+  }
+}
+
+.file-system .react-grid-item.folder {
+  box-sizing: border-box;
+  background-color: #83572f;
+  clip-path: polygon(
+    0 23%,
+    0 7%,
+    4% 0,
+    29% 0,
+    32% 7%,
+    60% 7%,
+    98% 7%,
+    100% 10%,
+    100% 100%,
+    15% 100%,
+    0 100%,
+    0% 85%
+  );
+}
+
+.file-system .react-grid-item.folder::after {
+  content: "";
+  position: absolute;
+  top: 1px; /* Match border width */
+  left: 1px; /* Match border width */
+  width: calc(100% - 2px); /* Compensate for left & right borders */
+  height: calc(100% - 2px); /* Compensate for top & bottom borders */
+  background-color: #83572f; /* Same as the folder color */
+  clip-path: polygon(
+    0 23%,
+    0 7%,
+    4% 0,
+    29% 0,
+    32% 7%,
+    60% 7%,
+    98% 7%,
+    100% 10%,
+    100% 100%,
+    15% 100%,
+    0 100%,
+    0% 85%
+  );
+  z-index: -1;
+}
+
+.file-system .react-grid-item.folder:hover {
+  border-color: transparent;
+  background-color: #d69659;
+}

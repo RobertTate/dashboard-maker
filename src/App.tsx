@@ -9,9 +9,9 @@ import DisplayResults from "@3d-dice/dice-ui/src/displayResults";
 import OBR from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 
+import shareRoll from "./assets/shareRoll.svg";
 import PopOver from "./components/PopOver";
 import { Role } from "./types";
-import shareRoll from "./assets/shareRoll.svg";
 
 const DR = new DiceRoller();
 const DP = new DiceParser();
@@ -102,33 +102,35 @@ export default function App() {
         DiceResults.showResults(finalResults, parsedNotationForMods);
 
         if (OBR.isAvailable) {
-          const diceResultsBox = document.querySelector("div.results.showEffect");
+          const diceResultsBox = document.querySelector(
+            "div.results.showEffect",
+          );
           const shareButton = document.createElement("button");
           const icon = document.createElement("img");
           icon.src = shareRoll;
-          icon.alt = "Share Roll Result?"
-          icon.title = "Share Roll Result?"
+          icon.alt = "Share Roll Result?";
+          icon.title = "Share Roll Result?";
           shareButton.appendChild(icon);
           diceResultsBox?.appendChild(shareButton);
 
-          shareButton.addEventListener('click', async () => {
+          shareButton.addEventListener("click", async () => {
             try {
               const playerName = await OBR.player.getName();
-    
+
               await OBR.broadcast.sendMessage(
                 "com.roberttate.dashboard-maker-dice-notification",
                 {
                   rollResult: finalResults.value,
-                  playerName
+                  playerName,
                 },
               );
-              await OBR.notification.show("Your roll was shared with the room!", "SUCCESS");
+              await OBR.notification.show(
+                "Your roll was shared with the room!",
+                "SUCCESS",
+              );
             } catch (e: any) {
               if (e.error) {
-                await OBR.notification.show(
-                  `Something went wrong`,
-                  "ERROR",
-                );
+                await OBR.notification.show(`Something went wrong`, "ERROR");
               }
             }
           });

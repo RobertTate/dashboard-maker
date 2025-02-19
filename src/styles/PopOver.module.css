@@ -19,6 +19,10 @@
   font-size: 0.75rem;
 }
 
+.premade-dashboards [data-title="5e Premades"] {
+  margin-top: 0;
+}
+
 .dashboard-input {
   display: flex;
   align-items: center;
@@ -26,4 +30,17 @@
 
 .dashboard-input input[name="dashboardName"] {
   flex-grow: 1;
+}
+
+.dashboard-input-selections {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-input-selections button {
+  width: 50%;
+}
+
+.dashboard-input-selections button svg {
+  fill: #fff;
 }

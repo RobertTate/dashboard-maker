@@ -1,6 +1,6 @@
 import OBR from "@owlbear-rodeo/sdk";
 import pako from "pako";
-import { useCallback, useRef, useState, memo } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
