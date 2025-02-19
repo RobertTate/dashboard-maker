@@ -351,9 +351,10 @@ const DashboardFileSystem = memo(
               JSON.stringify(prevMenuObj),
             );
             if (menuObject.currentFolder.length === 0) {
-              newMenuObj.folders?.[
-                mostOverlappedFolder.textContent as string
-              ]?.dashboards?.push(element.textContent as string);
+              mostOverlappedFolder?.textContent &&
+                newMenuObj.folders?.[
+                  mostOverlappedFolder?.textContent || ""
+                ]?.dashboards?.push(element.textContent as string);
 
               const indexOfDashboardsCurrentPosition =
                 newMenuObj?.dashboards?.indexOf(element.textContent as string);
@@ -373,9 +374,10 @@ const DashboardFileSystem = memo(
                   finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
                 }
               }
-              finalFolder?.folders?.[
-                mostOverlappedFolder.textContent as string
-              ]?.dashboards?.push(element.textContent as string);
+              mostOverlappedFolder?.textContent &&
+                finalFolder?.folders?.[
+                  mostOverlappedFolder.textContent || ""
+                ]?.dashboards?.push(element.textContent as string);
               const indexOfDashboardsCurrentPosition =
                 finalFolder?.dashboards?.indexOf(element.textContent as string);
               if (
