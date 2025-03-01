@@ -30,7 +30,7 @@ const DashboardFileSystem = memo(
       () => WidthProvider(Responsive),
       [],
     );
-
+  
     const currentFolderObject = useMemo(() => {
       const currentInd = menuObject.currentFolder;
       if (currentInd.length === 0) {
@@ -180,7 +180,7 @@ const DashboardFileSystem = memo(
               h: 1,
             }}
           >
-            <svg viewBox="0 0 194 18">
+            <svg viewBox="0 0 194 18" style={{width: "100%", height: "100%"}}>
               {folderName.length >= 26 ? (
                 <text
                   x="0"
@@ -219,7 +219,7 @@ const DashboardFileSystem = memo(
             data-dash={dash}
             key={key}
           >
-            <svg viewBox="0 0 194 18">
+            <svg viewBox="0 0 194 18" style={{width: "100%", height: "100%"}}>
               {dash.length >= 26 ? (
                 <text
                   x="0"
