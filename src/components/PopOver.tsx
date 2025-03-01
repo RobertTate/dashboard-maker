@@ -6,6 +6,7 @@ import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
 import upload from "../assets/upload.svg";
 import db from "../dbInstance";
+import { getCurrentFolder } from "../functions/folderFunctions.ts";
 import { generateLayouts } from "../functions/generateLayouts.ts";
 import validateUpload from "../functions/validateUpload.ts";
 import styles from "../styles/PopOver.module.css";
@@ -178,6 +179,29 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               },
             };
 
+        if (refreshCount > 0) {
+          const currentInd = storedMenuToPass?.currentFolder;
+          if (currentInd.length === 0) {
+            storedMenuToPass.layouts = generateLayouts([
+              ...(Object.keys(menuObject.folders || {}) || []),
+              ...(menuObject.dashboards || []),
+            ]);
+          } else {
+            let finalFolder: Folder = {};
+            for (let i = 0; i < currentInd.length; i++) {
+              if (i === 0) {
+                finalFolder = storedMenuToPass?.folders?.[currentInd[i]];
+              } else {
+                finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
+              }
+            }
+            finalFolder.layouts = generateLayouts([
+              ...(Object.keys(finalFolder.folders || {}) || []),
+              ...(finalFolder.dashboards || []),
+            ]);
+          }
+        }
+
         setMenuObject(storedMenuToPass);
       } else {
         const startingMenuLayouts = generateLayouts([
@@ -216,6 +240,40 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
   const deleteADashboard = useCallback(async (dashName: string) => {
     await db.removeItem(dashName);
     updateDashboardsState(dashName, "remove");
+
+    // remove the folders reference to the dashboard.
+    setMenuObject((prevMenuObj) => {
+      const newMenuObj: MenuObject = JSON.parse(JSON.stringify(prevMenuObj));
+      let finalFolder: Folder = {};
+      const currentInd = newMenuObj.currentFolder;
+
+      if (currentInd.length === 0) {
+        const dashIndex = newMenuObj?.dashboards?.indexOf(dashName);
+        if (dashIndex > -1) {
+          newMenuObj?.dashboards?.splice(dashIndex, 1);
+        }
+      } else {
+        for (let i = 0; i < currentInd.length; i++) {
+          if (i === 0) {
+            finalFolder = newMenuObj?.folders?.[currentInd[i]];
+          } else {
+            finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
+          }
+        }
+
+        if (!finalFolder?.dashboards) {
+          finalFolder.dashboards = [];
+        }
+
+        const dashIndex = finalFolder?.dashboards?.indexOf(dashName);
+        if (dashIndex > -1) {
+          finalFolder?.dashboards?.splice(dashIndex, 1);
+        }
+      }
+
+      return newMenuObj;
+    });
+
     selectADashboard("");
   }, []);
 
@@ -234,7 +292,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
         if (keys.includes(dashName)) {
           const inputResponse =
             dashName === "Menu_Object"
-              ? "Can't call it that! I'm using that for something under the hood."
+              ? "Don't call it that! I'm using that for something under the hood."
               : "The Dashboard Name Must Be Unique.";
           inputRefInUse!.current!.setCustomValidity(inputResponse);
           inputRefInUse!.current!.reportValidity();
@@ -250,6 +308,36 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
             await db.setItem(dashName, {});
           }
           updateDashboardsState(dashName, "add");
+
+          // add the dashboard to the correct folder.
+          setMenuObject((prevMenuObj) => {
+            const newMenuObj: MenuObject = JSON.parse(
+              JSON.stringify(prevMenuObj),
+            );
+            let finalFolder: Folder = {};
+            const currentInd = newMenuObj.currentFolder;
+
+            if (currentInd.length === 0) {
+              newMenuObj.dashboards.push(dashName);
+            } else {
+              for (let i = 0; i < currentInd.length; i++) {
+                if (i === 0) {
+                  finalFolder = newMenuObj?.folders?.[currentInd[i]];
+                } else {
+                  finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
+                }
+              }
+
+              if (!finalFolder?.dashboards) {
+                finalFolder.dashboards = [];
+              }
+
+              finalFolder.dashboards.push(dashName);
+            }
+
+            return newMenuObj;
+          });
+
           if (duplicateDashInputRef) {
             selectADashboard("");
           } else {
@@ -296,6 +384,20 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
             if (isValidDashboard) {
               await db.setItem(dashboardName, uploadedDashboard);
               updateDashboardsState(dashboardName, "add");
+              setMenuObject((prevMenuObj) => {
+                const newMenuObj: MenuObject = JSON.parse(
+                  JSON.stringify(prevMenuObj),
+                );
+                const currentFolder = getCurrentFolder(newMenuObj);
+
+                if (!currentFolder.dashboards) {
+                  currentFolder.dashboards = [];
+                }
+
+                currentFolder.dashboards.push(dashboardName);
+
+                return newMenuObj;
+              });
             } else {
               uploadRef!.current!.setCustomValidity("");
               uploadRef!.current!.setCustomValidity("Invalid Dashboard File!");
@@ -370,7 +472,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 title="Upload A Dashboard."
                 onClick={() => handleUploadClick()}
               >
-                <img style={{ width: "20px" }} src={upload} alt="Refresh" />
+                <img style={{ width: "20px" }} src={upload} alt="Upload" />
               </button>
               <input
                 ref={newDashInputRef}
@@ -385,9 +487,9 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 onClick={() => createADashboard("default")}
                 title="Create a new empty dashboard."
               >
-                <svg viewBox="0 0 170 16">
+                <svg viewBox="0 0 187 16">
                   <text x="0" y="14" lengthAdjust="spacingAndGlyphs">
-                    Create New Dashboard
+                    Create New Dashboard ⮥
                   </text>
                 </svg>
               </button>
@@ -395,21 +497,19 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 onClick={() => createADashboard("5eChar")}
                 title="Create a new dashboard using a 5e Character Template."
               >
-                <svg viewBox="0 0 180 16">
+                <svg viewBox="0 0 197 16">
                   <text x="0" y="14" lengthAdjust="spacingAndGlyphs">
-                    Create New 5e Character
+                    ⮤ Create New 5e Character
                   </text>
                 </svg>
               </button>
             </div>
           </div>
           <div>
-            <hr></hr>
             <FolderCreator
               menuObject={menuObject}
               setMenuObject={setMenuObject}
             />
-            <hr></hr>
             <DashboardFileSystem
               dashBoardsArray={dashBoardsArray}
               menuObject={menuObject}

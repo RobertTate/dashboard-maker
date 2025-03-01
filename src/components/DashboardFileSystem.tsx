@@ -8,7 +8,6 @@ import ReactGridLayout, {
 
 import db from "../dbInstance";
 import { collisionInfo } from "../functions/collisions";
-import { filterByFolder } from "../functions/filterByFolder";
 import { generateLayouts } from "../functions/generateLayouts";
 import {
   Breakpoint,
@@ -32,24 +31,39 @@ const DashboardFileSystem = memo(
       [],
     );
 
-    // Filter Out Dashboards that are not part of the current folder
-    const myDashboards = useMemo(() => {
+    const currentFolderObject = useMemo(() => {
+      const currentInd = menuObject.currentFolder;
+      if (currentInd.length === 0) {
+        return menuObject;
+      } else {
+        let finalFolder: Folder = {};
+        for (let i = 0; i < currentInd.length; i++) {
+          if (i === 0) {
+            finalFolder = menuObject?.folders?.[currentInd[i]];
+          } else {
+            finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
+          }
+        }
+        return finalFolder;
+      }
+    }, [menuObject.folders, menuObject.currentFolder]);
+
+    // Filter out folders that are not part of the current folder
+    const filteredFolders = useMemo(() => {
+      if (currentFolderObject.folders) {
+        return currentFolderObject.folders;
+      } else {
+        return {};
+      }
+    }, [currentFolderObject]);
+
+    // Filter out dashboards that are not part of the current folder
+    const filteredDashboards = useMemo(() => {
       return dashBoardsArray.filter((dash) => {
         if (dash === "Menu_Object") return false;
-        const currentFolder = menuObject.currentFolder;
-
-        if (currentFolder.length === 0) {
-          return menuObject.dashboards.includes(dash);
-        } else {
-          return filterByFolder(dash, currentFolder, menuObject.folders);
-        }
+        return currentFolderObject.dashboards?.includes(dash);
       });
-    }, [
-      dashBoardsArray,
-      menuObject.folders,
-      menuObject.currentFolder,
-      menuObject.dashboards,
-    ]);
+    }, [dashBoardsArray, currentFolderObject]);
 
     // Use gripProps for items and cols, as items is not typed correctly and cols is needed in two places
     const gridProps: {
@@ -57,7 +71,7 @@ const DashboardFileSystem = memo(
       cols: Record<Breakpoint, number>;
     } = {
       items:
-        myDashboards.length + (Object.keys(menuObject?.folders)?.length || 0),
+        filteredDashboards.length + (Object.keys(filteredFolders)?.length || 0),
       cols: { lg: 3, md: 3, sm: 3, xs: 3, xxs: 2 },
     };
 
@@ -68,7 +82,7 @@ const DashboardFileSystem = memo(
       setMenuObject((prevMenuObj) => {
         const dashesAndFolders = [
           ...dashBoardsArray,
-          ...(Object.keys(menuObject?.folders) || []),
+          ...(Object.keys(filteredFolders) || []),
         ] as string[];
 
         return {
@@ -96,18 +110,51 @@ const DashboardFileSystem = memo(
         _layout: ReactGridLayout.Layout[],
         newLayouts: ReactGridLayout.Layouts,
       ) => {
-        if (!isEqual(menuObject?.layouts, newLayouts)) {
-          setMenuObject((prevMenuObj) => {
-            return {
-              ...prevMenuObj,
-              layouts: newLayouts,
-            };
-          });
+        if (menuObject.currentFolder.length === 0) {
+          if (!isEqual(menuObject?.layouts, newLayouts)) {
+            setMenuObject((prevMenuObj) => {
+              return {
+                ...prevMenuObj,
+                layouts: newLayouts,
+              };
+            });
 
-          setSyncStorage((prev) => prev + 1);
+            setSyncStorage((prev) => prev + 1);
+          }
+        } else {
+          if (!isEqual(currentFolderObject.layouts, newLayouts)) {
+            setMenuObject((prevMenuObj) => {
+              const newMenuObj: MenuObject = JSON.parse(
+                JSON.stringify(prevMenuObj),
+              );
+              // Find the folder we're in, and update its layouts
+              let finalFolder: Folder = {};
+              const currentInd = newMenuObj.currentFolder;
+              for (let i = 0; i < currentInd.length; i++) {
+                if (i === 0) {
+                  finalFolder = newMenuObj?.folders?.[currentInd[i]];
+                } else {
+                  finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
+                }
+              }
+
+              if (!finalFolder.layouts) {
+                const folderContents = [
+                  ...(Object.keys(finalFolder?.folders || {}) || []),
+                  ...(finalFolder?.dashboards || []),
+                ];
+                finalFolder.layouts = generateLayouts(folderContents);
+              } else {
+                finalFolder.layouts = newLayouts;
+              }
+
+              return newMenuObj;
+            });
+            setSyncStorage((prev) => prev + 1);
+          }
         }
       },
-      [],
+      [menuObject.currentFolder],
     );
 
     // Sets up the menu items, including both folders and dashboards
@@ -116,55 +163,53 @@ const DashboardFileSystem = memo(
       let xPosition = 0;
       let row = 0;
 
-      const folders = (Object.keys(menuObject?.folders) || []).map(
-        (folderName) => {
-          const key = keyIndex;
-          keyIndex += 1;
+      const folders = (Object.keys(filteredFolders) || []).map((folderName) => {
+        const key = keyIndex;
+        keyIndex += 1;
 
-          const folderToReturn = (
-            <div
-              className="folder"
-              key={key}
-              data-folder={folderName}
-              data-grid={{
-                static: true,
-                x: xPosition,
-                y: row,
-                w: 1,
-                h: 1,
-              }}
-            >
-              <svg viewBox="0 0 194 18">
-                {folderName.length >= 26 ? (
-                  <text
-                    x="0"
-                    y="14"
-                    textLength="194"
-                    lengthAdjust="spacingAndGlyphs"
-                  >
-                    {folderName}
-                  </text>
-                ) : (
-                  <text x="50%" y="14" style={{ textAnchor: "middle" }}>
-                    {folderName}
-                  </text>
-                )}
-              </svg>
-            </div>
-          );
+        const folderToReturn = (
+          <div
+            className="folder"
+            key={key}
+            data-folder={folderName}
+            data-grid={{
+              static: true,
+              x: xPosition,
+              y: row,
+              w: 1,
+              h: 1,
+            }}
+          >
+            <svg viewBox="0 0 194 18">
+              {folderName.length >= 26 ? (
+                <text
+                  x="0"
+                  y="14"
+                  textLength="194"
+                  lengthAdjust="spacingAndGlyphs"
+                >
+                  {folderName}
+                </text>
+              ) : (
+                <text x="50%" y="14" style={{ textAnchor: "middle" }}>
+                  {folderName}
+                </text>
+              )}
+            </svg>
+          </div>
+        );
 
-          xPosition += 1;
+        xPosition += 1;
 
-          if ((key + 1) % 3 === 0) {
-            row += 1;
-            xPosition = 0;
-          }
+        if ((key + 1) % 3 === 0) {
+          row += 1;
+          xPosition = 0;
+        }
 
-          return folderToReturn;
-        },
-      );
+        return folderToReturn;
+      });
 
-      const dashboards = myDashboards.map((dash) => {
+      const dashboards = filteredDashboards.map((dash) => {
         const key = keyIndex;
         keyIndex += 1;
 
@@ -204,7 +249,7 @@ const DashboardFileSystem = memo(
       });
 
       return [...folders, ...dashboards];
-    }, [myDashboards, menuObject.folders]);
+    }, [filteredDashboards, filteredFolders, menuObject.currentFolder]);
 
     // Whenever the folder list or layout changes in a way that might affect .folder elements:
     useEffect(() => {
@@ -223,6 +268,7 @@ const DashboardFileSystem = memo(
           newMenuObj.currentFolder.push(currentTarget.textContent as string);
           return newMenuObj;
         });
+        setSyncStorage((prev) => prev + 1);
       };
 
       folderRefs.current.forEach((folderRef) => {
@@ -234,7 +280,7 @@ const DashboardFileSystem = memo(
           folderRef.removeEventListener("click", handleClick);
         });
       };
-    }, [menuObject.folders]);
+    }, [filteredFolders]);
 
     const [mouseDownPos, setMouseDownPos] = useState<{
       x: number;
@@ -342,22 +388,32 @@ const DashboardFileSystem = memo(
         }
 
         if (mostOverlappedFolder) {
+          const dashboardName = element.textContent as string;
+          const folderName = mostOverlappedFolder.textContent as string;
+
           console.log(
-            `${element.textContent} was dropped into the ${mostOverlappedFolder.textContent} folder!`,
+            `${dashboardName} was dropped into the ${folderName} folder!`,
           );
           // Do the logic of moving a dashboard into a folder here.
           setMenuObject((prevMenuObj) => {
             const newMenuObj: MenuObject = JSON.parse(
               JSON.stringify(prevMenuObj),
             );
-            if (menuObject.currentFolder.length === 0) {
-              mostOverlappedFolder?.textContent &&
-                newMenuObj.folders?.[
-                  mostOverlappedFolder?.textContent || ""
-                ]?.dashboards?.push(element.textContent as string);
+            if (!folderName) return prevMenuObj;
+            if (newMenuObj.currentFolder.length === 0) {
+              // Assign a Dashboard To a Folder, specifically if it's moving from the top level
+
+              // Make sure there's a dashboards array
+              if (!newMenuObj.folders[folderName].dashboards) {
+                newMenuObj.folders[folderName].dashboards = [];
+              }
+
+              newMenuObj.folders?.[folderName || ""]?.dashboards?.push(
+                dashboardName,
+              );
 
               const indexOfDashboardsCurrentPosition =
-                newMenuObj?.dashboards?.indexOf(element.textContent as string);
+                newMenuObj?.dashboards?.indexOf(dashboardName);
               if (indexOfDashboardsCurrentPosition > -1) {
                 newMenuObj?.dashboards?.splice(
                   indexOfDashboardsCurrentPosition,
@@ -365,21 +421,30 @@ const DashboardFileSystem = memo(
                 );
               }
             } else {
+              // Find the folder we're in, and assign the dashboard to a new folder based on that context
               let finalFolder: Folder = {};
-              const currentInd = menuObject.currentFolder;
+              const currentInd = newMenuObj.currentFolder;
               for (let i = 0; i < currentInd.length; i++) {
                 if (i === 0) {
-                  finalFolder = menuObject?.folders?.[currentInd[i]];
+                  finalFolder = newMenuObj?.folders?.[currentInd[i]];
                 } else {
                   finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
                 }
               }
-              mostOverlappedFolder?.textContent &&
-                finalFolder?.folders?.[
-                  mostOverlappedFolder.textContent || ""
-                ]?.dashboards?.push(element.textContent as string);
+
+              if(!finalFolder?.folders) {
+                finalFolder.folders = {};
+              }
+
+              if (!finalFolder.folders?.[folderName].dashboards) {
+                finalFolder.folders[folderName].dashboards = [];
+              }
+
+              finalFolder?.folders?.[folderName || ""]?.dashboards?.push(
+                dashboardName,
+              );
               const indexOfDashboardsCurrentPosition =
-                finalFolder?.dashboards?.indexOf(element.textContent as string);
+                finalFolder?.dashboards?.indexOf(dashboardName);
               if (
                 typeof indexOfDashboardsCurrentPosition === "number" &&
                 indexOfDashboardsCurrentPosition > -1
@@ -412,7 +477,7 @@ const DashboardFileSystem = memo(
             isDraggable={true}
             isResizable={false}
             rowHeight={40}
-            layouts={menuObject.layouts}
+            layouts={currentFolderObject.layouts}
             onDragStop={handleDragStop}
             onDragStart={handleDragStart}
             onDrag={handleDrag}

@@ -65,6 +65,7 @@ export type Breakpoint = "lg" | "md" | "sm" | "xs" | "xxs";
 export type Folder = {
   dashboards?: string[];
   folders?: FolderSystem;
+  layouts?: ReactGridLayout.Layouts;
 };
 
 export type FolderSystem = {

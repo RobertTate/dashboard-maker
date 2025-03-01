@@ -630,6 +630,7 @@ button:active {
   font-family: inherit;
   font-size: 1em;
   font-weight: 500;
+  max-width: 204px;
 }
 
 .file-system .react-grid-item:hover {
@@ -658,7 +659,7 @@ button:active {
 
 .file-system .react-grid-item.folder {
   box-sizing: border-box;
-  background-color: #83572f;
+  background-color: #7A583E;
   clip-path: polygon(
     0 23%,
     0 7%,
@@ -671,7 +672,7 @@ button:active {
     100% 100%,
     15% 100%,
     0 100%,
-    0% 85%
+    0% 85% 
   );
 }
 
@@ -682,7 +683,7 @@ button:active {
   left: 1px; /* Match border width */
   width: calc(100% - 2px); /* Compensate for left & right borders */
   height: calc(100% - 2px); /* Compensate for top & bottom borders */
-  background-color: #83572f; /* Same as the folder color */
+  background-color: #7A583E; /* Same as the folder color */
   clip-path: polygon(
     0 23%,
     0 7%,
@@ -702,5 +703,5 @@ button:active {
 
 .file-system .react-grid-item.folder:hover {
   border-color: transparent;
-  background-color: #d69659;
+  background-color: #D6BEAE;
 }
