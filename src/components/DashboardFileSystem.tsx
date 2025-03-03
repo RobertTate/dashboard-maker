@@ -15,6 +15,7 @@ import {
   Folder,
   MenuObject,
 } from "../types";
+import { getCurrentFolder } from "../functions/folderFunctions";
 
 const DashboardFileSystem = memo(
   ({
@@ -22,7 +23,6 @@ const DashboardFileSystem = memo(
     menuObject,
     selectADashboard,
     setMenuObject,
-    refreshCount,
   }: DashboardFileSystemProps) => {
     if (!menuObject) return null;
     const folderRefs = useRef<HTMLDivElement[]>([]);
@@ -32,21 +32,8 @@ const DashboardFileSystem = memo(
     );
   
     const currentFolderObject = useMemo(() => {
-      const currentInd = menuObject.currentFolder;
-      if (currentInd.length === 0) {
-        return menuObject;
-      } else {
-        let finalFolder: Folder = {};
-        for (let i = 0; i < currentInd.length; i++) {
-          if (i === 0) {
-            finalFolder = menuObject?.folders?.[currentInd[i]];
-          } else {
-            finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
-          }
-        }
-        return finalFolder;
-      }
-    }, [menuObject.folders, menuObject.currentFolder]);
+      return getCurrentFolder(menuObject);
+    }, [menuObject.folders, menuObject.currentFolder, menuObject.layouts]);
 
     // Filter out folders that are not part of the current folder
     const filteredFolders = useMemo(() => {
@@ -74,23 +61,6 @@ const DashboardFileSystem = memo(
         filteredDashboards.length + (Object.keys(filteredFolders)?.length || 0),
       cols: { lg: 3, md: 3, sm: 3, xs: 3, xxs: 2 },
     };
-
-    // Resets to the beginning layout if the refresh button is clicked
-    useEffect(() => {
-      if (refreshCount === 0) return;
-
-      setMenuObject((prevMenuObj) => {
-        const dashesAndFolders = [
-          ...dashBoardsArray,
-          ...(Object.keys(filteredFolders) || []),
-        ] as string[];
-
-        return {
-          ...prevMenuObj,
-          layouts: generateLayouts(dashesAndFolders),
-        };
-      });
-    }, [refreshCount]);
 
     const [syncStorage, setSyncStorage] = useState(0);
 

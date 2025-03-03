@@ -15,6 +15,7 @@
 .folder-creator-input {
   flex-grow: 1;
   height: 2rem;
+  font-size: 1.25rem;
   width: 100%;
 }
 

@@ -163,9 +163,7 @@ export const FolderCreator = ({
       deleteFolderInputRef.current.value = "";
       const currentFolder = getCurrentFolder(menuObject);
       const allDashboardsGettingMoved =
-        findAllDashboardsWithinCurrentFolderStruc(currentFolder).filter(
-          (dash) => !dash.includes("⭐"),
-        );
+        findAllDashboardsWithinCurrentFolderStruc(currentFolder);
 
       setMenuObject((prevMenuObj) => {
         const newMenuObj: MenuObject = JSON.parse(JSON.stringify(prevMenuObj));

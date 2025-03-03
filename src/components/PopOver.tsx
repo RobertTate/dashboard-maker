@@ -56,6 +56,14 @@ async function checkAndAddPremades(keys: string[]) {
       fileName: "skillsDashPremade",
       dashName: "⭐ Skills ⭐",
     },
+    {
+      fileName: "diceDemoPremade",
+      dashName: "⭐ Dice Demo ⭐"
+    },
+    {
+      fileName: "devNotePremade",
+      dashName: "⭐ Developer Note ⭐"
+    }
   ];
 
   const promises: Promise<string>[] = [];
@@ -155,68 +163,62 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
       }
       setDashboardsArray(keys);
 
-      const DnDFolder: Folder = {
-        dashboards: [
-          "⭐ Adventuring Gear ⭐",
-          "⭐ Armor ⭐",
-          "⭐ Conditions ⭐",
-          "⭐ Martial Weapons ⭐",
-          "⭐ Simple Weapons ⭐",
-          "⭐ Skills ⭐",
-        ],
-      };
-
-      if (keys.includes("Menu_Object")) {
-        const storedMenu = (await db.getItem("Menu_Object")) as MenuObject;
-        // Check if the 5th Edition D&D Folder has been deleted...and add it back.
-        const storedMenuToPass = storedMenu.folders["5th Edition D&D"]
-          ? storedMenu
-          : {
-              ...storedMenu,
-              folders: {
-                ...storedMenu.folders,
-                "5th Edition D&D": DnDFolder,
-              },
-            };
-
-        if (refreshCount > 0) {
-          const currentInd = storedMenuToPass?.currentFolder;
+      if (refreshCount > 0) {
+        setMenuObject((prevMenuObj) => {
+          const newMenuObj = JSON.parse(JSON.stringify(prevMenuObj));
+          const currentInd = newMenuObj?.currentFolder;
           if (currentInd.length === 0) {
-            storedMenuToPass.layouts = generateLayouts([
-              ...(Object.keys(menuObject.folders || {}) || []),
-              ...(menuObject.dashboards || []),
+            newMenuObj.layouts = generateLayouts([
+              ...(Object.keys(newMenuObj.folders || {}) || []),
+              ...(newMenuObj.dashboards || []),
             ]);
           } else {
-            let finalFolder: Folder = {};
-            for (let i = 0; i < currentInd.length; i++) {
-              if (i === 0) {
-                finalFolder = storedMenuToPass?.folders?.[currentInd[i]];
-              } else {
-                finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
-              }
-            }
-            finalFolder.layouts = generateLayouts([
-              ...(Object.keys(finalFolder.folders || {}) || []),
-              ...(finalFolder.dashboards || []),
+            const currentFolder = getCurrentFolder(newMenuObj);
+            currentFolder.layouts = generateLayouts([
+              ...(Object.keys(currentFolder.folders || {}) || []),
+              ...(currentFolder.dashboards || []),
             ]);
           }
-        }
 
-        setMenuObject(storedMenuToPass);
+          return newMenuObj;
+        });
       } else {
-        const startingMenuLayouts = generateLayouts([
-          ...keys,
-          "5th Edition D&D",
-        ]);
+        if (keys.includes("Menu_Object")) {
+          const storedMenu = (await db.getItem("Menu_Object")) as MenuObject;
+          const storedMenuToPass: MenuObject = {
+            ...storedMenu,
+            folders: {
+              ...storedMenu.folders,
+              "5th Edition D&D": {
+                dashboards: [
+                  ...(storedMenu?.folders?.["5th Edition D&D"]?.dashboards ||
+                    []),
+                  ...premades,
+                ],
+              },
+            },
+          };
 
-        const startingMenu = {
-          layouts: startingMenuLayouts,
-          currentFolder: [],
-          folders: { "5th Edition D&D": DnDFolder },
-          dashboards: [...keys.filter((key) => !key.includes("⭐"))],
-        };
+          setMenuObject(storedMenuToPass);
+        } else {
+          const startingMenuLayouts = generateLayouts([
+            ...keys,
+            "5th Edition D&D",
+          ]);
 
-        setMenuObject(startingMenu);
+          const startingMenu = {
+            layouts: startingMenuLayouts,
+            currentFolder: [],
+            folders: {
+              "5th Edition D&D": {
+                dashboards: [...keys.filter((key) => key.includes("⭐"))],
+              },
+            },
+            dashboards: [...keys.filter((key) => !key.includes("⭐"))],
+          };
+
+          setMenuObject(startingMenu);
+        }
       }
     };
     initDashboards();
@@ -489,7 +491,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               >
                 <svg viewBox="0 0 187 16">
                   <text x="0" y="14" lengthAdjust="spacingAndGlyphs">
-                    Create New Dashboard ⮥
+                    Create New Dashboard ↙
                   </text>
                 </svg>
               </button>
@@ -499,7 +501,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               >
                 <svg viewBox="0 0 197 16">
                   <text x="0" y="14" lengthAdjust="spacingAndGlyphs">
-                    ⮤ Create New 5e Character
+                    ↘ Create New 5e Character
                   </text>
                 </svg>
               </button>

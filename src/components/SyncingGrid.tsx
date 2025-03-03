@@ -33,7 +33,6 @@ const SyncingGrid = memo(
       [],
     );
 
-    const [loading, setLoading] = useState(true);
     const [isPending, startTransition] = useTransition();
     const [layouts, setLayouts] = useState<ReactGridLayout.Layouts | null>(
       null,
@@ -79,7 +78,6 @@ const SyncingGrid = memo(
             updateColsStatus(savedColumns);
           }
 
-          setLoading(false);
         });
       };
       getSavedItems();
@@ -218,7 +216,7 @@ const SyncingGrid = memo(
 
     return (
       <>
-        {loading && isPending ? (
+        {isPending ? (
           <div className="lds-ellipsis">
             <div></div>
             <div></div>
