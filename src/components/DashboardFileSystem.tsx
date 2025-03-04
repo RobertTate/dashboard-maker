@@ -8,6 +8,7 @@ import ReactGridLayout, {
 
 import db from "../dbInstance";
 import { collisionInfo } from "../functions/collisions";
+import { getCurrentFolder } from "../functions/folderFunctions";
 import { generateLayouts } from "../functions/generateLayouts";
 import {
   Breakpoint,
@@ -15,7 +16,7 @@ import {
   Folder,
   MenuObject,
 } from "../types";
-import { getCurrentFolder } from "../functions/folderFunctions";
+import moveUp from "../assets/moveUp.svg";
 
 const DashboardFileSystem = memo(
   ({
@@ -30,10 +31,33 @@ const DashboardFileSystem = memo(
       () => WidthProvider(Responsive),
       [],
     );
-  
+
     const currentFolderObject = useMemo(() => {
       return getCurrentFolder(menuObject);
     }, [menuObject.folders, menuObject.currentFolder, menuObject.layouts]);
+
+    // This useEffect fixes an intermittent issue with react-grid-layout concerning layouts
+    useEffect(() => {
+      if (
+        currentFolderObject.layouts &&
+        Object.keys(currentFolderObject.layouts || {}).length !== 5
+      ) {
+        setMenuObject((prevMenuObj) => {
+          const newMenuObj: MenuObject = JSON.parse(JSON.stringify(prevMenuObj));
+          const currentFolder = getCurrentFolder(newMenuObj);
+          let goUpButton = [];
+          if (newMenuObj.currentFolder.length !== 0) {
+            goUpButton.push("MoveDashUpButton")
+          }
+          currentFolder.layouts = generateLayouts([
+            ...goUpButton,
+            ...Object.keys(currentFolder.folders || {}),
+            ...(currentFolder.dashboards || []),
+          ]);
+          return newMenuObj;
+        });
+      }
+    }, [currentFolderObject.layouts]);
 
     // Filter out folders that are not part of the current folder
     const filteredFolders = useMemo(() => {
@@ -98,24 +122,17 @@ const DashboardFileSystem = memo(
                 JSON.stringify(prevMenuObj),
               );
               // Find the folder we're in, and update its layouts
-              let finalFolder: Folder = {};
-              const currentInd = newMenuObj.currentFolder;
-              for (let i = 0; i < currentInd.length; i++) {
-                if (i === 0) {
-                  finalFolder = newMenuObj?.folders?.[currentInd[i]];
-                } else {
-                  finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
-                }
-              }
+              const currentFolder = getCurrentFolder(newMenuObj);
 
-              if (!finalFolder.layouts) {
+              if (!currentFolder.layouts) {
                 const folderContents = [
-                  ...(Object.keys(finalFolder?.folders || {}) || []),
-                  ...(finalFolder?.dashboards || []),
+                  "MoveDashUpButton",
+                  ...(Object.keys(currentFolder?.folders || {}) || []),
+                  ...(currentFolder?.dashboards || []),
                 ];
-                finalFolder.layouts = generateLayouts(folderContents);
+                currentFolder.layouts = generateLayouts(folderContents);
               } else {
-                finalFolder.layouts = newLayouts;
+                currentFolder.layouts = newLayouts;
               }
 
               return newMenuObj;
@@ -132,6 +149,31 @@ const DashboardFileSystem = memo(
       let keyIndex = 0;
       let xPosition = 0;
       let row = 0;
+      let backButton: JSX.Element[] = [];
+
+      if (menuObject.currentFolder.length !== 0) {
+        const key = keyIndex;
+        keyIndex += 1;
+        backButton = [
+          <button
+            title={`Drag a Dashboard here to move it up a level`}
+            key={key}
+            className="moveFolderUp"
+            data-grid={{
+              static: true,
+              x: xPosition,
+              y: row,
+              w: 1,
+              h: 1,
+            }}
+          >
+            <img src={moveUp} alt="Move Up Icon"/>
+            <span>Drag Up a Level</span>
+          </button>,
+        ];
+  
+        xPosition += 1;
+      }
 
       const folders = (Object.keys(filteredFolders) || []).map((folderName) => {
         const key = keyIndex;
@@ -150,7 +192,7 @@ const DashboardFileSystem = memo(
               h: 1,
             }}
           >
-            <svg viewBox="0 0 194 18" style={{width: "100%", height: "100%"}}>
+            <svg viewBox="0 0 194 18" style={{ width: "100%", height: "100%" }}>
               {folderName.length >= 26 ? (
                 <text
                   x="0"
@@ -189,7 +231,7 @@ const DashboardFileSystem = memo(
             data-dash={dash}
             key={key}
           >
-            <svg viewBox="0 0 194 18" style={{width: "100%", height: "100%"}}>
+            <svg viewBox="0 0 194 18" style={{ width: "100%", height: "100%" }}>
               {dash.length >= 26 ? (
                 <text
                   x="0"
@@ -218,7 +260,7 @@ const DashboardFileSystem = memo(
         return dashboardToReturn;
       });
 
-      return [...folders, ...dashboards];
+      return [...backButton, ...folders, ...dashboards];
     }, [filteredDashboards, filteredFolders, menuObject.currentFolder]);
 
     // Whenever the folder list or layout changes in a way that might affect .folder elements:
@@ -402,7 +444,7 @@ const DashboardFileSystem = memo(
                 }
               }
 
-              if(!finalFolder?.folders) {
+              if (!finalFolder?.folders) {
                 finalFolder.folders = {};
               }
 
@@ -437,8 +479,7 @@ const DashboardFileSystem = memo(
     };
 
     return (
-      menuObject?.layouts &&
-      memoizedChildren && (
+      menuObject?.layouts && (
         <>
           <ResponsiveReactGridLayout
             className="file-system"

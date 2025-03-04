@@ -705,3 +705,19 @@ button:active {
   border-color: transparent;
   background-color: #D6BEAE;
 }
+
+.file-system .react-grid-item.moveFolderUp {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ad5252;
+}
+
+.file-system .react-grid-item.moveFolderUp:hover {
+  border-color: #ff9c9c;
+}
+
+.file-system .react-grid-item.moveFolderUp img {
+  width: 26px;
+  margin-right: 0.6rem;
+}

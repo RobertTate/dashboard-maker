@@ -22,6 +22,10 @@ export const generateLayouts = (myDashboards: string[]) => {
 
     memo[breakpoint] = [
       ...times.map((_, i) => {
+        if (breakpoint === "xxs") {
+          console.log(breakpoint);
+        }
+
         const gridItem: ReactGridLayout.Layout = {
           x: (i * width) % cols,
           y: row,
@@ -31,7 +35,7 @@ export const generateLayouts = (myDashboards: string[]) => {
           isBounded: true,
         };
 
-        if ((i + 1) % 3 === 0) {
+        if ((i + 1) % cols === 0) {
           row += 1;
         }
 

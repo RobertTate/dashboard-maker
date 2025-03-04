@@ -175,6 +175,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
           } else {
             const currentFolder = getCurrentFolder(newMenuObj);
             currentFolder.layouts = generateLayouts([
+              "MoveDashUpButton",
               ...(Object.keys(currentFolder.folders || {}) || []),
               ...(currentFolder.dashboards || []),
             ]);
@@ -198,7 +199,6 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               },
             },
           };
-
           setMenuObject(storedMenuToPass);
         } else {
           const startingMenuLayouts = generateLayouts([
