@@ -9,12 +9,11 @@ import ReactGridLayout, {
 import moveUp from "../assets/moveUp.svg";
 import db from "../dbInstance";
 import { collisionInfo } from "../functions/collisions";
-import { getCurrentFolder } from "../functions/folderFunctions";
+import { getCurrentFolder, getSurroundings } from "../functions/folderFunctions";
 import { generateLayouts } from "../functions/generateLayouts";
 import {
   Breakpoint,
   DashboardFileSystemProps,
-  Folder,
   MenuObject,
 } from "../types";
 
@@ -161,6 +160,7 @@ const DashboardFileSystem = memo(
           <button
             title={`Click to go up a level. Drag a Dashboard here to bring it up a level.`}
             key={key}
+            data-up-folder={true}
             className="moveFolderUp"
             data-grid={{
               static: true,
@@ -171,7 +171,6 @@ const DashboardFileSystem = memo(
             }}
           >
             <img src={moveUp} alt="Move Up Icon" />
-            
           </button>,
         ];
 
@@ -358,29 +357,45 @@ const DashboardFileSystem = memo(
     ) => {
       if (!mouseDownPos) return;
 
-      let mostOverlappedFolder: HTMLDivElement | null = null;
+      let mostOverlappedCollidable: HTMLElement | null = null;
       let highestOverlapArea = 0;
+
+      let collidables: HTMLElement[] = folderRefs.current;
+
+      if (folderUpBtnRef.current) {
+        collidables = [...collidables, folderUpBtnRef.current];
+      }
+
       // If a dashboard is colliding with a folder, do some logic.
-      for (const folderEl of folderRefs.current) {
-        if (!folderEl || !element) continue;
-        const { overlapArea } = collisionInfo(element, folderEl);
+      for (const el of collidables) {
+        if (!el || !element) continue;
+        const { overlapArea } = collisionInfo(element, el);
         if (overlapArea > highestOverlapArea) {
           highestOverlapArea = overlapArea;
-          mostOverlappedFolder = folderEl;
+          mostOverlappedCollidable = el;
         }
       }
 
-      folderRefs.current.forEach((folderEl) => {
-        folderEl.style.backgroundColor = "";
+      collidables.forEach((el) => {
+        el.style.backgroundColor = "";
+        el.style.borderColor = "";
         element.style.opacity = "1";
       });
 
-      if (mostOverlappedFolder) {
-        mostOverlappedFolder.style.backgroundColor = "#fdb020";
+      if (mostOverlappedCollidable) {
         element.style.opacity = "0.4";
+        if (mostOverlappedCollidable.dataset.folder) {
+          mostOverlappedCollidable.style.backgroundColor = "#fdb020";
+        } else {
+          mostOverlappedCollidable.style.borderColor = "#ffd579";
+          // mostOverlappedCollidable.style.backgroundColor = "#ff9c9c";
+        }
       }
 
+      // If we're already dragging, we don't need to determine if we're dragging anymore
       if (isDragging) return;
+
+      // Determine if we're dragging.
       let dx = 0;
       let dy = 0;
       const dragThreshold = 5;
@@ -399,8 +414,6 @@ const DashboardFileSystem = memo(
       }
     };
 
-    // If we were dragging an item around, we don't act as if we clicked/selected it.
-    // If we were NOT dragging an item around, we treat it like it was a click, and select that dashboard.
     const handleDragStop: ItemCallback = (
       _layout,
       _oldItem,
@@ -411,91 +424,108 @@ const DashboardFileSystem = memo(
     ) => {
       setIsDragging(false);
 
-      folderRefs.current.forEach((f) => {
-        if (f) f.style.backgroundColor = "";
+      let collidables: HTMLElement[] = folderRefs.current;
+
+      if (folderUpBtnRef.current) {
+        collidables = [...collidables, folderUpBtnRef.current];
+      }
+
+      collidables.forEach((item) => {
+        if (item) {
+          item.style.backgroundColor = "";
+          item.style.borderColor = "";
+        }
         element.style.opacity = "1";
       });
 
       if (isDragging) {
-        let mostOverlappedFolder: HTMLDivElement | null = null;
+        let mostOverlappedCollidable: HTMLElement | null = null;
         let highestOverlapArea = 0;
 
-        for (const folderEl of folderRefs.current) {
-          if (!folderEl) continue;
-          const { overlapArea } = collisionInfo(element, folderEl);
+        for (const el of collidables) {
+          if (!el) continue;
+          const { overlapArea } = collisionInfo(element, el);
           if (overlapArea > highestOverlapArea) {
             highestOverlapArea = overlapArea;
-            mostOverlappedFolder = folderEl;
+            mostOverlappedCollidable = el;
           }
         }
 
-        if (mostOverlappedFolder) {
+        if (mostOverlappedCollidable) {
           const dashboardName = element.textContent as string;
-          const folderName = mostOverlappedFolder.textContent as string;
-          // Do the logic of moving a dashboard into a folder here.
-          setMenuObject((prevMenuObj) => {
-            const newMenuObj: MenuObject = JSON.parse(
-              JSON.stringify(prevMenuObj),
-            );
-            if (!folderName) return prevMenuObj;
-            if (newMenuObj.currentFolder.length === 0) {
-              // Assign a Dashboard To a Folder, specifically if it's moving from the top level
 
-              // Make sure there's a dashboards array
-              if (!newMenuObj.folders[folderName].dashboards) {
-                newMenuObj.folders[folderName].dashboards = [];
+          // Handle dragging a dash into a folder
+          if (mostOverlappedCollidable.dataset.folder) {
+            const folderName = mostOverlappedCollidable.textContent as string;
+            setMenuObject((prevMenuObj) => {
+              const newMenuObj: MenuObject = JSON.parse(
+                JSON.stringify(prevMenuObj),
+              );
+              if (!folderName) return prevMenuObj;
+
+              const currentFolder = getCurrentFolder(newMenuObj);
+
+              // Make sure we've got a folders object
+              if (!currentFolder?.folders) {
+                currentFolder.folders = {};
               }
 
-              newMenuObj.folders?.[folderName || ""]?.dashboards?.push(
+              // Make sure where the dash is headed has a dashboards array
+              if (!currentFolder.folders[folderName].dashboards) {
+                currentFolder.folders[folderName].dashboards = [];
+              }
+
+              // Add Dashboard to child folder
+              currentFolder.folders?.[folderName || ""]?.dashboards?.push(
                 dashboardName,
               );
 
+              // Remove Dashboard from parent folder
               const indexOfDashboardsCurrentPosition =
-                newMenuObj?.dashboards?.indexOf(dashboardName);
-              if (indexOfDashboardsCurrentPosition > -1) {
-                newMenuObj?.dashboards?.splice(
-                  indexOfDashboardsCurrentPosition,
-                  1,
-                );
-              }
-            } else {
-              // Find the folder we're in, and assign the dashboard to a new folder based on that context
-              let finalFolder: Folder = {};
-              const currentInd = newMenuObj.currentFolder;
-              for (let i = 0; i < currentInd.length; i++) {
-                if (i === 0) {
-                  finalFolder = newMenuObj?.folders?.[currentInd[i]];
-                } else {
-                  finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
-                }
-              }
-
-              if (!finalFolder?.folders) {
-                finalFolder.folders = {};
-              }
-
-              if (!finalFolder.folders?.[folderName].dashboards) {
-                finalFolder.folders[folderName].dashboards = [];
-              }
-
-              finalFolder?.folders?.[folderName || ""]?.dashboards?.push(
-                dashboardName,
-              );
-              const indexOfDashboardsCurrentPosition =
-                finalFolder?.dashboards?.indexOf(dashboardName);
+                currentFolder?.dashboards?.indexOf(dashboardName);
               if (
                 typeof indexOfDashboardsCurrentPosition === "number" &&
                 indexOfDashboardsCurrentPosition > -1
               ) {
-                finalFolder?.dashboards?.splice(
+                currentFolder?.dashboards?.splice(
                   indexOfDashboardsCurrentPosition,
                   1,
                 );
               }
-            }
 
-            return newMenuObj;
-          });
+              return newMenuObj;
+            });
+
+            // Handle moving a Dashboard up to its parent folder
+          } else {
+            setMenuObject((prevMenuObj) => {
+              const newMenuObj: MenuObject = JSON.parse(
+                JSON.stringify(prevMenuObj),
+              );
+              const {
+                currentFolder,
+                parentFolder,
+              } = getSurroundings(newMenuObj);
+
+              // Remove Dashboard from current folder
+              const indexOfDashboardsCurrentPosition =
+                currentFolder?.dashboards?.indexOf(dashboardName);
+              if (
+                typeof indexOfDashboardsCurrentPosition === "number" &&
+                indexOfDashboardsCurrentPosition > -1
+              ) {
+                currentFolder?.dashboards?.splice(
+                  indexOfDashboardsCurrentPosition,
+                  1,
+                );
+              }
+
+              // Add Dashboard to parent folder
+              parentFolder.dashboards?.push(dashboardName);
+
+              return newMenuObj;
+            });
+          }
         }
       } else {
         if (element?.dataset?.dash) {

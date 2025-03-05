@@ -5,6 +5,7 @@ import fire from "../assets/fire.svg";
 import {
   findAllDashboardsWithinCurrentFolderStruc,
   getCurrentFolder,
+  getSurroundings,
 } from "../functions/folderFunctions.ts";
 import styles from "../styles/FolderCreator.module.css";
 import { FolderCreatorProps } from "../types";
@@ -168,32 +169,19 @@ export const FolderCreator = ({
 
       setMenuObject((prevMenuObj) => {
         const newMenuObj: MenuObject = JSON.parse(JSON.stringify(prevMenuObj));
-        let folderHoldingReference: Folder = {};
-        let parentFolderSystem: FolderSystem = {};
-        let parentFolder: Folder | MenuObject = {};
         const currentInd = newMenuObj.currentFolder;
-        for (let i = 0; i < currentInd.length; i++) {
-          if (i === 0) {
-            folderHoldingReference = newMenuObj?.folders?.[currentInd[i]];
-            parentFolderSystem = newMenuObj.folders;
-            parentFolder = newMenuObj;
-          } else {
-            parentFolderSystem = folderHoldingReference?.folders || {};
-            parentFolder = folderHoldingReference;
-            folderHoldingReference = folderHoldingReference?.folders?.[
-              currentInd[i]
-            ] as Folder;
-          }
-
-          if (i === currentInd.length - 1) {
-            // Delete the folder key reference.
-            delete parentFolderSystem?.[currentInd[i]];
-            parentFolder.dashboards = [
-              ...(parentFolder.dashboards || []),
-              ...allDashboardsGettingMoved,
-            ];
-          }
+        if (currentInd.length === 0) {
+          return newMenuObj;
         }
+
+        const { parentFolder, parentFolderSystem } = getSurroundings(newMenuObj);
+
+        // Delete the folder key reference.
+        delete parentFolderSystem?.[currentInd[currentInd.length - 1]];
+        parentFolder.dashboards = [
+          ...(parentFolder?.dashboards || []),
+          ...allDashboardsGettingMoved,
+        ];
 
         newMenuObj.currentFolder.pop();
 
