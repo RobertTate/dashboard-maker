@@ -709,7 +709,7 @@ button:active {
 .file-system .react-grid-item.moveFolderUp {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   background-color: #ad5252;
 }
 
@@ -719,5 +719,4 @@ button:active {
 
 .file-system .react-grid-item.moveFolderUp img {
   width: 26px;
-  margin-right: 0.6rem;
 }

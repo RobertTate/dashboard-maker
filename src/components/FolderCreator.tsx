@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 
+import addFolder from "../assets/addFolder.svg";
 import fire from "../assets/fire.svg";
 import {
   findAllDashboardsWithinCurrentFolderStruc,
@@ -208,6 +209,15 @@ export const FolderCreator = ({
     }
   };
 
+  const handleFolderDeletionOnEnter: React.KeyboardEventHandler<
+    HTMLInputElement
+  > = (event) => {
+    if (event.key == "Enter") {
+      event.preventDefault();
+      handleDeleteFolder();
+    }
+  };
+
   return (
     <>
       <div className={styles["folder-creator"]}>
@@ -216,15 +226,16 @@ export const FolderCreator = ({
           onClick={handleFolderCreation}
           title="Create a folder to put dashboards in"
         >
-          Create A Folder ➜
+          <img src={addFolder} alt="Right Pointing Arrow" />
         </button>
         <input
           className={styles["folder-creator-input"]}
           ref={folderInputRef}
           type="text"
           name="folderName"
+          placeholder="Add Folder Name Here"
           required
-          title="Enter a new folder name here."
+          title="Enter a new folder name here, then hit enter or click the button on the left."
           onKeyDown={handleFolderCreationOnEnter}
         />
       </div>
@@ -262,6 +273,7 @@ export const FolderCreator = ({
                   type="text"
                   name="folderDeleteField"
                   required
+                  onKeyDown={handleFolderDeletionOnEnter}
                 />
                 <button onClick={handleDeleteFolder}>Submit</button>
               </div>

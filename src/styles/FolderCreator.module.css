@@ -5,7 +5,11 @@
 
 .folder-creator-button {
   background-color: #7A583E;
-  min-width: 10rem;
+  padding: 0.125rem;
+}
+
+.folder-creator-button img {
+  width: 28px;
 }
 
 .folder-creator-button:hover {

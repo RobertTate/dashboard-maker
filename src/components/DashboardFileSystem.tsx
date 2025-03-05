@@ -6,6 +6,7 @@ import ReactGridLayout, {
   WidthProvider,
 } from "react-grid-layout";
 
+import moveUp from "../assets/moveUp.svg";
 import db from "../dbInstance";
 import { collisionInfo } from "../functions/collisions";
 import { getCurrentFolder } from "../functions/folderFunctions";
@@ -16,7 +17,6 @@ import {
   Folder,
   MenuObject,
 } from "../types";
-import moveUp from "../assets/moveUp.svg";
 
 const DashboardFileSystem = memo(
   ({
@@ -27,6 +27,7 @@ const DashboardFileSystem = memo(
   }: DashboardFileSystemProps) => {
     if (!menuObject) return null;
     const folderRefs = useRef<HTMLDivElement[]>([]);
+    const folderUpBtnRef = useRef<HTMLButtonElement | null>(null);
     const ResponsiveReactGridLayout = useMemo(
       () => WidthProvider(Responsive),
       [],
@@ -43,11 +44,13 @@ const DashboardFileSystem = memo(
         Object.keys(currentFolderObject.layouts || {}).length !== 5
       ) {
         setMenuObject((prevMenuObj) => {
-          const newMenuObj: MenuObject = JSON.parse(JSON.stringify(prevMenuObj));
+          const newMenuObj: MenuObject = JSON.parse(
+            JSON.stringify(prevMenuObj),
+          );
           const currentFolder = getCurrentFolder(newMenuObj);
           let goUpButton = [];
           if (newMenuObj.currentFolder.length !== 0) {
-            goUpButton.push("MoveDashUpButton")
+            goUpButton.push("MoveDashUpButton");
           }
           currentFolder.layouts = generateLayouts([
             ...goUpButton,
@@ -156,7 +159,7 @@ const DashboardFileSystem = memo(
         keyIndex += 1;
         backButton = [
           <button
-            title={`Drag a Dashboard here to move it up a level`}
+            title={`Click to go up a level. Drag a Dashboard here to bring it up a level.`}
             key={key}
             className="moveFolderUp"
             data-grid={{
@@ -167,11 +170,11 @@ const DashboardFileSystem = memo(
               h: 1,
             }}
           >
-            <img src={moveUp} alt="Move Up Icon"/>
-            <span>Drag Up a Level</span>
+            <img src={moveUp} alt="Move Up Icon" />
+            
           </button>,
         ];
-  
+
         xPosition += 1;
       }
 
@@ -294,6 +297,33 @@ const DashboardFileSystem = memo(
       };
     }, [filteredFolders]);
 
+    useEffect(() => {
+      const folderUpBtn =
+        document.querySelector<HTMLButtonElement>(".moveFolderUp");
+
+      // Set the Current Folder
+      const handleClick = () => {
+        setMenuObject((prevMenuObj) => {
+          const newMenuObj: MenuObject = JSON.parse(
+            JSON.stringify(prevMenuObj),
+          );
+          newMenuObj.currentFolder.pop();
+          return newMenuObj;
+        });
+        setSyncStorage((prev) => prev + 1);
+      };
+
+      if (folderUpBtn) {
+        folderUpBtnRef.current = folderUpBtn as HTMLButtonElement;
+        folderUpBtnRef.current.addEventListener("click", handleClick);
+      }
+
+      return () => {
+        folderUpBtnRef.current &&
+          folderUpBtnRef.current.removeEventListener("click", handleClick);
+      };
+    }, [filteredFolders]);
+
     const [mouseDownPos, setMouseDownPos] = useState<{
       x: number;
       y: number;
@@ -402,10 +432,6 @@ const DashboardFileSystem = memo(
         if (mostOverlappedFolder) {
           const dashboardName = element.textContent as string;
           const folderName = mostOverlappedFolder.textContent as string;
-
-          console.log(
-            `${dashboardName} was dropped into the ${folderName} folder!`,
-          );
           // Do the logic of moving a dashboard into a folder here.
           setMenuObject((prevMenuObj) => {
             const newMenuObj: MenuObject = JSON.parse(

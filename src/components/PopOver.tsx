@@ -480,8 +480,9 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 ref={newDashInputRef}
                 type="text"
                 name="dashboardName"
+                placeholder="Add Dashboard Name Here"
                 required
-                title="Enter your new dashboard name here."
+                title="Enter your new dashboard name here, then click one of the two options below."
               />
             </div>
             <div className={styles["dashboard-input-selections"]}>
@@ -490,8 +491,8 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 title="Create a new empty dashboard."
               >
                 <svg viewBox="0 0 187 16">
-                  <text x="0" y="14" lengthAdjust="spacingAndGlyphs">
-                    Create New Dashboard ↙
+                  <text x="8" y="14" lengthAdjust="spacingAndGlyphs">
+                    Create New Dashboard
                   </text>
                 </svg>
               </button>
@@ -500,8 +501,8 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 title="Create a new dashboard using a 5e Character Template."
               >
                 <svg viewBox="0 0 197 16">
-                  <text x="0" y="14" lengthAdjust="spacingAndGlyphs">
-                    ↘ Create New 5e Character
+                  <text x="6" y="14" lengthAdjust="spacingAndGlyphs">
+                    Create New 5e Character
                   </text>
                 </svg>
               </button>
