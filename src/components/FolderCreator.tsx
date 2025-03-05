@@ -9,7 +9,7 @@ import {
 } from "../functions/folderFunctions.ts";
 import styles from "../styles/FolderCreator.module.css";
 import { FolderCreatorProps } from "../types";
-import type { Folder, FolderSystem, MenuObject } from "../types/index.ts";
+import type { Folder, MenuObject } from "../types/index.ts";
 
 export const FolderCreator = ({
   menuObject,

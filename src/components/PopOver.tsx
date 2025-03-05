@@ -58,12 +58,12 @@ async function checkAndAddPremades(keys: string[]) {
     },
     {
       fileName: "diceDemoPremade",
-      dashName: "⭐ Dice Demo ⭐"
+      dashName: "⭐ Dice Demo ⭐",
     },
     {
       fileName: "devNotePremade",
-      dashName: "⭐ Developer Note ⭐"
-    }
+      dashName: "⭐ Developer Note ⭐",
+    },
   ];
 
   const promises: Promise<string>[] = [];
@@ -165,8 +165,22 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
 
       if (refreshCount > 0) {
         setMenuObject((prevMenuObj) => {
-          const newMenuObj = JSON.parse(JSON.stringify(prevMenuObj));
+          const newMenuObj: MenuObject = JSON.parse(
+            JSON.stringify(prevMenuObj),
+          );
           const currentInd = newMenuObj?.currentFolder;
+
+          if (!newMenuObj.folders) {
+            newMenuObj.folders = {};
+          }
+
+          newMenuObj.folders["5th Edition D&D"] = {
+            dashboards: [
+              ...(newMenuObj.folders["5th Edition D&D"]?.dashboards || []),
+              ...premades,
+            ],
+          };
+
           if (currentInd.length === 0) {
             newMenuObj.layouts = generateLayouts([
               ...(Object.keys(newMenuObj.folders || {}) || []),

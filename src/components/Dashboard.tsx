@@ -59,6 +59,15 @@ const Dashboard = memo((props: DashboardProps) => {
     }
   };
 
+  const handleDeleteOnEnter: React.KeyboardEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    if (event.key == "Enter") {
+      event.preventDefault();
+      handleDelete();
+    }
+  };
+
   const handleDuplicate = async () => {
     const currentDashboard: DashboardItemsProps | null =
       await db.getItem(selectedDashboard);
@@ -236,6 +245,7 @@ const Dashboard = memo((props: DashboardProps) => {
             type="text"
             name="dashboardDeleteField"
             required
+            onKeyDown={handleDeleteOnEnter}
           />
           <button onClick={handleDelete}>Submit</button>
         </div>
