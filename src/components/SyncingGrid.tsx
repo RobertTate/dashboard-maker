@@ -77,7 +77,6 @@ const SyncingGrid = memo(
           if (savedColumns) {
             updateColsStatus(savedColumns);
           }
-
         });
       };
       getSavedItems();

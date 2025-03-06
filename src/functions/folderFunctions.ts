@@ -32,13 +32,13 @@ export const getSurroundings = (menuObject: MenuObject) => {
       parentFolder = finalFolder;
       finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
     }
-  };
+  }
 
   return {
     currentFolder: finalFolder,
     parentFolder,
     parentFolderSystem,
-  }
+  };
 };
 
 const recursiveFind = (folder: Folder, cumulativeDashes: string[]) => {

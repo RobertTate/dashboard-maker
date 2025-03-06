@@ -505,7 +505,12 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 title="Create a new empty dashboard."
               >
                 <svg viewBox="0 0 187 16">
-                  <text x="50%" y="14" lengthAdjust="spacingAndGlyphs" style={{ textAnchor: "middle" }}>
+                  <text
+                    x="50%"
+                    y="14"
+                    lengthAdjust="spacingAndGlyphs"
+                    style={{ textAnchor: "middle" }}
+                  >
                     Create New Dashboard
                   </text>
                 </svg>
@@ -515,7 +520,12 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 title="Create a new dashboard using a 5e Character Template."
               >
                 <svg viewBox="0 0 197 16">
-                  <text x="50%" y="14" lengthAdjust="spacingAndGlyphs" style={{ textAnchor: "middle" }}>
+                  <text
+                    x="50%"
+                    y="14"
+                    lengthAdjust="spacingAndGlyphs"
+                    style={{ textAnchor: "middle" }}
+                  >
                     Create New 5e Character
                   </text>
                 </svg>

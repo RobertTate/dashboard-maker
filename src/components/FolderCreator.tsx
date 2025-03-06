@@ -174,7 +174,8 @@ export const FolderCreator = ({
           return newMenuObj;
         }
 
-        const { parentFolder, parentFolderSystem } = getSurroundings(newMenuObj);
+        const { parentFolder, parentFolderSystem } =
+          getSurroundings(newMenuObj);
 
         // Delete the folder key reference.
         delete parentFolderSystem?.[currentInd[currentInd.length - 1]];

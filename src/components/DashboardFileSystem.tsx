@@ -9,13 +9,12 @@ import ReactGridLayout, {
 import moveUp from "../assets/moveUp.svg";
 import db from "../dbInstance";
 import { collisionInfo } from "../functions/collisions";
-import { getCurrentFolder, getSurroundings } from "../functions/folderFunctions";
-import { generateLayouts } from "../functions/generateLayouts";
 import {
-  Breakpoint,
-  DashboardFileSystemProps,
-  MenuObject,
-} from "../types";
+  getCurrentFolder,
+  getSurroundings,
+} from "../functions/folderFunctions";
+import { generateLayouts } from "../functions/generateLayouts";
+import { Breakpoint, DashboardFileSystemProps, MenuObject } from "../types";
 
 const DashboardFileSystem = memo(
   ({
@@ -502,10 +501,8 @@ const DashboardFileSystem = memo(
               const newMenuObj: MenuObject = JSON.parse(
                 JSON.stringify(prevMenuObj),
               );
-              const {
-                currentFolder,
-                parentFolder,
-              } = getSurroundings(newMenuObj);
+              const { currentFolder, parentFolder } =
+                getSurroundings(newMenuObj);
 
               // Remove Dashboard from current folder
               const indexOfDashboardsCurrentPosition =
