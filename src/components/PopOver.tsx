@@ -465,7 +465,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
             <div className={styles["dashboard-input"]}>
               <button
                 className="icon-button"
-                title="Refresh the app. Keep things in sync. Feel in control."
+                title="Refresh the app. Reorder your dashboards. Keep things in sync. Feel in control."
                 onClick={() => setRefreshCount((prev) => prev + 1)}
                 id="refresh-button"
               >
@@ -505,7 +505,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 title="Create a new empty dashboard."
               >
                 <svg viewBox="0 0 187 16">
-                  <text x="8" y="14" lengthAdjust="spacingAndGlyphs">
+                  <text x="50%" y="14" lengthAdjust="spacingAndGlyphs" style={{ textAnchor: "middle" }}>
                     Create New Dashboard
                   </text>
                 </svg>
@@ -515,7 +515,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 title="Create a new dashboard using a 5e Character Template."
               >
                 <svg viewBox="0 0 197 16">
-                  <text x="6" y="14" lengthAdjust="spacingAndGlyphs">
+                  <text x="50%" y="14" lengthAdjust="spacingAndGlyphs" style={{ textAnchor: "middle" }}>
                     Create New 5e Character
                   </text>
                 </svg>

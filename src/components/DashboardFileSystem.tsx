@@ -158,7 +158,7 @@ const DashboardFileSystem = memo(
         keyIndex += 1;
         backButton = [
           <button
-            title={`Click to go up a level. Drag a Dashboard here to bring it up a level.`}
+            title={`Click to go up a level. Drag a dashboard here to bring it up a level.`}
             key={key}
             data-up-folder={true}
             className="moveFolderUp"
