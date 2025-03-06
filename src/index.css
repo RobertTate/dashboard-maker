@@ -530,21 +530,21 @@ button:active {
 
 #dice-box .displayResults .results {
   display: flex;
-  align-items: flex-start;
   flex-wrap: wrap;
+  align-items: flex-start;
   border: 2px solid #ba98ff;
   background: #4c2696;
   color: #fff;
 }
 
 #dice-box .displayResults .results button {
-  font-size: 0.75rem;
   position: absolute;
-  width: max-content;
   top: -58px;
   left: -10px;
   border: 2px solid #ba98ff;
   background: #4c2696;
+  width: max-content;
+  font-size: 0.75rem;
 }
 
 #dice-box .displayResults .results button:hover {
@@ -625,12 +625,12 @@ button:active {
   background-color: #4c396e;
   cursor: pointer;
   padding: 0.5rem;
+  max-width: 204px;
   line-height: 0;
-  fill: #fff;
   font-family: inherit;
   font-size: 1em;
   font-weight: 500;
-  max-width: 204px;
+  fill: #fff;
 }
 
 .file-system .react-grid-item:hover {
@@ -642,8 +642,8 @@ button:active {
 }
 
 .file-system .react-grid-placeholder {
-  padding: 0;
   background-color: #5e5e5e;
+  padding: 0;
 }
 
 @media (prefers-color-scheme: light) {
@@ -677,13 +677,14 @@ button:active {
 }
 
 .file-system .react-grid-item.folder::after {
-  content: "";
   position: absolute;
   top: 1px; /* Match border width */
   left: 1px; /* Match border width */
+  z-index: -1;
+  background-color: #7a583e; /* Same as the folder color */
   width: calc(100% - 2px); /* Compensate for left & right borders */
   height: calc(100% - 2px); /* Compensate for top & bottom borders */
-  background-color: #7a583e; /* Same as the folder color */
+  content: "";
   clip-path: polygon(
     0 23%,
     0 7%,
@@ -698,7 +699,6 @@ button:active {
     0 100%,
     0% 85%
   );
-  z-index: -1;
 }
 
 .file-system .react-grid-item.folder:hover {
