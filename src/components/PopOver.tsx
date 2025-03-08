@@ -205,8 +205,28 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
       } else {
         if (keys.includes("Menu_Object")) {
           const storedMenu = (await db.getItem("Menu_Object")) as MenuObject;
-          applyPremades(storedMenu, premades);
-          setMenuObject(storedMenu);
+          if (storedMenu.folders) {
+            applyPremades(storedMenu, premades);
+            setMenuObject(storedMenu);
+          } else {
+            const startingMenuLayouts = generateLayouts([...keys, "Premades"]);
+            const startingMenu: MenuObject = {
+              layouts: startingMenuLayouts,
+              currentFolder: [],
+              folders: {
+                Premades: {
+                  folders: {
+                    "5th Edition D&D": {
+                      dashboards: [...keys.filter((key) => key.includes("⭐"))],
+                    },
+                  },
+                },
+              },
+              dashboards: [...keys.filter((key) => !key.includes("⭐"))],
+            };
+  
+            setMenuObject(startingMenu);
+          }
         } else {
           const startingMenuLayouts = generateLayouts([...keys, "Premades"]);
           const startingMenu: MenuObject = {
