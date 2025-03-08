@@ -6,7 +6,11 @@ import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
 import upload from "../assets/upload.svg";
 import db from "../dbInstance";
-import { getCurrentFolder, applyPremades } from "../functions/folderFunctions.ts";
+import {
+  applyPremades,
+  getCurrentFolder,
+} from "../functions/folderFunctions.ts";
+import { formDiceResultString } from "../functions/formResultString.ts";
 import { generateLayouts } from "../functions/generateLayouts.ts";
 import validateUpload from "../functions/validateUpload.ts";
 import styles from "../styles/PopOver.module.css";
@@ -141,11 +145,17 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
         async (event) => {
           try {
             const rollBroadcast = event?.data as RollBroadcast;
-            const { playerName, rollResult } = rollBroadcast;
-            await OBR.notification.show(
-              `${playerName} rolled a ${rollResult}`,
-              "SUCCESS",
+            const { playerName, rawResults, rollResult, diceNotation } =
+              rollBroadcast;
+
+            const resultString = formDiceResultString(
+              playerName,
+              diceNotation,
+              rollResult,
+              rawResults,
             );
+
+            await OBR.notification.show(resultString, "SUCCESS");
           } catch (e) {
             await OBR.notification.show("Something went wrong.", "ERROR");
           }
@@ -207,8 +217,8 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 folders: {
                   "5th Edition D&D": {
                     dashboards: [...keys.filter((key) => key.includes("⭐"))],
-                  }
-                }
+                  },
+                },
               },
             },
             dashboards: [...keys.filter((key) => !key.includes("⭐"))],

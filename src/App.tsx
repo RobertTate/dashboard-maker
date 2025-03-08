@@ -91,7 +91,7 @@ export default function App() {
         setDice(Dice);
       });
 
-      Dice.onRollComplete = (results: any) => {
+      Dice.onRollComplete = async (results: any) => {
         const rerolls = DP.handleRerolls(results);
         if (rerolls.length) {
           rerolls.forEach((roll: any) => Dice.add(roll, roll.groupId));
@@ -102,38 +102,57 @@ export default function App() {
         DiceResults.showResults(finalResults, parsedNotationForMods);
 
         if (OBR.isAvailable) {
-          const diceResultsBox = document.querySelector(
-            "div.results.showEffect",
-          );
-          const shareButton = document.createElement("button");
-          const icon = document.createElement("img");
-          icon.src = shareRoll;
-          icon.alt = "Share Roll Result?";
-          icon.title = "Share Roll Result?";
-          shareButton.appendChild(icon);
-          diceResultsBox?.appendChild(shareButton);
+          const roleValue = await OBR.player.getRole();
+          // GMs can choose to share their roll or not
+          if (roleValue === "GM") {
+            const diceResultsBox = document.querySelector(
+              "div.results.showEffect",
+            );
+            const shareButton = document.createElement("button");
+            const icon = document.createElement("img");
+            icon.src = shareRoll;
+            icon.alt = "Share Roll Result?";
+            icon.title = "Share Roll Result?";
+            shareButton.appendChild(icon);
+            diceResultsBox?.appendChild(shareButton);
 
-          shareButton.addEventListener("click", async () => {
+            shareButton.addEventListener("click", async () => {
+              try {
+                const playerName = await OBR.player.getName();
+                await OBR.broadcast.sendMessage(
+                  "com.roberttate.dashboard-maker-dice-notification",
+                  {
+                    rollResult: finalResults.value,
+                    rawResults: results,
+                    diceNotation: diceNotation,
+                    playerName,
+                  },
+                );
+              } catch (e: any) {
+                if (e.error) {
+                  await OBR.notification.show(`Something went wrong`, "ERROR");
+                }
+              }
+            });
+          } else {
+            // Players dont get to choose to share their roll result
             try {
               const playerName = await OBR.player.getName();
-
               await OBR.broadcast.sendMessage(
                 "com.roberttate.dashboard-maker-dice-notification",
                 {
                   rollResult: finalResults.value,
+                  rawResults: results,
+                  diceNotation: diceNotation,
                   playerName,
                 },
-              );
-              await OBR.notification.show(
-                "Your roll was shared with the room!",
-                "SUCCESS",
               );
             } catch (e: any) {
               if (e.error) {
                 await OBR.notification.show(`Something went wrong`, "ERROR");
               }
             }
-          });
+          }
         }
       };
     }
