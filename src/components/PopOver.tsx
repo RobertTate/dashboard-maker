@@ -6,7 +6,7 @@ import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
 import upload from "../assets/upload.svg";
 import db from "../dbInstance";
-import { getCurrentFolder } from "../functions/folderFunctions.ts";
+import { getCurrentFolder, applyPremades } from "../functions/folderFunctions.ts";
 import { generateLayouts } from "../functions/generateLayouts.ts";
 import validateUpload from "../functions/validateUpload.ts";
 import styles from "../styles/PopOver.module.css";
@@ -174,12 +174,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
             newMenuObj.folders = {};
           }
 
-          newMenuObj.folders["5th Edition D&D"] = {
-            dashboards: [
-              ...(newMenuObj.folders["5th Edition D&D"]?.dashboards || []),
-              ...premades,
-            ],
-          };
+          applyPremades(newMenuObj, premades);
 
           if (currentInd.length === 0) {
             newMenuObj.layouts = generateLayouts([
@@ -200,32 +195,20 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
       } else {
         if (keys.includes("Menu_Object")) {
           const storedMenu = (await db.getItem("Menu_Object")) as MenuObject;
-          const storedMenuToPass: MenuObject = {
-            ...storedMenu,
-            folders: {
-              ...storedMenu.folders,
-              "5th Edition D&D": {
-                dashboards: [
-                  ...(storedMenu?.folders?.["5th Edition D&D"]?.dashboards ||
-                    []),
-                  ...premades,
-                ],
-              },
-            },
-          };
-          setMenuObject(storedMenuToPass);
+          applyPremades(storedMenu, premades);
+          setMenuObject(storedMenu);
         } else {
-          const startingMenuLayouts = generateLayouts([
-            ...keys,
-            "5th Edition D&D",
-          ]);
-
+          const startingMenuLayouts = generateLayouts([...keys, "Premades"]);
           const startingMenu = {
             layouts: startingMenuLayouts,
             currentFolder: [],
             folders: {
-              "5th Edition D&D": {
-                dashboards: [...keys.filter((key) => key.includes("⭐"))],
+              Premades: {
+                folders: {
+                  "5th Edition D&D": {
+                    dashboards: [...keys.filter((key) => key.includes("⭐"))],
+                  }
+                }
               },
             },
             dashboards: [...keys.filter((key) => !key.includes("⭐"))],

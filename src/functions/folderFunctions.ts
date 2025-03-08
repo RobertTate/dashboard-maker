@@ -61,3 +61,27 @@ export const findAllDashboardsWithinCurrentFolderStruc = (
 
   return allDashboards;
 };
+
+export const applyPremades = (menuObject: MenuObject, premades: string[]) => {
+  menuObject.folders["Premades"] = {
+    dashboards: [
+      ...(menuObject.folders?.["Premades"]?.dashboards || []),
+    ],
+    folders: {
+      ...(menuObject.folders?.["Premades"]?.folders || {}),
+      "5th Edition D&D": {
+        folders: {
+          ...(menuObject.folders?.["Premades"]?.folders?.[
+            "5th Edition D&D"
+          ]?.folders || {}),
+        },
+        dashboards: [
+          ...(menuObject.folders?.["Premades"]?.folders?.[
+            "5th Edition D&D"
+          ]?.dashboards || []),
+          ...premades,
+        ],
+      },
+    },
+  };
+}
