@@ -110,6 +110,7 @@ export const FolderCreator = ({
         if (!isLast) {
           acc.push(
             <a
+              title={`Click to go to ${curr}`}
               key={curr}
               className={styles["folder-creator-breadcrumb-link"]}
               onClick={() => {
@@ -213,7 +214,7 @@ export const FolderCreator = ({
         <button
           className={styles["folder-creator-button"]}
           onClick={handleFolderCreation}
-          title="Create a folder to put dashboards in"
+          title="Create a folder to put dashboards in."
         >
           <img src={addFolder} alt="Right Pointing Arrow" />
         </button>
@@ -237,7 +238,7 @@ export const FolderCreator = ({
           {isInsideAFolder && (
             <button
               className={styles["folder-creator-delete-folder"]}
-              title="Delete This Folder"
+              title="Delete this folder."
               onClick={() => setDeleteZoneIsOpen((prev) => !prev)}
             >
               <img alt="Delete Icon" src={fire}></img>
@@ -255,7 +256,7 @@ export const FolderCreator = ({
               <p>
                 Type "DELETE" to delete this folder and all its inner folders.
               </p>{" "}
-              <p>The dashboards will be moved to the top level.</p>
+              <p>The dashboards will all be moved to the next level up.</p>
               <div className={styles["dashboard-delete-zone-confirm"]}>
                 <input
                   ref={deleteFolderInputRef}

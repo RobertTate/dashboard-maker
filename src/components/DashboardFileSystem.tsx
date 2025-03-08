@@ -184,6 +184,7 @@ const DashboardFileSystem = memo(
           <div
             className="folder"
             key={key}
+            title="Click to enter this folder. Drag a dashboard here to put it in the folder."
             data-folder={folderName}
             data-grid={{
               static: true,

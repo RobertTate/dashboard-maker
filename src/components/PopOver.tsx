@@ -209,7 +209,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
           setMenuObject(storedMenu);
         } else {
           const startingMenuLayouts = generateLayouts([...keys, "Premades"]);
-          const startingMenu = {
+          const startingMenu: MenuObject = {
             layouts: startingMenuLayouts,
             currentFolder: [],
             folders: {
@@ -478,7 +478,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               <button
                 className="icon-button"
                 id="upload-button"
-                title="Upload A Dashboard."
+                title="Upload a Dashboard."
                 onClick={() => handleUploadClick()}
               >
                 <img style={{ width: "20px" }} src={upload} alt="Upload" />
