@@ -62,7 +62,9 @@ Dashboard Maker now supports a dice notation syntax. Simply type things like "1d
 
 For more information on the full list of dice notation syntax that Dashboard Maker will recognize & accept, download and import the "Dice Demo" dashboard `.json` file into Dashboard Maker. This dashboard can be found on the [User Made Dashboards](https://discord.com/channels/795808973743194152/1248695489558483007) Discord thread, on the [Owlbear Rodeo Discord](https://discord.gg/u5RYMkV98s).
 
-<img style="margin-bottom:-4px" src="./src/assets/shareRoll.svg" alt="Share Icon" width="30"> This button will appear when your roll result is displayed. Clicking it will share your roll result with the room.
+<img style="margin-bottom:-4px" src="./src/assets/shareRoll.svg" alt="Share Icon" width="30"> For GM's, this button will appear when your roll result is displayed. Clicking it will share your roll result with the room.
+
+For Players, your roll is shared automatically.
 
 ## Images
 
