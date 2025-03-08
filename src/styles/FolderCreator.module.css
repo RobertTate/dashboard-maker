@@ -87,6 +87,11 @@
   text-align: center;
 }
 
+.folder-delete-zone p {
+  max-width: 25rem;
+}
+
+
 .folder-delete-zone.show-folder-delete-zone {
   transition: max-height 0.3s ease-in;
   margin-top: 0.8rem;
@@ -97,4 +102,12 @@
 .folder-delete-zone input {
   height: 2rem;
   font-size: 1.25rem;
+  width: 100%;
+}
+
+.folder-delete-zone-confirm {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 25rem;
 }

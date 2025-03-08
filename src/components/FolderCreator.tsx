@@ -254,10 +254,9 @@ export const FolderCreator = ({
               }`}
             >
               <p>
-                Type "DELETE" to delete this folder and all its inner folders.
-              </p>{" "}
-              <p>The dashboards will all be moved to the next level up.</p>
-              <div className={styles["dashboard-delete-zone-confirm"]}>
+                Type "DELETE" to delete this folder and subfolders. Dashboards will move up and out.
+              </p>
+              <div className={styles["folder-delete-zone-confirm"]}>
                 <input
                   ref={deleteFolderInputRef}
                   type="text"
