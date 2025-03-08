@@ -6,6 +6,8 @@ Whether it's useful notes & reminders, initiative trackers, character sheets, or
 
 You get fun boxes to drag around, [markdown style text shortcuts](#formatting-keyboard-shortcuts), a decked out [editing bar](#the-toolbar), and a [magic dice syntax](#dice-notation) that lets you roll 3d dice in the app. All the things a TTRPG note-taking enthusiast could want.
 
+Additionally, a folder system is in place to help you organize your dashboards however you see fit.
+
 All content is saved in your browser. Dashboards are also downloadable, uploadable, and shareable between the GM and their players.
 
 **The more you put in Dashboard Maker, the less you have to leave Owlbear Rodeo. Why is this good? Because context switching during a game sucks.**
@@ -14,13 +16,13 @@ Check it out as a standalone app [here](https://owlbear-dashboard-maker.vercel.a
 
 _(But really, you should be using this in [Owlbear Rodeo](https://www.owlbear.rodeo/))_
 
-<img src="./docs/DashboardMakerPreview2.gif" alt="Dashboard Maker Preview" width="722">
+<img src="./docs/DashMakerNewIntro.gif" alt="Dashboard Maker Preview" width="722">
 
 ## Dashboard Types
 
 ### Blank Dashboards
 
-<img src="./docs/DashboardMakerBlankDash1.png" alt="Blank Dashboards" width="722">
+<img src="./docs/DashMakerBlankDash1.png" alt="Blank Dashboards" width="722">
 
 Click **Create A New Dashboard** on the home screen to create a new empty dashboard.
 
@@ -28,13 +30,13 @@ Click **Create A New Dashboard** on the home screen to create a new empty dashbo
 
 ### 5e Character Template Dashboards
 
-<img src="./docs/DashboardMakerNew5eCharacterSheet.png" alt="5e Character Template Dashboards" width="722">
+<img src="./docs/DashMakerNew5eSheet.png" alt="5e Character Template Dashboards" width="722">
 
 Click **Create A New 5e Character** on the home page to create a new dashboard that uses a 5e character template.
 
 ### Premades
 
-<img src="./docs/DashboardMakerPremadeDash1.png" alt="Dashboard Premades" width="722">
+<img src="./docs/DashMakerPremadeDash1.png" alt="Dashboard Premades" width="722">
 
 Dashboard Maker comes with some "Premades". These are dashboards that I made to offer some useful DM Screen info, right now specifically for D&D 5th Edition.
 
@@ -56,17 +58,19 @@ Dashboard Maker comes with some "Premades". These are dashboards that I made to 
 
 Dashboard Maker now supports a dice notation syntax. Simply type things like "1d6+3" in the editor, hit space, and watch as the text gets captured as "dice notation". Then, you just click on what you typed, and it will roll those dice.
 
-<img src="./docs/DashboardMakerDicePreview.gif" alt="Dashboard Maker Dice Preview" width="722">
+<img src="./docs/DashMakerDicePreview.gif" alt="Dashboard Maker Dice Preview" width="722">
 
 For more information on the full list of dice notation syntax that Dashboard Maker will recognize & accept, download and import the "Dice Demo" dashboard `.json` file into Dashboard Maker. This dashboard can be found on the [User Made Dashboards](https://discord.com/channels/795808973743194152/1248695489558483007) Discord thread, on the [Owlbear Rodeo Discord](https://discord.gg/u5RYMkV98s).
 
-<img style="margin-bottom:-4px" src="./src/assets/shareRoll.svg" alt="Share Icon" width="30"> This button will appear when your roll result is displayed. Clicking it will share your roll result with the room.
+<img style="margin-bottom:-4px" src="./src/assets/shareRoll.svg" alt="Share Icon" width="30"> For GM's, this button will appear when your roll result is displayed. Clicking it will share your roll result with the room.
+
+For Players, your roll is shared automatically.
 
 ## Images
 
 Dashboard Maker now supports adding images inside a dashboard content box.
 
-<img src="./docs/DashboardMakerImageSupportExample.png" alt="Image Support Example" width="722">
+<img src="./docs/DashMakerImageExample.png" alt="Image Support Example" width="722">
 
 ### Prerequisites:
 

@@ -58,4 +58,38 @@ export type NewDashboardTemplateOptions = "default" | "5eChar" | "duplicate";
 export type RollBroadcast = {
   playerName: string;
   rollResult: number;
+  diceNotation: string;
+  rawResults: any;
+};
+
+export type Breakpoint = "lg" | "md" | "sm" | "xs" | "xxs";
+
+export type Folder = {
+  dashboards?: string[];
+  folders?: FolderSystem;
+  layouts?: ReactGridLayout.Layouts;
+};
+
+export type FolderSystem = {
+  [key: string]: Folder;
+};
+
+export type MenuObject = {
+  layouts?: ReactGridLayout.Layouts;
+  folders: FolderSystem;
+  dashboards: string[];
+  currentFolder: string[];
+};
+
+export type DashboardFileSystemProps = {
+  dashBoardsArray: string[];
+  menuObject: MenuObject;
+  setMenuObject: React.Dispatch<React.SetStateAction<MenuObject>>;
+  selectADashboard: (dashName: string) => void;
+  refreshCount: number;
+};
+
+export type FolderCreatorProps = {
+  menuObject: MenuObject;
+  setMenuObject: React.Dispatch<React.SetStateAction<MenuObject>>;
 };

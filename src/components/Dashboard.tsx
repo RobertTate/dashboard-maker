@@ -1,6 +1,6 @@
 import OBR from "@owlbear-rodeo/sdk";
 import pako from "pako";
-import { useCallback, useRef, useState, memo } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
@@ -56,6 +56,15 @@ const Dashboard = memo((props: DashboardProps) => {
         "Only typing DELETE in all uppercase letters will trigger a dashboard deletion.",
       );
       deleteInputRef!.current!.reportValidity();
+    }
+  };
+
+  const handleDeleteOnEnter: React.KeyboardEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    if (event.key == "Enter") {
+      event.preventDefault();
+      handleDelete();
     }
   };
 
@@ -236,6 +245,7 @@ const Dashboard = memo((props: DashboardProps) => {
             type="text"
             name="dashboardDeleteField"
             required
+            onKeyDown={handleDeleteOnEnter}
           />
           <button onClick={handleDelete}>Submit</button>
         </div>

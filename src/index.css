@@ -379,77 +379,6 @@ button:active {
   margin-right: 0.25rem;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    background-color: #d2bff9;
-    color: #000;
-  }
-
-  .editable-md-widget {
-    --basePageBg: #f0e9e9;
-    --admonitionTipBg: hsl(187deg 71% 88%);
-    --admonitionTipBorder: hsl(189deg 60% 53%);
-    --admonitionInfoBg: hsl(123deg 45% 90%);
-    --admonitionInfoBorder: hsl(131deg 38% 56%);
-    --admonitionCautionBg: hsl(50deg 100% 81%);
-    --admonitionCautionBorder: hsl(38deg 75% 55%);
-    --admonitionDangerBg: hsl(358deg 100% 93%);
-    --admonitionDangerBorder: hsl(359deg 70% 74%);
-    --admonitionNoteBg: hsl(240deg 10% 92%);
-    --admonitionNoteBorder: hsl(231deg 10% 75%);
-  }
-
-  button {
-    background-color: #9d73f1;
-    color: #000;
-  }
-
-  button.icon-button {
-    background-color: #4c2696;
-  }
-
-  button:hover {
-    border-color: #8447ff;
-  }
-
-  .react-grid-layout {
-    background-color: #9773e4;
-  }
-
-  .react-grid-layout .react-grid-item {
-    border: 2px solid #8447ff;
-    background-color: #fff;
-  }
-
-  .react-grid-item > .react-resizable-handle::after {
-    border-right: 2px solid #b9f;
-    border-bottom: 2px solid #b9f;
-  }
-
-  .editable-md-widget span,
-  .editable-md-widget strong,
-  .editable-md-widget em {
-    color: #000;
-  }
-
-  .editable-md-widget code span,
-  .editable-md-widget code strong,
-  .editable-md-widget code em {
-    background-color: #3a3a3a;
-    color: #fff;
-  }
-
-  .editable-md-widget a code span,
-  .editable-md-widget a code strong,
-  .editable-md-widget a code em {
-    color: #8447ff;
-  }
-
-  .editable-md-widget ul,
-  .editable-md-widget ol {
-    color: #000;
-  }
-}
 
 /* loading animation styles */
 
@@ -530,21 +459,21 @@ button:active {
 
 #dice-box .displayResults .results {
   display: flex;
-  align-items: flex-start;
   flex-wrap: wrap;
+  align-items: flex-start;
   border: 2px solid #ba98ff;
   background: #4c2696;
   color: #fff;
 }
 
 #dice-box .displayResults .results button {
-  font-size: 0.75rem;
   position: absolute;
-  width: max-content;
   top: -58px;
   left: -10px;
   border: 2px solid #ba98ff;
   background: #4c2696;
+  width: max-content;
+  font-size: 0.75rem;
 }
 
 #dice-box .displayResults .results button:hover {
@@ -608,4 +537,208 @@ button:active {
 
 .editable-md-widget .dice-notation:hover {
   color: #c9b0ff;
+}
+
+.file-system {
+  background-color: unset;
+  height: auto;
+}
+
+.file-system .react-grid-item {
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    opacity 0.25s;
+  border: 3px solid transparent;
+  border-radius: 8px;
+  background-color: #4c396e;
+  cursor: pointer;
+  padding: 0.5rem;
+  max-width: 204px;
+  line-height: 0;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 500;
+  fill: #fff;
+}
+
+.file-system .react-grid-item:hover {
+  border-color: #b9f;
+}
+
+.file-system .react-grid-item:active {
+  background-color: #8447ff;
+}
+
+.file-system .react-grid-placeholder {
+  background-color: #5e5e5e;
+  padding: 0;
+}
+
+.file-system .react-grid-item.folder {
+  box-sizing: border-box;
+  background-color: #7a583e;
+  clip-path: polygon(
+    0 23%,
+    0 7%,
+    4% 0,
+    29% 0,
+    32% 7%,
+    60% 7%,
+    98% 7%,
+    100% 10%,
+    100% 100%,
+    15% 100%,
+    0 100%,
+    0% 85%
+  );
+}
+
+.file-system .react-grid-item.folder::after {
+  position: absolute;
+  top: 1px; /* Match border width */
+  left: 1px; /* Match border width */
+  z-index: -1;
+  background-color: #7a583e; /* Same as the folder color */
+  width: calc(100% - 2px); /* Compensate for left & right borders */
+  height: calc(100% - 2px); /* Compensate for top & bottom borders */
+  content: "";
+  clip-path: polygon(
+    0 23%,
+    0 7%,
+    4% 0,
+    29% 0,
+    32% 7%,
+    60% 7%,
+    98% 7%,
+    100% 10%,
+    100% 100%,
+    15% 100%,
+    0 100%,
+    0% 85%
+  );
+}
+
+.file-system .react-grid-item.folder:hover {
+  border-color: transparent;
+  background-color: #d6beae;
+}
+
+.file-system .react-grid-item.moveFolderUp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ad5252;
+}
+
+.file-system .react-grid-item.moveFolderUp:hover {
+  border-color: #ff9c9c;
+}
+
+.file-system .react-grid-item.moveFolderUp img {
+  width: 26px;
+}
+
+
+@media (prefers-color-scheme: light) {
+  :root {
+    background-color: #d2bff9;
+    color: #000;
+  }
+
+  .editable-md-widget {
+    --basePageBg: #f0e9e9;
+    --admonitionTipBg: hsl(187deg 71% 88%);
+    --admonitionTipBorder: hsl(189deg 60% 53%);
+    --admonitionInfoBg: hsl(123deg 45% 90%);
+    --admonitionInfoBorder: hsl(131deg 38% 56%);
+    --admonitionCautionBg: hsl(50deg 100% 81%);
+    --admonitionCautionBorder: hsl(38deg 75% 55%);
+    --admonitionDangerBg: hsl(358deg 100% 93%);
+    --admonitionDangerBorder: hsl(359deg 70% 74%);
+    --admonitionNoteBg: hsl(240deg 10% 92%);
+    --admonitionNoteBorder: hsl(231deg 10% 75%);
+  }
+
+  button {
+    background-color: #9d73f1;
+    color: #000;
+  }
+
+  button.icon-button {
+    background-color: #4c2696;
+  }
+
+  button:hover {
+    border-color: #8447ff;
+  }
+
+  .react-grid-layout {
+    background-color: #9773e4;
+  }
+
+  .react-grid-layout.file-system {
+    background-color: unset;
+  }
+
+
+  .react-grid-layout .react-grid-item {
+    border: 2px solid #8447ff;
+    background-color: #f1f1f1;
+  }
+
+  .react-grid-item > .react-resizable-handle::after {
+    border-right: 2px solid #b9f;
+    border-bottom: 2px solid #b9f;
+  }
+
+  .editable-md-widget span,
+  .editable-md-widget strong,
+  .editable-md-widget em {
+    color: #000;
+  }
+
+  .editable-md-widget code span,
+  .editable-md-widget code strong,
+  .editable-md-widget code em {
+    background-color: #3a3a3a;
+    color: #fff;
+  }
+
+  .editable-md-widget a code span,
+  .editable-md-widget a code strong,
+  .editable-md-widget a code em {
+    color: #8447ff;
+  }
+
+  .editable-md-widget ul,
+  .editable-md-widget ol {
+    color: #000;
+  }
+
+  .editable-md-widget .dice-notation {
+    color: #8447ff;
+  }
+  
+  .editable-md-widget .dice-notation:hover {
+    color: #4c2696;
+  }
+  .file-system .react-grid-item {
+    background-color: #9d73f1;
+    border: 3px solid transparent;
+    fill: #000;
+  }
+
+  .file-system .react-grid-item:hover {
+    border-color: #4c2696;
+  }
+
+  .file-system .react-grid-item svg {
+    fill: white;
+  }
+
+  .file-system .react-grid-item.folder:hover {
+    border-color: transparent;
+    background-color: #af935f;
+  }
 }

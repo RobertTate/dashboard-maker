@@ -1,0 +1,113 @@
+.folder-creator {
+  display: flex;
+  align-items: center;
+}
+
+.folder-creator-button {
+  background-color: #7a583e;
+  padding: 0.25rem;
+}
+
+.folder-creator-button img {
+  width: 28px;
+}
+
+.folder-creator-button:hover {
+  border-color: #d6beae;
+}
+
+@media (prefers-color-scheme: light) {
+  .folder-creator-button:hover {
+    border-color: #af935f;
+  }
+}
+
+.folder-creator-input {
+  flex-grow: 1;
+  width: 100%;
+  height: 2rem;
+  font-size: 1.25rem;
+}
+
+.folder-creator-options-container {
+  margin: 0 8px;
+}
+
+.folder-creator-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.folder-creator-breadcrumb-link {
+  cursor: pointer;
+  color: #9d73f1;
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: light) {
+  .folder-creator-breadcrumb-link {
+    color: #4c2696;
+  }
+}
+
+
+.folder-creator-breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.folder-creator-breadcrumb-current {
+  font-weight: 900;
+}
+
+.folder-creator-delete-folder {
+  padding: 0.5rem;
+}
+
+@media (prefers-color-scheme: light) {
+  .folder-creator-delete-folder {
+    background-color: #4c2696;
+  } 
+}
+
+.folder-creator-delete-folder img {
+  width: 20px;
+}
+
+.folder-delete-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: max-height 0.3s ease-out;
+  border-radius: 8px;
+  background-color: #312544;
+  max-height: 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+.folder-delete-zone p {
+  max-width: 25rem;
+}
+
+
+.folder-delete-zone.show-folder-delete-zone {
+  transition: max-height 0.3s ease-in;
+  margin-top: 0.8rem;
+  margin-bottom: 0.25rem;
+  max-height: 200px;
+}
+
+.folder-delete-zone input {
+  height: 2rem;
+  font-size: 1.25rem;
+  width: 100%;
+}
+
+.folder-delete-zone-confirm {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 25rem;
+}
