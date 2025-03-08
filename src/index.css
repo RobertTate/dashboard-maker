@@ -379,77 +379,6 @@ button:active {
   margin-right: 0.25rem;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    background-color: #d2bff9;
-    color: #000;
-  }
-
-  .editable-md-widget {
-    --basePageBg: #f0e9e9;
-    --admonitionTipBg: hsl(187deg 71% 88%);
-    --admonitionTipBorder: hsl(189deg 60% 53%);
-    --admonitionInfoBg: hsl(123deg 45% 90%);
-    --admonitionInfoBorder: hsl(131deg 38% 56%);
-    --admonitionCautionBg: hsl(50deg 100% 81%);
-    --admonitionCautionBorder: hsl(38deg 75% 55%);
-    --admonitionDangerBg: hsl(358deg 100% 93%);
-    --admonitionDangerBorder: hsl(359deg 70% 74%);
-    --admonitionNoteBg: hsl(240deg 10% 92%);
-    --admonitionNoteBorder: hsl(231deg 10% 75%);
-  }
-
-  button {
-    background-color: #9d73f1;
-    color: #000;
-  }
-
-  button.icon-button {
-    background-color: #4c2696;
-  }
-
-  button:hover {
-    border-color: #8447ff;
-  }
-
-  .react-grid-layout {
-    background-color: #9773e4;
-  }
-
-  .react-grid-layout .react-grid-item {
-    border: 2px solid #8447ff;
-    background-color: #fff;
-  }
-
-  .react-grid-item > .react-resizable-handle::after {
-    border-right: 2px solid #b9f;
-    border-bottom: 2px solid #b9f;
-  }
-
-  .editable-md-widget span,
-  .editable-md-widget strong,
-  .editable-md-widget em {
-    color: #000;
-  }
-
-  .editable-md-widget code span,
-  .editable-md-widget code strong,
-  .editable-md-widget code em {
-    background-color: #3a3a3a;
-    color: #fff;
-  }
-
-  .editable-md-widget a code span,
-  .editable-md-widget a code strong,
-  .editable-md-widget a code em {
-    color: #8447ff;
-  }
-
-  .editable-md-widget ul,
-  .editable-md-widget ol {
-    color: #000;
-  }
-}
 
 /* loading animation styles */
 
@@ -646,17 +575,6 @@ button:active {
   padding: 0;
 }
 
-@media (prefers-color-scheme: light) {
-  .file-system .react-grid-item {
-    background-color: #9d73f1;
-    fill: #000;
-  }
-
-  .file-system .react-grid-item:hover {
-    border-color: #8447ff;
-  }
-}
-
 .file-system .react-grid-item.folder {
   box-sizing: border-box;
   background-color: #7a583e;
@@ -719,4 +637,108 @@ button:active {
 
 .file-system .react-grid-item.moveFolderUp img {
   width: 26px;
+}
+
+
+@media (prefers-color-scheme: light) {
+  :root {
+    background-color: #d2bff9;
+    color: #000;
+  }
+
+  .editable-md-widget {
+    --basePageBg: #f0e9e9;
+    --admonitionTipBg: hsl(187deg 71% 88%);
+    --admonitionTipBorder: hsl(189deg 60% 53%);
+    --admonitionInfoBg: hsl(123deg 45% 90%);
+    --admonitionInfoBorder: hsl(131deg 38% 56%);
+    --admonitionCautionBg: hsl(50deg 100% 81%);
+    --admonitionCautionBorder: hsl(38deg 75% 55%);
+    --admonitionDangerBg: hsl(358deg 100% 93%);
+    --admonitionDangerBorder: hsl(359deg 70% 74%);
+    --admonitionNoteBg: hsl(240deg 10% 92%);
+    --admonitionNoteBorder: hsl(231deg 10% 75%);
+  }
+
+  button {
+    background-color: #9d73f1;
+    color: #000;
+  }
+
+  button.icon-button {
+    background-color: #4c2696;
+  }
+
+  button:hover {
+    border-color: #8447ff;
+  }
+
+  .react-grid-layout {
+    background-color: #9773e4;
+  }
+
+  .react-grid-layout.file-system {
+    background-color: unset;
+  }
+
+
+  .react-grid-layout .react-grid-item {
+    border: 2px solid #8447ff;
+    background-color: #f1f1f1;
+  }
+
+  .react-grid-item > .react-resizable-handle::after {
+    border-right: 2px solid #b9f;
+    border-bottom: 2px solid #b9f;
+  }
+
+  .editable-md-widget span,
+  .editable-md-widget strong,
+  .editable-md-widget em {
+    color: #000;
+  }
+
+  .editable-md-widget code span,
+  .editable-md-widget code strong,
+  .editable-md-widget code em {
+    background-color: #3a3a3a;
+    color: #fff;
+  }
+
+  .editable-md-widget a code span,
+  .editable-md-widget a code strong,
+  .editable-md-widget a code em {
+    color: #8447ff;
+  }
+
+  .editable-md-widget ul,
+  .editable-md-widget ol {
+    color: #000;
+  }
+
+  .editable-md-widget .dice-notation {
+    color: #8447ff;
+  }
+  
+  .editable-md-widget .dice-notation:hover {
+    color: #4c2696;
+  }
+  .file-system .react-grid-item {
+    background-color: #9d73f1;
+    border: 3px solid transparent;
+    fill: #000;
+  }
+
+  .file-system .react-grid-item:hover {
+    border-color: #4c2696;
+  }
+
+  .file-system .react-grid-item svg {
+    fill: white;
+  }
+
+  .file-system .react-grid-item.folder:hover {
+    border-color: transparent;
+    background-color: #af935f;
+  }
 }
