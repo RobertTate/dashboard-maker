@@ -1,5 +1,5 @@
 import db from "../dbInstance";
-import type { PremadeDashConfig, MenuObject } from "../types";
+import type { MenuObject, PremadeDashConfig } from "../types";
 
 async function addPremade(premade: PremadeDashConfig) {
   const premadeContent = await import(`../partials/${premade.fileName}.ts`);
@@ -58,24 +58,27 @@ export async function checkAndAddPremades(keys: string[]) {
 
 export const applyPremades = (menuObject: MenuObject, premades: string[]) => {
   menuObject.folders["Premades"] = {
-    dashboards: [
-      ...(menuObject.folders?.["Premades"]?.dashboards || []),
-    ],
+    layouts: {
+      ...(menuObject.folders?.["Premades"]?.layouts || {}),
+    },
+    dashboards: [...(menuObject.folders?.["Premades"]?.dashboards || [])],
     folders: {
       ...(menuObject.folders?.["Premades"]?.folders || {}),
       "5th Edition D&D": {
         folders: {
-          ...(menuObject.folders?.["Premades"]?.folders?.[
-            "5th Edition D&D"
-          ]?.folders || {}),
+          ...(menuObject.folders?.["Premades"]?.folders?.["5th Edition D&D"]
+            ?.folders || {}),
         },
         dashboards: [
-          ...(menuObject.folders?.["Premades"]?.folders?.[
-            "5th Edition D&D"
-          ]?.dashboards || []),
+          ...(menuObject.folders?.["Premades"]?.folders?.["5th Edition D&D"]
+            ?.dashboards || []),
           ...premades,
         ],
+        layouts: {
+          ...(menuObject.folders?.["Premades"]?.folders?.["5th Edition D&D"]
+            ?.layouts || {}),
+        },
       },
     },
   };
-}
+};

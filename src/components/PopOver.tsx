@@ -9,6 +9,7 @@ import {
   useInitDashboards,
   useReceiveDashboard,
   useShowDiceResults,
+  useSyncStorage,
 } from "../functions/hooks";
 import styles from "../styles/PopOver.module.css";
 import type {
@@ -32,6 +33,9 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
   const [refreshCount, setRefreshCount] = useState(0);
   const newDashInputRef = useRef<HTMLInputElement>(null);
   const uploadRef = useRef<HTMLInputElement>(null);
+
+  const [syncStorage, setSyncStorage] = useState(0);
+  useSyncStorage(syncStorage, menuObject);
 
   const selectADashboard = useCallback((dashName: string) => {
     setSelectedDashboard(dashName);
@@ -299,12 +303,14 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
             <FolderCreator
               menuObject={menuObject}
               setMenuObject={setMenuObject}
+              setSyncStorage={setSyncStorage}
             />
             <DashboardFileSystem
               dashBoardsArray={dashBoardsArray}
               menuObject={menuObject}
               setMenuObject={setMenuObject}
               selectADashboard={selectADashboard}
+              setSyncStorage={setSyncStorage}
             />
           </div>
           <div className={styles["premade-dashboards"]}></div>

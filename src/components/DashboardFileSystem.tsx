@@ -5,9 +5,7 @@ import ReactGridLayout, {
   Responsive,
   WidthProvider,
 } from "react-grid-layout";
-
 import moveUp from "../assets/moveUp.svg";
-import db from "../dbInstance";
 import {
   collisionInfo,
   generateLayouts,
@@ -23,6 +21,7 @@ const DashboardFileSystem = memo(
     menuObject,
     selectADashboard,
     setMenuObject,
+    setSyncStorage,
   }: DashboardFileSystemProps) => {
     if (!menuObject) return null;
     const folderRefs = useRef<HTMLDivElement[]>([]);
@@ -64,18 +63,6 @@ const DashboardFileSystem = memo(
         filteredDashboards.length + (Object.keys(filteredFolders)?.length || 0),
       cols: { lg: 3, md: 3, sm: 3, xs: 3, xxs: 2 },
     };
-
-    const [syncStorage, setSyncStorage] = useState(0);
-
-    // Syncs storage to be up to date with onLayoutChange
-    useEffect(() => {
-      const updateLayouts = async () => {
-        if (menuObject?.layouts) {
-          await db.setItem("Menu_Object", menuObject);
-        }
-      };
-      updateLayouts();
-    }, [syncStorage]);
 
     // Checks if the Layout has changed, if so, updates the state and triggers the useEffect above
     const onLayoutChange = useCallback(

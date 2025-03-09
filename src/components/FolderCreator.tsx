@@ -14,6 +14,7 @@ import type { Folder, MenuObject } from "../types/index.ts";
 export const FolderCreator = ({
   menuObject,
   setMenuObject,
+  setSyncStorage,
 }: FolderCreatorProps) => {
   if (!menuObject) return null;
   const folderInputRef = useRef<HTMLInputElement>(null);
@@ -131,6 +132,7 @@ export const FolderCreator = ({
                   }
                   return newMenuObj;
                 });
+                setSyncStorage((prev) => prev + 1);
               }}
             >
               {curr}
