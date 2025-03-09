@@ -51,7 +51,6 @@
   }
 }
 
-
 .folder-creator-breadcrumb-link:hover {
   text-decoration: underline;
 }
@@ -67,7 +66,7 @@
 @media (prefers-color-scheme: light) {
   .folder-creator-delete-folder {
     background-color: #4c2696;
-  } 
+  }
 }
 
 .folder-creator-delete-folder img {
@@ -90,7 +89,6 @@
 .folder-delete-zone p {
   max-width: 25rem;
 }
-
 
 .folder-delete-zone.show-folder-delete-zone {
   transition: max-height 0.3s ease-in;
