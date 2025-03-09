@@ -2,8 +2,8 @@ import OBR from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 
 import PopOver from "./components/PopOver";
-import { Role } from "./types";
 import { useDice } from "./functions/hooks";
+import { Role } from "./types";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);

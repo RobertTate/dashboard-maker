@@ -24,4 +24,3 @@ const schema = {
 };
 
 export const validateUpload = ajv.compile(schema); // Compile the schema to a validation function
-
