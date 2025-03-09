@@ -23,6 +23,5 @@ const schema = {
   additionalProperties: false,
 };
 
-const validateUpload = ajv.compile(schema); // Compile the schema to a validation function
+export const validateUpload = ajv.compile(schema); // Compile the schema to a validation function
 
-export default validateUpload;

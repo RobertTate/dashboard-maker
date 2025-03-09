@@ -1,87 +1,25 @@
-import OBR from "@owlbear-rodeo/sdk";
-import pako from "pako";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 
 import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
 import upload from "../assets/upload.svg";
 import db from "../dbInstance";
+import { getCurrentFolder, validateUpload } from "../functions";
 import {
-  applyPremades,
-  getCurrentFolder,
-} from "../functions/folderFunctions.ts";
-import { formDiceResultString } from "../functions/formResultString.ts";
-import { generateLayouts } from "../functions/generateLayouts.ts";
-import validateUpload from "../functions/validateUpload.ts";
+  useInitDashboards,
+  useReceiveDashboard,
+  useShowDiceResults,
+} from "../functions/hooks";
 import styles from "../styles/PopOver.module.css";
 import type {
   DashboardItemsProps,
-  Folder,
   MenuObject,
   NewDashboardTemplateOptions,
   PopOverProps,
-  PremadeDashConfig,
-  RollBroadcast,
-  SharedDashboard,
 } from "../types/index.ts";
 import Dashboard from "./Dashboard";
 import DashboardFileSystem from "./DashboardFileSystem.tsx";
 import { FolderCreator } from "./FolderCreator";
-
-async function addPremade(premade: PremadeDashConfig) {
-  const premadeContent = await import(`../partials/${premade.fileName}.ts`);
-  await db.setItem(premade.dashName, premadeContent.default);
-  return premade.dashName;
-}
-
-async function checkAndAddPremades(keys: string[]) {
-  const premadesArrayToCheckAgainst: PremadeDashConfig[] = [
-    {
-      fileName: "armorDashPremade",
-      dashName: "⭐ Armor ⭐",
-    },
-    {
-      fileName: "simpleWeaponsDashPremade",
-      dashName: "⭐ Simple Weapons ⭐",
-    },
-    {
-      fileName: "martialWeaponsDashPremade",
-      dashName: "⭐ Martial Weapons ⭐",
-    },
-    {
-      fileName: "adventuringGearDashPremade",
-      dashName: "⭐ Adventuring Gear ⭐",
-    },
-    {
-      fileName: "conditionsDashPremade",
-      dashName: "⭐ Conditions ⭐",
-    },
-    {
-      fileName: "skillsDashPremade",
-      dashName: "⭐ Skills ⭐",
-    },
-    {
-      fileName: "diceDemoPremade",
-      dashName: "⭐ Dice Demo ⭐",
-    },
-    {
-      fileName: "devNotePremade",
-      dashName: "⭐ Developer Note ⭐",
-    },
-  ];
-
-  const promises: Promise<string>[] = [];
-
-  premadesArrayToCheckAgainst.forEach((premade) => {
-    if (!keys.includes(premade.dashName)) {
-      promises.push(addPremade(premade));
-    }
-  });
-
-  const newPremades = await Promise.all(promises);
-
-  return newPremades;
-}
 
 const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
   const [selectedDashboard, setSelectedDashboard] = useState("");
@@ -99,157 +37,9 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
     setSelectedDashboard(dashName);
   }, []);
 
-  useEffect(() => {
-    if (standalone === false) {
-      return OBR.broadcast.onMessage(
-        "com.roberttate.dashboard-maker",
-        async (event) => {
-          try {
-            const b64EncodedCompressedUint8ArrayString = event?.data as string;
-            const compressedUint8ArrayString = atob(
-              b64EncodedCompressedUint8ArrayString,
-            );
-            const compressedUint8Array = new Uint8Array(
-              compressedUint8ArrayString.length,
-            );
-            for (let i = 0; i < compressedUint8ArrayString.length; i++) {
-              compressedUint8Array[i] =
-                compressedUint8ArrayString.charCodeAt(i);
-            }
-            const stringified = pako.ungzip(compressedUint8Array, {
-              to: "string",
-            });
-            const sharedDashboard: SharedDashboard = JSON.parse(stringified);
-            const { sharedDashboardTitle, sharedDashboardContent } =
-              sharedDashboard;
-            await db.setItem(sharedDashboardTitle, sharedDashboardContent);
-            setRefreshCount((prev) => prev + 1);
-            selectADashboard("");
-            await OBR.notification.show(
-              `"${sharedDashboardTitle}" has just been shared with you!`,
-              "SUCCESS",
-            );
-          } catch (e) {
-            console.error(e);
-            await OBR.notification.show("Dashboard Sharing Failed.", "ERROR");
-          }
-        },
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    if (standalone === false) {
-      return OBR.broadcast.onMessage(
-        "com.roberttate.dashboard-maker-dice-notification",
-        async (event) => {
-          try {
-            const rollBroadcast = event?.data as RollBroadcast;
-            const { playerName, rawResults, rollResult, diceNotation } =
-              rollBroadcast;
-
-            const resultString = formDiceResultString(
-              playerName,
-              diceNotation,
-              rollResult,
-              rawResults,
-            );
-
-            await OBR.notification.show(resultString, "SUCCESS");
-          } catch (e) {
-            await OBR.notification.show("Something went wrong.", "ERROR");
-          }
-        },
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    const initDashboards = async () => {
-      let keys = await db.keys();
-      const premades = await checkAndAddPremades(keys);
-      if (premades.length > 0) {
-        keys = [...keys, ...premades];
-      }
-      setDashboardsArray(keys);
-
-      if (refreshCount > 0) {
-        setMenuObject((prevMenuObj) => {
-          const newMenuObj: MenuObject = JSON.parse(
-            JSON.stringify(prevMenuObj),
-          );
-          const currentInd = newMenuObj?.currentFolder;
-
-          if (!newMenuObj.folders) {
-            newMenuObj.folders = {};
-          }
-
-          applyPremades(newMenuObj, premades);
-
-          if (currentInd.length === 0) {
-            newMenuObj.layouts = generateLayouts([
-              ...(Object.keys(newMenuObj.folders || {}) || []),
-              ...(newMenuObj.dashboards || []),
-            ]);
-          } else {
-            const currentFolder = getCurrentFolder(newMenuObj);
-            currentFolder.layouts = generateLayouts([
-              "MoveDashUpButton",
-              ...(Object.keys(currentFolder.folders || {}) || []),
-              ...(currentFolder.dashboards || []),
-            ]);
-          }
-
-          return newMenuObj;
-        });
-      } else {
-        if (keys.includes("Menu_Object")) {
-          const storedMenu = (await db.getItem("Menu_Object")) as MenuObject;
-          if (storedMenu.folders) {
-            applyPremades(storedMenu, premades);
-            setMenuObject(storedMenu);
-          } else {
-            const startingMenuLayouts = generateLayouts([...keys, "Premades"]);
-            const startingMenu: MenuObject = {
-              layouts: startingMenuLayouts,
-              currentFolder: [],
-              folders: {
-                Premades: {
-                  folders: {
-                    "5th Edition D&D": {
-                      dashboards: [...keys.filter((key) => key.includes("⭐"))],
-                    },
-                  },
-                },
-              },
-              dashboards: [...keys.filter((key) => !key.includes("⭐"))],
-            };
-  
-            setMenuObject(startingMenu);
-          }
-        } else {
-          const startingMenuLayouts = generateLayouts([...keys, "Premades"]);
-          const startingMenu: MenuObject = {
-            layouts: startingMenuLayouts,
-            currentFolder: [],
-            folders: {
-              Premades: {
-                folders: {
-                  "5th Edition D&D": {
-                    dashboards: [...keys.filter((key) => key.includes("⭐"))],
-                  },
-                },
-              },
-            },
-            dashboards: [...keys.filter((key) => !key.includes("⭐"))],
-          };
-
-          setMenuObject(startingMenu);
-        }
-      }
-    };
-    initDashboards();
-  }, [refreshCount]);
+  useReceiveDashboard(standalone, setRefreshCount, selectADashboard);
+  useShowDiceResults(standalone);
+  useInitDashboards(refreshCount, setDashboardsArray, setMenuObject);
 
   const updateDashboardsState = useCallback(
     (dashName: string, type: "add" | "remove") => {
@@ -270,36 +60,16 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
     await db.removeItem(dashName);
     updateDashboardsState(dashName, "remove");
 
-    // remove the folders reference to the dashboard.
     setMenuObject((prevMenuObj) => {
-      const newMenuObj: MenuObject = JSON.parse(JSON.stringify(prevMenuObj));
-      let finalFolder: Folder = {};
-      const currentInd = newMenuObj.currentFolder;
-
-      if (currentInd.length === 0) {
-        const dashIndex = newMenuObj?.dashboards?.indexOf(dashName);
-        if (dashIndex > -1) {
-          newMenuObj?.dashboards?.splice(dashIndex, 1);
-        }
-      } else {
-        for (let i = 0; i < currentInd.length; i++) {
-          if (i === 0) {
-            finalFolder = newMenuObj?.folders?.[currentInd[i]];
-          } else {
-            finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
-          }
-        }
-
-        if (!finalFolder?.dashboards) {
-          finalFolder.dashboards = [];
-        }
-
-        const dashIndex = finalFolder?.dashboards?.indexOf(dashName);
-        if (dashIndex > -1) {
-          finalFolder?.dashboards?.splice(dashIndex, 1);
-        }
+      const newMenuObj: MenuObject = structuredClone(prevMenuObj);
+      const currentFolder = getCurrentFolder(newMenuObj);
+      if (!currentFolder?.dashboards) {
+        currentFolder.dashboards = [];
       }
-
+      const dashIndex = currentFolder?.dashboards?.indexOf(dashName);
+      if (dashIndex > -1) {
+        currentFolder?.dashboards?.splice(dashIndex, 1);
+      }
       return newMenuObj;
     });
 
@@ -340,30 +110,12 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
 
           // add the dashboard to the correct folder.
           setMenuObject((prevMenuObj) => {
-            const newMenuObj: MenuObject = JSON.parse(
-              JSON.stringify(prevMenuObj),
-            );
-            let finalFolder: Folder = {};
-            const currentInd = newMenuObj.currentFolder;
-
-            if (currentInd.length === 0) {
-              newMenuObj.dashboards.push(dashName);
-            } else {
-              for (let i = 0; i < currentInd.length; i++) {
-                if (i === 0) {
-                  finalFolder = newMenuObj?.folders?.[currentInd[i]];
-                } else {
-                  finalFolder = finalFolder?.folders?.[currentInd[i]] as Folder;
-                }
-              }
-
-              if (!finalFolder?.dashboards) {
-                finalFolder.dashboards = [];
-              }
-
-              finalFolder.dashboards.push(dashName);
+            const newMenuObj: MenuObject = structuredClone(prevMenuObj);
+            const currentFolder = getCurrentFolder(newMenuObj);
+            if (!currentFolder?.dashboards) {
+              currentFolder.dashboards = [];
             }
-
+            currentFolder.dashboards.push(dashName);
             return newMenuObj;
           });
 
@@ -414,9 +166,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               await db.setItem(dashboardName, uploadedDashboard);
               updateDashboardsState(dashboardName, "add");
               setMenuObject((prevMenuObj) => {
-                const newMenuObj: MenuObject = JSON.parse(
-                  JSON.stringify(prevMenuObj),
-                );
+                const newMenuObj: MenuObject = structuredClone(prevMenuObj);
                 const currentFolder = getCurrentFolder(newMenuObj);
 
                 if (!currentFolder.dashboards) {
@@ -555,7 +305,6 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               menuObject={menuObject}
               setMenuObject={setMenuObject}
               selectADashboard={selectADashboard}
-              refreshCount={refreshCount}
             />
           </div>
           <div className={styles["premade-dashboards"]}></div>

@@ -8,12 +8,13 @@ import ReactGridLayout, {
 
 import moveUp from "../assets/moveUp.svg";
 import db from "../dbInstance";
-import { collisionInfo } from "../functions/collisions";
 import {
+  collisionInfo,
+  generateLayouts,
   getCurrentFolder,
   getSurroundings,
-} from "../functions/folderFunctions";
-import { generateLayouts } from "../functions/generateLayouts";
+} from "../functions";
+import { useFixLayout } from "../functions/hooks";
 import { Breakpoint, DashboardFileSystemProps, MenuObject } from "../types";
 
 const DashboardFileSystem = memo(
@@ -35,30 +36,7 @@ const DashboardFileSystem = memo(
       return getCurrentFolder(menuObject);
     }, [menuObject.folders, menuObject.currentFolder, menuObject.layouts]);
 
-    // This useEffect fixes an intermittent issue with react-grid-layout concerning layouts
-    useEffect(() => {
-      if (
-        currentFolderObject.layouts &&
-        Object.keys(currentFolderObject.layouts || {}).length !== 5
-      ) {
-        setMenuObject((prevMenuObj) => {
-          const newMenuObj: MenuObject = JSON.parse(
-            JSON.stringify(prevMenuObj),
-          );
-          const currentFolder = getCurrentFolder(newMenuObj);
-          let goUpButton = [];
-          if (newMenuObj.currentFolder.length !== 0) {
-            goUpButton.push("MoveDashUpButton");
-          }
-          currentFolder.layouts = generateLayouts([
-            ...goUpButton,
-            ...Object.keys(currentFolder.folders || {}),
-            ...(currentFolder.dashboards || []),
-          ]);
-          return newMenuObj;
-        });
-      }
-    }, [currentFolderObject.layouts]);
+    useFixLayout(currentFolderObject, setMenuObject);
 
     // Filter out folders that are not part of the current folder
     const filteredFolders = useMemo(() => {
@@ -119,9 +97,7 @@ const DashboardFileSystem = memo(
         } else {
           if (!isEqual(currentFolderObject.layouts, newLayouts)) {
             setMenuObject((prevMenuObj) => {
-              const newMenuObj: MenuObject = JSON.parse(
-                JSON.stringify(prevMenuObj),
-              );
+              const newMenuObj: MenuObject = structuredClone(prevMenuObj);
               // Find the folder we're in, and update its layouts
               const currentFolder = getCurrentFolder(newMenuObj);
 
@@ -276,9 +252,7 @@ const DashboardFileSystem = memo(
       const handleClick = (event: MouseEvent) => {
         const currentTarget = event.currentTarget as HTMLDivElement;
         setMenuObject((prevMenuObj) => {
-          const newMenuObj: MenuObject = JSON.parse(
-            JSON.stringify(prevMenuObj),
-          );
+          const newMenuObj: MenuObject = structuredClone(prevMenuObj);
           newMenuObj.currentFolder.push(currentTarget.textContent as string);
           return newMenuObj;
         });
@@ -303,9 +277,7 @@ const DashboardFileSystem = memo(
       // Set the Current Folder
       const handleClick = () => {
         setMenuObject((prevMenuObj) => {
-          const newMenuObj: MenuObject = JSON.parse(
-            JSON.stringify(prevMenuObj),
-          );
+          const newMenuObj: MenuObject = structuredClone(prevMenuObj);
           newMenuObj.currentFolder.pop();
           return newMenuObj;
         });
@@ -458,9 +430,7 @@ const DashboardFileSystem = memo(
           if (mostOverlappedCollidable.dataset.folder) {
             const folderName = mostOverlappedCollidable.textContent as string;
             setMenuObject((prevMenuObj) => {
-              const newMenuObj: MenuObject = JSON.parse(
-                JSON.stringify(prevMenuObj),
-              );
+              const newMenuObj: MenuObject = structuredClone(prevMenuObj);
               if (!folderName) return prevMenuObj;
 
               const currentFolder = getCurrentFolder(newMenuObj);
@@ -499,9 +469,7 @@ const DashboardFileSystem = memo(
             // Handle moving a Dashboard up to its parent folder
           } else {
             setMenuObject((prevMenuObj) => {
-              const newMenuObj: MenuObject = JSON.parse(
-                JSON.stringify(prevMenuObj),
-              );
+              const newMenuObj: MenuObject = structuredClone(prevMenuObj);
               const { currentFolder, parentFolder } =
                 getSurroundings(newMenuObj);
 

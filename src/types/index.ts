@@ -86,7 +86,6 @@ export type DashboardFileSystemProps = {
   menuObject: MenuObject;
   setMenuObject: React.Dispatch<React.SetStateAction<MenuObject>>;
   selectADashboard: (dashName: string) => void;
-  refreshCount: number;
 };
 
 export type FolderCreatorProps = {
