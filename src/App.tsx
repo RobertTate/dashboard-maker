@@ -1,7 +1,8 @@
 import OBR from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
+
 import PopOver from "./components/PopOver";
-import { useDice, useDashboardSearch } from "./functions/hooks";
+import { useDashboardSearch, useDice } from "./functions/hooks";
 import { Role } from "./types";
 
 export default function App() {
