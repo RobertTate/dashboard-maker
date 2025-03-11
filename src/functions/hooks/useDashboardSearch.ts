@@ -25,7 +25,13 @@ export const useDashboardSearch = () => {
             const imageItem = context?.items?.[0];
             const givenTokenName = imageItem?.text?.plainText || "";
             const keys = await db.keys();
-            if (givenTokenName === selectedDashboard) {
+            if (givenTokenName === "") {
+              await OBR.player.deselect();
+              await OBR.notification.show(
+                `No Dashboard found. Token must have a name to match a dashboard!`,
+                "ERROR",
+              );
+            } else if (givenTokenName === selectedDashboard) {
               await OBR.player.deselect();
               await OBR.notification.show(
                 `That dashboard is already open!`,
@@ -35,12 +41,6 @@ export const useDashboardSearch = () => {
               await OBR.player.deselect();
               selectADashboard(givenTokenName);
               await OBR.action.open();
-            } else if (givenTokenName === "") {
-              await OBR.player.deselect();
-              await OBR.notification.show(
-                `No Dashboard found. Token must have a name to match a dashboard!`,
-                "ERROR",
-              );
             } else {
               await OBR.player.deselect();
               await OBR.notification.show(
