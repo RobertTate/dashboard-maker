@@ -80,7 +80,7 @@ const SyncingGrid = memo(
         });
       };
       getSavedItems();
-    }, []);
+    }, [dashName]);
 
     useEffect(() => {
       const updateLayouts = async () => {

@@ -1,8 +1,8 @@
+import { ReactElement } from "react";
+
 export type Role = "GM" | "PLAYER" | undefined;
 
 export type DashboardProps = {
-  selectedDashboard: string;
-  selectADashboard: (dashboardId: string) => void;
   deleteADashboard: (dashName: string) => Promise<void>;
   createADashboard: (
     template: NewDashboardTemplateOptions,
@@ -85,7 +85,6 @@ export type DashboardFileSystemProps = {
   dashBoardsArray: string[];
   menuObject: MenuObject;
   setMenuObject: React.Dispatch<React.SetStateAction<MenuObject>>;
-  selectADashboard: (dashName: string) => void;
   setSyncStorage: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -93,4 +92,13 @@ export type FolderCreatorProps = {
   menuObject: MenuObject;
   setMenuObject: React.Dispatch<React.SetStateAction<MenuObject>>;
   setSyncStorage: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export type AppContextProps = {
+  selectedDashboard: string;
+  selectADashboard: (dashName: string) => void;
+};
+
+export type AppProviderProps = {
+  children: ReactElement | ReactElement[];
 };

@@ -1,5 +1,6 @@
 import { memo, useCallback, useRef, useState } from "react";
 
+import { useAppStore } from "../AppProvider.tsx";
 import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
 import upload from "../assets/upload.svg";
@@ -23,7 +24,8 @@ import DashboardFileSystem from "./DashboardFileSystem.tsx";
 import { FolderCreator } from "./FolderCreator";
 
 const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
-  const [selectedDashboard, setSelectedDashboard] = useState("");
+  const { selectedDashboard, selectADashboard } = useAppStore();
+
   const [dashBoardsArray, setDashboardsArray] = useState<string[]>([]);
   const [menuObject, setMenuObject] = useState<MenuObject>({
     folders: {},
@@ -36,10 +38,6 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
 
   const [syncStorage, setSyncStorage] = useState(0);
   useSyncStorage(syncStorage, menuObject);
-
-  const selectADashboard = useCallback((dashName: string) => {
-    setSelectedDashboard(dashName);
-  }, []);
 
   useReceiveDashboard(standalone, setRefreshCount, selectADashboard);
   useShowDiceResults(standalone);
@@ -211,9 +209,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
       {selectedDashboard ? (
         <Dashboard
           deleteADashboard={deleteADashboard}
-          selectADashboard={selectADashboard}
           createADashboard={createADashboard}
-          selectedDashboard={selectedDashboard}
           standalone={standalone}
           role={role}
         />
@@ -309,7 +305,6 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               dashBoardsArray={dashBoardsArray}
               menuObject={menuObject}
               setMenuObject={setMenuObject}
-              selectADashboard={selectADashboard}
               setSyncStorage={setSyncStorage}
             />
           </div>
