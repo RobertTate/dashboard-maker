@@ -66,6 +66,14 @@ For more information on the full list of dice notation syntax that Dashboard Mak
 
 For Players, your roll is shared automatically.
 
+## Dashboard Searching
+
+Dashboard Maker now comes with an option to tie a token to a dashboard. It's pretty simple: if you have a dashboard named "Boblin" and you also have a token that you've added and named "Boblin", you can use the Dashboard Search option in the token's menu to automatically bring up that dashboard with the matching name.
+
+<img src="./docs/DashboardSearchExample.gif" alt="Dashboard Maker Search Example" width="722">
+
+Please note: The token name and the dasboard name must be an exact match for this feature to work.
+
 ## Images
 
 Dashboard Maker now supports adding images inside a dashboard content box.
