@@ -39,7 +39,7 @@ export const useDashboardSearch = () => {
             } else if (givenTokenName === "") {
               await OBR.player.deselect();
               await OBR.notification.show(
-                `No Dashboard found. Give this token a name that matches a dashboard first!`,
+                `No Dashboard found. Token must have a name to match a dashboard!`,
                 "ERROR",
               );
             } else {
