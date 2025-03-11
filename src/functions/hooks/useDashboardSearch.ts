@@ -1,4 +1,4 @@
-import OBR, { type Image } from "@owlbear-rodeo/sdk";
+import OBR, { isImage } from "@owlbear-rodeo/sdk";
 import { useEffect } from "react";
 
 import { useAppStore } from "../../AppProvider";
@@ -21,9 +21,8 @@ export const useDashboardSearch = () => {
           },
         ],
         onClick: async (context) => {
-          const isImageItemType = context?.items?.[0]?.type === "IMAGE";
-          if (isImageItemType) {
-            const imageItem = context?.items?.[0] as Image;
+          if (isImage(context?.items?.[0])) {
+            const imageItem = context?.items?.[0];
             const givenTokenName = imageItem?.text?.plainText || "";
             const keys = await db.keys();
             if (givenTokenName === selectedDashboard) {
