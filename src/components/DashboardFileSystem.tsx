@@ -6,6 +6,7 @@ import ReactGridLayout, {
   WidthProvider,
 } from "react-grid-layout";
 
+import { useAppStore } from "../AppProvider";
 import {
   collisionInfo,
   createMenuItems,
@@ -20,11 +21,11 @@ const DashboardFileSystem = memo(
   ({
     dashBoardsArray,
     menuObject,
-    selectADashboard,
     setMenuObject,
     setSyncStorage,
   }: DashboardFileSystemProps) => {
     if (!menuObject) return null;
+    const { selectADashboard } = useAppStore();
     const folderRefs = useRef<HTMLDivElement[]>([]);
     const folderUpBtnRef = useRef<HTMLButtonElement | null>(null);
     const ResponsiveReactGridLayout = useMemo(

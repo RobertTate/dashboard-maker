@@ -4,6 +4,7 @@ import { memo, useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
+import { useAppStore } from "../AppProvider";
 import download from "../assets/download.svg";
 import duplicate from "../assets/duplicate.svg";
 import fire from "../assets/fire.svg";
@@ -23,14 +24,8 @@ import ColumnToggle from "./ColumnToggle";
 import SyncingGrid from "./SyncingGrid";
 
 const Dashboard = memo((props: DashboardProps) => {
-  const {
-    selectedDashboard,
-    selectADashboard,
-    createADashboard,
-    deleteADashboard,
-    standalone,
-    role,
-  } = props;
+  const { createADashboard, deleteADashboard, standalone, role } = props;
+  const { selectedDashboard, selectADashboard } = useAppStore();
   const [isLocked, setIsLocked] = useState(false);
   const [columns, setColumns] = useState(8);
   const [deleteZoneIsOpen, setDeleteZoneIsOpen] = useState(false);
