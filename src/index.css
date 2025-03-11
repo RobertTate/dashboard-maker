@@ -379,7 +379,6 @@ button:active {
   margin-right: 0.25rem;
 }
 
-
 /* loading animation styles */
 
 .lds-ellipsis {
@@ -639,7 +638,6 @@ button:active {
   width: 26px;
 }
 
-
 @media (prefers-color-scheme: light) {
   :root {
     background-color: #d2bff9;
@@ -681,7 +679,6 @@ button:active {
     background-color: unset;
   }
 
-
   .react-grid-layout .react-grid-item {
     border: 2px solid #8447ff;
     background-color: #f1f1f1;
@@ -719,7 +716,7 @@ button:active {
   .editable-md-widget .dice-notation {
     color: #8447ff;
   }
-  
+
   .editable-md-widget .dice-notation:hover {
     color: #4c2696;
   }

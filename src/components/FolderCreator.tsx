@@ -6,7 +6,7 @@ import {
   findAllDashboardsWithinCurrentFolderStruc,
   getCurrentFolder,
   getSurroundings,
-} from "../functions/folderFunctions.ts";
+} from "../functions";
 import styles from "../styles/FolderCreator.module.css";
 import { FolderCreatorProps } from "../types";
 import type { Folder, MenuObject } from "../types/index.ts";
@@ -14,6 +14,7 @@ import type { Folder, MenuObject } from "../types/index.ts";
 export const FolderCreator = ({
   menuObject,
   setMenuObject,
+  setSyncStorage,
 }: FolderCreatorProps) => {
   if (!menuObject) return null;
   const folderInputRef = useRef<HTMLInputElement>(null);
@@ -65,7 +66,7 @@ export const FolderCreator = ({
     }
 
     setMenuObject((prevMenuObj) => {
-      const newMenuObj: MenuObject = JSON.parse(JSON.stringify(prevMenuObj));
+      const newMenuObj: MenuObject = structuredClone(prevMenuObj);
       const currentInd = newMenuObj?.currentFolder;
       if (newMenuObj.currentFolder.length === 0) {
         newMenuObj.folders[newFolderName] = {};
@@ -115,7 +116,7 @@ export const FolderCreator = ({
               className={styles["folder-creator-breadcrumb-link"]}
               onClick={() => {
                 setMenuObject((prevMenuObj) => {
-                  const newMenuObj = JSON.parse(JSON.stringify(prevMenuObj));
+                  const newMenuObj = structuredClone(prevMenuObj);
                   if (curr === "Home") {
                     newMenuObj.currentFolder = [];
                   } else {
@@ -131,6 +132,7 @@ export const FolderCreator = ({
                   }
                   return newMenuObj;
                 });
+                setSyncStorage((prev) => prev + 1);
               }}
             >
               {curr}
@@ -169,7 +171,7 @@ export const FolderCreator = ({
         findAllDashboardsWithinCurrentFolderStruc(currentFolder);
 
       setMenuObject((prevMenuObj) => {
-        const newMenuObj: MenuObject = JSON.parse(JSON.stringify(prevMenuObj));
+        const newMenuObj: MenuObject = structuredClone(prevMenuObj);
         const currentInd = newMenuObj.currentFolder;
         if (currentInd.length === 0) {
           return newMenuObj;
@@ -254,7 +256,8 @@ export const FolderCreator = ({
               }`}
             >
               <p>
-                Type "DELETE" to delete this folder and subfolders. Dashboards will move up and out.
+                Type "DELETE" to delete this folder and subfolders. Dashboards
+                will move up and out.
               </p>
               <div className={styles["folder-delete-zone-confirm"]}>
                 <input

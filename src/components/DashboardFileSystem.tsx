@@ -6,14 +6,14 @@ import ReactGridLayout, {
   WidthProvider,
 } from "react-grid-layout";
 
-import moveUp from "../assets/moveUp.svg";
-import db from "../dbInstance";
-import { collisionInfo } from "../functions/collisions";
 import {
+  collisionInfo,
+  createMenuItems,
+  generateLayouts,
   getCurrentFolder,
   getSurroundings,
-} from "../functions/folderFunctions";
-import { generateLayouts } from "../functions/generateLayouts";
+} from "../functions";
+import { useFixLayout } from "../functions/hooks";
 import { Breakpoint, DashboardFileSystemProps, MenuObject } from "../types";
 
 const DashboardFileSystem = memo(
@@ -22,6 +22,7 @@ const DashboardFileSystem = memo(
     menuObject,
     selectADashboard,
     setMenuObject,
+    setSyncStorage,
   }: DashboardFileSystemProps) => {
     if (!menuObject) return null;
     const folderRefs = useRef<HTMLDivElement[]>([]);
@@ -35,30 +36,7 @@ const DashboardFileSystem = memo(
       return getCurrentFolder(menuObject);
     }, [menuObject.folders, menuObject.currentFolder, menuObject.layouts]);
 
-    // This useEffect fixes an intermittent issue with react-grid-layout concerning layouts
-    useEffect(() => {
-      if (
-        currentFolderObject.layouts &&
-        Object.keys(currentFolderObject.layouts || {}).length !== 5
-      ) {
-        setMenuObject((prevMenuObj) => {
-          const newMenuObj: MenuObject = JSON.parse(
-            JSON.stringify(prevMenuObj),
-          );
-          const currentFolder = getCurrentFolder(newMenuObj);
-          let goUpButton = [];
-          if (newMenuObj.currentFolder.length !== 0) {
-            goUpButton.push("MoveDashUpButton");
-          }
-          currentFolder.layouts = generateLayouts([
-            ...goUpButton,
-            ...Object.keys(currentFolder.folders || {}),
-            ...(currentFolder.dashboards || []),
-          ]);
-          return newMenuObj;
-        });
-      }
-    }, [currentFolderObject.layouts]);
+    useFixLayout(currentFolderObject, setMenuObject);
 
     // Filter out folders that are not part of the current folder
     const filteredFolders = useMemo(() => {
@@ -87,18 +65,6 @@ const DashboardFileSystem = memo(
       cols: { lg: 3, md: 3, sm: 3, xs: 3, xxs: 2 },
     };
 
-    const [syncStorage, setSyncStorage] = useState(0);
-
-    // Syncs storage to be up to date with onLayoutChange
-    useEffect(() => {
-      const updateLayouts = async () => {
-        if (menuObject?.layouts) {
-          await db.setItem("Menu_Object", menuObject);
-        }
-      };
-      updateLayouts();
-    }, [syncStorage]);
-
     // Checks if the Layout has changed, if so, updates the state and triggers the useEffect above
     const onLayoutChange = useCallback(
       (
@@ -119,9 +85,7 @@ const DashboardFileSystem = memo(
         } else {
           if (!isEqual(currentFolderObject.layouts, newLayouts)) {
             setMenuObject((prevMenuObj) => {
-              const newMenuObj: MenuObject = JSON.parse(
-                JSON.stringify(prevMenuObj),
-              );
+              const newMenuObj: MenuObject = structuredClone(prevMenuObj);
               // Find the folder we're in, and update its layouts
               const currentFolder = getCurrentFolder(newMenuObj);
 
@@ -146,124 +110,11 @@ const DashboardFileSystem = memo(
     );
 
     // Sets up the menu items, including both folders and dashboards
-    const memoizedChildren = useMemo(() => {
-      let keyIndex = 0;
-      let xPosition = 0;
-      let row = 0;
-      let backButton: JSX.Element[] = [];
-
-      if (menuObject.currentFolder.length !== 0) {
-        const key = keyIndex;
-        keyIndex += 1;
-        backButton = [
-          <button
-            title={`Click to go up a level. Drag a dashboard here to bring it up a level.`}
-            key={key}
-            data-up-folder={true}
-            className="moveFolderUp"
-            data-grid={{
-              static: true,
-              x: xPosition,
-              y: row,
-              w: 1,
-              h: 1,
-            }}
-          >
-            <img src={moveUp} alt="Move Up Icon" />
-          </button>,
-        ];
-
-        xPosition += 1;
-      }
-
-      const folders = (Object.keys(filteredFolders) || []).map((folderName) => {
-        const key = keyIndex;
-        keyIndex += 1;
-
-        const folderToReturn = (
-          <div
-            className="folder"
-            key={key}
-            title="Click to enter this folder. Drag a dashboard here to put it in the folder."
-            data-folder={folderName}
-            data-grid={{
-              static: true,
-              x: xPosition,
-              y: row,
-              w: 1,
-              h: 1,
-            }}
-          >
-            <svg viewBox="0 0 194 18" style={{ width: "100%", height: "100%" }}>
-              {folderName.length >= 26 ? (
-                <text
-                  x="0"
-                  y="14"
-                  textLength="194"
-                  lengthAdjust="spacingAndGlyphs"
-                >
-                  {folderName}
-                </text>
-              ) : (
-                <text x="50%" y="14" style={{ textAnchor: "middle" }}>
-                  {folderName}
-                </text>
-              )}
-            </svg>
-          </div>
-        );
-
-        xPosition += 1;
-
-        if ((key + 1) % 3 === 0) {
-          row += 1;
-          xPosition = 0;
-        }
-
-        return folderToReturn;
-      });
-
-      const dashboards = filteredDashboards.map((dash) => {
-        const key = keyIndex;
-        keyIndex += 1;
-
-        const dashboardToReturn = (
-          <button
-            title={`Click to view and edit this dashboard.`}
-            data-dash={dash}
-            key={key}
-          >
-            <svg viewBox="0 0 194 18" style={{ width: "100%", height: "100%" }}>
-              {dash.length >= 26 ? (
-                <text
-                  x="0"
-                  y="14"
-                  textLength="194"
-                  lengthAdjust="spacingAndGlyphs"
-                >
-                  {dash}
-                </text>
-              ) : (
-                <text x="50%" y="14" style={{ textAnchor: "middle" }}>
-                  {dash}
-                </text>
-              )}
-            </svg>
-          </button>
-        );
-
-        xPosition += 1;
-
-        if ((key + 1) % 3 === 0) {
-          row += 1;
-          xPosition = 0;
-        }
-
-        return dashboardToReturn;
-      });
-
-      return [...backButton, ...folders, ...dashboards];
-    }, [filteredDashboards, filteredFolders, menuObject.currentFolder]);
+    const memoizedChildren = createMenuItems(
+      menuObject,
+      filteredFolders,
+      filteredDashboards,
+    );
 
     // Whenever the folder list or layout changes in a way that might affect .folder elements:
     useEffect(() => {
@@ -276,9 +127,7 @@ const DashboardFileSystem = memo(
       const handleClick = (event: MouseEvent) => {
         const currentTarget = event.currentTarget as HTMLDivElement;
         setMenuObject((prevMenuObj) => {
-          const newMenuObj: MenuObject = JSON.parse(
-            JSON.stringify(prevMenuObj),
-          );
+          const newMenuObj: MenuObject = structuredClone(prevMenuObj);
           newMenuObj.currentFolder.push(currentTarget.textContent as string);
           return newMenuObj;
         });
@@ -303,9 +152,7 @@ const DashboardFileSystem = memo(
       // Set the Current Folder
       const handleClick = () => {
         setMenuObject((prevMenuObj) => {
-          const newMenuObj: MenuObject = JSON.parse(
-            JSON.stringify(prevMenuObj),
-          );
+          const newMenuObj: MenuObject = structuredClone(prevMenuObj);
           newMenuObj.currentFolder.pop();
           return newMenuObj;
         });
@@ -458,9 +305,7 @@ const DashboardFileSystem = memo(
           if (mostOverlappedCollidable.dataset.folder) {
             const folderName = mostOverlappedCollidable.textContent as string;
             setMenuObject((prevMenuObj) => {
-              const newMenuObj: MenuObject = JSON.parse(
-                JSON.stringify(prevMenuObj),
-              );
+              const newMenuObj: MenuObject = structuredClone(prevMenuObj);
               if (!folderName) return prevMenuObj;
 
               const currentFolder = getCurrentFolder(newMenuObj);
@@ -499,9 +344,7 @@ const DashboardFileSystem = memo(
             // Handle moving a Dashboard up to its parent folder
           } else {
             setMenuObject((prevMenuObj) => {
-              const newMenuObj: MenuObject = JSON.parse(
-                JSON.stringify(prevMenuObj),
-              );
+              const newMenuObj: MenuObject = structuredClone(prevMenuObj);
               const { currentFolder, parentFolder } =
                 getSurroundings(newMenuObj);
 
