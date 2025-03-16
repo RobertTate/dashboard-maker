@@ -485,13 +485,13 @@ button:active {
 
 #dice-box .displayResults .results .mod-positive,
 #dice-box .displayResults .results .mod-multiply {
-  color: #027002;
+  color: #0ad666;
   font-size: 1.25rem;
 }
 
 #dice-box .displayResults .results .mod-negative,
 #dice-box .displayResults .results .mod-divide {
-  color: #b70000;
+  color: #ff4848;
   font-size: 1.25rem;
 }
 
