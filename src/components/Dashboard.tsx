@@ -121,7 +121,7 @@ const Dashboard = memo((props: DashboardProps) => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = selectedDashboard;
+      a.download = `${selectedDashboard}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
