@@ -41,7 +41,6 @@ export const useReceiveDashboard = (
             setMenuObject((prevMenuObj) => {
               const newMenuObj: MenuObject = structuredClone(prevMenuObj);
               const allDashboardsInThefolderSystem = findAllDashboardsWithinCurrentFolderStruc(newMenuObj);
-              console.log(allDashboardsInThefolderSystem);
               if (!allDashboardsInThefolderSystem.includes(sharedDashboardTitle)) {
                 const currentFolder = getCurrentFolder(newMenuObj);
                 if (!currentFolder?.dashboards) {
