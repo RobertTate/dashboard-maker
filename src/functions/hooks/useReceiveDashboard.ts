@@ -4,11 +4,14 @@ import { useEffect } from "react";
 
 import db from "../../dbInstance";
 import type { SharedDashboard } from "../../types";
+import type { MenuObject } from "../../types";
+import { getCurrentFolder, findAllDashboardsWithinCurrentFolderStruc } from "../folderFunctions";
 
 export const useReceiveDashboard = (
   standalone: boolean,
   setRefreshCount: React.Dispatch<React.SetStateAction<number>>,
   selectADashboard: (dashName: string) => void,
+  setMenuObject: React.Dispatch<React.SetStateAction<MenuObject>>,
 ) => {
   useEffect(() => {
     if (standalone === false) {
@@ -35,6 +38,19 @@ export const useReceiveDashboard = (
               sharedDashboard;
             await db.setItem(sharedDashboardTitle, sharedDashboardContent);
             setRefreshCount((prev) => prev + 1);
+            setMenuObject((prevMenuObj) => {
+              const newMenuObj: MenuObject = structuredClone(prevMenuObj);
+              const allDashboardsInThefolderSystem = findAllDashboardsWithinCurrentFolderStruc(newMenuObj);
+              if (!allDashboardsInThefolderSystem.includes(sharedDashboardTitle)) {
+                const currentFolder = getCurrentFolder(newMenuObj);
+                if (!currentFolder?.dashboards) {
+                  currentFolder.dashboards = [];
+                }
+                currentFolder.dashboards.push(sharedDashboardTitle);
+                return newMenuObj;
+              }
+              return prevMenuObj;
+            });
             selectADashboard("");
             await OBR.notification.show(
               `"${sharedDashboardTitle}" has just been shared with you!`,
