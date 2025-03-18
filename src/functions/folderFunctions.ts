@@ -41,10 +41,10 @@ export const getSurroundings = (menuObject: MenuObject) => {
   };
 };
 
-const recursiveFindFolders = (folder: Folder, cumulativeDashes: string[]) => {
+const recursiveSearchFoldersForDashboards = (folder: Folder, cumulativeDashes: string[]) => {
   if (folder.folders) {
     for (const subfolder in folder.folders) {
-      cumulativeDashes = recursiveFindFolders(
+      cumulativeDashes = recursiveSearchFoldersForDashboards(
         folder.folders[subfolder],
         cumulativeDashes,
       );
@@ -57,18 +57,18 @@ const recursiveFindFolders = (folder: Folder, cumulativeDashes: string[]) => {
 export const findAllDashboardsWithinCurrentFolderStruc = (
   currentFolder: Folder,
 ) => {
-  const allDashboards: string[] = recursiveFindFolders(currentFolder, []);
+  const allDashboards: string[] = recursiveSearchFoldersForDashboards(currentFolder, []);
   return allDashboards;
 };
 
 
-const recursiveFindDashboard = (folder: MenuObject | Folder, dashName: string) => {
+const recursiveFindDashboardAcrossFolders = (folder: MenuObject | Folder, dashName: string) => {
   if (folder.dashboards?.includes(dashName)) {
     return folder;
   }
   if (folder.folders) {
     for (const subfolder in folder.folders) {
-      return recursiveFindDashboard(folder.folders[subfolder], dashName)
+      return recursiveFindDashboardAcrossFolders(folder.folders[subfolder], dashName)
     }
   }
   return null;
@@ -78,6 +78,6 @@ export const getFolderOfSpecificDashboard = (
   menuObject: MenuObject,
   dashName: string,
 ) => {
-  const folderOfDashboard: MenuObject | Folder | null = recursiveFindDashboard(menuObject, dashName);
+  const folderOfDashboard: MenuObject | Folder | null = recursiveFindDashboardAcrossFolders(menuObject, dashName);
   return folderOfDashboard;
 }
