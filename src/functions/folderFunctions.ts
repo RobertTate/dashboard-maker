@@ -1,3 +1,4 @@
+import { MdxNodeType } from "@mdxeditor/editor";
 import type { Folder, FolderSystem, MenuObject } from "../types";
 
 export const getCurrentFolder = (menuObject: MenuObject) => {
@@ -41,10 +42,10 @@ export const getSurroundings = (menuObject: MenuObject) => {
   };
 };
 
-const recursiveFind = (folder: Folder, cumulativeDashes: string[]) => {
+const recursiveFindFolders = (folder: Folder, cumulativeDashes: string[]) => {
   if (folder.folders) {
     for (const subfolder in folder.folders) {
-      cumulativeDashes = recursiveFind(
+      cumulativeDashes = recursiveFindFolders(
         folder.folders[subfolder],
         cumulativeDashes,
       );
@@ -57,7 +58,27 @@ const recursiveFind = (folder: Folder, cumulativeDashes: string[]) => {
 export const findAllDashboardsWithinCurrentFolderStruc = (
   currentFolder: Folder,
 ) => {
-  const allDashboards: string[] = recursiveFind(currentFolder, []);
-
+  const allDashboards: string[] = recursiveFindFolders(currentFolder, []);
   return allDashboards;
 };
+
+
+const recursiveFindDashboard = (folder: MenuObject | Folder, dashName: string) => {
+  if (folder.dashboards?.includes(dashName)) {
+    return folder;
+  }
+  if (folder.folders) {
+    for (const subfolder in folder.folders) {
+      return recursiveFindDashboard(folder.folders[subfolder], dashName)
+    }
+  }
+  return null;
+}
+
+export const getFolderOfSpecificDashboard = (
+  menuObject: MenuObject,
+  dashName: string,
+) => {
+  const folderOfDashboard: MenuObject | Folder | null = recursiveFindDashboard(menuObject, dashName);
+  return folderOfDashboard;
+}

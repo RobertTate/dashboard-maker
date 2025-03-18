@@ -5,6 +5,7 @@ export {
   getCurrentFolder,
   getSurroundings,
   findAllDashboardsWithinCurrentFolderStruc,
+  getFolderOfSpecificDashboard,
 } from "./folderFunctions";
 export { checkAndAddPremades, applyPremades } from "./premadesFunctions";
 export { collisionInfo } from "./collisions";

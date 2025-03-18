@@ -39,7 +39,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
   const [syncStorage, setSyncStorage] = useState(0);
   useSyncStorage(syncStorage, menuObject);
 
-  useReceiveDashboard(standalone, setRefreshCount, selectADashboard);
+  useReceiveDashboard(standalone, setRefreshCount, selectADashboard, setMenuObject);
   useShowDiceResults(standalone);
   useInitDashboards(refreshCount, setDashboardsArray, setMenuObject);
 
