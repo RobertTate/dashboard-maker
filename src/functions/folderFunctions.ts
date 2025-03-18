@@ -60,24 +60,3 @@ export const findAllDashboardsWithinCurrentFolderStruc = (
   const allDashboards: string[] = recursiveSearchFoldersForDashboards(currentFolder, []);
   return allDashboards;
 };
-
-
-const recursiveFindDashboardAcrossFolders = (folder: MenuObject | Folder, dashName: string) => {
-  if (folder.dashboards?.includes(dashName)) {
-    return folder;
-  }
-  if (folder.folders) {
-    for (const subfolder in folder.folders) {
-      return recursiveFindDashboardAcrossFolders(folder.folders[subfolder], dashName)
-    }
-  }
-  return null;
-}
-
-export const getFolderOfSpecificDashboard = (
-  menuObject: MenuObject,
-  dashName: string,
-) => {
-  const folderOfDashboard: MenuObject | Folder | null = recursiveFindDashboardAcrossFolders(menuObject, dashName);
-  return folderOfDashboard;
-}
