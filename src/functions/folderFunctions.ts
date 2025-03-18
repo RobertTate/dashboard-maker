@@ -1,4 +1,3 @@
-import { MdxNodeType } from "@mdxeditor/editor";
 import type { Folder, FolderSystem, MenuObject } from "../types";
 
 export const getCurrentFolder = (menuObject: MenuObject) => {
