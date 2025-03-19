@@ -89,7 +89,7 @@ export const useDice = () => {
           // GMs can choose to share their roll or not
           if (roleValue === "GM") {
             const diceResultsBox = document.querySelector(
-              "div.results.showEffect",
+              "#dice-box > div > div.results.showEffect",
             );
             const shareButton = document.createElement("button");
             const icon = document.createElement("img");
@@ -105,9 +105,8 @@ export const useDice = () => {
                 await OBR.broadcast.sendMessage(
                   "com.roberttate.dashboard-maker-dice-notification",
                   {
-                    rollResult: finalResults.value,
-                    rawResults: results,
-                    diceNotation: diceNotation,
+                    finalResults,
+                    parsedNotationForMods,
                     playerName,
                   },
                 );
@@ -124,9 +123,8 @@ export const useDice = () => {
               await OBR.broadcast.sendMessage(
                 "com.roberttate.dashboard-maker-dice-notification",
                 {
-                  rollResult: finalResults.value,
-                  rawResults: results,
-                  diceNotation: diceNotation,
+                  finalResults,
+                  parsedNotationForMods,
                   playerName,
                 },
               );
