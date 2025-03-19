@@ -38,7 +38,6 @@ export const useShowDiceResults = (standalone: boolean) => {
   }, []);
 
   useEffect(() => {
-    console.log(resultsQueue);
     if (resultsQueue.length === 0) return;
     const firstToDisplay = resultsQueue[0];
     const { finalResults, parsedNotationForMods, playerName } = firstToDisplay;
