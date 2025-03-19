@@ -25,11 +25,11 @@ export const DiceNotationDirectiveDescriptor: DirectiveDescriptor<DiceNotationDi
 
       const getNotation = () => {
         if (isDCNotation) {
-          const dc = textChildValue.replace("DC", "");
+          const dc = (textChildValue || "").replace("DC", "");
           return `1d20>${dc}`;
         } else if (isModNoation) {
           const regex = /^([+-])(\d+)$/;
-          const match = textChildValue.match(regex);
+          const match = (textChildValue || "").match(regex);
           if (match) {
             const [, modifier, num] = match;
             if (modifier && num) {
