@@ -57,9 +57,8 @@ export type NewDashboardTemplateOptions = "default" | "5eChar" | "duplicate";
 
 export type RollBroadcast = {
   playerName: string;
-  rollResult: number;
-  diceNotation: string;
-  rawResults: any;
+  finalResults: any;
+  parsedNotationForMods: any;
 };
 
 export type Breakpoint = "lg" | "md" | "sm" | "xs" | "xxs";

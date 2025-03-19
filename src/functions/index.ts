@@ -1,6 +1,5 @@
 export { validateUpload } from "./validateUpload";
 export { generateLayouts } from "./generateLayouts";
-export { formDiceResultString } from "./formDiceResultString";
 export {
   getCurrentFolder,
   getSurroundings,
