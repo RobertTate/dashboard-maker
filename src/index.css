@@ -506,6 +506,12 @@ button:active {
   width: 30px;
 }
 
+#dice-box .displayResults .results .dice-result-label,
+#dice-result-sharing-box .displayResults .results .dice-result-label {
+  padding-left: 0.5rem;
+  color: #ffcf91;
+}
+
 #dice-box .displayResults .results .mod-positive,
 #dice-box .displayResults .results .mod-multiply {
   color: #0ad666;

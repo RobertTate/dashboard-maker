@@ -1,7 +1,8 @@
 // @ts-ignore
 import DisplayResults from "@3d-dice/dice-ui/src/displayResults";
 import OBR from "@owlbear-rodeo/sdk";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import type { RollBroadcast } from "../../types";
 
 const DiceResults = new DisplayResults("#dice-result-sharing-box");
@@ -18,16 +19,17 @@ export const useShowDiceResults = (standalone: boolean) => {
         async (event) => {
           try {
             const rollBroadcast = event?.data as RollBroadcast;
-            const { finalResults, parsedNotationForMods, playerName } = rollBroadcast;
+            const { finalResults, parsedNotationForMods, playerName } =
+              rollBroadcast;
             setResultsQueue((prev) => {
               return [
                 {
                   finalResults,
                   parsedNotationForMods,
-                  playerName
+                  playerName,
                 },
                 ...(prev || []),
-              ]
+              ];
             });
           } catch (e) {
             await OBR.notification.show("Something went wrong.", "ERROR");
@@ -47,7 +49,7 @@ export const useShowDiceResults = (standalone: boolean) => {
       sharedResultsBoxRef.current = document.querySelector(
         "#dice-result-sharing-box > div > div.results.showEffect",
       );
-      sharedResultsBoxRef.current?.classList.add('shared-results-box');
+      sharedResultsBoxRef.current?.classList.add("shared-results-box");
       const playerNameArea = document.createElement("p");
       playerNameArea.textContent = playerName;
       playerNameArea.classList.add("player-name");
@@ -67,11 +69,10 @@ export const useShowDiceResults = (standalone: boolean) => {
 
       if (listenerIsAddedRef.current === false) {
         listenerIsAddedRef.current = true;
-        document.addEventListener('click', handleShowNextResult);
+        document.addEventListener("click", handleShowNextResult);
       }
     } catch (e) {
       OBR.notification.show("Something went wrong.", "ERROR");
     }
-  }, [resultsQueue])
-
+  }, [resultsQueue]);
 };
