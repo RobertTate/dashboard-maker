@@ -41,7 +41,10 @@ export const getSurroundings = (menuObject: MenuObject) => {
   };
 };
 
-const recursiveSearchFoldersForDashboards = (folder: Folder, cumulativeDashes: string[]) => {
+const recursiveSearchFoldersForDashboards = (
+  folder: Folder,
+  cumulativeDashes: string[],
+) => {
   if (folder.folders) {
     for (const subfolder in folder.folders) {
       cumulativeDashes = recursiveSearchFoldersForDashboards(
@@ -57,6 +60,9 @@ const recursiveSearchFoldersForDashboards = (folder: Folder, cumulativeDashes: s
 export const findAllDashboardsWithinCurrentFolderStruc = (
   currentFolder: Folder,
 ) => {
-  const allDashboards: string[] = recursiveSearchFoldersForDashboards(currentFolder, []);
+  const allDashboards: string[] = recursiveSearchFoldersForDashboards(
+    currentFolder,
+    [],
+  );
   return allDashboards;
 };

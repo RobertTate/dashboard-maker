@@ -5,7 +5,10 @@ import { useEffect } from "react";
 import db from "../../dbInstance";
 import type { SharedDashboard } from "../../types";
 import type { MenuObject } from "../../types";
-import { getCurrentFolder, findAllDashboardsWithinCurrentFolderStruc } from "../folderFunctions";
+import {
+  findAllDashboardsWithinCurrentFolderStruc,
+  getCurrentFolder,
+} from "../folderFunctions";
 
 export const useReceiveDashboard = (
   standalone: boolean,
@@ -40,8 +43,11 @@ export const useReceiveDashboard = (
             setRefreshCount((prev) => prev + 1);
             setMenuObject((prevMenuObj) => {
               const newMenuObj: MenuObject = structuredClone(prevMenuObj);
-              const allDashboardsInThefolderSystem = findAllDashboardsWithinCurrentFolderStruc(newMenuObj);
-              if (!allDashboardsInThefolderSystem.includes(sharedDashboardTitle)) {
+              const allDashboardsInThefolderSystem =
+                findAllDashboardsWithinCurrentFolderStruc(newMenuObj);
+              if (
+                !allDashboardsInThefolderSystem.includes(sharedDashboardTitle)
+              ) {
                 const currentFolder = getCurrentFolder(newMenuObj);
                 if (!currentFolder?.dashboards) {
                   currentFolder.dashboards = [];
