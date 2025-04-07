@@ -128,8 +128,6 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
 
           if (duplicateDashInputRef) {
             selectADashboard("");
-          } else {
-            selectADashboard(dashName);
           }
         }
       } else {
