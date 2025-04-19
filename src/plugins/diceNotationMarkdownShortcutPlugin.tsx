@@ -49,13 +49,25 @@ function pickTransformersForActivePlugins() {
     importRegExp: DICE_NOTATION_REGEX,
     regExp: DICE_NOTATION_REGEX,
     replace: (textNode, match) => {
+      let diceText = match[0];
+      let alias = "";
+
+      if (diceText.includes("@")) {
+        const [newText, potentialAlias] = diceText.split("@");
+        diceText = newText;
+        alias = potentialAlias;
+      }
+
       const mdastNode: DiceNotationDirectiveNode = {
         name: "dice",
         type: "textDirective",
+        attributes: {
+          alias,
+        },
         children: [
           {
             type: "text",
-            value: match[0],
+            value: diceText,
           },
         ],
       };
@@ -68,6 +80,8 @@ function pickTransformersForActivePlugins() {
   };
   transformers.push(DICE_NOTATION);
 
+  // These additional Notation Handlers are kind of legacy at this point...
+  // seeing as you can use the alias feature to make the displayed text be anything you want now.
   const DC_NOTATION_REGEX = new RegExp(/\bDC\d+\b/);
   const DC_NOTATION: TextMatchTransformer = {
     dependencies: [DirectiveNode],

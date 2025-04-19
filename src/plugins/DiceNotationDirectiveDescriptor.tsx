@@ -22,6 +22,7 @@ export const DiceNotationDirectiveDescriptor: DirectiveDescriptor<DiceNotationDi
 
       const isDCNotation = mdastNode?.attributes?.isDCNotation === "true";
       const isModNoation = mdastNode?.attributes?.isModNotation === "true";
+      const alias = mdastNode?.attributes?.alias;
 
       const getNotation = () => {
         if (isDCNotation) {
@@ -43,7 +44,7 @@ export const DiceNotationDirectiveDescriptor: DirectiveDescriptor<DiceNotationDi
 
       return (
         <span data-dice-notation={getNotation()} className="dice-notation">
-          {textChildValue}
+          {alias ? alias : textChildValue}
         </span>
       );
     },
