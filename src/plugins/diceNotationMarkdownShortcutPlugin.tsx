@@ -52,8 +52,8 @@ function pickTransformersForActivePlugins() {
       let diceText = match[0];
       let alias = "";
 
-      if (diceText.includes('@')) {
-        const [newText, potentialAlias] = diceText.split('@');
+      if (diceText.includes("@")) {
+        const [newText, potentialAlias] = diceText.split("@");
         diceText = newText;
         alias = potentialAlias;
       }
