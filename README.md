@@ -60,7 +60,7 @@ Dashboard Maker now supports a dice notation syntax. Simply type things like "1d
 
 <img src="./docs/DashMakerDicePreview.gif" alt="Dashboard Maker Dice Preview" width="722">
 
-For more information on the full list of dice notation syntax that Dashboard Maker will recognize & accept, download and import the "Dice Demo" dashboard `.json` file into Dashboard Maker. This dashboard can be found on the [User Made Dashboards](https://discord.com/channels/795808973743194152/1248695489558483007) Discord thread, on the [Owlbear Rodeo Discord](https://discord.gg/u5RYMkV98s).
+For more information on the full list of dice notation syntax that Dashboard Maker will recognize & accept, take a look at the `⭐ Dice Demo ⭐` premade dashboard, which can be found in `Home → Premades → 5th Edition D&D` dashboard folder.
 
 <img style="margin-bottom:-4px" src="./src/assets/shareRoll.svg" alt="Share Icon" width="30"> For GM's, this button will appear when your roll result is displayed. Clicking it will share your roll result with the room.
 
