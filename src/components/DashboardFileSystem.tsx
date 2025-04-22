@@ -5,16 +5,13 @@ import ReactGridLayout, {
   Responsive,
   WidthProvider,
 } from "react-grid-layout";
-
-import { useAppStore } from "../AppProvider";
 import {
   collisionInfo,
-  createMenuItems,
   generateLayouts,
   getCurrentFolder,
   getSurroundings,
 } from "../functions";
-import { useFixLayout } from "../functions/hooks";
+import { useFixLayout, useCreateMenuItems, useAppStore } from "../functions/hooks";
 import { Breakpoint, DashboardFileSystemProps, MenuObject } from "../types";
 
 const DashboardFileSystem = memo(
@@ -24,7 +21,6 @@ const DashboardFileSystem = memo(
     setMenuObject,
     setSyncStorage,
   }: DashboardFileSystemProps) => {
-    if (!menuObject) return null;
     const { selectADashboard } = useAppStore();
     const folderRefs = useRef<HTMLDivElement[]>([]);
     const folderUpBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -35,7 +31,7 @@ const DashboardFileSystem = memo(
 
     const currentFolderObject = useMemo(() => {
       return getCurrentFolder(menuObject);
-    }, [menuObject.folders, menuObject.currentFolder, menuObject.layouts]);
+    }, [menuObject]);
 
     useFixLayout(currentFolderObject, setMenuObject);
 
@@ -66,7 +62,7 @@ const DashboardFileSystem = memo(
       cols: { lg: 3, md: 3, sm: 3, xs: 3, xxs: 2 },
     };
 
-    // Checks if the Layout has changed, if so, updates the state and triggers the useEffect above
+    // Checks if the Layout has changed, if so, updates the state and triggers a DB sync
     const onLayoutChange = useCallback(
       (
         _layout: ReactGridLayout.Layout[],
@@ -107,11 +103,11 @@ const DashboardFileSystem = memo(
           }
         }
       },
-      [menuObject.currentFolder],
+      [menuObject.currentFolder, currentFolderObject.layouts, menuObject?.layouts, setMenuObject, setSyncStorage],
     );
 
     // Sets up the menu items, including both folders and dashboards
-    const memoizedChildren = createMenuItems(
+    const memoizedChildren = useCreateMenuItems(
       menuObject,
       filteredFolders,
       filteredDashboards,
@@ -144,7 +140,7 @@ const DashboardFileSystem = memo(
           folderRef.removeEventListener("click", handleClick);
         });
       };
-    }, [filteredFolders]);
+    }, [filteredFolders, setMenuObject, setSyncStorage]);
 
     useEffect(() => {
       const folderUpBtn =
@@ -169,7 +165,7 @@ const DashboardFileSystem = memo(
         folderUpBtnRef.current &&
           folderUpBtnRef.current.removeEventListener("click", handleClick);
       };
-    }, [filteredFolders]);
+    }, [filteredFolders, setMenuObject, setSyncStorage]);
 
     const [mouseDownPos, setMouseDownPos] = useState<{
       x: number;
@@ -376,28 +372,32 @@ const DashboardFileSystem = memo(
       }
     };
 
-    return (
-      menuObject?.layouts && (
-        <>
-          <ResponsiveReactGridLayout
-            className="file-system"
-            draggableCancel=".cancelDrag"
-            {...gridProps}
-            isDraggable={true}
-            isResizable={false}
-            rowHeight={40}
-            layouts={currentFolderObject.layouts}
-            onDragStop={handleDragStop}
-            onDragStart={handleDragStart}
-            onDrag={handleDrag}
-            onLayoutChange={onLayoutChange}
-            style={{ width: "100%" }}
-          >
-            {memoizedChildren}
-          </ResponsiveReactGridLayout>
-        </>
-      )
-    );
+    if (menuObject) {
+      return (
+        menuObject?.layouts && (
+          <>
+            <ResponsiveReactGridLayout
+              className="file-system"
+              draggableCancel=".cancelDrag"
+              {...gridProps}
+              isDraggable={true}
+              isResizable={false}
+              rowHeight={40}
+              layouts={currentFolderObject.layouts}
+              onDragStop={handleDragStop}
+              onDragStart={handleDragStart}
+              onDrag={handleDrag}
+              onLayoutChange={onLayoutChange}
+              style={{ width: "100%" }}
+            >
+              {memoizedChildren}
+            </ResponsiveReactGridLayout>
+          </>
+        )
+      );
+    } else {
+      return null;
+    }
   },
 );
 

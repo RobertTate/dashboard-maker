@@ -18,7 +18,7 @@ export const useFixLayout = (
       setMenuObject((prevMenuObj) => {
         const newMenuObj: MenuObject = structuredClone(prevMenuObj);
         const currentFolder = getCurrentFolder(newMenuObj);
-        let goUpButton = [];
+        const goUpButton = [];
         if (newMenuObj.currentFolder.length !== 0) {
           goUpButton.push("MoveDashUpButton");
         }
@@ -30,5 +30,5 @@ export const useFixLayout = (
         return newMenuObj;
       });
     }
-  }, [currentFolderObject.layouts]);
+  }, [currentFolderObject.layouts, setMenuObject]);
 };

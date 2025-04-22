@@ -1,11 +1,10 @@
-// @ts-ignore
+// @ts-expect-error SOL
 import DiceBox from "@3d-dice/dice-box";
-// @ts-ignore
+// @ts-expect-error SOL
 import DiceParser from "@3d-dice/dice-parser-interface";
-// @ts-ignore
-import { DiceRoller } from "@3d-dice/dice-roller-parser";
-// @ts-ignore
+// @ts-expect-error SOL
 import DisplayResults from "@3d-dice/dice-ui/src/displayResults";
+import { DiceRoller, type RollBase } from "@3d-dice/dice-roller-parser";
 import OBR from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 
@@ -15,12 +14,14 @@ const DR = new DiceRoller();
 const DP = new DiceParser();
 const DiceResults = new DisplayResults("#dice-box");
 
+type DiceBoxInstance = InstanceType<typeof DiceBox>
+
 export const useDice = () => {
-  const [dice, setDice] = useState<any>(null);
+  const [dice, setDice] = useState<DiceBoxInstance>(null);
   useEffect(() => {
     let diceBoxCanvas = document.getElementById("dice-canvas");
     if (!dice && !diceBoxCanvas) {
-      const Dice = new DiceBox("#dice-box", {
+      const Dice: DiceBoxInstance = new DiceBox("#dice-box", {
         id: "dice-canvas",
         assetPath: "/assets/",
         startingHeight: 8,
@@ -31,7 +32,7 @@ export const useDice = () => {
         gravity: 8,
       });
 
-      let diceNotation: any;
+      let diceNotation: string;
       Dice.init().then(() => {
         let wasJustTouchedOnMobile = false;
 
@@ -74,14 +75,15 @@ export const useDice = () => {
         setDice(Dice);
       });
 
-      Dice.onRollComplete = async (results: any) => {
+      Dice.onRollComplete = async (results: unknown) => {
         const rerolls = DP.handleRerolls(results);
         if (rerolls.length) {
+          // eslint-disable-next-line
           rerolls.forEach((roll: any) => Dice.add(roll, roll.groupId));
           return rerolls;
         }
         const parsedNotationForMods = DR.parse(diceNotation);
-        const finalResults = DP.parseFinalResults(results);
+        const finalResults: RollBase = DP.parseFinalResults(results);
         DiceResults.showResults(finalResults, parsedNotationForMods);
 
         if (OBR.isAvailable) {
@@ -110,10 +112,8 @@ export const useDice = () => {
                     playerName,
                   },
                 );
-              } catch (e: any) {
-                if (e.error) {
-                  await OBR.notification.show(`Something went wrong`, "ERROR");
-                }
+              } catch (e) {
+                await OBR.notification.show(`Something went wrong`, "ERROR");
               }
             });
           } else {
@@ -128,16 +128,14 @@ export const useDice = () => {
                   playerName,
                 },
               );
-            } catch (e: any) {
-              if (e.error) {
-                await OBR.notification.show(`Something went wrong`, "ERROR");
-              }
+            } catch (e) {
+              await OBR.notification.show(`Something went wrong`, "ERROR");
             }
           }
         }
       };
     }
-  }, []);
+  }, [dice]);
 
   useEffect(() => {
     return () => dice?.clear();

@@ -51,7 +51,6 @@ function LinkEditForm({ url, title, onSubmit, onCancel }: LinkEditFormProps) {
   const {
     register,
     handleSubmit,
-    reset: _,
   } = useForm<LinkFormFields>({
     values: {
       url,

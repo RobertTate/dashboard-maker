@@ -17,9 +17,7 @@ export const DiceNotationDirectiveDescriptor: DirectiveDescriptor<DiceNotationDi
     Editor: ({ mdastNode }) => {
       const nodeChildren = mdastNode.children;
       const textChild = nodeChildren.find((child) => child.type === "text");
-      // @ts-ignore
-      let textChildValue = textChild?.value;
-
+      const textChildValue = textChild?.value;
       const isDCNotation = mdastNode?.attributes?.isDCNotation === "true";
       const isModNoation = mdastNode?.attributes?.isModNotation === "true";
       const alias = mdastNode?.attributes?.alias;

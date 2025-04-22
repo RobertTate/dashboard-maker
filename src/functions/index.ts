@@ -7,4 +7,3 @@ export {
 } from "./folderFunctions";
 export { checkAndAddPremades, applyPremades } from "./premadesFunctions";
 export { collisionInfo } from "./collisions";
-export { createMenuItems } from "./createMenuItems";

@@ -63,11 +63,10 @@ export const useReceiveDashboard = (
               "SUCCESS",
             );
           } catch (e) {
-            console.error(e);
             await OBR.notification.show("Dashboard Sharing Failed.", "ERROR");
           }
         },
       );
     }
-  }, []);
+  }, [selectADashboard, setMenuObject, setRefreshCount, standalone]);
 };
