@@ -489,11 +489,11 @@ button:active {
   top: -36px;
   left: -11px;
   border: 2px solid #ba98ff;
+  border-radius: 8px;
   background: #4c2696;
+  padding: 0 0.5rem;
   width: max-content;
   font-size: 1rem;
-  border-radius: 8px;
-  padding: 0 0.5rem;
 }
 
 #dice-box .displayResults .results button:hover,
@@ -768,9 +768,10 @@ button:active {
   .editable-md-widget .dice-notation:hover {
     color: #4c2696;
   }
+
   .file-system .react-grid-item {
-    background-color: #9d73f1;
     border: 3px solid transparent;
+    background-color: #9d73f1;
     fill: #000;
   }
 

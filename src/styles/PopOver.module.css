@@ -1,8 +1,12 @@
 .pop-over h1 img {
   position: relative;
   top: 4px;
-  width: 40px;
+  width: 44px;
   height: auto;
+}
+
+.pop-over h3 {
+  font-weight: 100;
 }
 
 .dashboard-creator {

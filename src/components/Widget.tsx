@@ -14,7 +14,7 @@ import {
   toolbarPlugin,
 } from "@mdxeditor/editor";
 import debounce from "lodash.debounce";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 
 import { DiceNotationDirectiveDescriptor } from "../plugins/DiceNotationDirectiveDescriptor";
 import { diceNotationMarkdownShortcutPlugin } from "../plugins/diceNotationMarkdownShortcutPlugin";
@@ -36,12 +36,9 @@ const Widget = memo(
     activeToolbarKey,
     setActiveToolbarKey,
   }: WidgetContainerProps) => {
-    const debouncedUpdate = useCallback(
-      debounce((content: string) => {
-        return updateWidgetContent(item, content);
-      }, 500),
-      [item, updateWidgetContent],
-    );
+    const debouncedUpdate = debounce((content: string) => {
+      return updateWidgetContent(item, content);
+    }, 500);
 
     return (
       <MDXEditor

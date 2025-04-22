@@ -1,14 +1,7 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
 
+import { AppContext } from "./AppContext";
 import type { AppContextProps, AppProviderProps } from "./types";
-
-const AppContext = createContext<AppContextProps | undefined>(undefined);
-
-export const useAppStore = () => {
-  const context = useContext(AppContext);
-  if (!context) throw new Error("Context Hasn't Been Set!");
-  return context;
-};
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [selectedDashboard, setSelectedDashboard] = useState("");

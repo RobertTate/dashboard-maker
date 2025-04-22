@@ -1,3 +1,4 @@
+import type { RollBase, RootType } from "@3d-dice/dice-roller-parser";
 import { ReactElement } from "react";
 
 export type Role = "GM" | "PLAYER" | undefined;
@@ -57,8 +58,8 @@ export type NewDashboardTemplateOptions = "default" | "5eChar" | "duplicate";
 
 export type RollBroadcast = {
   playerName: string;
-  finalResults: any;
-  parsedNotationForMods: any;
+  finalResults: RollBase;
+  parsedNotationForMods: RootType;
 };
 
 export type Breakpoint = "lg" | "md" | "sm" | "xs" | "xxs";

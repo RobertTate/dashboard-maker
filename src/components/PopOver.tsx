@@ -1,12 +1,12 @@
 import { memo, useCallback, useRef, useState } from "react";
 
-import { useAppStore } from "../AppProvider.tsx";
 import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
 import upload from "../assets/upload.svg";
 import db from "../dbInstance";
 import { getCurrentFolder, validateUpload } from "../functions";
 import {
+  useAppStore,
   useInitDashboards,
   useReceiveDashboard,
   useShowDiceResults,
@@ -63,25 +63,28 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
     [],
   );
 
-  const deleteADashboard = useCallback(async (dashName: string) => {
-    await db.removeItem(dashName);
-    updateDashboardsState(dashName, "remove");
+  const deleteADashboard = useCallback(
+    async (dashName: string) => {
+      await db.removeItem(dashName);
+      updateDashboardsState(dashName, "remove");
 
-    setMenuObject((prevMenuObj) => {
-      const newMenuObj: MenuObject = structuredClone(prevMenuObj);
-      const currentFolder = getCurrentFolder(newMenuObj);
-      if (!currentFolder?.dashboards) {
-        currentFolder.dashboards = [];
-      }
-      const dashIndex = currentFolder?.dashboards?.indexOf(dashName);
-      if (dashIndex > -1) {
-        currentFolder?.dashboards?.splice(dashIndex, 1);
-      }
-      return newMenuObj;
-    });
+      setMenuObject((prevMenuObj) => {
+        const newMenuObj: MenuObject = structuredClone(prevMenuObj);
+        const currentFolder = getCurrentFolder(newMenuObj);
+        if (!currentFolder?.dashboards) {
+          currentFolder.dashboards = [];
+        }
+        const dashIndex = currentFolder?.dashboards?.indexOf(dashName);
+        if (dashIndex > -1) {
+          currentFolder?.dashboards?.splice(dashIndex, 1);
+        }
+        return newMenuObj;
+      });
 
-    selectADashboard("");
-  }, []);
+      selectADashboard("");
+    },
+    [selectADashboard, updateDashboardsState],
+  );
 
   const createADashboard = useCallback(
     async (
@@ -137,7 +140,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
         inputRefInUse!.current!.reportValidity();
       }
     },
-    [],
+    [selectADashboard, updateDashboardsState],
   );
 
   const handleUploadClick = () => {
@@ -186,8 +189,8 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               uploadRef!.current!.setCustomValidity("");
               uploadRef!.current!.setCustomValidity("Invalid Dashboard File!");
             }
-          } catch (error) {
-            console.error("Error parsing JSON:", error);
+          } catch (e) {
+            console.error("Error parsing JSON:", e);
             uploadRef!.current!.setCustomValidity("");
             uploadRef!.current!.setCustomValidity("Error Reading the file.");
           } finally {
@@ -226,7 +229,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
             ></img>
             Dashboard Maker
           </h1>
-          <h3>DM Screens, Character Sheets, and Whatever Else.</h3>
+          <h3>GM Screens, Character Sheets, and Whatever Else.</h3>
           <div className={styles["dashboard-creator"]}>
             <div className={styles["dashboard-input"]}>
               <button
@@ -275,7 +278,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                     x="50%"
                     y="14"
                     lengthAdjust="spacingAndGlyphs"
-                    style={{ textAnchor: "middle" }}
+                    style={{ textAnchor: "middle", fontWeight: "400" }}
                   >
                     Create New Dashboard
                   </text>
@@ -290,7 +293,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                     x="50%"
                     y="14"
                     lengthAdjust="spacingAndGlyphs"
-                    style={{ textAnchor: "middle" }}
+                    style={{ textAnchor: "middle", fontWeight: "400" }}
                   >
                     Create New 5e Character
                   </text>

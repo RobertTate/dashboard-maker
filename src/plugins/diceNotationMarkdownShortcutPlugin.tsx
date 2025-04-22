@@ -43,7 +43,7 @@ function pickTransformersForActivePlugins() {
         return null;
       }
 
-      // @ts-ignore
+      // @ts-expect-error SOL
       return `:dice[${node?.__mdastNode?.children?.[0]?.value}]`;
     },
     importRegExp: DICE_NOTATION_REGEX,
@@ -90,7 +90,7 @@ function pickTransformersForActivePlugins() {
         return null;
       }
 
-      // @ts-ignore
+      // @ts-expect-error SOL
       return `:dice[${node?.__mdastNode?.children?.[0]?.value}]{isDCNotation="true"}`;
     },
     importRegExp: DC_NOTATION_REGEX,
@@ -126,7 +126,7 @@ function pickTransformersForActivePlugins() {
         return null;
       }
 
-      // @ts-ignore
+      // @ts-expect-error SOL
       return `:dice[${node?.__mdastNode?.children?.[0]?.value}]{isModNotation="true"}`;
     },
     importRegExp: MOD_NOTATION_REGEX,

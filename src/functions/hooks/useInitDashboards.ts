@@ -89,5 +89,5 @@ export const useInitDashboards = (
       }
     };
     initDashboards();
-  }, [refreshCount]);
+  }, [refreshCount, setDashboardsArray, setMenuObject]);
 };

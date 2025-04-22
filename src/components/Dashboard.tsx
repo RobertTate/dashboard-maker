@@ -4,7 +4,6 @@ import { memo, useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-import { useAppStore } from "../AppProvider";
 import download from "../assets/download.svg";
 import duplicate from "../assets/duplicate.svg";
 import fire from "../assets/fire.svg";
@@ -14,6 +13,7 @@ import share from "../assets/share.svg";
 import toggle from "../assets/toggle.svg";
 import unlocked from "../assets/unlocked.svg";
 import db from "../dbInstance";
+import { useAppStore } from "../functions/hooks";
 import styles from "../styles/Dashboard.module.css";
 import type {
   DashboardItemsProps,
@@ -98,14 +98,8 @@ const Dashboard = memo((props: DashboardProps) => {
           b64EncodedCompressedUint8ArrayString,
         );
         await OBR.notification.show("Dashboard Sharing Succeeded!", "SUCCESS");
-      } catch (e: any) {
-        if (e.error) {
-          const error: Error = e.error;
-          await OBR.notification.show(
-            `Dashboard Sharing Failed: ${error.name}`,
-            "ERROR",
-          );
-        }
+      } catch (e) {
+        await OBR.notification.show(`Dashboard Sharing Failed`, "ERROR");
       } finally {
         setShareZoneIsOpen((prev) => !prev);
       }

@@ -1,8 +1,8 @@
 import OBR, { isImage } from "@owlbear-rodeo/sdk";
 import { useEffect } from "react";
 
-import { useAppStore } from "../../AppProvider";
 import db from "../../dbInstance";
+import { useAppStore } from "./useAppStore";
 
 export const useDashboardSearch = () => {
   const { selectedDashboard, selectADashboard } = useAppStore();
@@ -62,5 +62,5 @@ export const useDashboardSearch = () => {
     OBR.onReady(() => {
       setupContextMenu();
     });
-  }, [selectedDashboard]);
+  }, [selectedDashboard, selectADashboard]);
 };

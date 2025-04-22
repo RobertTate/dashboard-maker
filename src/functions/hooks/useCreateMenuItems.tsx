@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 
-import moveUp from "../assets/moveUp.svg";
-import type { FolderSystem, MenuObject } from "../types";
+import moveUp from "../../assets/moveUp.svg";
+import type { FolderSystem, MenuObject } from "../../types";
 
-export const createMenuItems = (
+export const useCreateMenuItems = (
   menuObject: MenuObject,
   filteredFolders: FolderSystem,
   filteredDashboards: string[],
@@ -60,14 +60,14 @@ export const createMenuItems = (
             {folderName.length >= 26 ? (
               <text
                 x="0"
-                y="14"
+                y="15"
                 textLength="194"
                 lengthAdjust="spacingAndGlyphs"
               >
                 {folderName}
               </text>
             ) : (
-              <text x="50%" y="14" style={{ textAnchor: "middle" }}>
+              <text x="50%" y="15" style={{ textAnchor: "middle" }}>
                 {folderName}
               </text>
             )}
@@ -99,14 +99,14 @@ export const createMenuItems = (
             {dash.length >= 26 ? (
               <text
                 x="0"
-                y="14"
+                y="15"
                 textLength="194"
                 lengthAdjust="spacingAndGlyphs"
               >
                 {dash}
               </text>
             ) : (
-              <text x="50%" y="14" style={{ textAnchor: "middle" }}>
+              <text x="50%" y="15" style={{ textAnchor: "middle" }}>
                 {dash}
               </text>
             )}

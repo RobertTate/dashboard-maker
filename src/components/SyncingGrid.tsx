@@ -80,7 +80,7 @@ const SyncingGrid = memo(
         });
       };
       getSavedItems();
-    }, [dashName]);
+    }, [dashName, updateColsStatus, updateLockedStatus]);
 
     useEffect(() => {
       const updateLayouts = async () => {
@@ -95,7 +95,7 @@ const SyncingGrid = memo(
         }
       };
       updateLayouts();
-    }, [syncStorage, isLocked, columns]);
+    }, [syncStorage, isLocked, columns, dashName, layouts, widgets]);
 
     const onLayoutChange = useCallback(
       (
@@ -109,10 +109,10 @@ const SyncingGrid = memo(
           setSyncStorage((prev) => prev + 1);
         }
       },
-      [],
+      [layouts],
     );
 
-    const addNewWidget = () => {
+    const addNewWidget = useCallback(() => {
       const uniqueKey = randomUUID();
 
       const newWidget = {
@@ -128,15 +128,18 @@ const SyncingGrid = memo(
           : newWidgetsArray;
       });
       setSyncStorage((prev) => prev + 1);
-    };
+    }, [widgets]);
 
-    const deleteWidget = (selectedWidgetId: string) => {
-      const newWidgetsArray = widgets!.filter((widget) => {
-        return widget.id !== selectedWidgetId;
-      });
-      setWidgets([...newWidgetsArray]);
-      setSyncStorage((prev) => prev + 1);
-    };
+    const deleteWidget = useCallback(
+      (selectedWidgetId: string) => {
+        const newWidgetsArray = widgets!.filter((widget) => {
+          return widget.id !== selectedWidgetId;
+        });
+        setWidgets([...newWidgetsArray]);
+        setSyncStorage((prev) => prev + 1);
+      },
+      [widgets],
+    );
 
     const updateWidgetContent = useCallback(
       (item: WidgetProps, content: string) => {
@@ -180,7 +183,7 @@ const SyncingGrid = memo(
         widgets.map((item) => {
           return (
             <div key={item.id}>
-              <div className="cancelDrag">
+              <div data-locked={isLocked} className="cancelDrag">
                 <Widget
                   item={item}
                   updateWidgetContent={updateWidgetContent}
@@ -201,7 +204,14 @@ const SyncingGrid = memo(
         });
 
       return [newWidgetChild, widgetChildren];
-    }, [widgets, activeToolbarKey, isLocked]);
+    }, [
+      isLocked,
+      widgets,
+      activeToolbarKey,
+      addNewWidget,
+      deleteWidget,
+      updateWidgetContent,
+    ]);
 
     const memoizedCols = useMemo(() => {
       return {

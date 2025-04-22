@@ -48,11 +48,7 @@ const closeLinkDialog$ = Action((r) => {
 });
 
 function LinkEditForm({ url, title, onSubmit, onCancel }: LinkEditFormProps) {
-  const {
-    register,
-    handleSubmit,
-    reset: _,
-  } = useForm<LinkFormFields>({
+  const { register, handleSubmit } = useForm<LinkFormFields>({
     values: {
       url,
       title,

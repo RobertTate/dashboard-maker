@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error SOL
 import DisplayResults from "@3d-dice/dice-ui/src/displayResults";
 import OBR from "@owlbear-rodeo/sdk";
 import { useEffect, useRef, useState } from "react";
@@ -37,7 +37,7 @@ export const useShowDiceResults = (standalone: boolean) => {
         },
       );
     }
-  }, []);
+  }, [standalone]);
 
   useEffect(() => {
     if (resultsQueue.length === 0) return;

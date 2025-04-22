@@ -37,7 +37,7 @@ export default function CustomToolbar(props: CustomToolbarProps) {
         }
       }
     }
-  });
+  }, [activeEditor, activeToolbarKey, inFocus, setActiveToolbarKey]);
 
   return showToolbar ? (
     <>

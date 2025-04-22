@@ -11,5 +11,5 @@ export const useSyncStorage = (syncStorage: number, menuObject: MenuObject) => {
       }
     };
     syncMenu();
-  }, [syncStorage]);
+  }, [syncStorage, menuObject]);
 };
