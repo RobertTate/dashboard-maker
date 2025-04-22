@@ -1,5 +1,5 @@
+import type { RollBase, RootType } from "@3d-dice/dice-roller-parser";
 import { ReactElement } from "react";
-import type { RootType, RollBase } from "@3d-dice/dice-roller-parser";
 
 export type Role = "GM" | "PLAYER" | undefined;
 

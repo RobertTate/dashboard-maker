@@ -1,8 +1,8 @@
 import OBR, { isImage } from "@owlbear-rodeo/sdk";
 import { useEffect } from "react";
 
-import { useAppStore } from "./useAppStore";
 import db from "../../dbInstance";
+import { useAppStore } from "./useAppStore";
 
 export const useDashboardSearch = () => {
   const { selectedDashboard, selectADashboard } = useAppStore();

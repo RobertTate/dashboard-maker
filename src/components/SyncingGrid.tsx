@@ -130,13 +130,16 @@ const SyncingGrid = memo(
       setSyncStorage((prev) => prev + 1);
     }, [widgets]);
 
-    const deleteWidget = useCallback((selectedWidgetId: string) => {
-      const newWidgetsArray = widgets!.filter((widget) => {
-        return widget.id !== selectedWidgetId;
-      });
-      setWidgets([...newWidgetsArray]);
-      setSyncStorage((prev) => prev + 1);
-    }, [widgets]);
+    const deleteWidget = useCallback(
+      (selectedWidgetId: string) => {
+        const newWidgetsArray = widgets!.filter((widget) => {
+          return widget.id !== selectedWidgetId;
+        });
+        setWidgets([...newWidgetsArray]);
+        setSyncStorage((prev) => prev + 1);
+      },
+      [widgets],
+    );
 
     const updateWidgetContent = useCallback(
       (item: WidgetProps, content: string) => {
@@ -201,7 +204,14 @@ const SyncingGrid = memo(
         });
 
       return [newWidgetChild, widgetChildren];
-    }, [isLocked, widgets, activeToolbarKey, addNewWidget, deleteWidget, updateWidgetContent]);
+    }, [
+      isLocked,
+      widgets,
+      activeToolbarKey,
+      addNewWidget,
+      deleteWidget,
+      updateWidgetContent,
+    ]);
 
     const memoizedCols = useMemo(() => {
       return {

@@ -5,13 +5,18 @@ import ReactGridLayout, {
   Responsive,
   WidthProvider,
 } from "react-grid-layout";
+
 import {
   collisionInfo,
   generateLayouts,
   getCurrentFolder,
   getSurroundings,
 } from "../functions";
-import { useFixLayout, useCreateMenuItems, useAppStore } from "../functions/hooks";
+import {
+  useAppStore,
+  useCreateMenuItems,
+  useFixLayout,
+} from "../functions/hooks";
 import { Breakpoint, DashboardFileSystemProps, MenuObject } from "../types";
 
 const DashboardFileSystem = memo(
@@ -103,7 +108,13 @@ const DashboardFileSystem = memo(
           }
         }
       },
-      [menuObject.currentFolder, currentFolderObject.layouts, menuObject?.layouts, setMenuObject, setSyncStorage],
+      [
+        menuObject.currentFolder,
+        currentFolderObject.layouts,
+        menuObject?.layouts,
+        setMenuObject,
+        setSyncStorage,
+      ],
     );
 
     // Sets up the menu items, including both folders and dashboards

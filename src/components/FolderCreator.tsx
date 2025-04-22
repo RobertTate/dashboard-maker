@@ -210,7 +210,7 @@ export const FolderCreator = ({
   if (menuObject) {
     const isInsideAFolder = menuObject.currentFolder.length !== 0;
 
-    return  (
+    return (
       <>
         <div className={styles["folder-creator"]}>
           <button

@@ -4,7 +4,6 @@ import { memo, useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-import { useAppStore } from "../functions/hooks";
 import download from "../assets/download.svg";
 import duplicate from "../assets/duplicate.svg";
 import fire from "../assets/fire.svg";
@@ -14,6 +13,7 @@ import share from "../assets/share.svg";
 import toggle from "../assets/toggle.svg";
 import unlocked from "../assets/unlocked.svg";
 import db from "../dbInstance";
+import { useAppStore } from "../functions/hooks";
 import styles from "../styles/Dashboard.module.css";
 import type {
   DashboardItemsProps,
@@ -99,10 +99,7 @@ const Dashboard = memo((props: DashboardProps) => {
         );
         await OBR.notification.show("Dashboard Sharing Succeeded!", "SUCCESS");
       } catch (e) {
-        await OBR.notification.show(
-          `Dashboard Sharing Failed`,
-          "ERROR",
-        );
+        await OBR.notification.show(`Dashboard Sharing Failed`, "ERROR");
       } finally {
         setShareZoneIsOpen((prev) => !prev);
       }
@@ -132,8 +129,9 @@ const Dashboard = memo((props: DashboardProps) => {
       id={isLocked ? "locked-dash" : "unlocked-dash"}
     >
       <div
-        className={`${styles["dashboard-nav"]} ${standalone ? styles["dashboard-nav--standalone"] : ""
-          }`}
+        className={`${styles["dashboard-nav"]} ${
+          standalone ? styles["dashboard-nav--standalone"] : ""
+        }`}
       >
         <button
           className="icon-button"
@@ -225,8 +223,9 @@ const Dashboard = memo((props: DashboardProps) => {
         <h2>{selectedDashboard}</h2>
       </div>
       <div
-        className={`${styles["dashboard-delete-zone"]} ${deleteZoneIsOpen ? styles["show-delete-zone"] : ""
-          }`}
+        className={`${styles["dashboard-delete-zone"]} ${
+          deleteZoneIsOpen ? styles["show-delete-zone"] : ""
+        }`}
       >
         <p>Type "DELETE" to delete this dashboard permanently.</p>
         <div className={styles["dashboard-delete-zone-confirm"]}>
@@ -242,8 +241,9 @@ const Dashboard = memo((props: DashboardProps) => {
       </div>
 
       <div
-        className={`${styles["dashboard-columntoggle-zone"]} ${columntoggleZoneIsOpen ? styles["show-columntoggle-zone"] : ""
-          }`}
+        className={`${styles["dashboard-columntoggle-zone"]} ${
+          columntoggleZoneIsOpen ? styles["show-columntoggle-zone"] : ""
+        }`}
       >
         <p>
           Behold, <strong>the column toggler.</strong> Use its power to change
@@ -256,8 +256,9 @@ const Dashboard = memo((props: DashboardProps) => {
       </div>
 
       <div
-        className={`${styles["dashboard-duplicate-zone"]} ${duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
-          }`}
+        className={`${styles["dashboard-duplicate-zone"]} ${
+          duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
+        }`}
       >
         <p>Clone this dashboard by typing in a new name for the duplicate.</p>
         <div className={styles["dashboard-duplicate-zone-confirm"]}>
@@ -272,8 +273,9 @@ const Dashboard = memo((props: DashboardProps) => {
       </div>
 
       <div
-        className={`${styles["dashboard-share-zone"]} ${shareZoneIsOpen ? styles["show-share-zone"] : ""
-          }`}
+        className={`${styles["dashboard-share-zone"]} ${
+          shareZoneIsOpen ? styles["show-share-zone"] : ""
+        }`}
       >
         <p>
           Do you want to share this dashboard in its current state with your

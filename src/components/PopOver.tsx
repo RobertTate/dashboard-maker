@@ -63,25 +63,28 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
     [],
   );
 
-  const deleteADashboard = useCallback(async (dashName: string) => {
-    await db.removeItem(dashName);
-    updateDashboardsState(dashName, "remove");
+  const deleteADashboard = useCallback(
+    async (dashName: string) => {
+      await db.removeItem(dashName);
+      updateDashboardsState(dashName, "remove");
 
-    setMenuObject((prevMenuObj) => {
-      const newMenuObj: MenuObject = structuredClone(prevMenuObj);
-      const currentFolder = getCurrentFolder(newMenuObj);
-      if (!currentFolder?.dashboards) {
-        currentFolder.dashboards = [];
-      }
-      const dashIndex = currentFolder?.dashboards?.indexOf(dashName);
-      if (dashIndex > -1) {
-        currentFolder?.dashboards?.splice(dashIndex, 1);
-      }
-      return newMenuObj;
-    });
+      setMenuObject((prevMenuObj) => {
+        const newMenuObj: MenuObject = structuredClone(prevMenuObj);
+        const currentFolder = getCurrentFolder(newMenuObj);
+        if (!currentFolder?.dashboards) {
+          currentFolder.dashboards = [];
+        }
+        const dashIndex = currentFolder?.dashboards?.indexOf(dashName);
+        if (dashIndex > -1) {
+          currentFolder?.dashboards?.splice(dashIndex, 1);
+        }
+        return newMenuObj;
+      });
 
-    selectADashboard("");
-  }, [selectADashboard, updateDashboardsState]);
+      selectADashboard("");
+    },
+    [selectADashboard, updateDashboardsState],
+  );
 
   const createADashboard = useCallback(
     async (

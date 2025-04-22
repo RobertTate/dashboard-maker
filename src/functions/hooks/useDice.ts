@@ -2,9 +2,9 @@
 import DiceBox from "@3d-dice/dice-box";
 // @ts-expect-error SOL
 import DiceParser from "@3d-dice/dice-parser-interface";
+import { DiceRoller, type RollBase } from "@3d-dice/dice-roller-parser";
 // @ts-expect-error SOL
 import DisplayResults from "@3d-dice/dice-ui/src/displayResults";
-import { DiceRoller, type RollBase } from "@3d-dice/dice-roller-parser";
 import OBR from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 
@@ -14,7 +14,7 @@ const DR = new DiceRoller();
 const DP = new DiceParser();
 const DiceResults = new DisplayResults("#dice-box");
 
-type DiceBoxInstance = InstanceType<typeof DiceBox>
+type DiceBoxInstance = InstanceType<typeof DiceBox>;
 
 export const useDice = () => {
   const [dice, setDice] = useState<DiceBoxInstance>(null);
