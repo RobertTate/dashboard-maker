@@ -15,10 +15,17 @@ import startingLayouts from "../partials/startingLayout";
 import type {
   DashboardItemsProps,
   SyncingGridProps,
+  TextAlignment,
   WidgetProps,
 } from "../types";
 import randomUUID from "../uid";
 import Widget from "./Widget";
+
+const styleAlignmentMap = {
+  "left": "flex-start",
+  "center": "center",
+  "right": "flex-end"
+}
 
 const SyncingGrid = memo(
   ({
@@ -157,6 +164,21 @@ const SyncingGrid = memo(
       [widgets],
     );
 
+    const updateWidgetTextAlignment = useCallback(
+      (itemId: string, alignment: TextAlignment) => {
+        if (widgets) {
+          const updatedWidgetsArray = widgets.map((widget) => {
+            if (widget.id === itemId) {
+              widget.alignment = alignment;
+            }
+            return widget;
+          });
+          setWidgets([...updatedWidgetsArray]);
+          setSyncStorage((prev) => prev + 1);
+        }
+      }, [widgets],
+    );
+
     const memoizedChildren = useMemo(() => {
       const newWidgetChild = (
         <div
@@ -182,11 +204,15 @@ const SyncingGrid = memo(
         widgets &&
         widgets.map((item) => {
           return (
-            <div key={item.id}>
+            <div style={{
+              justifyContent: item.alignment ? styleAlignmentMap[item.alignment] : "center",
+              textAlign: item.alignment ? item.alignment : "center"
+            }} id={item.id} key={item.id} data-align={item.alignment || "center"}>
               <div data-locked={isLocked} className="cancelDrag">
                 <Widget
                   item={item}
                   updateWidgetContent={updateWidgetContent}
+                  updateWidgetTextAlignment={updateWidgetTextAlignment}
                   activeToolbarKey={activeToolbarKey}
                   setActiveToolbarKey={setActiveToolbarKey}
                 />

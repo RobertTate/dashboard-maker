@@ -229,15 +229,15 @@ export const FolderCreator = ({
             required
             title="Enter a new folder name here, then hit enter or click the button on the left."
             onKeyDown={handleFolderCreationOnEnter}
+            style={{paddingLeft: "4px"}}
           />
         </div>
-        <div className={styles["folder-creator-options-container"]}>
-          <hr></hr>
-          <div className={styles["folder-creator-options"]}>
-            <div className={styles["folder-creator-breadcrumb"]}>
-              {generateFolderBreadCrumb()}
-            </div>
-            {isInsideAFolder && (
+        {isInsideAFolder && (
+          <div className={styles["folder-creator-options-container"]}>
+            <div className={styles["folder-creator-options"]}>
+              <div className={styles["folder-creator-breadcrumb"]}>
+                {generateFolderBreadCrumb()}
+              </div>
               <button
                 className={styles["folder-creator-delete-folder"]}
                 title="Delete this folder."
@@ -245,34 +245,28 @@ export const FolderCreator = ({
               >
                 <img alt="Delete Icon" src={fire}></img>
               </button>
-            )}
-          </div>
-          {isInsideAFolder && (
-            <>
-              <hr></hr>
-              <div
-                className={`${styles["folder-delete-zone"]} ${
-                  deleteZoneIsOpen ? styles["show-folder-delete-zone"] : ""
+            </div>
+            <div
+              className={`${styles["folder-delete-zone"]} ${deleteZoneIsOpen ? styles["show-folder-delete-zone"] : ""
                 }`}
-              >
-                <p>
-                  Type "DELETE" to delete this folder and subfolders. Dashboards
-                  will move up and out.
-                </p>
-                <div className={styles["folder-delete-zone-confirm"]}>
-                  <input
-                    ref={deleteFolderInputRef}
-                    type="text"
-                    name="folderDeleteField"
-                    required
-                    onKeyDown={handleFolderDeletionOnEnter}
-                  />
-                  <button onClick={handleDeleteFolder}>Submit</button>
-                </div>
+            >
+              <p>
+                Type "DELETE" to delete this folder and subfolders. Dashboards
+                will move up and out.
+              </p>
+              <div className={styles["folder-delete-zone-confirm"]}>
+                <input
+                  ref={deleteFolderInputRef}
+                  type="text"
+                  name="folderDeleteField"
+                  required
+                  onKeyDown={handleFolderDeletionOnEnter}
+                />
+                <button onClick={handleDeleteFolder}>Submit</button>
               </div>
-            </>
-          )}
-        </div>
+            </div>
+          </div>
+        )}
       </>
     );
   } else {

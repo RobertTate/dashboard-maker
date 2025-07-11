@@ -266,6 +266,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 placeholder="Add Dashboard Name Here"
                 required
                 title="Enter your new dashboard name here, then click one of the two options below."
+                style={{paddingLeft: "4px"}}
               />
             </div>
             <div className={styles["dashboard-input-selections"]}>

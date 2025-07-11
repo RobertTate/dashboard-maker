@@ -27,9 +27,12 @@ export type ColumnToggleProps = {
   columns: number;
 };
 
+export type TextAlignment = "center" | "left" | "right";
+
 export type WidgetProps = {
   id: string;
   content: string;
+  alignment?: TextAlignment;
 };
 
 export type DashboardItemsProps = {
