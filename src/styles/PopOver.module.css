@@ -49,3 +49,28 @@
 .dashboard-input-selections button svg {
   fill: #fff;
 }
+
+@media (prefers-color-scheme: light) {
+  .dashboard-input-selections button svg {
+    fill: #000;
+  }
+}
+
+
+.dashboard-info-link {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+}
+
+.dashboard-info-link img {
+  width: 20px;
+  height: 20px;
+}
+
+@media (prefers-color-scheme: light) {
+  .dashboard-info-link img {
+    filter: brightness(0);
+  }
+}

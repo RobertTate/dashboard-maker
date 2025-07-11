@@ -17,12 +17,6 @@
   width: 97.5vw;
 }
 
-@media (prefers-color-scheme: light) {
-  .dashboard-nav {
-    background: #d2bff9;
-  }
-}
-
 .dashboard-nav--standalone {
   top: -1px;
   max-width: 631px;
@@ -96,7 +90,7 @@
   padding-bottom: 10px;
 }
 
-@media only screen and (width <= 480px) {
+@media only screen and (width <=480px) {
   .dashboard-toolbar-container {
     display: none;
   }
@@ -135,12 +129,12 @@
   border-color: #ba98ff;
 }
 
-.dashboard-toolbar-zone > * {
+.dashboard-toolbar-zone>* {
   display: none;
 }
 
 /* This needs to always be reflective of the number of tools in the editor toolbar */
-.dashboard-toolbar-zone > *:nth-last-child(-n + 10) {
+.dashboard-toolbar-zone>*:nth-last-child(-n + 10) {
   display: flex;
 }
 
@@ -153,25 +147,58 @@
 }
 
 @media (prefers-color-scheme: light) {
+  .dashboard-nav {
+    background: #dfcffc;
+  }
+
   .dashboard-toolbar-container {
-    background-color: #d2bff9;
+    background-color: #dfcffc;
   }
 
   .dashboard-toolbar-zone {
     --baseBorderHover: #ceb6fe84;
-
-    background-color: #4c2696;
+    background-color: #b9f;
   }
 
   .dashboard-toolbar-zone:hover {
     border-color: #8447ff;
   }
 
-  .dashboard-toolbar-zone-placeholder {
+  .dashboard-toolbar-zone button {
+    color: #4c2696;
+  }
+
+  .dashboard-toolbar-zone button[data-disabled] svg {
+    color: #9773e4;
+  }
+
+  .dashboard-toolbar-zone button[data-state="on"] {
     color: white;
   }
 
-  .dashboard-toolbar-zone-placeholder a {
-    color: #d2bff9;
+  .dashboard-toolbar-zone button [data-text-align-icon] {
+    filter: saturate(18) hue-rotate(325deg) brightness(0.7);
+  }
+
+  .dashboard-delete-zone,
+  .dashboard-duplicate-zone,
+  .dashboard-columntoggle-zone,
+  .dashboard-share-zone {
+    background-color: #b9f;
+  }
+
+  .dashboard-delete-zone button,
+  .dashboard-duplicate-zone button,
+  .dashboard-columntoggle-zone button,
+  .dashboard-share-zone button {
+    background-color: #8447ff;
+    color: white;
+  }
+
+  .dashboard-delete-zone button:hover,
+  .dashboard-duplicate-zone button:hover,
+  .dashboard-columntoggle-zone button:hover,
+  .dashboard-share-zone button:hover {
+    border-color: #4c2696;
   }
 }

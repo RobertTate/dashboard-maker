@@ -17,9 +17,20 @@
 }
 
 @media (prefers-color-scheme: light) {
-  .folder-creator-button:hover {
-    border-color: #af935f;
+  .folder-creator-button {
+    background-color: #eed6a8;
+    border-color: #927745;
+    padding: 0.25rem;
   }
+
+  .folder-creator-button:hover {
+    border-color: #ffb835;
+  }
+
+  .folder-creator-button img {
+    filter: brightness(0);
+  }
+
 }
 
 .folder-creator-input {
@@ -66,14 +77,18 @@
   margin-right: 0;
 }
 
-@media (prefers-color-scheme: light) {
-  .folder-creator-delete-folder {
-    background-color: #4c2696;
-  }
-}
-
 .folder-creator-delete-folder img {
   width: 20px;
+}
+
+@media (prefers-color-scheme: light) {
+  .folder-creator-delete-folder {
+    background-color: #b9f;
+  }
+
+  .folder-creator-delete-folder img {
+    filter: contrast(3) brightness(0.9);
+  }
 }
 
 .folder-delete-zone {

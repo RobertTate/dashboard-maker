@@ -2,6 +2,7 @@ import { memo, useCallback, useRef, useState } from "react";
 
 import dashboard from "../assets/dashboard.svg";
 import refresh from "../assets/refresh.svg";
+import info from "../assets/info.svg";
 import upload from "../assets/upload.svg";
 import db from "../dbInstance";
 import { getCurrentFolder, validateUpload } from "../functions";
@@ -230,6 +231,14 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
             Dashboard Maker
           </h1>
           <h3>GM Screens, Character Sheets, and Whatever Else.</h3>
+          <a
+            title="Read the docs"
+            className={styles["dashboard-info-link"]}
+            href="https://github.com/RobertTate/dashboard-maker"
+            target="_blank"
+          >
+            <img src={info} alt="Link to Docs" />
+          </a>
           <div className={styles["dashboard-creator"]}>
             <div className={styles["dashboard-input"]}>
               <button
@@ -266,7 +275,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 placeholder="Add Dashboard Name Here"
                 required
                 title="Enter your new dashboard name here, then click one of the two options below."
-                style={{paddingLeft: "4px"}}
+                style={{ paddingLeft: "4px" }}
               />
             </div>
             <div className={styles["dashboard-input-selections"]}>

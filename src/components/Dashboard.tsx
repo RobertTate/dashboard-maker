@@ -145,7 +145,7 @@ const Dashboard = memo((props: DashboardProps) => {
           title="Delete This Dashboard"
           onClick={() => setDeleteZoneIsOpen((prev) => !prev)}
         >
-          <img alt="Delete Icon" src={fire}></img>
+          <img data-delete-icon alt="Delete Icon" src={fire}></img>
         </button>
         <button
           className="icon-button"
@@ -188,7 +188,7 @@ const Dashboard = memo((props: DashboardProps) => {
             title="Share This Dashboard"
             onClick={() => setShareZoneIsOpen((prev) => !prev)}
           >
-            <img src={share} alt="Download Icon" />
+            <img data-share-icon src={share} alt="Download Icon" />
           </button>
         )}
       </div>
