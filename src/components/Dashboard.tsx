@@ -194,7 +194,7 @@ const Dashboard = memo((props: DashboardProps) => {
       </div>
       <div className={`${styles["dashboard-toolbar-container"]} cancelDrag`}>
         <div className={`${styles["dashboard-toolbar-zone"]}`} id="toolbar">
-          <p className={styles["dashboard-toobar-zone-placeholder"]}>
+          <p className={styles["dashboard-toolbar-zone-placeholder"]}>
             Useful Links: &nbsp;
             <a
               target="_blank"

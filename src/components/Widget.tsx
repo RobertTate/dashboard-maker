@@ -18,13 +18,14 @@ import { memo } from "react";
 
 import { DiceNotationDirectiveDescriptor } from "../plugins/DiceNotationDirectiveDescriptor";
 import { diceNotationMarkdownShortcutPlugin } from "../plugins/diceNotationMarkdownShortcutPlugin";
-import type { WidgetProps } from "../types";
+import type { WidgetProps, TextAlignment } from "../types";
 import CustomLinkDialog from "./CustomLinkDialog";
-import CustomToolbar from "./CustomToolbar";
+import { CustomToolbar } from "./CustomToolbar";
 
 type WidgetContainerProps = {
   item: WidgetProps;
   updateWidgetContent: (item: WidgetProps, content: string) => void;
+  updateWidgetTextAlignment: (itemId: string, alignment: TextAlignment) => void;
   activeToolbarKey: string;
   setActiveToolbarKey: (key: string) => void;
 };
@@ -33,6 +34,7 @@ const Widget = memo(
   ({
     item,
     updateWidgetContent,
+    updateWidgetTextAlignment,
     activeToolbarKey,
     setActiveToolbarKey,
   }: WidgetContainerProps) => {
@@ -42,6 +44,7 @@ const Widget = memo(
 
     return (
       <MDXEditor
+        data-id={item.id}
         markdown={`${item.content}`}
         plugins={[
           headingsPlugin(),
@@ -76,6 +79,7 @@ const Widget = memo(
                 <CustomToolbar
                   activeToolbarKey={activeToolbarKey}
                   setActiveToolbarKey={setActiveToolbarKey}
+                  updateWidgetTextAlignment={updateWidgetTextAlignment}
                 />
               </>
             ),

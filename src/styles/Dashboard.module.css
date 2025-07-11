@@ -108,6 +108,7 @@
 
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   transition:
     border-color 0.25s,
     background-color 0.25s;
@@ -116,6 +117,14 @@
   background-color: #4c396e;
   width: 100%;
   min-height: 40px;
+}
+
+.dashboard-toolbar-zone * {
+  height: 100%;
+}
+
+.dashboard-toolbar-zone [data-type="block-type-select"] {
+  height: auto;
 }
 
 .dashboard-toolbar-zone button {
@@ -130,12 +139,17 @@
   display: none;
 }
 
-.dashboard-toolbar-zone > *:nth-last-child(-n + 9) {
+/* This needs to always be reflective of the number of tools in the editor toolbar */
+.dashboard-toolbar-zone > *:nth-last-child(-n + 10) {
   display: flex;
 }
 
 .dashboard-toolbar-zone div[role="group"] {
   display: flex;
+}
+
+.dashboard-toolbar-zone-placeholder {
+  height: auto;
 }
 
 @media (prefers-color-scheme: light) {
@@ -153,11 +167,11 @@
     border-color: #8447ff;
   }
 
-  .dashboard-toobar-zone-placeholder {
+  .dashboard-toolbar-zone-placeholder {
     color: white;
   }
 
-  .dashboard-toobar-zone-placeholder a {
+  .dashboard-toolbar-zone-placeholder a {
     color: #d2bff9;
   }
 }
