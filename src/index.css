@@ -10,7 +10,7 @@
   height: 650px;
 }
 
-@media only screen and (width <= 480px) {
+@media only screen and (width <=480px) {
   #no-owlbear main {
     align-self: flex-start;
   }
@@ -21,7 +21,7 @@
   }
 }
 
-@media only screen and (width <= 506px) {
+@media only screen and (width <=506px) {
   #toggle-button {
     display: none;
   }
@@ -67,7 +67,7 @@ button {
   transition:
     border-color 0.5s,
     background-color 0.25s;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   border-radius: 8px;
   background-color: #4c396e;
   cursor: pointer;
@@ -112,7 +112,7 @@ button:active {
   padding: 0.25rem;
 }
 
-.react-grid-item > .react-resizable-handle::after {
+.react-grid-item>.react-resizable-handle::after {
   border-right: 2px solid #b9f;
   border-bottom: 2px solid #b9f;
 }
@@ -136,13 +136,11 @@ button:active {
   display: none;
 }
 
-.react-grid-layout
-  .react-grid-item#add-widget
-  > .react-resizable-handle::after {
+.react-grid-layout .react-grid-item#add-widget>.react-resizable-handle::after {
   display: none;
 }
 
-.react-grid-layout .react-grid-item#add-widget > .react-resizable-handle {
+.react-grid-layout .react-grid-item#add-widget>.react-resizable-handle {
   display: none;
 }
 
@@ -164,75 +162,69 @@ button:active {
 }
 
 /* Border Radius of Admonitions */
-.editable-md-widget [data-lexical-decorator="true"] > div {
+.editable-md-widget [data-lexical-decorator="true"]>div {
   border-radius: 6px;
 }
 
 /* Had to override dynamically applied Link Dialog styles, to keep the link dialog in one place. */
-.mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]) {
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]) {
   top: 90vh !important;
   left: 8px !important;
   transform: none !important;
 }
 
 /* Shifting the location of the link dialog when it's open */
-.mdxeditor-popup-container
-  > div:has(div[class^="_linkDialogPopoverContent"]):has(form) {
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) {
   top: 60vh !important;
   left: 8px !important;
   transform: none !important;
 }
 
 /* Styling the Link Dialog */
-.mdxeditor-popup-container
-  > div:has(div[class^="_linkDialogPopoverContent"])
-  > div {
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div {
   border: 3px solid #ba98ff;
   background-color: #4c396e;
 }
 
 /* Style the displayed link in the Closed Link Dialog  */
-.mdxeditor-popup-container
-  > div:has(div[class^="_linkDialogPopoverContent"])
-  > div
-  a[class^="_linkDialogPreviewAnchor"] {
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"] {
   color: #ba98ff;
 }
 
 /* Style the other icons in the Closed Link Dialog */
-.mdxeditor-popup-container
-  > div:has(div[class^="_linkDialogPopoverContent"])
-  > div
-  button[class^="_actionButton"]
-  > svg {
-  fill: #ba98ff;
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"]>svg {
+  color: #ba98ff;
 }
 
-.mdxeditor-popup-container
-  > div:has(div[class^="_linkDialogPopoverContent"])
-  > div
-  button[class^="_actionButton"] {
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"] {
   margin: 0;
 }
 
+/* Style the Url Link in the Closed Link Dialog */
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"] {
+  border: 2px solid transparent;
+  border-radius: var(--radius-medium);
+  padding: 0.25rem;
+  transition: border 0.4s ease;
+}
+
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"]:hover {
+  border: 2px solid #ba98ff;
+}
+
+
 /* Style the Text Labels in the Open Link Dialog */
-.mdxeditor-popup-container
-  > div:has(div[class^="_linkDialogPopoverContent"]):has(form)
-  label {
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) label {
   color: #d2bff9;
 }
 
 /* Style the button borders of the Open Link Dialog */
-.mdxeditor-popup-container
-  > div:has(div[class^="_linkDialogPopoverContent"]):has(form)
-  button {
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) button {
   border: none;
 }
 
 /* Style the background color of the submit button of the Open Link Dialog */
-.mdxeditor-popup-container
-  > div:has(div[class^="_linkDialogPopoverContent"]):has(form)
-  button[type="submit"] {
+.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) button[type="submit"] {
   background-color: #8447ff;
 }
 
@@ -265,14 +257,14 @@ button:active {
   font-style: italic;
 }
 
-.editable-md-widget h1 + p:has(br),
-.editable-md-widget h2 + p:has(br),
-.editable-md-widget h3 + p:has(br),
-.editable-md-widget h4 + p:has(br),
-.editable-md-widget h5 + p:has(br),
-.editable-md-widget h6 + p:has(br),
-.editable-md-widget ul + p:has(br),
-.editable-md-widget ol + p:has(br) {
+.editable-md-widget h1+p:has(br),
+.editable-md-widget h2+p:has(br),
+.editable-md-widget h3+p:has(br),
+.editable-md-widget h4+p:has(br),
+.editable-md-widget h5+p:has(br),
+.editable-md-widget h6+p:has(br),
+.editable-md-widget ul+p:has(br),
+.editable-md-widget ol+p:has(br) {
   display: none;
 }
 
@@ -359,7 +351,7 @@ button:active {
   overflow: clip;
 }
 
-.react-grid-item > div {
+.react-grid-item>div {
   min-width: 4px;
 }
 
@@ -601,7 +593,7 @@ button:active {
     border-color 0.5s,
     background-color 0.5s,
     opacity 0.5s;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   border-radius: 8px;
   background-color: #4c396e;
   cursor: pointer;
@@ -630,45 +622,46 @@ button:active {
 .file-system .react-grid-item.folder {
   box-sizing: border-box;
   background-color: #7a583e;
-  clip-path: polygon(
-    0 23%,
-    0 7%,
-    4% 0,
-    28% 0,
-    32% 7%,
-    60% 7%,
-    98% 7%,
-    100% 10%,
-    100% 100%,
-    15% 100%,
-    0 100%,
-    0% 85%
-  );
+  clip-path: polygon(0 23%,
+      0 7%,
+      4% 0,
+      28% 0,
+      32% 7%,
+      60% 7%,
+      98% 7%,
+      100% 10%,
+      100% 100%,
+      15% 100%,
+      0 100%,
+      0% 85%);
 }
 
 .file-system .react-grid-item.folder::after {
   position: absolute;
-  top: 1px; /* Match border width */
-  left: 1px; /* Match border width */
+  top: 1px;
+  /* Match border width */
+  left: 1px;
+  /* Match border width */
   z-index: -1;
-  background-color: #7a583e; /* Same as the folder color */
-  width: calc(100% - 2px); /* Compensate for left & right borders */
-  height: calc(100% - 2px); /* Compensate for top & bottom borders */
+  background-color: #7a583e;
+  /* Same as the folder color */
+  width: calc(100% - 3px);
+  /* Compensate for left & right borders */
+  height: calc(100% - 3px);
+  /* Compensate for top & bottom borders */
   content: "";
-  clip-path: polygon(
-    0 23%,
-    0 7%,
-    4% 0,
-    29% 0,
-    32% 7%,
-    60% 7%,
-    98% 7%,
-    100% 10%,
-    100% 100%,
-    15% 100%,
-    0 100%,
-    0% 85%
-  );
+  clip-path: polygon(0 23%,
+      0 7%,
+      4% 0,
+      29% 0,
+      32% 7%,
+      60% 7%,
+      98% 7%,
+      100% 10%,
+      100% 100%,
+      15% 100%,
+      0 100%,
+      0% 85%);
 }
 
 .file-system .react-grid-item.folder:hover {
@@ -693,7 +686,7 @@ button:active {
 
 @media (prefers-color-scheme: light) {
   :root {
-    background-color: #d2bff9;
+    background-color: #dfcffc;
     color: #000;
   }
 
@@ -712,34 +705,59 @@ button:active {
   }
 
   button {
-    background-color: #9d73f1;
+    background-color: #b9f;
     color: #000;
   }
 
   button.icon-button {
-    background-color: #4c2696;
+    background-color: #b9f;
+  }
+
+  button.icon-button img {
+    filter: brightness(0);
+  }
+
+  button.icon-button img[data-delete-icon],
+  button.icon-button img[data-share-icon] {
+    filter: contrast(3) brightness(0.9);
   }
 
   button:hover {
     border-color: #8447ff;
   }
 
+  button.icon-button:hover {
+    border-color: #8447ff;
+  }
+
   .react-grid-layout {
-    background-color: #9773e4;
+    background-color: #999999;
   }
 
   .react-grid-layout.file-system {
     background-color: unset;
   }
 
-  .react-grid-layout .react-grid-item {
-    border: 2px solid #8447ff;
-    background-color: #f1f1f1;
+  .react-grid-layout .react-grid-item#add-widget {
+    background-color: #8447ff;
   }
 
-  .react-grid-item > .react-resizable-handle::after {
-    border-right: 2px solid #b9f;
-    border-bottom: 2px solid #b9f;
+  .react-grid-layout .react-grid-item#add-widget img {
+    filter: brightness(1.5);
+  }
+
+  .react-grid-layout .react-grid-item {
+    border: 2px solid #4c2696;
+    background-color: #ffffff;
+  }
+
+  .react-grid-item>.react-resizable-handle::after {
+    border-right: 2px solid #8447ff;
+    border-bottom: 2px solid #8447ff;
+  }
+
+  .react-grid-layout .react-grid-item #delete-widget img {
+    filter: invert(32%) sepia(100%) saturate(6481%) hue-rotate(246deg) brightness(102%) contrast(143%)
   }
 
   .editable-md-widget span,
@@ -751,8 +769,20 @@ button:active {
   .editable-md-widget code span,
   .editable-md-widget code strong,
   .editable-md-widget code em {
-    background-color: #3a3a3a;
+    background-color: #656565;
     color: #fff;
+  }
+
+  .editable-md-widget a span,
+  .editable-md-widget a strong,
+  .editable-md-widget a em {
+    color: #8447ff;
+  }
+
+  .editable-md-widget a span:hover,
+  .editable-md-widget a strong:hover,
+  .editable-md-widget a em:hover {
+    color: #9773e4;
   }
 
   .editable-md-widget a code span,
@@ -775,21 +805,49 @@ button:active {
   }
 
   .file-system .react-grid-item {
-    border: 2px solid transparent;
-    background-color: #9d73f1;
+    border: 3px solid transparent;
+    background-color: #b9f;
     fill: #000;
   }
 
   .file-system .react-grid-item:hover {
-    border-color: #4c2696;
+    border-color: #8447ff;
   }
 
   .file-system .react-grid-item svg {
-    fill: white;
+    fill: #000;
+  }
+
+  .file-system .react-grid-item.folder {
+    background-color: #927745;
+  }
+
+  .file-system .react-grid-item.folder::after {
+    background-color: #eed6a8;
   }
 
   .file-system .react-grid-item.folder:hover {
     border-color: transparent;
-    background-color: #af935f;
+    background-color: #ffb835;
+  }
+
+  .file-system .react-grid-item.moveFolderUp {
+    background-color: #ff9c9c;
+  }
+
+  .file-system .react-grid-item.moveFolderUp img {
+    filter: brightness(0);
+  }
+
+  .file-system .react-grid-item.moveFolderUp:hover {
+    border-color: #ad5252;
+  }
+
+  .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"] {
+    background-color: #4c396e;
+  }
+
+  .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"]:hover {
+    border: 2px solid #8447ff;
   }
 }

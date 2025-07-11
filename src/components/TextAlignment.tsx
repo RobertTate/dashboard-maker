@@ -47,7 +47,7 @@ export const TextAlignment = memo(({ itemId, gridItemTextAlign, updateWidgetText
         updateWidgetTextAlignment(itemId, value);
       }}
     >
-      <img width={20} height={20} src={imageSource} alt={`align ${alignmentState}`} />
+      <img data-text-align-icon width={17} height={17} src={imageSource} alt={`align ${alignmentState}`} />
     </ButtonOrDropdownButton>
   )
 });
