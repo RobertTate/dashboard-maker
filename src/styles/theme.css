@@ -24,7 +24,8 @@
   --surface: #4c396e;
   --surface-alt: #3a3a3a;
   --grid-bg: #5f5f5f;
-  --border: #858585;
+  --border: #ba98ff;
+  --input-border: #858585;
   --primary: #8447ff;
   --primary-light: #b9f;
   --primary-dark: #4c2696;
@@ -58,6 +59,7 @@
   --surface-alt: #f0e9e9;
   --grid-bg: #999999;
   --border: #8447ff;
+  --input-border: #858585;
   --primary: #8447ff;
   --primary-light: #b9f;
   --primary-dark: #4c2696;
