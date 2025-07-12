@@ -1,0 +1,150 @@
+/*
+  DiceBox.css
+  Styles for the 3D dice display and in-editor dice notation links.
+*/
+
+#dice-box,
+#dice-result-sharing-box {
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#dice-box .displayResults .results,
+#dice-result-sharing-box .displayResults .results {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  border: 2px solid var(--border);
+  background: var(--primary-dark);
+  color: var(--white);
+}
+
+#dice-result-sharing-box .displayResults .results {
+  bottom: -20px;
+  left: -30px;
+  transform: scale(0.7);
+}
+
+#dice-box .displayResults .results button,
+#dice-result-sharing-box .displayResults .results button {
+  position: absolute;
+  top: -58px;
+  left: -10px;
+  border: 2px solid var(--border);
+  background: var(--primary-dark);
+  width: max-content;
+  font-size: 0.75rem;
+}
+
+#dice-result-sharing-box .displayResults .results .player-name {
+  position: absolute;
+  top: -36px;
+  left: -11px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--primary-dark);
+  padding: 0 0.5rem;
+  width: max-content;
+  font-size: 1rem;
+}
+
+#dice-box .displayResults .results button:hover,
+#dice-result-sharing-box .displayResults .results button:hover {
+  background: var(--primary);
+}
+
+#dice-box .displayResults .results button img,
+#dice-result-sharing-box .displayResults .results button img {
+  width: 30px;
+}
+
+#dice-box .displayResults .results .dice-result-label,
+#dice-result-sharing-box .displayResults .results .dice-result-label {
+  padding-left: 0.5rem;
+  color: var(--dice-label);
+}
+
+#dice-box .displayResults .results .mod-positive,
+#dice-box .displayResults .results .mod-multiply {
+  color: var(--success);
+  font-size: 1.25rem;
+}
+
+#dice-result-sharing-box .displayResults .results .mod-positive,
+#dice-result-sharing-box .displayResults .results .mod-multiply {
+  color: var(--success);
+  font-size: 1.25rem;
+}
+
+#dice-box .displayResults .results .mod-negative,
+#dice-box .displayResults .results .mod-divide {
+  color: var(--failure);
+  font-size: 1.25rem;
+}
+
+#dice-result-sharing-box .displayResults .results .mod-negative,
+#dice-result-sharing-box .displayResults .results .mod-divide {
+  color: var(--failure);
+  font-size: 1.25rem;
+}
+
+#dice-box .displayResults .results .crit-success,
+#dice-result-sharing-box .displayResults .results .crit-success {
+  color: var(--success);
+}
+
+#dice-box .displayResults .results svg,
+#dice-result-sharing-box .displayResults .results svg {
+  fill: var(--dice-fill);
+}
+
+#dice-box .displayResults .results .crit-success svg,
+#dice-result-sharing-box .displayResults .results .crit-success svg {
+  fill: var(--success);
+}
+
+#dice-box .displayResults .results .crit-failure,
+#dice-result-sharing-box .displayResults .results .crit-failure {
+  color: var(--failure);
+}
+
+#dice-box .displayResults .results .crit-failure svg,
+#dice-result-sharing-box .displayResults .results .crit-failure svg {
+  fill: var(--failure);
+}
+
+#dice-box .displayResults .results strong[data-success="true"],
+#dice-result-sharing-box .displayResults .results strong[data-success="true"] {
+  color: var(--success);
+}
+
+#dice-box .displayResults .results strong[data-success="false"],
+#dice-result-sharing-box .displayResults .results strong[data-success="false"] {
+  color: var(--failure);
+}
+
+#dice-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.editable-md-widget .dice-notation {
+  cursor: pointer;
+  color: var(--link);
+  font-weight: bold;
+}
+
+.editable-md-widget .dice-notation:hover {
+  color: var(--link-hover);
+}
+
+html[data-theme="light"] .editable-md-widget .dice-notation {
+  color: var(--primary);
+}
+
+html[data-theme="light"] .editable-md-widget .dice-notation:hover {
+  color: var(--primary-dark);
+}

@@ -3,6 +3,8 @@ import DisplayResults from "@3d-dice/dice-ui/src/displayResults";
 import OBR from "@owlbear-rodeo/sdk";
 import { useEffect, useRef, useState } from "react";
 
+import "../../styles/DiceBox.css";
+
 import type { RollBroadcast } from "../../types";
 
 const DiceResults = new DisplayResults("#dice-result-sharing-box");

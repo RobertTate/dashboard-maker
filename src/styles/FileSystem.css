@@ -1,0 +1,148 @@
+/*
+  FileSystem.css
+  Styles for the dashboard file and folder grid layout.
+*/
+
+.file-system {
+  background-color: unset;
+  height: auto;
+}
+
+.file-system.react-grid-layout {
+  margin-top: 0;
+}
+
+.file-system .react-grid-item {
+  transition:
+    border-color 0.5s,
+    background-color 0.5s,
+    opacity 0.5s;
+  border: 3px solid transparent;
+  border-radius: 8px;
+  background-color: var(--surface);
+  cursor: pointer;
+  padding: 0.5rem;
+  max-width: 204px;
+  line-height: 0;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 500;
+  fill: var(--white);
+}
+
+.file-system .react-grid-item:hover {
+  border-color: var(--primary-light);
+}
+
+.file-system .react-grid-item:active {
+  background-color: var(--primary);
+}
+
+.file-system .react-grid-placeholder {
+  background-color: var(--grid-placeholder);
+  padding: 0;
+}
+
+.file-system .react-grid-item.folder {
+  box-sizing: border-box;
+  background-color: var(--folder-accent);
+  clip-path: polygon(0 23%,
+      0 7%,
+      4% 0,
+      28% 0,
+      32% 7%,
+      60% 7%,
+      98% 7%,
+      100% 10%,
+      100% 100%,
+      15% 100%,
+      0 100%,
+      0% 85%);
+}
+
+.file-system .react-grid-item.folder::after {
+  position: absolute;
+  top: 1px;
+  /* Match border width */
+  left: 1px;
+  /* Match border width */
+  z-index: -1;
+  background-color: var(--folder);
+  /* Same as the folder color */
+  width: calc(100% - 3px);
+  /* Compensate for left & right borders */
+  height: calc(100% - 3px);
+  /* Compensate for top & bottom borders */
+  content: "";
+  clip-path: polygon(0 23%,
+      0 7%,
+      4% 0,
+      29% 0,
+      32% 7%,
+      60% 7%,
+      98% 7%,
+      100% 10%,
+      100% 100%,
+      15% 100%,
+      0 100%,
+      0% 85%);
+}
+
+.file-system .react-grid-item.folder:hover {
+  border-color: transparent;
+  background-color: var(--folder-hover);
+}
+
+.file-system .react-grid-item.moveFolderUp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--up-folder-dark);
+}
+
+.file-system .react-grid-item.moveFolderUp:hover {
+  border-color: var(--up-folder-light);
+}
+
+.file-system .react-grid-item.moveFolderUp img {
+  width: 26px;
+}
+
+html[data-theme="light"] .file-system .react-grid-item {
+  border: 3px solid transparent;
+  background-color: var(--primary-light);
+  fill: var(--black);
+}
+
+html[data-theme="light"] .file-system .react-grid-item:hover {
+  border-color: var(--primary);
+}
+
+html[data-theme="light"] .file-system .react-grid-item svg {
+  fill: var(--black);
+}
+
+html[data-theme="light"] .file-system .react-grid-item.folder {
+  background-color: var(--folder);
+}
+
+html[data-theme="light"] .file-system .react-grid-item.folder::after {
+  background-color: var(--folder-accent);
+}
+
+html[data-theme="light"] .file-system .react-grid-item.folder:hover {
+  border-color: transparent;
+  background-color: var(--folder-hover);
+}
+
+html[data-theme="light"] .file-system .react-grid-item.moveFolderUp {
+  background-color: var(--up-folder-light);
+}
+
+html[data-theme="light"] .file-system .react-grid-item.moveFolderUp img {
+  filter: brightness(0);
+}
+
+html[data-theme="light"] .file-system .react-grid-item.moveFolderUp:hover {
+  border-color: var(--up-folder-dark);
+}

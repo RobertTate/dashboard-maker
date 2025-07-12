@@ -8,6 +8,8 @@ import DisplayResults from "@3d-dice/dice-ui/src/displayResults";
 import OBR from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 
+import "../../styles/DiceBox.css";
+
 import shareRoll from "../../assets/shareRoll.svg";
 
 const DR = new DiceRoller();
