@@ -1,4 +1,5 @@
-/* Folder creator uses --folder and --primary-light for button colors */
+/* Folder creator uses --folder, --folder-hover, and --folder-accent
+   variables to style new folder buttons */
 .folder-creator {
   display: flex;
   align-items: center;
@@ -19,7 +20,7 @@
 
 html[data-theme="light"] {
   .folder-creator-button {
-    background-color: var(--primary-light);
+    background-color: var(--folder-accent);
     border-color: var(--folder);
     padding: 0.25rem;
   }

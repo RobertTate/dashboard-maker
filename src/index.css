@@ -1,7 +1,10 @@
 /*
   No-Owlbear container styles.
-  Uses theme variables from theme.css: --bg controls background and --primary
-  colors accent interactive elements.
+  Theme variables from theme.css control layout colours:
+  --bg and --text set the page base,
+  --primary shades accent buttons,
+  --folder*, --up-folder-* colours style the file system widgets,
+  and --failure marks dice roll errors.
 */
 #no-owlbear {
   display: flex;
@@ -49,6 +52,20 @@ p {
   margin: 0.5rem;
 }
 
+input {
+  background-color: var(--surface);
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+
+a {
+  color: var(--link);
+}
+
+a:hover {
+  color: var(--link-hover);
+}
+
 :root {
   background-color: var(--bg);
   text-rendering: optimizelegibility;
@@ -86,7 +103,7 @@ button {
 }
 
 button#fifth-edition-char {
-  background-color: var(--danger);
+  background-color: var(--failure);
 }
 
 button:hover {
@@ -524,13 +541,13 @@ button:active {
 
 #dice-box .displayResults .results .mod-negative,
 #dice-box .displayResults .results .mod-divide {
-  color: var(--danger);
+  color: var(--failure);
   font-size: 1.25rem;
 }
 
 #dice-result-sharing-box .displayResults .results .mod-negative,
 #dice-result-sharing-box .displayResults .results .mod-divide {
-  color: var(--danger);
+  color: var(--failure);
   font-size: 1.25rem;
 }
 
@@ -551,12 +568,12 @@ button:active {
 
 #dice-box .displayResults .results .crit-failure,
 #dice-result-sharing-box .displayResults .results .crit-failure {
-  color: var(--danger);
+  color: var(--failure);
 }
 
 #dice-box .displayResults .results .crit-failure svg,
 #dice-result-sharing-box .displayResults .results .crit-failure svg {
-  fill: var(--danger);
+  fill: var(--failure);
 }
 
 #dice-box .displayResults .results strong[data-success="true"],
@@ -566,7 +583,7 @@ button:active {
 
 #dice-box .displayResults .results strong[data-success="false"],
 #dice-result-sharing-box .displayResults .results strong[data-success="false"] {
-  color: var(--danger);
+  color: var(--failure);
 }
 
 #dice-canvas {
@@ -626,7 +643,7 @@ button:active {
 
 .file-system .react-grid-item.folder {
   box-sizing: border-box;
-  background-color: var(--folder);
+  background-color: var(--folder-accent);
   clip-path: polygon(0 23%,
       0 7%,
       4% 0,
@@ -678,11 +695,11 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--danger);
+  background-color: var(--up-folder-dark);
 }
 
 .file-system .react-grid-item.moveFolderUp:hover {
-  border-color: var(--primary-light);
+  border-color: var(--up-folder-light);
 }
 
 .file-system .react-grid-item.moveFolderUp img {
@@ -828,7 +845,7 @@ html[data-theme="light"] {
   }
 
   .file-system .react-grid-item.folder::after {
-    background-color: var(--primary-light);
+    background-color: var(--folder-accent);
   }
 
   .file-system .react-grid-item.folder:hover {
@@ -837,7 +854,7 @@ html[data-theme="light"] {
   }
 
   .file-system .react-grid-item.moveFolderUp {
-    background-color: var(--primary-light);
+    background-color: var(--up-folder-light);
   }
 
   .file-system .react-grid-item.moveFolderUp img {
@@ -845,7 +862,21 @@ html[data-theme="light"] {
   }
 
   .file-system .react-grid-item.moveFolderUp:hover {
-    border-color: var(--danger);
+    border-color: var(--up-folder-dark);
+  }
+
+  input {
+    background-color: var(--white);
+    color: var(--black);
+    border-color: var(--primary-dark);
+  }
+
+  a {
+    color: var(--primary);
+  }
+
+  a:hover {
+    color: var(--link);
   }
 
   .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"] {

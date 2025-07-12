@@ -9,9 +9,12 @@
   --primary-light: lighter accent used for hover states
   --primary-dark: darker accent used for active states
   --success: success color for dice results
-  --danger: error color for dice results
+  --failure: error color for dice results
   --folder: base folder color
   --folder-hover: folder hover color
+  --folder-accent: inner folder color
+  --up-folder-dark: darker move-folder-up color
+  --up-folder-light: lighter move-folder-up color
 */
 
 [data-theme='dark'] {
@@ -26,9 +29,12 @@
   --primary-dark: #4c2696;
   --primary-darker: #2b194f;
   --success: #0ad666;
-  --danger: #ff4848;
+  --failure: #ff4848;
   --folder: #7a583e;
   --folder-hover: #d6beae;
+  --folder-accent: #7a583e;
+  --up-folder-dark: #ad5252;
+  --up-folder-light: #ff9c9c;
   --grid-placeholder: #5e5e5e;
   --white: #ffffff;
   --black: #000;
@@ -53,9 +59,12 @@
   --primary-dark: #4c2696;
   --primary-darker: #4c2696;
   --success: #0ad666;
-  --danger: #ff4848;
+  --failure: #ff4848;
   --folder: #927745;
   --folder-hover: #ffb835;
+  --folder-accent: #eed6a8;
+  --up-folder-dark: #ad5252;
+  --up-folder-light: #ff9c9c;
   --grid-placeholder: #5e5e5e;
   --white: #ffffff;
   --black: #000;
