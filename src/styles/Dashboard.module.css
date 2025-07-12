@@ -51,7 +51,7 @@
   justify-content: center;
   transition: max-height 0.5s ease-out;
   border-radius: 8px;
-  background-color: var(--surface);
+  background-color: var(--secondary-dark);
   max-height: 0;
   overflow: hidden;
   text-align: center;
@@ -90,7 +90,7 @@
   justify-content: center;
   z-index: 1;
   background-color: var(--bg);
-  padding-bottom: 10px;
+  padding-bottom: 6px;
 }
 
 @media only screen and (width <=480px) {

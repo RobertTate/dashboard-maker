@@ -53,9 +53,14 @@ p {
 }
 
 input {
-  background-color: var(--surface);
+  background-color: var(--input-background);
   color: var(--text);
-  border: 2px solid var(--border);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+input:focus-visible {
+  outline: 1px solid var(--border);
 }
 
 a {
@@ -100,10 +105,6 @@ button {
   font-family: inherit;
   font-size: 1em;
   font-weight: 500;
-}
-
-button#fifth-edition-char {
-  background-color: var(--failure);
 }
 
 button:hover {
@@ -726,11 +727,6 @@ html[data-theme="light"] {
     --admonitionNoteBorder: hsl(231deg 10% 75%);
   }
 
-  button {
-    background-color: var(--primary-light);
-    color: var(--black);
-  }
-
   button.icon-button {
     background-color: var(--primary-light);
   }
@@ -798,13 +794,13 @@ html[data-theme="light"] {
   .editable-md-widget a span,
   .editable-md-widget a strong,
   .editable-md-widget a em {
-    color: var(--primary);
+    color: var(--link);
   }
 
   .editable-md-widget a span:hover,
   .editable-md-widget a strong:hover,
   .editable-md-widget a em:hover {
-    color: var(--link);
+    color: var(--link-hover);
   }
 
   .editable-md-widget a code span,
@@ -869,14 +865,6 @@ html[data-theme="light"] {
     background-color: var(--white);
     color: var(--black);
     border-color: var(--primary-dark);
-  }
-
-  a {
-    color: var(--primary);
-  }
-
-  a:hover {
-    color: var(--link);
   }
 
   .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"] {
