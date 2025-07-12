@@ -1,0 +1,69 @@
+/*
+  Theme variables controlling UI colors.
+  --bg: page background
+  --text: main text color
+  --surface: generic surface background
+  --surface-alt: alternative background used inside widgets
+  --border: border color for interactive elements
+  --primary: primary accent color
+  --primary-light: lighter accent used for hover states
+  --primary-dark: darker accent used for active states
+  --success: success color for dice results
+  --danger: error color for dice results
+  --folder: base folder color
+  --folder-hover: folder hover color
+*/
+
+[data-theme='dark'] {
+  --bg: #242424;
+  --text: #fff;
+  --surface: #4c396e;
+  --surface-alt: #3a3a3a;
+  --grid-bg: #5f5f5f;
+  --border: #ba98ff;
+  --primary: #8447ff;
+  --primary-light: #b9f;
+  --primary-dark: #4c2696;
+  --primary-darker: #2b194f;
+  --success: #0ad666;
+  --danger: #ff4848;
+  --folder: #7a583e;
+  --folder-hover: #d6beae;
+  --grid-placeholder: #5e5e5e;
+  --white: #ffffff;
+  --black: #000;
+  --link: #9773e4;
+  --link-hover: #c9b0ff;
+  --toolbar-border-hover: #ba98ff8a;
+  --code-bg: #656565;
+  --link-dialog-label: #d2bff9;
+  --dice-label: #ffcf91;
+  --dice-fill: #dcf;
+}
+
+[data-theme='light'] {
+  --bg: #dfcffc;
+  --text: #000;
+  --surface: #b9f;
+  --surface-alt: #f0e9e9;
+  --grid-bg: #999999;
+  --border: #8447ff;
+  --primary: #8447ff;
+  --primary-light: #b9f;
+  --primary-dark: #4c2696;
+  --primary-darker: #4c2696;
+  --success: #0ad666;
+  --danger: #ff4848;
+  --folder: #927745;
+  --folder-hover: #ffb835;
+  --grid-placeholder: #5e5e5e;
+  --white: #ffffff;
+  --black: #000;
+  --link: #8447ff;
+  --link-hover: #9773e4;
+  --toolbar-border-hover: #ceb6fe84;
+  --code-bg: #656565;
+  --link-dialog-label: #d2bff9;
+  --dice-label: #ffcf91;
+  --dice-fill: #dcf;
+}

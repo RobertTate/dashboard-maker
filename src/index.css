@@ -1,3 +1,8 @@
+/*
+  No-Owlbear container styles.
+  Uses theme variables from theme.css: --bg controls background and --primary
+  colors accent interactive elements.
+*/
 #no-owlbear {
   display: flex;
   justify-content: center;
@@ -45,10 +50,10 @@ p {
 }
 
 :root {
-  background-color: #242424;
+  background-color: var(--bg);
   text-rendering: optimizelegibility;
   line-height: 1.5;
-  color: #fff;
+  color: var(--text);
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -69,27 +74,27 @@ button {
     background-color 0.25s;
   border: 3px solid transparent;
   border-radius: 8px;
-  background-color: #4c396e;
+  background-color: var(--surface);
   cursor: pointer;
   padding: 0.5rem;
   min-height: 38px;
   line-height: 0;
-  color: #fff;
+  color: var(--text);
   font-family: inherit;
   font-size: 1em;
   font-weight: 500;
 }
 
 button#fifth-edition-char {
-  background-color: #bf5d5d;
+  background-color: var(--danger);
 }
 
 button:hover {
-  border-color: #b9f;
+  border-color: var(--primary-light);
 }
 
 button:active {
-  background-color: #8447ff;
+  background-color: var(--primary);
 }
 
 .react-grid-layout {
@@ -97,7 +102,7 @@ button:active {
   border: 5px solid transparent;
   border-left: 3px solid transparent;
   border-radius: 8px;
-  background-color: #5f5f5f;
+  background-color: var(--grid-bg);
 }
 
 .react-grid-layout .react-grid-item {
@@ -106,15 +111,15 @@ button:active {
   justify-content: center;
   margin-top: -5px;
   margin-left: -5px;
-  border: 2px solid #ba98ff;
+  border: 2px solid var(--border);
   border-radius: 4px;
-  background-color: #3a3a3a;
+  background-color: var(--surface-alt);
   padding: 0.25rem;
 }
 
 .react-grid-item>.react-resizable-handle::after {
-  border-right: 2px solid #b9f;
-  border-bottom: 2px solid #b9f;
+  border-right: 2px solid var(--primary-light);
+  border-bottom: 2px solid var(--primary-light);
 }
 
 .react-grid-layout .react-grid-item #delete-widget {
@@ -145,7 +150,7 @@ button:active {
 }
 
 .editable-md-widget {
-  --basePageBg: #3a3a3a;
+  --basePageBg: var(--surface-alt);
   --admonitionTipBg: hsl(187deg 71% 88% / 50%);
   --admonitionTipBorder: hsl(189deg 60% 53% / 50%);
   --admonitionInfoBg: hsl(123deg 45% 90% / 50%);
@@ -158,7 +163,7 @@ button:active {
   --admonitionNoteBorder: hsl(231deg 10% 75% / 50%);
 
   padding: 0;
-  caret-color: #8447ff;
+  caret-color: var(--primary);
 }
 
 /* Border Radius of Admonitions */
@@ -182,18 +187,18 @@ button:active {
 
 /* Styling the Link Dialog */
 .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div {
-  border: 3px solid #ba98ff;
-  background-color: #4c396e;
+  border: 3px solid var(--border);
+  background-color: var(--surface);
 }
 
 /* Style the displayed link in the Closed Link Dialog  */
 .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"] {
-  color: #ba98ff;
+  color: var(--border);
 }
 
 /* Style the other icons in the Closed Link Dialog */
 .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"]>svg {
-  color: #ba98ff;
+  color: var(--border);
 }
 
 .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"] {
@@ -209,13 +214,13 @@ button:active {
 }
 
 .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"]:hover {
-  border: 2px solid #ba98ff;
+  border: 2px solid var(--border);
 }
 
 
 /* Style the Text Labels in the Open Link Dialog */
 .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) label {
-  color: #d2bff9;
+  color: var(--link-dialog-label);
 }
 
 /* Style the button borders of the Open Link Dialog */
@@ -225,7 +230,7 @@ button:active {
 
 /* Style the background color of the submit button of the Open Link Dialog */
 .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) button[type="submit"] {
-  background-color: #8447ff;
+  background-color: var(--primary);
 }
 
 /* Remove the text highlighting when the link dialog is open. Wasn't lining up with the text correctly. */
@@ -238,20 +243,20 @@ button:active {
 .editable-md-widget span,
 .editable-md-widget strong,
 .editable-md-widget em {
-  color: #fff;
+  color: var(--white);
 }
 
 .editable-md-widget code span,
 .editable-md-widget code strong,
 .editable-md-widget code em {
-  color: #000;
+  color: var(--black);
 }
 
 .editable-md-widget blockquote {
   margin-top: 1.6em;
   margin-bottom: 1.6em;
   margin-left: 0.5em;
-  border-left: 3px solid #8447ff;
+  border-left: 3px solid var(--primary);
   padding-left: 1em;
   font-weight: 400;
   font-style: italic;
@@ -282,7 +287,7 @@ button:active {
 
 .editable-md-widget ul,
 .editable-md-widget ol {
-  color: #fff;
+  color: var(--white);
 }
 
 .editable-md-widget a {
@@ -293,28 +298,28 @@ button:active {
 .editable-md-widget a strong,
 .editable-md-widget a em {
   cursor: pointer;
-  color: #9773e4;
+  color: var(--link);
   font-weight: bold;
 }
 
 .editable-md-widget a span:hover,
 .editable-md-widget a strong:hover,
 .editable-md-widget a em:hover {
-  color: #c9b0ff;
+  color: var(--link-hover);
 }
 
 .editable-md-widget hr {
-  border-color: #ba98ff;
+  border-color: var(--border);
 }
 
 .editable-md-widget th,
 .editable-md-widget td {
-  --baseBgActive: #ba98ff;
+  --baseBgActive: var(--border);
 }
 
 .editable-md-widget li[role="checkbox"] {
-  --accentSolid: #8447ff;
-  --accentBorder: #ba98ff;
+  --accentSolid: var(--primary);
+  --accentBorder: var(--border);
 }
 
 *[class^="_tableEditor"] *[class^="_tableColumnEditorTrigger"],
@@ -330,15 +335,15 @@ button:active {
   align-items: center;
   justify-content: center;
   transition: background-color 0.25s;
-  background-color: #4c2696;
+  background-color: var(--primary-dark);
 }
 
 .react-grid-layout .react-grid-item#add-widget:hover {
-  background-color: #2b194f;
+  background-color: var(--primary-darker);
 }
 
 .react-grid-layout .react-grid-item#add-widget:active {
-  background-color: #8447ff;
+  background-color: var(--primary);
 }
 
 .react-grid-layout .react-grid-item#add-widget img {
@@ -385,7 +390,7 @@ button:active {
   position: absolute;
   top: 33px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--white);
   width: 13px;
   height: 13px;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
@@ -455,9 +460,9 @@ button:active {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  border: 2px solid #ba98ff;
-  background: #4c2696;
-  color: #fff;
+  border: 2px solid var(--border);
+  background: var(--primary-dark);
+  color: var(--white);
 }
 
 #dice-result-sharing-box .displayResults .results {
@@ -471,8 +476,8 @@ button:active {
   position: absolute;
   top: -58px;
   left: -10px;
-  border: 2px solid #ba98ff;
-  background: #4c2696;
+  border: 2px solid var(--border);
+  background: var(--primary-dark);
   width: max-content;
   font-size: 0.75rem;
 }
@@ -481,9 +486,9 @@ button:active {
   position: absolute;
   top: -36px;
   left: -11px;
-  border: 2px solid #ba98ff;
+  border: 2px solid var(--border);
   border-radius: 8px;
-  background: #4c2696;
+  background: var(--primary-dark);
   padding: 0 0.5rem;
   width: max-content;
   font-size: 1rem;
@@ -491,7 +496,7 @@ button:active {
 
 #dice-box .displayResults .results button:hover,
 #dice-result-sharing-box .displayResults .results button:hover {
-  background: #8447ff;
+  background: var(--primary);
 }
 
 #dice-box .displayResults .results button img,
@@ -502,66 +507,66 @@ button:active {
 #dice-box .displayResults .results .dice-result-label,
 #dice-result-sharing-box .displayResults .results .dice-result-label {
   padding-left: 0.5rem;
-  color: #ffcf91;
+  color: var(--dice-label);
 }
 
 #dice-box .displayResults .results .mod-positive,
 #dice-box .displayResults .results .mod-multiply {
-  color: #0ad666;
+  color: var(--success);
   font-size: 1.25rem;
 }
 
 #dice-result-sharing-box .displayResults .results .mod-positive,
 #dice-result-sharing-box .displayResults .results .mod-multiply {
-  color: #0ad666;
+  color: var(--success);
   font-size: 1.25rem;
 }
 
 #dice-box .displayResults .results .mod-negative,
 #dice-box .displayResults .results .mod-divide {
-  color: #ff4848;
+  color: var(--danger);
   font-size: 1.25rem;
 }
 
 #dice-result-sharing-box .displayResults .results .mod-negative,
 #dice-result-sharing-box .displayResults .results .mod-divide {
-  color: #ff4848;
+  color: var(--danger);
   font-size: 1.25rem;
 }
 
 #dice-box .displayResults .results .crit-success,
 #dice-result-sharing-box .displayResults .results .crit-success {
-  color: #0ad666;
+  color: var(--success);
 }
 
 #dice-box .displayResults .results svg,
 #dice-result-sharing-box .displayResults .results svg {
-  fill: #dcf;
+  fill: var(--dice-fill);
 }
 
 #dice-box .displayResults .results .crit-success svg,
 #dice-result-sharing-box .displayResults .results .crit-success svg {
-  fill: #0ad666;
+  fill: var(--success);
 }
 
 #dice-box .displayResults .results .crit-failure,
 #dice-result-sharing-box .displayResults .results .crit-failure {
-  color: #ff4848;
+  color: var(--danger);
 }
 
 #dice-box .displayResults .results .crit-failure svg,
 #dice-result-sharing-box .displayResults .results .crit-failure svg {
-  fill: #ff4848;
+  fill: var(--danger);
 }
 
 #dice-box .displayResults .results strong[data-success="true"],
 #dice-result-sharing-box .displayResults .results strong[data-success="true"] {
-  color: #0ad666;
+  color: var(--success);
 }
 
 #dice-box .displayResults .results strong[data-success="false"],
 #dice-result-sharing-box .displayResults .results strong[data-success="false"] {
-  color: #ff4848;
+  color: var(--danger);
 }
 
 #dice-canvas {
@@ -571,12 +576,12 @@ button:active {
 
 .editable-md-widget .dice-notation {
   cursor: pointer;
-  color: #9773e4;
+  color: var(--link);
   font-weight: bold;
 }
 
 .editable-md-widget .dice-notation:hover {
-  color: #c9b0ff;
+  color: var(--link-hover);
 }
 
 .file-system {
@@ -595,7 +600,7 @@ button:active {
     opacity 0.5s;
   border: 3px solid transparent;
   border-radius: 8px;
-  background-color: #4c396e;
+  background-color: var(--surface);
   cursor: pointer;
   padding: 0.5rem;
   max-width: 204px;
@@ -603,25 +608,25 @@ button:active {
   font-family: inherit;
   font-size: 1em;
   font-weight: 500;
-  fill: #fff;
+  fill: var(--white);
 }
 
 .file-system .react-grid-item:hover {
-  border-color: #b9f;
+  border-color: var(--primary-light);
 }
 
 .file-system .react-grid-item:active {
-  background-color: #8447ff;
+  background-color: var(--primary);
 }
 
 .file-system .react-grid-placeholder {
-  background-color: #5e5e5e;
+  background-color: var(--grid-placeholder);
   padding: 0;
 }
 
 .file-system .react-grid-item.folder {
   box-sizing: border-box;
-  background-color: #7a583e;
+  background-color: var(--folder);
   clip-path: polygon(0 23%,
       0 7%,
       4% 0,
@@ -643,7 +648,7 @@ button:active {
   left: 1px;
   /* Match border width */
   z-index: -1;
-  background-color: #7a583e;
+  background-color: var(--folder);
   /* Same as the folder color */
   width: calc(100% - 3px);
   /* Compensate for left & right borders */
@@ -666,32 +671,32 @@ button:active {
 
 .file-system .react-grid-item.folder:hover {
   border-color: transparent;
-  background-color: #d6beae;
+  background-color: var(--folder-hover);
 }
 
 .file-system .react-grid-item.moveFolderUp {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ad5252;
+  background-color: var(--danger);
 }
 
 .file-system .react-grid-item.moveFolderUp:hover {
-  border-color: #ff9c9c;
+  border-color: var(--primary-light);
 }
 
 .file-system .react-grid-item.moveFolderUp img {
   width: 26px;
 }
 
-@media (prefers-color-scheme: light) {
+html[data-theme="light"] {
   :root {
-    background-color: #dfcffc;
-    color: #000;
+    background-color: var(--bg);
+    color: var(--black);
   }
 
   .editable-md-widget {
-    --basePageBg: #f0e9e9;
+    --basePageBg: var(--surface-alt);
     --admonitionTipBg: hsl(187deg 71% 88%);
     --admonitionTipBorder: hsl(189deg 60% 53%);
     --admonitionInfoBg: hsl(123deg 45% 90%);
@@ -705,12 +710,12 @@ button:active {
   }
 
   button {
-    background-color: #b9f;
-    color: #000;
+    background-color: var(--primary-light);
+    color: var(--black);
   }
 
   button.icon-button {
-    background-color: #b9f;
+    background-color: var(--primary-light);
   }
 
   button.icon-button img {
@@ -723,15 +728,15 @@ button:active {
   }
 
   button:hover {
-    border-color: #8447ff;
+    border-color: var(--primary);
   }
 
   button.icon-button:hover {
-    border-color: #8447ff;
+    border-color: var(--primary);
   }
 
   .react-grid-layout {
-    background-color: #999999;
+    background-color: var(--grid-bg);
   }
 
   .react-grid-layout.file-system {
@@ -739,7 +744,7 @@ button:active {
   }
 
   .react-grid-layout .react-grid-item#add-widget {
-    background-color: #8447ff;
+    background-color: var(--primary);
   }
 
   .react-grid-layout .react-grid-item#add-widget img {
@@ -747,13 +752,13 @@ button:active {
   }
 
   .react-grid-layout .react-grid-item {
-    border: 2px solid #4c2696;
-    background-color: #ffffff;
+    border: 2px solid var(--primary-dark);
+    background-color: var(--white);
   }
 
   .react-grid-item>.react-resizable-handle::after {
-    border-right: 2px solid #8447ff;
-    border-bottom: 2px solid #8447ff;
+    border-right: 2px solid var(--primary);
+    border-bottom: 2px solid var(--primary);
   }
 
   .react-grid-layout .react-grid-item #delete-widget img {
@@ -763,76 +768,76 @@ button:active {
   .editable-md-widget span,
   .editable-md-widget strong,
   .editable-md-widget em {
-    color: #000;
+    color: var(--black);
   }
 
   .editable-md-widget code span,
   .editable-md-widget code strong,
   .editable-md-widget code em {
-    background-color: #656565;
-    color: #fff;
+    background-color: var(--code-bg);
+    color: var(--white);
   }
 
   .editable-md-widget a span,
   .editable-md-widget a strong,
   .editable-md-widget a em {
-    color: #8447ff;
+    color: var(--primary);
   }
 
   .editable-md-widget a span:hover,
   .editable-md-widget a strong:hover,
   .editable-md-widget a em:hover {
-    color: #9773e4;
+    color: var(--link);
   }
 
   .editable-md-widget a code span,
   .editable-md-widget a code strong,
   .editable-md-widget a code em {
-    color: #8447ff;
+    color: var(--primary);
   }
 
   .editable-md-widget ul,
   .editable-md-widget ol {
-    color: #000;
+    color: var(--black);
   }
 
   .editable-md-widget .dice-notation {
-    color: #8447ff;
+    color: var(--primary);
   }
 
   .editable-md-widget .dice-notation:hover {
-    color: #4c2696;
+    color: var(--primary-dark);
   }
 
   .file-system .react-grid-item {
     border: 3px solid transparent;
-    background-color: #b9f;
-    fill: #000;
+    background-color: var(--primary-light);
+    fill: var(--black);
   }
 
   .file-system .react-grid-item:hover {
-    border-color: #8447ff;
+    border-color: var(--primary);
   }
 
   .file-system .react-grid-item svg {
-    fill: #000;
+    fill: var(--black);
   }
 
   .file-system .react-grid-item.folder {
-    background-color: #927745;
+    background-color: var(--folder);
   }
 
   .file-system .react-grid-item.folder::after {
-    background-color: #eed6a8;
+    background-color: var(--primary-light);
   }
 
   .file-system .react-grid-item.folder:hover {
     border-color: transparent;
-    background-color: #ffb835;
+    background-color: var(--folder-hover);
   }
 
   .file-system .react-grid-item.moveFolderUp {
-    background-color: #ff9c9c;
+    background-color: var(--primary-light);
   }
 
   .file-system .react-grid-item.moveFolderUp img {
@@ -840,14 +845,14 @@ button:active {
   }
 
   .file-system .react-grid-item.moveFolderUp:hover {
-    border-color: #ad5252;
+    border-color: var(--danger);
   }
 
   .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"] {
-    background-color: #4c396e;
+    background-color: var(--surface);
   }
 
   .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"]:hover {
-    border: 2px solid #8447ff;
+    border: 2px solid var(--primary);
   }
 }
