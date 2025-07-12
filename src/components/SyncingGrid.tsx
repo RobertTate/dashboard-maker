@@ -237,6 +237,7 @@ const SyncingGrid = memo(
       addNewWidget,
       deleteWidget,
       updateWidgetContent,
+      updateWidgetTextAlignment,
     ]);
 
     const memoizedCols = useMemo(() => {

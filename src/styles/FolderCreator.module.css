@@ -1,10 +1,12 @@
+/* Folder creator uses --folder, --folder-hover, and --folder-accent
+   variables to style new folder buttons */
 .folder-creator {
   display: flex;
   align-items: center;
 }
 
 .folder-creator-button {
-  background-color: #7a583e;
+  background-color: var(--folder);
   padding: 0.25rem;
 }
 
@@ -13,18 +15,18 @@
 }
 
 .folder-creator-button:hover {
-  border-color: #d6beae;
+  border-color: var(--folder-hover);
 }
 
-@media (prefers-color-scheme: light) {
+html[data-theme="light"] {
   .folder-creator-button {
-    background-color: #eed6a8;
-    border-color: #927745;
+    background-color: var(--folder-accent);
+    border-color: var(--folder);
     padding: 0.25rem;
   }
 
   .folder-creator-button:hover {
-    border-color: #ffb835;
+    border-color: var(--folder-hover);
   }
 
   .folder-creator-button img {
@@ -54,13 +56,13 @@
 
 .folder-creator-breadcrumb-link {
   cursor: pointer;
-  color: #9d73f1;
+  color: var(--link);
   font-weight: 600;
 }
 
-@media (prefers-color-scheme: light) {
+html[data-theme="light"] {
   .folder-creator-breadcrumb-link {
-    color: #4c2696;
+    color: var(--primary-dark);
   }
 }
 
@@ -81,9 +83,9 @@
   width: 20px;
 }
 
-@media (prefers-color-scheme: light) {
+html[data-theme="light"] {
   .folder-creator-delete-folder {
-    background-color: #b9f;
+    background-color: var(--primary-light);
   }
 
   .folder-creator-delete-folder img {
@@ -98,7 +100,7 @@
   justify-content: center;
   transition: max-height 0.3s ease-out;
   border-radius: 8px;
-  background-color: #312544;
+  background-color: var(--surface);
   max-height: 0;
   overflow: hidden;
   text-align: center;

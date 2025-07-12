@@ -1,3 +1,6 @@
+/* Dashboard layout styling
+   --bg and --surface control navigation colors
+   --primary variables affect button highlights */
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -12,7 +15,7 @@
   justify-content: space-between;
   z-index: 1;
   margin-top: -8px;
-  background: #242424;
+  background: var(--bg);
   padding: 8px 0 12px;
   width: 97.5vw;
 }
@@ -48,7 +51,7 @@
   justify-content: center;
   transition: max-height 0.5s ease-out;
   border-radius: 8px;
-  background-color: #312544;
+  background-color: var(--secondary-dark);
   max-height: 0;
   overflow: hidden;
   text-align: center;
@@ -86,8 +89,8 @@
   top: 68px;
   justify-content: center;
   z-index: 1;
-  background-color: #242424;
-  padding-bottom: 10px;
+  background-color: var(--bg);
+  padding-bottom: 6px;
 }
 
 @media only screen and (width <=480px) {
@@ -98,7 +101,7 @@
 
 .dashboard-toolbar-zone {
   /* Using --baseBorderHover for the disabled styling of undo/redo buttons */
-  --baseBorderHover: #ba98ff8a;
+  --baseBorderHover: var(--border)8a;
 
   display: flex;
   justify-content: space-evenly;
@@ -108,7 +111,7 @@
     background-color 0.25s;
   border: 3px solid transparent;
   border-radius: 8px;
-  background-color: #4c396e;
+  background-color: var(--surface);
   width: 100%;
   min-height: 40px;
 }
@@ -122,11 +125,11 @@
 }
 
 .dashboard-toolbar-zone button {
-  color: #ceb6fe;
+  color: var(--link-hover);
 }
 
 .dashboard-toolbar-zone:hover {
-  border-color: #ba98ff;
+  border-color: var(--border);
 }
 
 .dashboard-toolbar-zone>* {
@@ -146,30 +149,30 @@
   height: auto;
 }
 
-@media (prefers-color-scheme: light) {
+html[data-theme="light"] {
   .dashboard-nav {
-    background: #dfcffc;
+    background: var(--bg);
   }
 
   .dashboard-toolbar-container {
-    background-color: #dfcffc;
+    background-color: var(--bg);
   }
 
   .dashboard-toolbar-zone {
-    --baseBorderHover: #ceb6fe84;
-    background-color: #b9f;
+    --baseBorderHover: var(--link-hover)84;
+    background-color: var(--primary-light);
   }
 
   .dashboard-toolbar-zone:hover {
-    border-color: #8447ff;
+    border-color: var(--primary);
   }
 
   .dashboard-toolbar-zone button {
-    color: #4c2696;
+    color: var(--primary-dark);
   }
 
   .dashboard-toolbar-zone button[data-disabled] svg {
-    color: #9773e4;
+    color: var(--link);
   }
 
   .dashboard-toolbar-zone button[data-state="on"] {
@@ -184,14 +187,14 @@
   .dashboard-duplicate-zone,
   .dashboard-columntoggle-zone,
   .dashboard-share-zone {
-    background-color: #b9f;
+    background-color: var(--primary-light);
   }
 
   .dashboard-delete-zone button,
   .dashboard-duplicate-zone button,
   .dashboard-columntoggle-zone button,
   .dashboard-share-zone button {
-    background-color: #8447ff;
+    background-color: var(--primary);
     color: white;
   }
 
@@ -199,6 +202,6 @@
   .dashboard-duplicate-zone button:hover,
   .dashboard-columntoggle-zone button:hover,
   .dashboard-share-zone button:hover {
-    border-color: #4c2696;
+    border-color: var(--primary-dark);
   }
 }

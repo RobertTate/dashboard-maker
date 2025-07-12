@@ -1,3 +1,4 @@
+/* PopOver styles rely on --white and --black for icon colors */
 .pop-over h1 img {
   position: relative;
   top: 4px;
@@ -47,12 +48,12 @@
 }
 
 .dashboard-input-selections button svg {
-  fill: #fff;
+  fill: var(--white);
 }
 
-@media (prefers-color-scheme: light) {
+html[data-theme="light"] {
   .dashboard-input-selections button svg {
-    fill: #000;
+    fill: var(--black);
   }
 }
 
@@ -69,7 +70,7 @@
   height: 20px;
 }
 
-@media (prefers-color-scheme: light) {
+html[data-theme="light"] {
   .dashboard-info-link img {
     filter: brightness(0);
   }
