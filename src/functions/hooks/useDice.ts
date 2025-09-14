@@ -46,8 +46,7 @@ export const useDice = () => {
               event.stopPropagation();
             }
             diceNotation = eventTarget.dataset?.diceNotation;
-            const rollObj: Array<Record<string, any>> =
-              DP.parseNotation(diceNotation);
+            const rollObj: Array<Record<string, unknown>> = DP.parseNotation(diceNotation);
             const diceColor = getComputedStyle(document.documentElement)
               .getPropertyValue("--dice-color")
               .trim();
