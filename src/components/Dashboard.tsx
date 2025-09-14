@@ -253,7 +253,7 @@ const Dashboard = memo((props: DashboardProps) => {
             &nbsp;/&nbsp;
             <a
               target="_blank"
-              href="https://discord.com/channels/795808973743194152/1248695489558483007"
+              href="https://discord.com/channels/795808973743194152/1412776692124094515/1412776751615967333"
             >
               Community Made Dashboards
             </a>
