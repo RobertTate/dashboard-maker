@@ -100,10 +100,13 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
       const dashName = inputRefInUse?.current!.value;
       if (dashName) {
         if (keys.includes(dashName)) {
-          const inputResponse =
-            dashName === "Menu_Object"
-              ? "Don't call it that! I'm using that for something under the hood."
-              : "The Dashboard Name Must Be Unique.";
+          const inputResponse = [
+            "Menu_Object",
+            "Dash_Mode_String",
+            "Dash_Theme_String"
+          ].includes(dashName)
+            ? "Don't call it that! I'm using that for something under the hood."
+            : "The Dashboard Name Must Be Unique.";
           inputRefInUse!.current!.setCustomValidity(inputResponse);
           inputRefInUse!.current!.reportValidity();
         } else {
