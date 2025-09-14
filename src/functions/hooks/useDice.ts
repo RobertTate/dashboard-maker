@@ -18,6 +18,7 @@ type DiceBoxInstance = InstanceType<typeof DiceBox>;
 
 export const useDice = () => {
   const [dice, setDice] = useState<DiceBoxInstance>(null);
+
   useEffect(() => {
     let diceBoxCanvas = document.getElementById("dice-canvas");
     if (!dice && !diceBoxCanvas) {
@@ -45,7 +46,14 @@ export const useDice = () => {
               event.stopPropagation();
             }
             diceNotation = eventTarget.dataset?.diceNotation;
-            const rollObj = DP.parseNotation(diceNotation);
+            const rollObj: Array<Record<string, any>> = DP.parseNotation(diceNotation);
+            const diceColor = getComputedStyle(document.documentElement).getPropertyValue("--dice-color").trim();
+            if (diceColor) {
+              for (const roll of rollObj) {
+                roll.themeColor = diceColor;
+              }
+            }
+
             Dice.roll(rollObj);
             DiceResults.clear();
           } else if (
@@ -94,11 +102,13 @@ export const useDice = () => {
               "#dice-box > div > div.results.showEffect",
             );
             const shareButton = document.createElement("button");
-            const icon = document.createElement("img");
-            icon.src = shareRoll;
-            icon.alt = "Share Roll Result?";
-            icon.title = "Share Roll Result?";
-            shareButton.appendChild(icon);
+            const svgResult = await fetch(shareRoll);
+            const svgText = await svgResult.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(svgText, "image/svg+xml");
+            const svgEl = doc.documentElement;
+            shareButton.title = "Share Roll Result?";
+            shareButton.appendChild(svgEl);
             diceResultsBox?.appendChild(shareButton);
 
             shareButton.addEventListener("click", async () => {

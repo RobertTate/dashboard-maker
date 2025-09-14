@@ -1,5 +1,3 @@
-/* Folder creator uses --folder, --folder-hover, and --folder-accent
-   variables to style new folder buttons */
 .folder-creator {
   display: flex;
   align-items: center;
@@ -16,23 +14,6 @@
 
 .folder-creator-button:hover {
   border-color: var(--folder-hover);
-}
-
-html[data-theme="light"] {
-  .folder-creator-button {
-    background-color: var(--folder-accent);
-    border-color: var(--folder);
-    padding: 0.25rem;
-  }
-
-  .folder-creator-button:hover {
-    border-color: var(--folder-hover);
-  }
-
-  .folder-creator-button img {
-    filter: brightness(0);
-  }
-
 }
 
 .folder-creator-input {
@@ -60,12 +41,6 @@ html[data-theme="light"] {
   font-weight: 600;
 }
 
-html[data-theme="light"] {
-  .folder-creator-breadcrumb-link {
-    color: var(--primary-dark);
-  }
-}
-
 .folder-creator-breadcrumb-link:hover {
   text-decoration: underline;
 }
@@ -83,16 +58,6 @@ html[data-theme="light"] {
   width: 20px;
 }
 
-html[data-theme="light"] {
-  .folder-creator-delete-folder {
-    background-color: var(--primary-light);
-  }
-
-  .folder-creator-delete-folder img {
-    filter: contrast(3) brightness(0.9);
-  }
-}
-
 .folder-delete-zone {
   display: flex;
   flex-direction: column;
@@ -100,10 +65,19 @@ html[data-theme="light"] {
   justify-content: center;
   transition: max-height 0.3s ease-out;
   border-radius: 8px;
-  background-color: var(--surface);
+  background-color: var(--dropdown-zones-bg-color);
   max-height: 0;
   overflow: hidden;
   text-align: center;
+}
+
+.folder-delete-zone button {
+  background-color: var(--dropdown-zones-button-bg-color);
+  color: var(--dropdown-zones-button-color);
+}
+
+.folder-delete-zone button:hover {
+  border-color: var(--dropdown-zones-button-border-hover);
 }
 
 .folder-delete-zone p {

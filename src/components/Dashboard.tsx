@@ -4,14 +4,14 @@ import { memo, useCallback, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-import download from "../assets/download.svg";
-import duplicate from "../assets/duplicate.svg";
-import fire from "../assets/fire.svg";
-import leftArrow from "../assets/leftArrow.svg";
-import locked from "../assets/locked.svg";
-import share from "../assets/share.svg";
-import toggle from "../assets/toggle.svg";
-import unlocked from "../assets/unlocked.svg";
+import DownloadIcon from "../assets/download.svg?react";
+import DuplicateIcon from "../assets/duplicate.svg?react";
+import FireIcon from "../assets/fire.svg?react";
+import LeftArrowIcon from "../assets/leftArrow.svg?react";
+import LockedIcon from "../assets/locked.svg?react";
+import ShareIcon from "../assets/share.svg?react";
+import ToggleIcon from "../assets/toggle.svg?react";
+import UnlockedIcon from "../assets/unlocked.svg?react";
 import db from "../dbInstance";
 import { useAppStore } from "../functions/hooks";
 import styles from "../styles/Dashboard.module.css";
@@ -129,33 +129,54 @@ const Dashboard = memo((props: DashboardProps) => {
       id={isLocked ? "locked-dash" : "unlocked-dash"}
     >
       <div
-        className={`${styles["dashboard-nav"]} ${
-          standalone ? styles["dashboard-nav--standalone"] : ""
-        }`}
+        className={`${styles["dashboard-nav"]} ${standalone ? styles["dashboard-nav--standalone"] : ""
+          }`}
       >
         <button
           className="icon-button"
           title="Go Back"
           onClick={() => selectADashboard("")}
         >
-          <img alt="Go Back Icon" src={leftArrow}></img>
+          <LeftArrowIcon
+            className="icon-svg-back"
+            style={{
+              width: "20px"
+            }}
+          />
         </button>
         <button
           className="icon-button"
           title="Delete This Dashboard"
           onClick={() => setDeleteZoneIsOpen((prev) => !prev)}
         >
-          <img data-delete-icon alt="Delete Icon" src={fire}></img>
+          <FireIcon
+            className="icon-svg-fire"
+            style={{
+              width: "20px"
+            }}
+          />
         </button>
         <button
           className="icon-button"
           title={isLocked ? "Click To Unlock" : "Click To Lock"}
           onClick={() => setIsLocked((prev) => !prev)}
         >
-          <img
-            src={isLocked ? locked : unlocked}
-            alt={isLocked ? "Locked Padlock Icon" : "Unlocked Padlock Icon"}
-          />
+          {isLocked ? (
+            <LockedIcon
+              className="icon-svg-dash-menu"
+              style={{
+                width: "20px"
+              }}
+            />
+          ) : (
+            <UnlockedIcon
+              className="icon-svg-dash-menu"
+              style={{
+                width: "20px"
+              }}
+            />
+          )}
+
         </button>
         <button
           className="icon-button"
@@ -163,14 +184,24 @@ const Dashboard = memo((props: DashboardProps) => {
           title="Toggle The Number of Dashboard Columns"
           onClick={() => setColumnToggleZoneIsOpen((prev) => !prev)}
         >
-          <img src={toggle} alt="Toggle Icon" />
+          <ToggleIcon
+            className="icon-svg-dash-menu"
+            style={{
+              width: "20px"
+            }}
+          />
         </button>
         <button
           className="icon-button"
           title="Duplicate This Dashboard"
           onClick={() => setDuplicateZoneIsOpen((prev) => !prev)}
         >
-          <img src={duplicate} alt="Duplicate Icon" />
+          <DuplicateIcon
+            className="icon-svg-dash-menu"
+            style={{
+              width: "20px"
+            }}
+          />
         </button>
         <button
           className="icon-button"
@@ -178,7 +209,12 @@ const Dashboard = memo((props: DashboardProps) => {
           title="Download This Dashboard"
           onClick={() => downloadDashboard()}
         >
-          <img src={download} alt="Download Icon" />
+          <DownloadIcon
+            className="icon-svg-download"
+            style={{
+              width: "20px"
+            }}
+          />
         </button>
 
         {role === "GM" && standalone === false && (
@@ -188,7 +224,12 @@ const Dashboard = memo((props: DashboardProps) => {
             title="Share This Dashboard"
             onClick={() => setShareZoneIsOpen((prev) => !prev)}
           >
-            <img data-share-icon src={share} alt="Download Icon" />
+            <ShareIcon
+              className="icon-svg-share"
+              style={{
+                width: "20px"
+              }}
+            />
           </button>
         )}
       </div>
@@ -223,9 +264,8 @@ const Dashboard = memo((props: DashboardProps) => {
         <h2>{selectedDashboard}</h2>
       </div>
       <div
-        className={`${styles["dashboard-delete-zone"]} ${
-          deleteZoneIsOpen ? styles["show-delete-zone"] : ""
-        }`}
+        className={`${styles["dashboard-delete-zone"]} ${deleteZoneIsOpen ? styles["show-delete-zone"] : ""
+          }`}
       >
         <p>Type "DELETE" to delete this dashboard permanently.</p>
         <div className={styles["dashboard-delete-zone-confirm"]}>
@@ -241,9 +281,8 @@ const Dashboard = memo((props: DashboardProps) => {
       </div>
 
       <div
-        className={`${styles["dashboard-columntoggle-zone"]} ${
-          columntoggleZoneIsOpen ? styles["show-columntoggle-zone"] : ""
-        }`}
+        className={`${styles["dashboard-columntoggle-zone"]} ${columntoggleZoneIsOpen ? styles["show-columntoggle-zone"] : ""
+          }`}
       >
         <p>
           Behold, <strong>the column toggler.</strong> Use its power to change
@@ -256,9 +295,8 @@ const Dashboard = memo((props: DashboardProps) => {
       </div>
 
       <div
-        className={`${styles["dashboard-duplicate-zone"]} ${
-          duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
-        }`}
+        className={`${styles["dashboard-duplicate-zone"]} ${duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
+          }`}
       >
         <p>Clone this dashboard by typing in a new name for the duplicate.</p>
         <div className={styles["dashboard-duplicate-zone-confirm"]}>
@@ -273,9 +311,8 @@ const Dashboard = memo((props: DashboardProps) => {
       </div>
 
       <div
-        className={`${styles["dashboard-share-zone"]} ${
-          shareZoneIsOpen ? styles["show-share-zone"] : ""
-        }`}
+        className={`${styles["dashboard-share-zone"]} ${shareZoneIsOpen ? styles["show-share-zone"] : ""
+          }`}
       >
         <p>
           Do you want to share this dashboard in its current state with your

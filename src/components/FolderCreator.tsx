@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
-import addFolder from "../assets/addFolder.svg";
-import fire from "../assets/fire.svg";
+import AddFolderIcon from "../assets/addFolder.svg?react";
+import FireIcon from "../assets/fire.svg?react";
 import {
   findAllDashboardsWithinCurrentFolderStruc,
   getCurrentFolder,
@@ -218,7 +218,12 @@ export const FolderCreator = ({
             onClick={handleFolderCreation}
             title="Create a folder to put dashboards in."
           >
-            <img src={addFolder} alt="Add Folder Icon" />
+            <AddFolderIcon
+              className="icon-svg-folder"
+              style={{
+                width: "28px"
+              }}
+            />
           </button>
           <input
             className={styles["folder-creator-input"]}
@@ -229,7 +234,7 @@ export const FolderCreator = ({
             required
             title="Enter a new folder name here, then hit enter or click the button on the left."
             onKeyDown={handleFolderCreationOnEnter}
-            style={{paddingLeft: "4px"}}
+            style={{ paddingLeft: "4px" }}
           />
         </div>
         {isInsideAFolder && (
@@ -243,7 +248,13 @@ export const FolderCreator = ({
                 title="Delete this folder."
                 onClick={() => setDeleteZoneIsOpen((prev) => !prev)}
               >
-                <img alt="Delete Icon" src={fire}></img>
+                {/* <img alt="Delete Icon" src={fire}></img> */}
+                <FireIcon
+                  className="icon-svg-fire"
+                  style={{
+                    width: "20px"
+                  }}
+                />
               </button>
             </div>
             <div

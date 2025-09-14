@@ -5,7 +5,6 @@ import ReactGridLayout, {
   Responsive,
   WidthProvider,
 } from "react-grid-layout";
-
 import {
   collisionInfo,
   generateLayouts,

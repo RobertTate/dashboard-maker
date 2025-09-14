@@ -9,7 +9,7 @@ import {
 } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 
-import cross from "../assets/cross.svg";
+import CrossIcon from "../assets/cross.svg?react";
 import db from "../dbInstance";
 import startingLayouts from "../partials/startingLayout";
 import type {
@@ -196,7 +196,13 @@ const SyncingGrid = memo(
           }}
           onClick={addNewWidget}
         >
-          <img src={cross} alt="Add Widget" />
+          <CrossIcon 
+            className="icon-svg-add-item"
+            style={{
+              width: "20px",
+              transform: "rotate(45deg)"
+            }}
+          />
         </div>
       );
 
@@ -223,7 +229,12 @@ const SyncingGrid = memo(
                 onClick={() => deleteWidget(item.id)}
                 className="cancelDrag"
               >
-                <img src={cross} alt="" />
+                <CrossIcon 
+                  className="icon-svg-cross"
+                  style={{
+                    width: "15px"
+                  }}
+                />
               </span>
             </div>
           );

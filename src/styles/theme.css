@@ -1,85 +1,595 @@
-/*
-  Theme variables controlling UI colors.
-  --bg: page background
-  --text: main text color
-  --surface: generic surface background
-  --surface-alt: alternative background used inside widgets
-  --border: border color for interactive elements
-  --primary: primary accent color
-  --primary-light: lighter accent used for hover states
-  --primary-dark: darker accent used for active states
-  --success: success color for dice results
-  --failure: error color for dice results
-  --folder: base folder color
-  --folder-hover: folder hover color
-  --folder-accent: inner folder color
-  --up-folder-dark: darker move-folder-up color
-  --up-folder-light: lighter move-folder-up color
-*/
-
-[data-theme='dark'] {
-  --bg: #242424;
-  --text: #fff;
-  --input-background: #3b3b3b;
-  --surface: #4c396e;
-  --surface-alt: #3a3a3a;
-  --grid-bg: #5f5f5f;
-  --border: #ba98ff;
-  --input-border: #858585;
-  --primary: #8447ff;
-  --primary-light: #b9f;
-  --primary-dark: #4c2696;
-  --primary-darker: #2b194f;
-  --secondary-dark: #312544;
-  --success: #0ad666;
-  --failure: #ff4848;
-  --folder: #7a583e;
-  --folder-hover: #d6beae;
-  --folder-accent: #7a583e;
-  --up-folder-dark: #ad5252;
-  --up-folder-light: #ff9c9c;
-  --grid-placeholder: #5e5e5e;
+:root {
+  /* Standard Values for all themes */
   --white: #ffffff;
   --black: #000;
-  --link: #a67dff;
-  --link-hover: #c9b0ff;
-  --link-visited: #a18979;
-  --toolbar-border-hover: #ba98ff8a;
-  --code-bg: #656565;
-  --link-dialog-label: #d2bff9;
+  --disabled-gray: #7e7e7e;
+
+  --gray-1: #f0e9e9;
+  --gray-2: #5f5f5f;
+  --gray-3: #3a3a3a;
+  --gray-4: #999999;
+  --gray-5: #3b3b3b;
+  --gray-6: #858585;
+  --gray-7: #5e5e5e;
+  --gray-8: #656565;
+  --gray-9: #f0f0f3;
+
+  --share-blue-light: #5cb0ff;
+  --share-blue-dark: #2b7dca;
+  --success-green-light: #0ad666;
+  --success-green-dark: #018a1e;
+  --failure-red-light: #ff4848;
+  --failure-red-dark: #b41212;
   --dice-label: #ffcf91;
-  --dice-fill: #dcf;
+
+  /* Folder colors */
+  --folder-brown-1: #7a583e;
+  --folder-brown-2: #d6beae;
+  --folder-brown-3: #c28b67;
+  --folder-brown-4: #ceac6d;
+  --folder-brown-5: #927745;
+  
+  --folder-up-1: #ad5252;
+  --folder-up-2: #ff9c9c;
 }
 
-[data-theme='light'] {
-  --bg: #dfcffc;
-  --text: #000;
-  --input-background: #ffffff;
-  --surface: #b9f;
-  --surface-alt: #f0e9e9;
-  --grid-bg: #999999;
-  --border: #8447ff;
-  --input-border: #858585;
-  --primary: #8447ff;
-  --primary-light: #b9f;
-  --primary-dark: #4c2696;
-  --primary-darker: #4c2696;
-  --secondary-dark: #312544;
-  --success: #0ad666;
-  --failure: #ff4848;
-  --folder: #927745;
-  --folder-hover: #ffb835;
-  --folder-accent: #eed6a8;
-  --up-folder-dark: #ad5252;
-  --up-folder-light: #ff9c9c;
-  --grid-placeholder: #5e5e5e;
-  --white: #ffffff;
-  --black: #000;
-  --link: #7632ff;
-  --link-hover: #a276fa;
-  --toolbar-border-hover: #ceb6fe84;
-  --code-bg: #656565;
-  --link-dialog-label: #d2bff9;
-  --dice-label: #ffcf91;
-  --dice-fill: #dcf;
+[data-theme="default"] {
+  --primary-0: #dfcffc;
+  --primary-1: #d2bff9;
+  --primary-2: #c9b0ff;
+  --primary-3: #ceb6fe84;
+  --primary-4: #ba98ff8a;
+  --primary-5: #bb99ff;
+  --primary-6: #a67dff;
+  --primary-7: #a276fa;
+  /* Primary 8 is the "core", most vibrant color */
+  --primary-8: #8447ff;
+  --primary-9: #7632ff;
+  --primary-10: #4c2696;
+  --primary-11: #4c396e;
+  --primary-12: #312544;
+  --primary-13: #242424;
+}
+
+[data-theme="avocado"] {
+  --primary-0: #ddedbf;
+  --primary-1: #d5e9af;
+  --primary-2: #cce4a0;
+  --primary-3: #c4e090;
+  --primary-4: #bbdb80;
+  --primary-5: #b3d770;
+  --primary-6: #aad260;
+  --primary-7: #a2ce50;
+  --primary-8: #99c940;
+  --primary-9: #83af31;
+  --primary-10: #6b8f28;
+  --primary-11: #536f1f;
+  --primary-12: #3c5016;
+  --primary-13: #24300d;
+}
+
+[data-theme="sapphire"] {
+  --primary-0: #e1ecff;
+  --primary-1: #d3e3ff;
+  --primary-2: #c4d9ff;
+  --primary-3: #b5cfff;
+  --primary-4: #a6c4ff;
+  --primary-5: #97b8ff;
+  --primary-6: #84a6ff;
+  --primary-7: #6f90ff;
+  /* Core, most vibrant */
+  --primary-8: #2f6bff;
+  --primary-9: #2556d6;
+  --primary-10: #1e45ad;
+  --primary-11: #1a3a8a;
+  --primary-12: #152e6b;
+  --primary-13: #0f224d;
+}
+
+[data-theme="rose"] {
+  --primary-0: #ffe3ef;
+  --primary-1: #ffd6e8;
+  --primary-2: #ffc9e0;
+  --primary-3: #ffbcd8;
+  --primary-4: #ffaece;
+  --primary-5: #ffa0c3;
+  --primary-6: #ff8fb6;
+  --primary-7: #ff79a6;
+  /* Core, most vibrant */
+  --primary-8: #ff3e84;
+  --primary-9: #d4336f;
+  --primary-10: #ab2a5b;
+  --primary-11: #872249;
+  --primary-12: #661a39;
+  --primary-13: #441127;
+}
+
+[data-theme="ember"] {
+  --primary-0: #fff1e0;
+  --primary-1: #ffe7cc;
+  --primary-2: #ffddb8;
+  --primary-3: #ffd3a3;
+  --primary-4: #ffc88f;
+  --primary-5: #ffbd7a;
+  --primary-6: #ffb265;
+  --primary-7: #ffa44a;
+  /* Core, most vibrant */
+  --primary-8: #ff7a1a;
+  --primary-9: #d96515;
+  --primary-10: #b35212;
+  --primary-11: #8e4110;
+  --primary-12: #6b320d;
+  --primary-13: #482209;
+}
+
+[data-theme="forest"] {
+  --primary-0: #e3f3e8;
+  --primary-1: #d6eddc;
+  --primary-2: #c8e7cf;
+  --primary-3: #badec2;
+  --primary-4: #acd5b4;
+  --primary-5: #9fcca7;
+  --primary-6: #8fc198;
+  --primary-7: #7eb688;
+  /* Core, most vibrant */
+  --primary-8: #49a16a;
+  --primary-9: #3d8658;
+  --primary-10: #316c48;
+  --primary-11: #27563a;
+  --primary-12: #1e412d;
+  --primary-13: #152c20;
+}
+
+[data-theme="sunset"] {
+  --primary-0: #fff2e9;
+  --primary-1: #ffe7da;
+  --primary-2: #ffdbc9;
+  --primary-3: #ffd0ba;
+  --primary-4: #ffc3aa;
+  --primary-5: #ffb699;
+  --primary-6: #ffa681;
+  --primary-7: #ff9063;
+  /* Core, most vibrant */
+  --primary-8: #ff6b3d;
+  --primary-9: #ea4f52;
+  --primary-10: #c13e76;
+  --primary-11: #9a2f86;
+  --primary-12: #6f2368;
+  --primary-13: #47184a;
+}
+
+[data-theme="aurora"] {
+  --primary-0: #e9fff8;
+  --primary-1: #dcfbf2;
+  --primary-2: #cff7ec;
+  --primary-3: #c1f3e6;
+  --primary-4: #b3eedf;
+  --primary-5: #a5e9d8;
+  --primary-6: #90e0d4;
+  --primary-7: #75d1d8;
+  /* Core, most vibrant */
+  --primary-8: #00a7d9;
+  --primary-9: #3f7ddf;
+  --primary-10: #5a5ee3;
+  --primary-11: #6b4bd8;
+  --primary-12: #5536b2;
+  --primary-13: #3b257d;
+}
+
+[data-theme="oceanfloor"] {
+  --primary-0: #e7fbff;
+  --primary-1: #d0f4ff;
+  --primary-2: #b9ecff;
+  --primary-3: #a2e4ff;
+  --primary-4: #8ad8f8;
+  --primary-5: #71caef;
+  --primary-6: #56b8e0;
+  --primary-7: #3aa5d1;
+  /* Darker, vibrant core */
+  --primary-8: #0073b9;
+  --primary-9: #005ea0;
+  --primary-10: #004c85;
+  --primary-11: #003a68;
+  --primary-12: #00294a;
+  --primary-13: #001a2e;
+}
+
+[data-theme="desertdusk"] {
+  --primary-0: #fff7e1;
+  --primary-1: #fff0cc;
+  --primary-2: #ffe7b5;
+  --primary-3: #ffde9e;
+  --primary-4: #ffd388;
+  --primary-5: #ffc66f;
+  --primary-6: #ffb859;
+  --primary-7: #ffaa42;
+  /* Darker, vibrant core */
+  --primary-8: #e26b2f;
+  --primary-9: #c53d29;
+  --primary-10: #a52926;
+  --primary-11: #822025;
+  --primary-12: #601b21;
+  --primary-13: #3e1216;
+}
+
+[data-theme="glacier"] {
+  --primary-0: #ebfff9;
+  --primary-1: #d8fdf4;
+  --primary-2: #c5f9ee;
+  --primary-3: #b2f5e7;
+  --primary-4: #9df0df;
+  --primary-5: #84e6d4;
+  --primary-6: #66d9c4;
+  --primary-7: #4ac6b2;
+  /* Darker, vibrant core */
+  --primary-8: #1f9b90;
+  --primary-9: #1a7e75;
+  --primary-10: #15645d;
+  --primary-11: #104d48;
+  --primary-12: #0c3633;
+  --primary-13: #072321;
+}
+
+[data-theme="emberglow"] {
+  --primary-0: #fff0e8;
+  --primary-1: #ffe1d6;
+  --primary-2: #ffd0c2;
+  --primary-3: #ffbfae;
+  --primary-4: #ffa995;
+  --primary-5: #ff927d;
+  --primary-6: #ff7561;
+  --primary-7: #f75a49;
+  /* Darker, vibrant core */
+  --primary-8: #d4363a;
+  --primary-9: #b62a36;
+  --primary-10: #922231;
+  --primary-11: #6f1b29;
+  --primary-12: #4b131d;
+  --primary-13: #2a0c11;
+}
+
+[data-theme="steel"] {
+  --primary-0: #f2f5f8;
+  --primary-1: #e6ebf0;
+  --primary-2: #d9e0e8;
+  --primary-3: #ccd5df;
+  --primary-4: #bec9d6;
+  --primary-5: #afbacc;
+  --primary-6: #9ca6b9;
+  --primary-7: #8792a5;
+  /* Darker, vibrant core */
+  --primary-8: #5d6877;
+  --primary-9: #4a535f;
+  --primary-10: #393f49;
+  --primary-11: #2a2f38;
+  --primary-12: #1b1f25;
+  --primary-13: #101215;
+}
+
+[data-theme="royal"] {
+  --primary-0: #ede8ff;
+  --primary-1: #e0daff;
+  --primary-2: #d3cbff;
+  --primary-3: #c5bcff;
+  --primary-4: #b5aaff;
+  --primary-5: #a397ff;
+  --primary-6: #8b7eff;
+  --primary-7: #7263ff;
+  /* Darker, vibrant core */
+  --primary-8: #3a28d9;
+  --primary-9: #3223b8;
+  --primary-10: #291d94;
+  --primary-11: #211772;
+  --primary-12: #191153;
+  --primary-13: #120b35;
+}
+
+[data-theme="coralteal"] {
+  --primary-0: #ffeae5;
+  --primary-1: #ffd9d0;
+  --primary-2: #ffc6ba;
+  --primary-3: #ffb3a4;
+  --primary-4: #ff9f8d;
+  --primary-5: #ff8875;
+  --primary-6: #ff6c5b;
+  --primary-7: #f55349;
+  --primary-8: #d43a4b;
+  --primary-9: #9e3f5f;
+  --primary-10: #5e5067;
+  --primary-11: #3f5e64;
+  --primary-12: #265854;
+  --primary-13: #123936;
+}
+
+[data-theme="goldviolet"] {
+  --primary-0: #fff8dc;
+  --primary-1: #fff3c6;
+  --primary-2: #ffeeb0;
+  --primary-3: #ffe899;
+  --primary-4: #ffe281;
+  --primary-5: #ffdb68;
+  --primary-6: #ffd14c;
+  --primary-7: #f5c22c;
+  --primary-8: #d09a1a;
+  --primary-9: #9e5d4b;
+  --primary-10: #704182;
+  --primary-11: #4f3174;
+  --primary-12: #37235d;
+  --primary-13: #241542;
+}
+
+[data-theme="skynight"] {
+  --primary-0: #e7f5ff;
+  --primary-1: #d0ecff;
+  --primary-2: #b8e2ff;
+  --primary-3: #9fd7ff;
+  --primary-4: #87caff;
+  --primary-5: #6bbcff;
+  --primary-6: #50aaff;
+  --primary-7: #3597f0;
+  --primary-8: #176fd0;
+  --primary-9: #1457a4;
+  --primary-10: #104481;
+  --primary-11: #0c3565;
+  --primary-12: #092649;
+  --primary-13: #06172d;
+}
+
+[data-theme="mosswine"] {
+  --primary-0: #efffe7;
+  --primary-1: #defed5;
+  --primary-2: #ccfbc1;
+  --primary-3: #b8f7aa;
+  --primary-4: #a2f291;
+  --primary-5: #8ce978;
+  --primary-6: #76dd5f;
+  --primary-7: #5cc74a;
+  --primary-8: #3f9f3c;
+  --primary-9: #586d3f;
+  --primary-10: #6b4452;
+  --primary-11: #5a2d49;
+  --primary-12: #401e36;
+  --primary-13: #2a1324;
+}
+
+[data-theme="sandsea"] {
+  --primary-0: #fff6e9;
+  --primary-1: #ffedd7;
+  --primary-2: #ffe3c4;
+  --primary-3: #ffd8b1;
+  --primary-4: #ffcc9d;
+  --primary-5: #ffbf89;
+  --primary-6: #ffb074;
+  --primary-7: #f89861;
+  --primary-8: #d56e47;
+  --primary-9: #9a6056;
+  --primary-10: #5f666b;
+  --primary-11: #3e5961;
+  --primary-12: #24474d;
+  --primary-13: #153036;
+}
+
+[data-theme="berrycitrus"] {
+  --primary-0: #feffe7;
+  --primary-1: #fcffce;
+  --primary-2: #f9ffb6;
+  --primary-3: #f6ff9d;
+  --primary-4: #f2ff83;
+  --primary-5: #e9f768;
+  --primary-6: #d7e950;
+  --primary-7: #bfd73b;
+  --primary-8: #99b92e;
+  --primary-9: #7d8745;
+  --primary-10: #644c5f;
+  --primary-11: #562e57;
+  --primary-12: #3e1f3f;
+  --primary-13: #281229;
+}
+
+[data-theme="icefire"] {
+  --primary-0: #e6fbff;
+  --primary-1: #ccf6ff;
+  --primary-2: #b3f0ff;
+  --primary-3: #99eaff;
+  --primary-4: #80e4ff;
+  --primary-5: #66dcff;
+  --primary-6: #4cd0f5;
+  --primary-7: #30bfea;
+  --primary-8: #009dcc;
+  --primary-9: #2c5b89;
+  --primary-10: #64365f;
+  --primary-11: #82293d;
+  --primary-12: #601b21;
+  --primary-13: #3c1013;
+}
+
+[data-theme="orchidjade"] {
+  --primary-0: #f8eaff;
+  --primary-1: #f2d9ff;
+  --primary-2: #ebc8ff;
+  --primary-3: #e3b6ff;
+  --primary-4: #d9a3f7;
+  --primary-5: #ce8ff0;
+  --primary-6: #c07ae5;
+  --primary-7: #a765d1;
+  --primary-8: #8548af;
+  --primary-9: #61568d;
+  --primary-10: #41696a;
+  --primary-11: #2d594c;
+  --primary-12: #204038;
+  --primary-13: #132922;
+}
+
+[data-theme="sunforest"] {
+  --primary-0: #fff8e5;
+  --primary-1: #ffefcc;
+  --primary-2: #ffe6b3;
+  --primary-3: #ffdd99;
+  --primary-4: #ffd380;
+  --primary-5: #ffc666;
+  --primary-6: #ffb84c;
+  --primary-7: #f9a433;
+  --primary-8: #d6841e;
+  --primary-9: #9e7030;
+  --primary-10: #5c6645;
+  --primary-11: #415a40;
+  --primary-12: #2b4230;
+  --primary-13: #18271c;
+}
+
+[data-theme="stormrose"] {
+  --primary-0: #f3f5f7;
+  --primary-1: #e7ebef;
+  --primary-2: #dbe1e7;
+  --primary-3: #cfd7df;
+  --primary-4: #c3ccd7;
+  --primary-5: #b7c2cf;
+  --primary-6: #a5acbd;
+  --primary-7: #8e91a4;
+  --primary-8: #6e5f8f;
+  --primary-9: #7d3c70;
+  --primary-10: #762d51;
+  --primary-11: #5c223c;
+  --primary-12: #40182a;
+  --primary-13: #260f1a;
+}
+
+[data-theme="charcoal"] {
+  --primary-0: #f6f6f6;
+  --primary-1: #eaeaea;
+  --primary-2: #dddddd;
+  --primary-3: #cfcfcf;
+  --primary-4: #bfbfbf;
+  --primary-5: #adadad;
+  --primary-6: #999999;
+  --primary-7: #7a7a7a;
+  --primary-8: #545454;
+  --primary-9: #434343;
+  --primary-10: #333333;
+  --primary-11: #252525;
+  --primary-12: #181818;
+  --primary-13: #0c0c0c;
+}
+
+[data-theme="jade"] {
+  --primary-0: #eafff4;
+  --primary-1: #d4ffea;
+  --primary-2: #bfffe0;
+  --primary-3: #a9fdd5;
+  --primary-4: #94f7c8;
+  --primary-5: #7ff0bb;
+  --primary-6: #68e6ab;
+  --primary-7: #50d99a;
+  --primary-8: #28a871;
+  --primary-9: #228c5e;
+  --primary-10: #1b704c;
+  --primary-11: #15543a;
+  --primary-12: #0e3927;
+  --primary-13: #072016;
+}
+
+[data-mode='dark'] {
+  --link-dialog-bg: var(--primary-11);
+  --bg: var(--primary-13);
+  --text: var(--white);
+  --text-alt: var(--black);
+  --icon: var(--white);
+  --icon-alt: var(--black);
+  --icon-disabled: var(--disabled-gray);
+  --info-icon: var(--primary-8);
+  --checkbox-accent-solid: var(--primary-8);
+  --blockquote-accent-color: var(--primary-8);
+  --link-submit-bg-color: var(--primary-8);
+  --caret-color: var(--primary-8);
+  --button-bg-color: var(--primary-11);
+  --button-hover: var(--primary-5);
+  --button-active: var(--primary-8);
+  --button-active-text: var(--black);
+  --add-items-icon: var(--white);
+  --add-item-background-color: var(--primary-10);
+  --add-item-hover: var(--primary-12);
+  --add-item-active: var(--primary-8);
+  --dropdown-zones-bg-color: var(--primary-12);
+  --dropdown-zones-button-color: var(--white);
+  --dropdown-zones-button-bg-color: var(--primary-11);
+  --dropdown-zones-button-border-hover: var(--primary-5);
+  --toolbar-bg-color: var(--primary-11);
+  --fire: var(--failure-red-light);
+  --dash-item-background: var(--gray-3);
+  --input-background: var(--gray-5);
+  --grid-bg: var(--gray-2);
+  --grid-item-bg: var(--gray-3);
+  --border: var(--primary-5);
+  --input-border: var(--gray-6);
+  --success: var(--success-green-light);
+  --failure: var(--failure-red-light);
+  --folder: var(--folder-brown-1);
+  --folder-hover: var(--folder-brown-2);
+  --folder-active: var(--folder-brown-3);
+  --up-folder: var(--folder-up-1);
+  --up-folder-hover: var(--folder-up-2);
+  --grid-placeholder: var(--gray-7);
+  --link: var(--primary-6);
+  --link-hover: var(--primary-2);
+  --toolbar-border-hover: var(--primary-4);
+  --code-bg: var(--gray-9);
+  --link-dialog-label: var(--primary-1);
+  --dice-display-border: var(--primary-5);
+  --dice-display-background: var(--primary-10);
+  --dice-display-hover: var(--primary-8);
+  --dice-color: var(--primary-10);
+  --share-blue: var(--share-blue-light);
+}
+
+[data-mode='light'] {
+  --link-dialog-bg: var(--primary-5);
+  --bg: var(--primary-0);
+  --text: var(--black);
+  --text-alt: var(--white);
+  --icon: var(--black);
+  --icon-alt: var(--white);
+  --icon-disabled: var(--disabled-gray);
+  --info-icon: var(--primary-8);
+  --checkbox-accent-solid: var(--primary-8);
+  --blockquote-accent-color: var(--primary-8);
+  --link-submit-bg-color: var(--primary-8);
+  --caret-color: var(--primary-8);
+  --button-bg-color: var(--primary-5);
+  --button-hover: var(--primary-8);
+  --button-active: var(--primary-8);
+  --button-active-text: var(--white);
+  --add-items-icon: var(--black);
+  --add-item-background-color: var(--primary-5);
+  --add-item-hover: var(--primary-8);
+  --add-item-active: var(--primary-5);
+  --dropdown-zones-bg-color: var(--primary-5);
+  --dropdown-zones-button-color: var(--white);
+  --dropdown-zones-button-bg-color: var(--primary-8);
+  --dropdown-zones-button-border-hover: var(--primary-10);
+  --toolbar-bg-color: var(--primary-5);
+  --fire: var(--failure-red-dark);
+  --dash-item-background: var(--gray-1);
+  --input-background: var(--white);
+  --grid-bg: var(--gray-4);
+  --grid-item-bg: var(--white);
+  --border: var(--primary-10);
+  --input-border: var(--gray-6);
+  --success: var(--success-green-dark);
+  --failure: var(--failure-red-dark);
+  --folder: var(--folder-brown-4);
+  --folder-hover: var(--folder-brown-5);
+  --folder-active: var(--folder-brown-3);
+  --up-folder: var(--folder-up-2);
+  --up-folder-hover: var(--folder-up-1);
+  --grid-placeholder: var(--gray-7);
+  --link: var(--primary-9);
+  --link-hover: var(--primary-7);
+  --toolbar-border-hover: var(--primary-3);
+  --code-bg: var(--gray-8);
+  --link-dialog-label: var(--primary-1);
+  --dice-display-border: var(--primary-10);
+  --dice-display-background: var(--primary-5);
+  --dice-display-hover: var(--primary-8);
+  --dice-color: var(--primary-2);
+  --share-blue: var(--share-blue-dark);
 }

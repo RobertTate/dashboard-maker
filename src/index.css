@@ -1,11 +1,3 @@
-/*
-  No-Owlbear container styles.
-  Theme variables from theme.css control layout colours:
-  --bg and --text set the page base,
-  --primary shades accent buttons,
-  --folder*, --up-folder-* colours style the file system widgets,
-  and --failure marks dice roll errors.
-*/
 #no-owlbear {
   display: flex;
   justify-content: center;
@@ -96,7 +88,7 @@ button {
     background-color 0.25s;
   border: 3px solid transparent;
   border-radius: 8px;
-  background-color: var(--surface);
+  background-color: var(--button-bg-color);
   cursor: pointer;
   padding: 0.5rem;
   min-height: 38px;
@@ -108,11 +100,12 @@ button {
 }
 
 button:hover {
-  border-color: var(--primary-light);
+  border-color: var(--button-hover);
 }
 
 button:active {
-  background-color: var(--primary);
+  background-color: var(--button-hover);
+  color: var(--button-active-text);
 }
 
 .react-grid-layout {
@@ -131,13 +124,13 @@ button:active {
   margin-left: -5px;
   border: 2px solid var(--border);
   border-radius: 4px;
-  background-color: var(--surface-alt);
+  background-color: var(--grid-item-bg);
   padding: 0.25rem;
 }
 
 .react-grid-item>.react-resizable-handle::after {
-  border-right: 2px solid var(--primary-light);
-  border-bottom: 2px solid var(--primary-light);
+  border-right: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
 }
 
 .react-grid-layout .react-grid-item #delete-widget {
@@ -148,11 +141,6 @@ button:active {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-}
-
-.react-grid-layout .react-grid-item #delete-widget img {
-  width: 15px;
-  height: 15px;
 }
 
 #locked-dash .react-grid-layout .react-grid-item #delete-widget {
@@ -168,7 +156,7 @@ button:active {
 }
 
 .editable-md-widget {
-  --basePageBg: var(--surface-alt);
+  --basePageBg: var(--grid-item-bg);
   --admonitionTipBg: hsl(187deg 71% 88% / 50%);
   --admonitionTipBorder: hsl(189deg 60% 53% / 50%);
   --admonitionInfoBg: hsl(123deg 45% 90% / 50%);
@@ -181,7 +169,7 @@ button:active {
   --admonitionNoteBorder: hsl(231deg 10% 75% / 50%);
 
   padding: 0;
-  caret-color: var(--primary);
+  caret-color: var(--caret-color);
 }
 
 /* Border Radius of Admonitions */
@@ -206,7 +194,7 @@ button:active {
 /* Styling the Link Dialog */
 .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div {
   border: 3px solid var(--border);
-  background-color: var(--surface);
+  background-color: var(--link-dialog-bg);
 }
 
 /* Style the displayed link in the Closed Link Dialog  */
@@ -248,7 +236,7 @@ button:active {
 
 /* Style the background color of the submit button of the Open Link Dialog */
 .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) button[type="submit"] {
-  background-color: var(--primary);
+  background-color: var(--link-submit-bg-color);
 }
 
 /* Remove the text highlighting when the link dialog is open. Wasn't lining up with the text correctly. */
@@ -261,20 +249,21 @@ button:active {
 .editable-md-widget span,
 .editable-md-widget strong,
 .editable-md-widget em {
-  color: var(--white);
+  color: var(--text);
 }
 
 .editable-md-widget code span,
 .editable-md-widget code strong,
 .editable-md-widget code em {
-  color: var(--black);
+  background-color: var(--code-bg);
+  color: var(--text-alt);
 }
 
 .editable-md-widget blockquote {
   margin-top: 1.6em;
   margin-bottom: 1.6em;
   margin-left: 0.5em;
-  border-left: 3px solid var(--primary);
+  border-left: 3px solid var(--blockquote-accent-color);
   padding-left: 1em;
   font-weight: 400;
   font-style: italic;
@@ -305,7 +294,7 @@ button:active {
 
 .editable-md-widget ul,
 .editable-md-widget ol {
-  color: var(--white);
+  color: var(--text);
 }
 
 .editable-md-widget a {
@@ -336,7 +325,7 @@ button:active {
 }
 
 .editable-md-widget li[role="checkbox"] {
-  --accentSolid: var(--primary);
+  --accentSolid: var(--checkbox-accent-solid);
   --accentBorder: var(--border);
 }
 
@@ -353,21 +342,15 @@ button:active {
   align-items: center;
   justify-content: center;
   transition: background-color 0.25s;
-  background-color: var(--primary-dark);
+  background-color: var(--add-item-background-color);
 }
 
 .react-grid-layout .react-grid-item#add-widget:hover {
-  background-color: var(--primary-darker);
+  background-color: var(--add-item-hover);
 }
 
 .react-grid-layout .react-grid-item#add-widget:active {
-  background-color: var(--primary);
-}
-
-.react-grid-layout .react-grid-item#add-widget img {
-  transform: rotate(45deg);
-  width: 20px;
-  height: 20px;
+  background-color: var(--add-item-active);
 }
 
 .react-grid-item {
@@ -408,7 +391,7 @@ button:active {
   position: absolute;
   top: 33px;
   border-radius: 50%;
-  background: var(--white);
+  background: var(--text);
   width: 13px;
   height: 13px;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
@@ -478,9 +461,9 @@ button:active {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  border: 2px solid var(--border);
-  background: var(--primary-dark);
-  color: var(--white);
+  border: 2px solid var(--dice-display-border);
+  background: var(--dice-display-background);
+  color: var(--text);
 }
 
 #dice-result-sharing-box .displayResults .results {
@@ -494,8 +477,8 @@ button:active {
   position: absolute;
   top: -58px;
   left: -10px;
-  border: 2px solid var(--border);
-  background: var(--primary-dark);
+  border: 2px solid var(--dice-display-border);
+  background: var(--dice-display-background);
   width: max-content;
   font-size: 0.75rem;
 }
@@ -504,9 +487,9 @@ button:active {
   position: absolute;
   top: -36px;
   left: -11px;
-  border: 2px solid var(--border);
+  border: 2px solid var(--dice-display-border);
   border-radius: 8px;
-  background: var(--primary-dark);
+  background: var(--dice-display-background);
   padding: 0 0.5rem;
   width: max-content;
   font-size: 1rem;
@@ -514,12 +497,19 @@ button:active {
 
 #dice-box .displayResults .results button:hover,
 #dice-result-sharing-box .displayResults .results button:hover {
-  background: var(--primary);
+  background: var(--dice-display-hover);
 }
 
-#dice-box .displayResults .results button img,
-#dice-result-sharing-box .displayResults .results button img {
+#dice-box .displayResults .results button svg,
+#dice-result-sharing-box .displayResults .results button svg {
   width: 30px;
+  fill: var(--dice-display-background);
+}
+
+#dice-box .displayResults .results button svg path,
+#dice-result-sharing-box .displayResults .results button svg path {
+  width: 30px;
+  stroke: var(--dice-display-border);
 }
 
 #dice-box .displayResults .results .dice-result-label,
@@ -557,14 +547,17 @@ button:active {
   color: var(--success);
 }
 
-#dice-box .displayResults .results svg,
-#dice-result-sharing-box .displayResults .results svg {
-  fill: var(--dice-fill);
-}
-
 #dice-box .displayResults .results .crit-success svg,
 #dice-result-sharing-box .displayResults .results .crit-success svg {
   fill: var(--success);
+}
+
+#dice-box > .displayResults > .results.showEffect > span:not(.crit-success) > svg.success {
+  fill: var(--success);
+}
+
+#dice-box > .displayResults > .results.showEffect > span:not(.crit-failure) > svg.failure {
+  fill: var(--failure);
 }
 
 #dice-box .displayResults .results .crit-failure,
@@ -618,7 +611,7 @@ button:active {
     opacity 0.5s;
   border: 3px solid transparent;
   border-radius: 8px;
-  background-color: var(--surface);
+  background-color: var(--button-bg-color);
   cursor: pointer;
   padding: 0.5rem;
   max-width: 204px;
@@ -626,15 +619,14 @@ button:active {
   font-family: inherit;
   font-size: 1em;
   font-weight: 500;
-  fill: var(--white);
 }
 
 .file-system .react-grid-item:hover {
-  border-color: var(--primary-light);
+  border-color: var(--button-hover);
 }
 
 .file-system .react-grid-item:active {
-  background-color: var(--primary);
+  background-color: var(--button-active);
 }
 
 .file-system .react-grid-placeholder {
@@ -644,234 +636,95 @@ button:active {
 
 .file-system .react-grid-item.folder {
   box-sizing: border-box;
-  background-color: var(--folder-accent);
-  clip-path: polygon(0 23%,
-      0 7%,
-      4% 0,
-      28% 0,
-      32% 7%,
-      60% 7%,
-      98% 7%,
-      100% 10%,
-      100% 100%,
-      15% 100%,
-      0 100%,
-      0% 85%);
-}
-
-.file-system .react-grid-item.folder::after {
-  position: absolute;
-  top: 1px;
-  /* Match border width */
-  left: 1px;
-  /* Match border width */
-  z-index: -1;
   background-color: var(--folder);
-  /* Same as the folder color */
-  width: calc(100% - 3px);
-  /* Compensate for left & right borders */
-  height: calc(100% - 3px);
-  /* Compensate for top & bottom borders */
-  content: "";
-  clip-path: polygon(0 23%,
-      0 7%,
-      4% 0,
-      29% 0,
-      32% 7%,
-      60% 7%,
-      98% 7%,
-      100% 10%,
-      100% 100%,
-      15% 100%,
-      0 100%,
-      0% 85%);
 }
 
 .file-system .react-grid-item.folder:hover {
-  border-color: transparent;
-  background-color: var(--folder-hover);
+  border-color: var(--folder-hover);
+}
+
+.file-system .react-grid-item.folder:active {
+  background-color: var(--folder-active);
 }
 
 .file-system .react-grid-item.moveFolderUp {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--up-folder-dark);
+  background-color: var(--up-folder);
 }
 
 .file-system .react-grid-item.moveFolderUp:hover {
-  border-color: var(--up-folder-light);
+  border-color: var(--up-folder-hover);
 }
 
 .file-system .react-grid-item.moveFolderUp img {
   width: 26px;
 }
 
-html[data-theme="light"] {
-  :root {
-    background-color: var(--bg);
-    color: var(--black);
-  }
+.file-system .react-grid-item svg {
+  fill: var(--text);
+}
 
-  .editable-md-widget {
-    --basePageBg: var(--surface-alt);
-    --admonitionTipBg: hsl(187deg 71% 88%);
-    --admonitionTipBorder: hsl(189deg 60% 53%);
-    --admonitionInfoBg: hsl(123deg 45% 90%);
-    --admonitionInfoBorder: hsl(131deg 38% 56%);
-    --admonitionCautionBg: hsl(50deg 100% 81%);
-    --admonitionCautionBorder: hsl(38deg 75% 55%);
-    --admonitionDangerBg: hsl(358deg 100% 93%);
-    --admonitionDangerBorder: hsl(359deg 70% 74%);
-    --admonitionNoteBg: hsl(240deg 10% 92%);
-    --admonitionNoteBorder: hsl(231deg 10% 75%);
-  }
+.icon-svg path,
+.icon-svg circle,
+.icon-svg line {
+  stroke: var(--icon);
+}
 
-  button.icon-button {
-    background-color: var(--primary-light);
-  }
+.icon-svg-logo path {
+  fill: var(--primary-8);
+}
 
-  button.icon-button img {
-    filter: brightness(0);
-  }
+.icon-svg-fire path {
+  stroke: var(--fire);
+  fill: var(--fire);
+}
 
-  button.icon-button img[data-delete-icon],
-  button.icon-button img[data-share-icon] {
-    filter: contrast(3) brightness(0.9);
-  }
+.icon-svg-share path {
+  fill: var(--share-blue);
+}
 
-  button:hover {
-    border-color: var(--primary);
-  }
+.icon-svg-folder path {
+  fill: var(--text);
+}
 
-  button.icon-button:hover {
-    border-color: var(--primary);
-  }
+.icon-svg-dash-menu path {
+  fill: var(--icon);
+}
 
-  .react-grid-layout {
-    background-color: var(--grid-bg);
-  }
+.icon-svg-back path {
+  stroke: var(--icon);
+}
 
-  .react-grid-layout.file-system {
-    background-color: unset;
-  }
+.icon-svg-download path {
+  stroke: var(--icon);
+}
 
-  .react-grid-layout .react-grid-item#add-widget {
-    background-color: var(--primary);
-  }
+.icon-svg-text-align path {
+  fill: var(--icon);
+}
 
-  .react-grid-layout .react-grid-item#add-widget img {
-    filter: brightness(1.5);
-  }
+.icon-svg-add-item path {
+  fill: var(--add-items-icon);
+  stroke: var(--add-items-icon);
+}
 
-  .react-grid-layout .react-grid-item {
-    border: 2px solid var(--primary-dark);
-    background-color: var(--white);
-  }
+.icon-svg-cross path {
+  fill: var(--border);
+  stroke: var(--border);
+}
 
-  .react-grid-item>.react-resizable-handle::after {
-    border-right: 2px solid var(--primary);
-    border-bottom: 2px solid var(--primary);
-  }
+.icon-svg-info {
+  color: var(--info-icon);
+}
 
-  .react-grid-layout .react-grid-item #delete-widget img {
-    filter: invert(32%) sepia(100%) saturate(6481%) hue-rotate(246deg) brightness(102%) contrast(143%)
-  }
+.icon-svg-info circle,
+.icon-svg-info line {
+  stroke: var(--info-icon);
+}
 
-  .editable-md-widget span,
-  .editable-md-widget strong,
-  .editable-md-widget em {
-    color: var(--black);
-  }
-
-  .editable-md-widget code span,
-  .editable-md-widget code strong,
-  .editable-md-widget code em {
-    background-color: var(--code-bg);
-    color: var(--white);
-  }
-
-  .editable-md-widget a span,
-  .editable-md-widget a strong,
-  .editable-md-widget a em {
-    color: var(--link);
-  }
-
-  .editable-md-widget a span:hover,
-  .editable-md-widget a strong:hover,
-  .editable-md-widget a em:hover {
-    color: var(--link-hover);
-  }
-
-  .editable-md-widget a code span,
-  .editable-md-widget a code strong,
-  .editable-md-widget a code em {
-    color: var(--primary);
-  }
-
-  .editable-md-widget ul,
-  .editable-md-widget ol {
-    color: var(--black);
-  }
-
-  .editable-md-widget .dice-notation {
-    color: var(--primary);
-  }
-
-  .editable-md-widget .dice-notation:hover {
-    color: var(--primary-dark);
-  }
-
-  .file-system .react-grid-item {
-    border: 3px solid transparent;
-    background-color: var(--primary-light);
-    fill: var(--black);
-  }
-
-  .file-system .react-grid-item:hover {
-    border-color: var(--primary);
-  }
-
-  .file-system .react-grid-item svg {
-    fill: var(--black);
-  }
-
-  .file-system .react-grid-item.folder {
-    background-color: var(--folder);
-  }
-
-  .file-system .react-grid-item.folder::after {
-    background-color: var(--folder-accent);
-  }
-
-  .file-system .react-grid-item.folder:hover {
-    border-color: transparent;
-    background-color: var(--folder-hover);
-  }
-
-  .file-system .react-grid-item.moveFolderUp {
-    background-color: var(--up-folder-light);
-  }
-
-  .file-system .react-grid-item.moveFolderUp img {
-    filter: brightness(0);
-  }
-
-  .file-system .react-grid-item.moveFolderUp:hover {
-    border-color: var(--up-folder-dark);
-  }
-
-  input {
-    background-color: var(--white);
-    color: var(--black);
-    border-color: var(--primary-dark);
-  }
-
-  .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"] {
-    background-color: var(--surface);
-  }
-
-  .mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"]:hover {
-    border: 2px solid var(--primary);
-  }
+html body[data-scroll-locked] {
+  padding: 0;
+  margin: revert !important;
 }
