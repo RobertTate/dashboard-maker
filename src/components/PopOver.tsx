@@ -1,9 +1,8 @@
 import { memo, useCallback, useRef, useState } from "react";
 
-import dashboard from "../assets/dashboard.svg";
-import refresh from "../assets/refresh.svg";
-import info from "../assets/info.svg";
-import upload from "../assets/upload.svg";
+import DashboardIcon from "../assets/dashboard.svg?react";
+import RefreshIcon from "../assets/refresh.svg?react";
+import UploadIcon from "../assets/upload.svg?react";
 import db from "../dbInstance";
 import { getCurrentFolder, validateUpload } from "../functions";
 import {
@@ -23,6 +22,7 @@ import type {
 import Dashboard from "./Dashboard";
 import DashboardFileSystem from "./DashboardFileSystem.tsx";
 import { FolderCreator } from "./FolderCreator";
+import { InfoMenu } from "./InfoMenu.tsx";
 
 const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
   const { selectedDashboard, selectADashboard } = useAppStore();
@@ -100,10 +100,13 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
       const dashName = inputRefInUse?.current!.value;
       if (dashName) {
         if (keys.includes(dashName)) {
-          const inputResponse =
-            dashName === "Menu_Object"
-              ? "Don't call it that! I'm using that for something under the hood."
-              : "The Dashboard Name Must Be Unique.";
+          const inputResponse = [
+            "Menu_Object",
+            "Dash_Mode_String",
+            "Dash_Theme_String"
+          ].includes(dashName)
+            ? "Don't call it that! I'm using that for something under the hood."
+            : "The Dashboard Name Must Be Unique.";
           inputRefInUse!.current!.setCustomValidity(inputResponse);
           inputRefInUse!.current!.reportValidity();
         } else {
@@ -223,22 +226,18 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
       ) : (
         <>
           <h1>
-            <img
-              id="headingImage"
-              alt="Dashboard Maker Logo"
-              src={dashboard}
-            ></img>
+            <DashboardIcon
+              className="icon-svg-logo"
+              style={{
+                width: "44px",
+                top: "4px",
+                position: "relative",
+              }}
+            />
             Dashboard Maker
           </h1>
           <h3>GM Screens, Character Sheets, and Whatever Else.</h3>
-          <a
-            title="Read the docs"
-            className={styles["dashboard-info-link"]}
-            href="https://github.com/RobertTate/dashboard-maker"
-            target="_blank"
-          >
-            <img src={info} alt="Link to Docs" />
-          </a>
+          <InfoMenu />
           <div className={styles["dashboard-creator"]}>
             <div className={styles["dashboard-input"]}>
               <button
@@ -247,7 +246,12 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 onClick={() => setRefreshCount((prev) => prev + 1)}
                 id="refresh-button"
               >
-                <img style={{ width: "20px" }} src={refresh} alt="Refresh" />
+                <RefreshIcon
+                  className="icon-svg"
+                  style={{
+                    width: "20px",
+                  }}
+                />
               </button>
               <input
                 type="file"
@@ -266,7 +270,12 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 title="Upload a Dashboard."
                 onClick={() => handleUploadClick()}
               >
-                <img style={{ width: "20px" }} src={upload} alt="Upload" />
+                <UploadIcon
+                  className="icon-svg"
+                  style={{
+                    width: "20px",
+                  }}
+                />
               </button>
               <input
                 ref={newDashInputRef}

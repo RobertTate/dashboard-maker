@@ -1,53 +1,63 @@
-import { memo, useState } from "react";
-import leftAlign from "../assets/leftAlign.svg";
-import centerAlign from "../assets/centerAlign.svg";
-import rightAlign from "../assets/rightAlign.svg";
 import { ButtonOrDropdownButton } from "@mdxeditor/editor";
+import { memo, useState } from "react";
+
+import CenterAlign from "../assets/centerAlign.svg?react";
+import LeftAlign from "../assets/leftAlign.svg?react";
+import RightAlign from "../assets/rightAlign.svg?react";
 import type { TextAlignment as Alignment } from "../types";
 
 type TextAlignmentProps = {
   itemId: string;
   gridItemTextAlign: Alignment;
   updateWidgetTextAlignment: (itemId: string, alignment: Alignment) => void;
-}
+};
 
 const imageSourceMap = {
-  "center": centerAlign,
-  "left": leftAlign,
-  "right": rightAlign,
-}
+  center: CenterAlign,
+  left: LeftAlign,
+  right: RightAlign,
+};
 
-export const TextAlignment = memo(({ itemId, gridItemTextAlign, updateWidgetTextAlignment }: TextAlignmentProps) => {
-  const [alignmentState, setAlignmentState] = useState<Alignment>(gridItemTextAlign);
+export const TextAlignment = memo(
+  ({
+    itemId,
+    gridItemTextAlign,
+    updateWidgetTextAlignment,
+  }: TextAlignmentProps) => {
+    const [alignmentState, setAlignmentState] =
+      useState<Alignment>(gridItemTextAlign);
 
-  const imageSource = imageSourceMap[alignmentState]
+    const TextAlignmentIcon = imageSourceMap[alignmentState];
 
-  return (
-    <ButtonOrDropdownButton
-      title="Text Alignment"
-      items={
-        [
+    return (
+      <ButtonOrDropdownButton
+        title="Text Alignment"
+        items={[
           {
             value: "left",
-            label: "Left"
+            label: "Left",
           },
           {
             value: "center",
-            label: "Center"
+            label: "Center",
           },
           {
-
             value: "right",
-            label: "Right"
+            label: "Right",
           },
-        ]
-      }
-      onChoose={(value) => {
-        setAlignmentState(value);
-        updateWidgetTextAlignment(itemId, value);
-      }}
-    >
-      <img data-text-align-icon width={17} height={17} src={imageSource} alt={`align ${alignmentState}`} />
-    </ButtonOrDropdownButton>
-  )
-});
+        ]}
+        onChoose={(value) => {
+          setAlignmentState(value);
+          updateWidgetTextAlignment(itemId, value);
+        }}
+      >
+        <TextAlignmentIcon
+          className="icon-svg-text-align"
+          style={{
+            width: "17px",
+          }}
+        />
+      </ButtonOrDropdownButton>
+    );
+  },
+);

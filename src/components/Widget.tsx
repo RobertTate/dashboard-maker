@@ -18,7 +18,7 @@ import { memo } from "react";
 
 import { DiceNotationDirectiveDescriptor } from "../plugins/DiceNotationDirectiveDescriptor";
 import { diceNotationMarkdownShortcutPlugin } from "../plugins/diceNotationMarkdownShortcutPlugin";
-import type { WidgetProps, TextAlignment } from "../types";
+import type { TextAlignment, WidgetProps } from "../types";
 import CustomLinkDialog from "./CustomLinkDialog";
 import { CustomToolbar } from "./CustomToolbar";
 

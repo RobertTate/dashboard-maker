@@ -1,6 +1,3 @@
-/* Dashboard layout styling
-   --bg and --surface control navigation colors
-   --primary variables affect button highlights */
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -51,10 +48,25 @@
   justify-content: center;
   transition: max-height 0.5s ease-out;
   border-radius: 8px;
-  background-color: var(--secondary-dark);
+  background-color: var(--dropdown-zones-bg-color);
   max-height: 0;
   overflow: hidden;
   text-align: center;
+}
+
+.dashboard-delete-zone button,
+.dashboard-duplicate-zone button,
+.dashboard-columntoggle-zone button,
+.dashboard-share-zone button {
+  background-color: var(--dropdown-zones-button-bg-color);
+  color: var(--dropdown-zones-button-color);
+}
+
+.dashboard-delete-zone button:hover,
+.dashboard-duplicate-zone button:hover,
+.dashboard-columntoggle-zone button:hover,
+.dashboard-share-zone button:hover {
+  border-color: var(--dropdown-zones-button-border-hover);
 }
 
 .dashboard-delete-zone.show-delete-zone,
@@ -101,7 +113,7 @@
 
 .dashboard-toolbar-zone {
   /* Using --baseBorderHover for the disabled styling of undo/redo buttons */
-  --baseBorderHover: var(--border)8a;
+  --baseBorderHover: var(--border) 8a;
 
   display: flex;
   justify-content: space-evenly;
@@ -111,7 +123,7 @@
     background-color 0.25s;
   border: 3px solid transparent;
   border-radius: 8px;
-  background-color: var(--surface);
+  background-color: var(--toolbar-bg-color);
   width: 100%;
   min-height: 40px;
 }
@@ -125,19 +137,23 @@
 }
 
 .dashboard-toolbar-zone button {
-  color: var(--link-hover);
+  color: var(--icon);
+}
+
+.dashboard-toolbar-zone button[data-disabled] svg {
+  color: var(--icon-disabled);
 }
 
 .dashboard-toolbar-zone:hover {
   border-color: var(--border);
 }
 
-.dashboard-toolbar-zone>* {
+.dashboard-toolbar-zone > * {
   display: none;
 }
 
 /* This needs to always be reflective of the number of tools in the editor toolbar */
-.dashboard-toolbar-zone>*:nth-last-child(-n + 10) {
+.dashboard-toolbar-zone > *:nth-last-child(-n + 10) {
   display: flex;
 }
 
@@ -147,61 +163,4 @@
 
 .dashboard-toolbar-zone-placeholder {
   height: auto;
-}
-
-html[data-theme="light"] {
-  .dashboard-nav {
-    background: var(--bg);
-  }
-
-  .dashboard-toolbar-container {
-    background-color: var(--bg);
-  }
-
-  .dashboard-toolbar-zone {
-    --baseBorderHover: var(--link-hover)84;
-    background-color: var(--primary-light);
-  }
-
-  .dashboard-toolbar-zone:hover {
-    border-color: var(--primary);
-  }
-
-  .dashboard-toolbar-zone button {
-    color: var(--primary-dark);
-  }
-
-  .dashboard-toolbar-zone button[data-disabled] svg {
-    color: var(--link);
-  }
-
-  .dashboard-toolbar-zone button[data-state="on"] {
-    color: white;
-  }
-
-  .dashboard-toolbar-zone button [data-text-align-icon] {
-    filter: saturate(18) hue-rotate(325deg) brightness(0.7);
-  }
-
-  .dashboard-delete-zone,
-  .dashboard-duplicate-zone,
-  .dashboard-columntoggle-zone,
-  .dashboard-share-zone {
-    background-color: var(--primary-light);
-  }
-
-  .dashboard-delete-zone button,
-  .dashboard-duplicate-zone button,
-  .dashboard-columntoggle-zone button,
-  .dashboard-share-zone button {
-    background-color: var(--primary);
-    color: white;
-  }
-
-  .dashboard-delete-zone button:hover,
-  .dashboard-duplicate-zone button:hover,
-  .dashboard-columntoggle-zone button:hover,
-  .dashboard-share-zone button:hover {
-    border-color: var(--primary-dark);
-  }
 }

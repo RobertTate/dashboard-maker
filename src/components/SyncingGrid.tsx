@@ -9,7 +9,7 @@ import {
 } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 
-import cross from "../assets/cross.svg";
+import CrossIcon from "../assets/cross.svg?react";
 import db from "../dbInstance";
 import startingLayouts from "../partials/startingLayout";
 import type {
@@ -22,10 +22,10 @@ import randomUUID from "../uid";
 import Widget from "./Widget";
 
 const styleAlignmentMap = {
-  "left": "flex-start",
-  "center": "center",
-  "right": "flex-end"
-}
+  left: "flex-start",
+  center: "center",
+  right: "flex-end",
+};
 
 const SyncingGrid = memo(
   ({
@@ -176,7 +176,8 @@ const SyncingGrid = memo(
           setWidgets([...updatedWidgetsArray]);
           setSyncStorage((prev) => prev + 1);
         }
-      }, [widgets],
+      },
+      [widgets],
     );
 
     const memoizedChildren = useMemo(() => {
@@ -196,7 +197,13 @@ const SyncingGrid = memo(
           }}
           onClick={addNewWidget}
         >
-          <img src={cross} alt="Add Widget" />
+          <CrossIcon
+            className="icon-svg-add-item"
+            style={{
+              width: "20px",
+              transform: "rotate(45deg)",
+            }}
+          />
         </div>
       );
 
@@ -204,10 +211,17 @@ const SyncingGrid = memo(
         widgets &&
         widgets.map((item) => {
           return (
-            <div style={{
-              justifyContent: item.alignment ? styleAlignmentMap[item.alignment] : "center",
-              textAlign: item.alignment ? item.alignment : "center"
-            }} id={item.id} key={item.id} data-align={item.alignment || "center"}>
+            <div
+              style={{
+                justifyContent: item.alignment
+                  ? styleAlignmentMap[item.alignment]
+                  : "center",
+                textAlign: item.alignment ? item.alignment : "center",
+              }}
+              id={item.id}
+              key={item.id}
+              data-align={item.alignment || "center"}
+            >
               <div data-locked={isLocked} className="cancelDrag">
                 <Widget
                   item={item}
@@ -223,7 +237,12 @@ const SyncingGrid = memo(
                 onClick={() => deleteWidget(item.id)}
                 className="cancelDrag"
               >
-                <img src={cross} alt="" />
+                <CrossIcon
+                  className="icon-svg-cross"
+                  style={{
+                    width: "15px",
+                  }}
+                />
               </span>
             </div>
           );

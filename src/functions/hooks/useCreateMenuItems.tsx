@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import moveUp from "../../assets/moveUp.svg";
+import MoveUpIcon from "../../assets/moveUp.svg?react";
 import type { FolderSystem, MenuObject } from "../../types";
 
 export const useCreateMenuItems = (
@@ -31,7 +31,13 @@ export const useCreateMenuItems = (
             h: 1,
           }}
         >
-          <img src={moveUp} alt="Move Up Icon" />
+          {/* <img src={moveUp} alt="Move Up Icon" /> */}
+          <MoveUpIcon
+            className="icon-svg"
+            style={{
+              width: "26px",
+            }}
+          />
         </button>,
       ];
 

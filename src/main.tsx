@@ -6,16 +6,44 @@ import ReactDOM from "react-dom/client";
 
 import App from "./App.tsx";
 import { AppProvider } from "./AppProvider.tsx";
+import db from "./dbInstance";
 import "./dbInstance.ts";
-import "./styles/theme.css";
 import "./index.css";
+import "./styles/theme.css";
 
 const themeQuery = window.matchMedia("(prefers-color-scheme: dark)");
-const setTheme = (e: MediaQueryList | MediaQueryListEvent) => {
-  document.documentElement.setAttribute("data-theme", e.matches ? "dark" : "light");
+let firstCall = true;
+
+const setMode = async (e: MediaQueryList | MediaQueryListEvent) => {
+  let mode = null;
+
+  if (firstCall) {
+    mode = (await db.getItem("Dash_Mode_String")) as string;
+  }
+
+  if (mode && firstCall) {
+    document.documentElement.setAttribute("data-mode", mode);
+    firstCall = false;
+  } else {
+    document.documentElement.setAttribute(
+      "data-mode",
+      e.matches ? "dark" : "light",
+    );
+  }
 };
-setTheme(themeQuery);
-themeQuery.addEventListener("change", setTheme);
+
+const setTheme = async () => {
+  const theme = (await db.getItem("Dash_Theme_String")) as string;
+  if (theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+  } else {
+    document.documentElement.setAttribute("data-theme", "default");
+  }
+};
+
+setMode(themeQuery);
+setTheme();
+themeQuery.addEventListener("change", setMode);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
