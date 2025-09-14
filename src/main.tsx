@@ -12,11 +12,18 @@ import "./index.css";
 import "./styles/theme.css";
 
 const themeQuery = window.matchMedia("(prefers-color-scheme: dark)");
-const mode = (await db.getItem("Dash_Mode_String")) as string;
+let firstCall = true;
 
 const setMode = async (e: MediaQueryList | MediaQueryListEvent) => {
-  if (mode) {
+  let mode = null;
+
+  if (firstCall) {
+    mode = (await db.getItem("Dash_Mode_String")) as string;
+  }
+
+  if (mode && firstCall) {
     document.documentElement.setAttribute("data-mode", mode);
+    firstCall = false;
   } else {
     document.documentElement.setAttribute(
       "data-mode",
