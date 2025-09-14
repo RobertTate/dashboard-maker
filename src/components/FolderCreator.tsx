@@ -221,7 +221,7 @@ export const FolderCreator = ({
             <AddFolderIcon
               className="icon-svg-folder"
               style={{
-                width: "28px"
+                width: "28px",
               }}
             />
           </button>
@@ -252,14 +252,15 @@ export const FolderCreator = ({
                 <FireIcon
                   className="icon-svg-fire"
                   style={{
-                    width: "20px"
+                    width: "20px",
                   }}
                 />
               </button>
             </div>
             <div
-              className={`${styles["folder-delete-zone"]} ${deleteZoneIsOpen ? styles["show-folder-delete-zone"] : ""
-                }`}
+              className={`${styles["folder-delete-zone"]} ${
+                deleteZoneIsOpen ? styles["show-folder-delete-zone"] : ""
+              }`}
             >
               <p>
                 Type "DELETE" to delete this folder and subfolders. Dashboards

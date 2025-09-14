@@ -228,9 +228,9 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               style={{
                 width: "44px",
                 top: "4px",
-                position: "relative"
+                position: "relative",
               }}
-              />
+            />
             Dashboard Maker
           </h1>
           <h3>GM Screens, Character Sheets, and Whatever Else.</h3>
@@ -246,7 +246,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 <RefreshIcon
                   className="icon-svg"
                   style={{
-                    width: "20px"
+                    width: "20px",
                   }}
                 />
               </button>
@@ -270,7 +270,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 <UploadIcon
                   className="icon-svg"
                   style={{
-                    width: "20px"
+                    width: "20px",
                   }}
                 />
               </button>

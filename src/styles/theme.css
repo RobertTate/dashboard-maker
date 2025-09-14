@@ -28,7 +28,7 @@
   --folder-brown-3: #c28b67;
   --folder-brown-4: #ceac6d;
   --folder-brown-5: #927745;
-  
+
   --folder-up-1: #ad5252;
   --folder-up-2: #ff9c9c;
 }
@@ -488,7 +488,7 @@
   --primary-13: #072016;
 }
 
-[data-mode='dark'] {
+[data-mode="dark"] {
   --link-dialog-bg: var(--primary-11);
   --bg: var(--primary-13);
   --text: var(--white);
@@ -541,7 +541,7 @@
   --share-blue: var(--share-blue-light);
 }
 
-[data-mode='light'] {
+[data-mode="light"] {
   --link-dialog-bg: var(--primary-5);
   --bg: var(--primary-0);
   --text: var(--black);

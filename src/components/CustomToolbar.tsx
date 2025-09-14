@@ -12,10 +12,11 @@ import {
   inFocus$,
   useCellValue,
 } from "@mdxeditor/editor";
-import { useEffect, useState, memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { TextAlignment } from "./TextAlignment";
+
 import type { TextAlignment as Alignment } from "../types";
+import { TextAlignment } from "./TextAlignment";
 
 type CustomToolbarProps = {
   activeToolbarKey: string;
@@ -24,12 +25,14 @@ type CustomToolbarProps = {
 };
 
 export const CustomToolbar = memo((props: CustomToolbarProps) => {
-  const { activeToolbarKey, setActiveToolbarKey, updateWidgetTextAlignment } = props;
+  const { activeToolbarKey, setActiveToolbarKey, updateWidgetTextAlignment } =
+    props;
   const activeEditor = useCellValue(activeEditor$);
   const inFocus = useCellValue(inFocus$);
   const [showToolbar, setShowToolbar] = useState(false);
   const [activeGridItemId, setActiveGridItemId] = useState("");
-  const [activeGridItemTextAlign, setActiveGridItemTextAlign] = useState<Alignment>("center")
+  const [activeGridItemTextAlign, setActiveGridItemTextAlign] =
+    useState<Alignment>("center");
 
   useEffect(() => {
     if (activeEditor) {
@@ -37,7 +40,9 @@ export const CustomToolbar = memo((props: CustomToolbarProps) => {
         if (inFocus) {
           const rootEL = activeEditor._rootElement;
           // Yikes.
-          const gridItem = rootEL?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement;
+          const gridItem =
+            rootEL?.parentElement?.parentElement?.parentElement?.parentElement
+              ?.parentElement;
           const gridItemId = gridItem?.id as string;
           const gridItemTextAlign = gridItem?.dataset.align as Alignment;
           setActiveGridItemId(gridItemId);

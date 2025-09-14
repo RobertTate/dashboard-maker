@@ -5,31 +5,34 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "./App.tsx";
-import db from "./dbInstance";
 import { AppProvider } from "./AppProvider.tsx";
+import db from "./dbInstance";
 import "./dbInstance.ts";
-import "./styles/theme.css";
 import "./index.css";
+import "./styles/theme.css";
 
 const themeQuery = window.matchMedia("(prefers-color-scheme: dark)");
-const mode = await db.getItem("Dash_Mode_String") as string;
+const mode = (await db.getItem("Dash_Mode_String")) as string;
 
 const setMode = async (e: MediaQueryList | MediaQueryListEvent) => {
   if (mode) {
     document.documentElement.setAttribute("data-mode", mode);
   } else {
-    document.documentElement.setAttribute("data-mode", e.matches ? "dark" : "light");
+    document.documentElement.setAttribute(
+      "data-mode",
+      e.matches ? "dark" : "light",
+    );
   }
 };
 
 const setTheme = async () => {
-  const theme = await db.getItem("Dash_Theme_String") as string;
+  const theme = (await db.getItem("Dash_Theme_String")) as string;
   if (theme) {
     document.documentElement.setAttribute("data-theme", theme);
   } else {
     document.documentElement.setAttribute("data-theme", "default");
   }
-}
+};
 
 setMode(themeQuery);
 setTheme();

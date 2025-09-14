@@ -113,7 +113,7 @@
 
 .dashboard-toolbar-zone {
   /* Using --baseBorderHover for the disabled styling of undo/redo buttons */
-  --baseBorderHover: var(--border)8a;
+  --baseBorderHover: var(--border) 8a;
 
   display: flex;
   justify-content: space-evenly;
@@ -148,12 +148,12 @@
   border-color: var(--border);
 }
 
-.dashboard-toolbar-zone>* {
+.dashboard-toolbar-zone > * {
   display: none;
 }
 
 /* This needs to always be reflective of the number of tools in the editor toolbar */
-.dashboard-toolbar-zone>*:nth-last-child(-n + 10) {
+.dashboard-toolbar-zone > *:nth-last-child(-n + 10) {
   display: flex;
 }
 

@@ -22,10 +22,10 @@ import randomUUID from "../uid";
 import Widget from "./Widget";
 
 const styleAlignmentMap = {
-  "left": "flex-start",
-  "center": "center",
-  "right": "flex-end"
-}
+  left: "flex-start",
+  center: "center",
+  right: "flex-end",
+};
 
 const SyncingGrid = memo(
   ({
@@ -176,7 +176,8 @@ const SyncingGrid = memo(
           setWidgets([...updatedWidgetsArray]);
           setSyncStorage((prev) => prev + 1);
         }
-      }, [widgets],
+      },
+      [widgets],
     );
 
     const memoizedChildren = useMemo(() => {
@@ -196,11 +197,11 @@ const SyncingGrid = memo(
           }}
           onClick={addNewWidget}
         >
-          <CrossIcon 
+          <CrossIcon
             className="icon-svg-add-item"
             style={{
               width: "20px",
-              transform: "rotate(45deg)"
+              transform: "rotate(45deg)",
             }}
           />
         </div>
@@ -210,10 +211,17 @@ const SyncingGrid = memo(
         widgets &&
         widgets.map((item) => {
           return (
-            <div style={{
-              justifyContent: item.alignment ? styleAlignmentMap[item.alignment] : "center",
-              textAlign: item.alignment ? item.alignment : "center"
-            }} id={item.id} key={item.id} data-align={item.alignment || "center"}>
+            <div
+              style={{
+                justifyContent: item.alignment
+                  ? styleAlignmentMap[item.alignment]
+                  : "center",
+                textAlign: item.alignment ? item.alignment : "center",
+              }}
+              id={item.id}
+              key={item.id}
+              data-align={item.alignment || "center"}
+            >
               <div data-locked={isLocked} className="cancelDrag">
                 <Widget
                   item={item}
@@ -229,10 +237,10 @@ const SyncingGrid = memo(
                 onClick={() => deleteWidget(item.id)}
                 className="cancelDrag"
               >
-                <CrossIcon 
+                <CrossIcon
                   className="icon-svg-cross"
                   style={{
-                    width: "15px"
+                    width: "15px",
                   }}
                 />
               </span>

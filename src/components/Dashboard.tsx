@@ -129,8 +129,9 @@ const Dashboard = memo((props: DashboardProps) => {
       id={isLocked ? "locked-dash" : "unlocked-dash"}
     >
       <div
-        className={`${styles["dashboard-nav"]} ${standalone ? styles["dashboard-nav--standalone"] : ""
-          }`}
+        className={`${styles["dashboard-nav"]} ${
+          standalone ? styles["dashboard-nav--standalone"] : ""
+        }`}
       >
         <button
           className="icon-button"
@@ -140,7 +141,7 @@ const Dashboard = memo((props: DashboardProps) => {
           <LeftArrowIcon
             className="icon-svg-back"
             style={{
-              width: "20px"
+              width: "20px",
             }}
           />
         </button>
@@ -152,7 +153,7 @@ const Dashboard = memo((props: DashboardProps) => {
           <FireIcon
             className="icon-svg-fire"
             style={{
-              width: "20px"
+              width: "20px",
             }}
           />
         </button>
@@ -165,18 +166,17 @@ const Dashboard = memo((props: DashboardProps) => {
             <LockedIcon
               className="icon-svg-dash-menu"
               style={{
-                width: "20px"
+                width: "20px",
               }}
             />
           ) : (
             <UnlockedIcon
               className="icon-svg-dash-menu"
               style={{
-                width: "20px"
+                width: "20px",
               }}
             />
           )}
-
         </button>
         <button
           className="icon-button"
@@ -187,7 +187,7 @@ const Dashboard = memo((props: DashboardProps) => {
           <ToggleIcon
             className="icon-svg-dash-menu"
             style={{
-              width: "20px"
+              width: "20px",
             }}
           />
         </button>
@@ -199,7 +199,7 @@ const Dashboard = memo((props: DashboardProps) => {
           <DuplicateIcon
             className="icon-svg-dash-menu"
             style={{
-              width: "20px"
+              width: "20px",
             }}
           />
         </button>
@@ -212,7 +212,7 @@ const Dashboard = memo((props: DashboardProps) => {
           <DownloadIcon
             className="icon-svg-download"
             style={{
-              width: "20px"
+              width: "20px",
             }}
           />
         </button>
@@ -227,7 +227,7 @@ const Dashboard = memo((props: DashboardProps) => {
             <ShareIcon
               className="icon-svg-share"
               style={{
-                width: "20px"
+                width: "20px",
               }}
             />
           </button>
@@ -264,8 +264,9 @@ const Dashboard = memo((props: DashboardProps) => {
         <h2>{selectedDashboard}</h2>
       </div>
       <div
-        className={`${styles["dashboard-delete-zone"]} ${deleteZoneIsOpen ? styles["show-delete-zone"] : ""
-          }`}
+        className={`${styles["dashboard-delete-zone"]} ${
+          deleteZoneIsOpen ? styles["show-delete-zone"] : ""
+        }`}
       >
         <p>Type "DELETE" to delete this dashboard permanently.</p>
         <div className={styles["dashboard-delete-zone-confirm"]}>
@@ -281,8 +282,9 @@ const Dashboard = memo((props: DashboardProps) => {
       </div>
 
       <div
-        className={`${styles["dashboard-columntoggle-zone"]} ${columntoggleZoneIsOpen ? styles["show-columntoggle-zone"] : ""
-          }`}
+        className={`${styles["dashboard-columntoggle-zone"]} ${
+          columntoggleZoneIsOpen ? styles["show-columntoggle-zone"] : ""
+        }`}
       >
         <p>
           Behold, <strong>the column toggler.</strong> Use its power to change
@@ -295,8 +297,9 @@ const Dashboard = memo((props: DashboardProps) => {
       </div>
 
       <div
-        className={`${styles["dashboard-duplicate-zone"]} ${duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
-          }`}
+        className={`${styles["dashboard-duplicate-zone"]} ${
+          duplicateZoneIsOpen ? styles["show-duplicate-zone"] : ""
+        }`}
       >
         <p>Clone this dashboard by typing in a new name for the duplicate.</p>
         <div className={styles["dashboard-duplicate-zone-confirm"]}>
@@ -311,8 +314,9 @@ const Dashboard = memo((props: DashboardProps) => {
       </div>
 
       <div
-        className={`${styles["dashboard-share-zone"]} ${shareZoneIsOpen ? styles["show-share-zone"] : ""
-          }`}
+        className={`${styles["dashboard-share-zone"]} ${
+          shareZoneIsOpen ? styles["show-share-zone"] : ""
+        }`}
       >
         <p>
           Do you want to share this dashboard in its current state with your

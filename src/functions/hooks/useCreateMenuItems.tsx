@@ -35,7 +35,7 @@ export const useCreateMenuItems = (
           <MoveUpIcon
             className="icon-svg"
             style={{
-              width: "26px"
+              width: "26px",
             }}
           />
         </button>,

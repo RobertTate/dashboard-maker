@@ -46,8 +46,11 @@ export const useDice = () => {
               event.stopPropagation();
             }
             diceNotation = eventTarget.dataset?.diceNotation;
-            const rollObj: Array<Record<string, any>> = DP.parseNotation(diceNotation);
-            const diceColor = getComputedStyle(document.documentElement).getPropertyValue("--dice-color").trim();
+            const rollObj: Array<Record<string, any>> =
+              DP.parseNotation(diceNotation);
+            const diceColor = getComputedStyle(document.documentElement)
+              .getPropertyValue("--dice-color")
+              .trim();
             if (diceColor) {
               for (const roll of rollObj) {
                 roll.themeColor = diceColor;

@@ -128,7 +128,7 @@ button:active {
   padding: 0.25rem;
 }
 
-.react-grid-item>.react-resizable-handle::after {
+.react-grid-item > .react-resizable-handle::after {
   border-right: 2px solid var(--border);
   border-bottom: 2px solid var(--border);
 }
@@ -147,11 +147,13 @@ button:active {
   display: none;
 }
 
-.react-grid-layout .react-grid-item#add-widget>.react-resizable-handle::after {
+.react-grid-layout
+  .react-grid-item#add-widget
+  > .react-resizable-handle::after {
   display: none;
 }
 
-.react-grid-layout .react-grid-item#add-widget>.react-resizable-handle {
+.react-grid-layout .react-grid-item#add-widget > .react-resizable-handle {
   display: none;
 }
 
@@ -173,69 +175,93 @@ button:active {
 }
 
 /* Border Radius of Admonitions */
-.editable-md-widget [data-lexical-decorator="true"]>div {
+.editable-md-widget [data-lexical-decorator="true"] > div {
   border-radius: 6px;
 }
 
 /* Had to override dynamically applied Link Dialog styles, to keep the link dialog in one place. */
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]) {
+.mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]) {
   top: 90vh !important;
   left: 8px !important;
   transform: none !important;
 }
 
 /* Shifting the location of the link dialog when it's open */
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"]):has(form) {
   top: 60vh !important;
   left: 8px !important;
   transform: none !important;
 }
 
 /* Styling the Link Dialog */
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"])
+  > div {
   border: 3px solid var(--border);
   background-color: var(--link-dialog-bg);
 }
 
 /* Style the displayed link in the Closed Link Dialog  */
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"] {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"])
+  > div
+  a[class^="_linkDialogPreviewAnchor"] {
   color: var(--border);
 }
 
 /* Style the other icons in the Closed Link Dialog */
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"]>svg {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"])
+  > div
+  button[class^="_actionButton"]
+  > svg {
   color: var(--border);
 }
 
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div button[class^="_actionButton"] {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"])
+  > div
+  button[class^="_actionButton"] {
   margin: 0;
 }
 
 /* Style the Url Link in the Closed Link Dialog */
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"] {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"])
+  > div
+  a[class^="_linkDialogPreviewAnchor"] {
   border: 2px solid transparent;
   border-radius: var(--radius-medium);
   padding: 0.25rem;
   transition: border 0.4s ease;
 }
 
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"])>div a[class^="_linkDialogPreviewAnchor"]:hover {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"])
+  > div
+  a[class^="_linkDialogPreviewAnchor"]:hover {
   border: 2px solid var(--border);
 }
 
-
 /* Style the Text Labels in the Open Link Dialog */
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) label {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"]):has(form)
+  label {
   color: var(--link-dialog-label);
 }
 
 /* Style the button borders of the Open Link Dialog */
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) button {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"]):has(form)
+  button {
   border: none;
 }
 
 /* Style the background color of the submit button of the Open Link Dialog */
-.mdxeditor-popup-container>div:has(div[class^="_linkDialogPopoverContent"]):has(form) button[type="submit"] {
+.mdxeditor-popup-container
+  > div:has(div[class^="_linkDialogPopoverContent"]):has(form)
+  button[type="submit"] {
   background-color: var(--link-submit-bg-color);
 }
 
@@ -269,14 +295,14 @@ button:active {
   font-style: italic;
 }
 
-.editable-md-widget h1+p:has(br),
-.editable-md-widget h2+p:has(br),
-.editable-md-widget h3+p:has(br),
-.editable-md-widget h4+p:has(br),
-.editable-md-widget h5+p:has(br),
-.editable-md-widget h6+p:has(br),
-.editable-md-widget ul+p:has(br),
-.editable-md-widget ol+p:has(br) {
+.editable-md-widget h1 + p:has(br),
+.editable-md-widget h2 + p:has(br),
+.editable-md-widget h3 + p:has(br),
+.editable-md-widget h4 + p:has(br),
+.editable-md-widget h5 + p:has(br),
+.editable-md-widget h6 + p:has(br),
+.editable-md-widget ul + p:has(br),
+.editable-md-widget ol + p:has(br) {
   display: none;
 }
 
@@ -357,7 +383,7 @@ button:active {
   overflow: clip;
 }
 
-.react-grid-item>div {
+.react-grid-item > div {
   min-width: 4px;
 }
 
@@ -552,11 +578,19 @@ button:active {
   fill: var(--success);
 }
 
-#dice-box > .displayResults > .results.showEffect > span:not(.crit-success) > svg.success {
+#dice-box
+  > .displayResults
+  > .results.showEffect
+  > span:not(.crit-success)
+  > svg.success {
   fill: var(--success);
 }
 
-#dice-box > .displayResults > .results.showEffect > span:not(.crit-failure) > svg.failure {
+#dice-box
+  > .displayResults
+  > .results.showEffect
+  > span:not(.crit-failure)
+  > svg.failure {
   fill: var(--failure);
 }
 
