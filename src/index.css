@@ -35,6 +35,10 @@ html {
   scrollbar-width: none;
 }
 
+body {
+  margin-top: 0;
+}
+
 input,
 button,
 h1,
@@ -760,5 +764,5 @@ button:active {
 
 html body[data-scroll-locked] {
   padding: 0;
-  margin: revert !important;
+  margin: 0 8px 8px 8px !important;
 }

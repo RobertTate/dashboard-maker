@@ -491,6 +491,7 @@
 [data-mode="dark"] {
   --link-dialog-bg: var(--primary-11);
   --bg: var(--primary-13);
+  --bg-hover: var(--primary-9);
   --text: var(--white);
   --text-alt: var(--black);
   --icon: var(--white);
@@ -520,6 +521,7 @@
   --grid-bg: var(--gray-2);
   --grid-item-bg: var(--gray-3);
   --border: var(--primary-5);
+  --border-hover: var(--primary-2);
   --input-border: var(--gray-6);
   --success: var(--success-green-light);
   --failure: var(--failure-red-light);
@@ -544,6 +546,7 @@
 [data-mode="light"] {
   --link-dialog-bg: var(--primary-5);
   --bg: var(--primary-0);
+  --bg-hover: var(--primary-2);
   --text: var(--black);
   --text-alt: var(--white);
   --icon: var(--black);
@@ -564,7 +567,6 @@
   --add-item-active: var(--primary-5);
   --dropdown-zones-bg-color: var(--primary-5);
   --dropdown-zones-button-color: var(--white);
-  --dropdown-zones-button-bg-color: var(--primary-8);
   --dropdown-zones-button-border-hover: var(--primary-10);
   --toolbar-bg-color: var(--primary-5);
   --fire: var(--failure-red-dark);
@@ -573,6 +575,7 @@
   --grid-bg: var(--gray-4);
   --grid-item-bg: var(--white);
   --border: var(--primary-10);
+  --border-hover: var(--primary-13);
   --input-border: var(--gray-6);
   --success: var(--success-green-dark);
   --failure: var(--failure-red-dark);
