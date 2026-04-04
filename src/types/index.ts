@@ -18,8 +18,12 @@ export type SyncingGridProps = {
   dashName: string;
   isLocked: boolean;
   columns: number;
+  mode: string;
+  theme: string;
   updateLockedStatus: (isLockedStatus: boolean) => void;
   updateColsStatus: (columns: number) => void;
+  updateMode: (mode: string) => void;
+  updateTheme: (theme: string) => void;
 };
 
 export type ColumnToggleProps = {
@@ -40,6 +44,8 @@ export type DashboardItemsProps = {
   widgets: WidgetProps[];
   isLocked: boolean;
   columns: number;
+  mode?: string;
+  theme?: string;
 };
 
 export type PremadeDashConfig = {

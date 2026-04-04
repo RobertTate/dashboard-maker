@@ -1,4 +1,4 @@
-import { Cross2Icon, GearIcon } from "@radix-ui/react-icons";
+import { Cross2Icon, DotFilledIcon, GearIcon } from "@radix-ui/react-icons";
 import OBR, { Player } from "@owlbear-rodeo/sdk";
 import pako from "pako";
 import { memo, useRef, useState } from "react";
@@ -11,6 +11,7 @@ import LockedIcon from "../assets/locked.svg?react";
 import ShareIcon from "../assets/share.svg?react";
 import ToggleIcon from "../assets/toggle.svg?react";
 import UnlockedIcon from "../assets/unlocked.svg?react";
+import { modesMap, themesMap, type Mode, type Theme } from "../constants/themeOptions";
 import db from "../dbInstance";
 import { useAppStore } from "../functions/hooks";
 import styles from "../styles/DashboardMenu.module.css";
@@ -22,6 +23,10 @@ type DashboardMenuProps = {
   setIsLocked: React.Dispatch<React.SetStateAction<boolean>>;
   columns: number;
   updateColsStatus: (cols: number) => void;
+  mode: string;
+  setMode: React.Dispatch<React.SetStateAction<string>>;
+  theme: string;
+  setTheme: React.Dispatch<React.SetStateAction<string>>;
   deleteADashboard: (dashName: string) => Promise<void>;
   createADashboard: (
     template: "duplicate",
@@ -38,6 +43,10 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
     setIsLocked,
     columns,
     updateColsStatus,
+    mode,
+    setMode,
+    theme,
+    setTheme,
     deleteADashboard,
     createADashboard,
     standalone,
@@ -168,6 +177,7 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
             sideOffset={5}
             collisionPadding={15}
           >
+            {/* Lock / Unlock */}
             <DropdownMenu.Item
               className={styles.Item}
               onSelect={() => setIsLocked((prev) => !prev)}
@@ -178,6 +188,7 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               {isLocked ? "Unlock Dashboard" : "Lock Dashboard"}
             </DropdownMenu.Item>
 
+            {/* Toggle Columns */}
             <DropdownMenu.Item
               className={styles.Item}
               onSelect={() => setColumnDialogOpen(true)}
@@ -188,8 +199,7 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               Toggle Columns
             </DropdownMenu.Item>
 
-            <DropdownMenu.Separator className={styles.Separator} />
-
+            {/* Download */}
             <DropdownMenu.Item
               className={styles.Item}
               onSelect={() => downloadDashboard()}
@@ -200,6 +210,7 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               Download
             </DropdownMenu.Item>
 
+            {/* Duplicate */}
             <DropdownMenu.Item
               className={styles.Item}
               onSelect={() => setDuplicateDialogOpen(true)}
@@ -210,6 +221,7 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               Duplicate
             </DropdownMenu.Item>
 
+            {/* Share */}
             {role === "GM" && standalone === false && (
               <DropdownMenu.Item
                 className={styles.Item}
@@ -222,8 +234,7 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               </DropdownMenu.Item>
             )}
 
-            <DropdownMenu.Separator className={styles.Separator} />
-
+            {/* Delete */}
             <DropdownMenu.Item
               className={styles.Item}
               onSelect={() => setDeleteDialogOpen(true)}
@@ -234,6 +245,53 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               Delete Dashboard
             </DropdownMenu.Item>
 
+            <DropdownMenu.Separator className={styles.Separator} />
+
+            {/* Mode */}
+            <DropdownMenu.Label className={styles.Label}>
+              Mode - {modesMap[mode as Mode] ?? mode}
+            </DropdownMenu.Label>
+            <DropdownMenu.RadioGroup
+              value={mode}
+              onValueChange={(value) => setMode(value)}
+            >
+              {Object.entries(modesMap).map(([key, value]) => (
+                <DropdownMenu.RadioItem
+                  className={styles.RadioItem}
+                  value={key}
+                  key={key}
+                >
+                  <DropdownMenu.ItemIndicator className={styles.ItemIndicator}>
+                    <DotFilledIcon />
+                  </DropdownMenu.ItemIndicator>
+                  {value}
+                </DropdownMenu.RadioItem>
+              ))}
+            </DropdownMenu.RadioGroup>
+            <DropdownMenu.Separator className={styles.Separator} />
+
+            {/* Theme */}
+            <DropdownMenu.Label className={styles.Label}>
+              Theme - {themesMap[theme as Theme] ?? theme}
+            </DropdownMenu.Label>
+            <DropdownMenu.RadioGroup
+              className={styles.RadioGroup}
+              value={theme}
+              onValueChange={(value) => setTheme(value)}
+            >
+              {Object.entries(themesMap).map(([key, value]) => (
+                <DropdownMenu.RadioItem
+                  className={styles.RadioItem}
+                  value={key}
+                  key={key}
+                >
+                  <DropdownMenu.ItemIndicator className={styles.ItemIndicator}>
+                    <DotFilledIcon />
+                  </DropdownMenu.ItemIndicator>
+                  {value}
+                </DropdownMenu.RadioItem>
+              ))}
+            </DropdownMenu.RadioGroup>
             <DropdownMenu.Arrow className={styles.Arrow} width={10} height={10} />
           </DropdownMenu.Content>
         </DropdownMenu.Portal>

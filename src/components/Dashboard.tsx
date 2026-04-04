@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
@@ -15,12 +15,47 @@ const Dashboard = memo((props: DashboardProps) => {
   const [isLocked, setIsLocked] = useState(false);
   const [columns, setColumns] = useState(8);
 
+  const globalMode = useRef(
+    document.documentElement.getAttribute("data-mode") || "dark",
+  );
+  const globalTheme = useRef(
+    document.documentElement.getAttribute("data-theme") || "default",
+  );
+
+  const [mode, setMode] = useState(globalMode.current);
+  const [theme, setTheme] = useState(globalTheme.current);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-mode", mode);
+  }, [mode]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    const savedGlobalMode = globalMode.current;
+    const savedGlobalTheme = globalTheme.current;
+    return () => {
+      document.documentElement.setAttribute("data-mode", savedGlobalMode);
+      document.documentElement.setAttribute("data-theme", savedGlobalTheme);
+    };
+  }, []);
+
   const updateLockedStatus = useCallback((isLockedStatus: boolean) => {
     setIsLocked(isLockedStatus);
   }, []);
 
   const updateColsStatus = useCallback((cols: number) => {
     setColumns(cols);
+  }, []);
+
+  const updateMode = useCallback((newMode: string) => {
+    setMode(newMode);
+  }, []);
+
+  const updateTheme = useCallback((newTheme: string) => {
+    setTheme(newTheme);
   }, []);
 
   return (
@@ -78,6 +113,10 @@ const Dashboard = memo((props: DashboardProps) => {
             setIsLocked={setIsLocked}
             columns={columns}
             updateColsStatus={updateColsStatus}
+            mode={mode}
+            setMode={setMode}
+            theme={theme}
+            setTheme={setTheme}
             deleteADashboard={deleteADashboard}
             createADashboard={createADashboard}
             standalone={standalone}
@@ -91,8 +130,12 @@ const Dashboard = memo((props: DashboardProps) => {
       <SyncingGrid
         isLocked={isLocked}
         columns={columns}
+        mode={mode}
+        theme={theme}
         updateLockedStatus={updateLockedStatus}
         updateColsStatus={updateColsStatus}
+        updateMode={updateMode}
+        updateTheme={updateTheme}
         dashName={selectedDashboard}
       />
     </div>

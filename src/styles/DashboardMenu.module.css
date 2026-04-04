@@ -85,6 +85,52 @@
   }
 }
 
+.Label {
+  padding-left: 25px;
+  font-size: 12px;
+  line-height: 25px;
+  color: var(--dice-display-border);
+}
+
+.RadioItem {
+  font-size: 13px;
+  line-height: 1;
+  color: var(--text);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding: 0 5px;
+  position: relative;
+  padding-left: 25px;
+  user-select: none;
+  outline: none;
+  cursor: pointer;
+  &[data-disabled] {
+    color: var(--icon-disabled);
+    pointer-events: none;
+  }
+  &[data-highlighted] {
+    background-color: var(--border-hover);
+    color: var(--text-alt);
+  }
+}
+
+.ItemIndicator {
+  position: absolute;
+  left: 0;
+  width: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.RadioGroup {
+  height: 7rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
 .LeftSlot {
   position: absolute;
   left: 5px;

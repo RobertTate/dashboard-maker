@@ -18,6 +18,12 @@ const schema = {
     columns: {
       type: "number",
     },
+    mode: {
+      type: "string",
+    },
+    theme: {
+      type: "string",
+    },
   },
   required: ["layouts", "widgets", "isLocked"],
   additionalProperties: false,
