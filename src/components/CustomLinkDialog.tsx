@@ -75,6 +75,7 @@ function LinkEditForm({ url, title, onSubmit, onCancel }: LinkEditFormProps) {
           id="link-url"
           className={styles.textInput}
           size={40}
+          autoFocus
           {...register("url")}
         />
       </div>

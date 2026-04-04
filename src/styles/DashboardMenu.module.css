@@ -78,10 +78,6 @@
     background-color: var(--button-hover);
     color: var(--icon-alt);
   }
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--icon);
-  }
 }
 
 .LeftSlot {

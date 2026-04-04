@@ -193,7 +193,7 @@ button:active {
 /* Shifting the location of the link dialog when it's open */
 .mdxeditor-popup-container
   > div:has(div[class^="_linkDialogPopoverContent"]):has(form) {
-  top: 60vh !important;
+  top: 63vh !important;
   left: 8px !important;
   transform: none !important;
 }
