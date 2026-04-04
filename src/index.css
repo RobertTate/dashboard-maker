@@ -35,6 +35,10 @@ html {
   scrollbar-width: none;
 }
 
+body {
+  margin-top: 0;
+}
+
 input,
 button,
 h1,
@@ -189,7 +193,7 @@ button:active {
 /* Shifting the location of the link dialog when it's open */
 .mdxeditor-popup-container
   > div:has(div[class^="_linkDialogPopoverContent"]):has(form) {
-  top: 60vh !important;
+  top: 63vh !important;
   left: 8px !important;
   transform: none !important;
 }
@@ -760,5 +764,5 @@ button:active {
 
 html body[data-scroll-locked] {
   padding: 0;
-  margin: revert !important;
+  margin: 0 8px 8px 8px !important;
 }

@@ -28,22 +28,24 @@ const ColumnToggle = memo(
     };
 
     return (
-      <label
-        title="Toggle the number of base columns between 8 (default) and 12."
-        className={styles["columnToggle-label"]}
-      >
-        <input
-          ref={inputRef}
-          className={styles["columnToggle-checkbox"]}
-          type="checkbox"
-          onChange={handleToggle}
-        />
-        <span
-          data-before={`${columns ? columns : 8}`}
-          ref={sliderRef}
-          className={styles["columnToggle-slider"]}
-        ></span>
-      </label>
+      <div className={styles["columnToggle-container"]}>
+        <label
+          title="Toggle the number of base columns between 8 (default) and 12."
+          className={styles["columnToggle-label"]}
+        >
+          <input
+            ref={inputRef}
+            className={styles["columnToggle-checkbox"]}
+            type="checkbox"
+            onChange={handleToggle}
+          />
+          <span
+            data-before={`${columns ? columns : 8}`}
+            ref={sliderRef}
+            className={styles["columnToggle-slider"]}
+          ></span>
+        </label>
+      </div>
     );
   },
 );

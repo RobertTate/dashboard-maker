@@ -32,8 +32,12 @@ const SyncingGrid = memo(
     dashName,
     isLocked,
     columns,
+    mode,
+    theme,
     updateLockedStatus,
     updateColsStatus,
+    updateMode,
+    updateTheme,
   }: SyncingGridProps) => {
     const ResponsiveReactGridLayout = useMemo(
       () => WidthProvider(Responsive),
@@ -56,6 +60,8 @@ const SyncingGrid = memo(
         const savedWidgets = dashboardItems?.widgets;
         const savedLockStatus = dashboardItems?.isLocked;
         const savedColumns = dashboardItems?.columns;
+        const savedMode = dashboardItems?.mode;
+        const savedTheme = dashboardItems?.theme;
         startTransition(() => {
           if (savedLayouts) {
             setLayouts((prevLayouts) => {
@@ -84,10 +90,18 @@ const SyncingGrid = memo(
           if (savedColumns) {
             updateColsStatus(savedColumns);
           }
+
+          if (savedMode) {
+            updateMode(savedMode);
+          }
+
+          if (savedTheme) {
+            updateTheme(savedTheme);
+          }
         });
       };
       getSavedItems();
-    }, [dashName, updateColsStatus, updateLockedStatus]);
+    }, [dashName, updateColsStatus, updateLockedStatus, updateMode, updateTheme]);
 
     useEffect(() => {
       const updateLayouts = async () => {
@@ -97,12 +111,14 @@ const SyncingGrid = memo(
             widgets: widgets,
             isLocked,
             columns,
+            mode,
+            theme,
           };
           await db.setItem(dashName, newdashboardItems);
         }
       };
       updateLayouts();
-    }, [syncStorage, isLocked, columns, dashName, layouts, widgets]);
+    }, [syncStorage, isLocked, columns, mode, theme, dashName, layouts, widgets]);
 
     const onLayoutChange = useCallback(
       (

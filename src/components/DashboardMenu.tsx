@@ -1,0 +1,448 @@
+import { Cross2Icon, DotFilledIcon, GearIcon } from "@radix-ui/react-icons";
+import OBR, { Player } from "@owlbear-rodeo/sdk";
+import pako from "pako";
+import { memo, useRef, useState } from "react";
+import { Dialog, DropdownMenu } from "radix-ui";
+
+import DownloadIcon from "../assets/download.svg?react";
+import DuplicateIcon from "../assets/duplicate.svg?react";
+import FireIcon from "../assets/fire.svg?react";
+import LockedIcon from "../assets/locked.svg?react";
+import ShareIcon from "../assets/share.svg?react";
+import ToggleIcon from "../assets/toggle.svg?react";
+import UnlockedIcon from "../assets/unlocked.svg?react";
+import { modesMap, themesMap, type Mode, type Theme } from "../constants/themeOptions";
+import db from "../dbInstance";
+import { useAppStore } from "../functions/hooks";
+import styles from "../styles/DashboardMenu.module.css";
+import type { DashboardItemsProps, Role, SharedDashboard } from "../types";
+import ColumnToggle from "./ColumnToggle";
+
+type DashboardMenuProps = {
+  isLocked: boolean;
+  setIsLocked: React.Dispatch<React.SetStateAction<boolean>>;
+  columns: number;
+  updateColsStatus: (cols: number) => void;
+  mode: string;
+  setMode: React.Dispatch<React.SetStateAction<string>>;
+  theme: string;
+  setTheme: React.Dispatch<React.SetStateAction<string>>;
+  deleteADashboard: (dashName: string) => Promise<void>;
+  createADashboard: (
+    template: "duplicate",
+    duplicateDashInputRef: React.RefObject<HTMLInputElement>,
+    contentToDuplicate: DashboardItemsProps,
+  ) => Promise<boolean>;
+  standalone: boolean;
+  role: Role;
+};
+
+const DashboardMenu = memo((props: DashboardMenuProps) => {
+  const {
+    isLocked,
+    setIsLocked,
+    columns,
+    updateColsStatus,
+    mode,
+    setMode,
+    theme,
+    setTheme,
+    deleteADashboard,
+    createADashboard,
+    standalone,
+    role,
+  } = props;
+
+  const { selectedDashboard } = useAppStore();
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [duplicateDialogOpen, setDuplicateDialogOpen] = useState(false);
+  const [columnDialogOpen, setColumnDialogOpen] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [partyPlayers, setPartyPlayers] = useState<Player[]>([]);
+  const [shareTarget, setShareTarget] = useState("ALL");
+  const deleteInputRef = useRef<HTMLInputElement>(null);
+  const duplicateInputRef = useRef<HTMLInputElement>(null);
+
+  const handleDelete = () => {
+    if (deleteInputRef.current?.value === "DELETE") {
+      deleteADashboard(selectedDashboard);
+      setDeleteDialogOpen(false);
+    } else {
+      deleteInputRef!.current!.setCustomValidity(
+        "Only typing DELETE in all uppercase letters will trigger a dashboard deletion.",
+      );
+      deleteInputRef!.current!.reportValidity();
+    }
+  };
+
+  const handleDeleteOnEnter: React.KeyboardEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleDelete();
+    }
+  };
+
+  const handleDuplicate = async () => {
+    const currentDashboard: DashboardItemsProps | null =
+      await db.getItem(selectedDashboard);
+    if (currentDashboard) {
+      const isDuplicateSuccessful = await createADashboard("duplicate", duplicateInputRef, currentDashboard);
+      if (isDuplicateSuccessful) {
+        setDuplicateDialogOpen(false);
+      }
+    } else {
+      duplicateInputRef!.current!.setCustomValidity(
+        "Something Went Wrong. Good lord.",
+      );
+      duplicateInputRef!.current!.reportValidity();
+    }
+  };
+
+  const handleShare = async () => {
+    const currentDashboard: DashboardItemsProps | null =
+      await db.getItem(selectedDashboard);
+    if (currentDashboard) {
+      try {
+        const sharedDashboard: SharedDashboard = {
+          sharedDashboardTitle: selectedDashboard,
+          sharedDashboardContent: currentDashboard,
+          target: shareTarget,
+        };
+        const stringified = JSON.stringify(sharedDashboard);
+        const compressedUint8Array = pako.gzip(stringified);
+        const compressedUint8ArrayString = String.fromCharCode(
+          ...compressedUint8Array,
+        );
+        const b64EncodedCompressedUint8ArrayString = btoa(
+          compressedUint8ArrayString,
+        );
+        await OBR.broadcast.sendMessage(
+          "com.roberttate.dashboard-maker",
+          b64EncodedCompressedUint8ArrayString,
+        );
+        const targetName =
+          shareTarget === "ALL"
+            ? "all players"
+            : partyPlayers.find((p) => p.connectionId === shareTarget)?.name ??
+            "player";
+        await OBR.notification.show(
+          `Dashboard shared with ${targetName}!`,
+          "SUCCESS",
+        );
+      } catch (e) {
+        await OBR.notification.show(`Dashboard Sharing Failed`, "ERROR");
+      } finally {
+        setShareDialogOpen(false);
+        setShareTarget("ALL");
+      }
+    }
+  };
+
+  const downloadDashboard = async () => {
+    const currentDashboard: DashboardItemsProps | null =
+      await db.getItem(selectedDashboard);
+    if (currentDashboard) {
+      const jsonString = JSON.stringify(currentDashboard);
+      const blob = new Blob([jsonString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${selectedDashboard}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  };
+
+  return (
+    <>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild>
+          <button
+            className={styles.IconButton}
+            aria-label="Dashboard options"
+            title="Options"
+          >
+            <GearIcon style={{ width: "20px", height: "20px" }} />
+          </button>
+        </DropdownMenu.Trigger>
+
+        <DropdownMenu.Portal>
+          <DropdownMenu.Content
+            className={styles.Content}
+            sideOffset={5}
+            collisionPadding={15}
+          >
+            {/* Lock / Unlock */}
+            <DropdownMenu.Item
+              className={styles.Item}
+              onSelect={() => setIsLocked((prev) => !prev)}
+            >
+              <span className={styles.LeftSlot}>
+                {isLocked ? <LockedIcon /> : <UnlockedIcon />}
+              </span>
+              {isLocked ? "Unlock Dashboard" : "Lock Dashboard"}
+            </DropdownMenu.Item>
+
+            {/* Toggle Columns */}
+            <DropdownMenu.Item
+              className={styles.Item}
+              onSelect={() => setColumnDialogOpen(true)}
+            >
+              <span className={styles.LeftSlot}>
+                <ToggleIcon />
+              </span>
+              Toggle Columns
+            </DropdownMenu.Item>
+
+            {/* Download */}
+            <DropdownMenu.Item
+              className={styles.Item}
+              onSelect={() => downloadDashboard()}
+            >
+              <span className={styles.LeftSlot}>
+                <DownloadIcon />
+              </span>
+              Download
+            </DropdownMenu.Item>
+
+            {/* Duplicate */}
+            <DropdownMenu.Item
+              className={styles.Item}
+              onSelect={() => setDuplicateDialogOpen(true)}
+            >
+              <span className={styles.LeftSlot}>
+                <DuplicateIcon />
+              </span>
+              Duplicate
+            </DropdownMenu.Item>
+
+            {/* Share */}
+            {role === "GM" && standalone === false && (
+              <DropdownMenu.Item
+                className={styles.Item}
+                onSelect={() => setShareDialogOpen(true)}
+              >
+                <span className={styles.LeftSlot}>
+                  <ShareIcon />
+                </span>
+                Share with Players
+              </DropdownMenu.Item>
+            )}
+
+            {/* Delete */}
+            <DropdownMenu.Item
+              className={styles.Item}
+              onSelect={() => setDeleteDialogOpen(true)}
+            >
+              <span className={styles.LeftSlot}>
+                <FireIcon style={{ fill: "var(--fire)" }} />
+              </span>
+              Delete Dashboard
+            </DropdownMenu.Item>
+
+            <DropdownMenu.Separator className={styles.Separator} />
+
+            {/* Mode */}
+            <DropdownMenu.Label className={styles.Label}>
+              Mode - {modesMap[mode as Mode] ?? mode}
+            </DropdownMenu.Label>
+            <DropdownMenu.RadioGroup
+              value={mode}
+              onValueChange={(value) => setMode(value)}
+            >
+              {Object.entries(modesMap).map(([key, value]) => (
+                <DropdownMenu.RadioItem
+                  className={styles.RadioItem}
+                  value={key}
+                  key={key}
+                >
+                  <DropdownMenu.ItemIndicator className={styles.ItemIndicator}>
+                    <DotFilledIcon />
+                  </DropdownMenu.ItemIndicator>
+                  {value}
+                </DropdownMenu.RadioItem>
+              ))}
+            </DropdownMenu.RadioGroup>
+            <DropdownMenu.Separator className={styles.Separator} />
+
+            {/* Theme */}
+            <DropdownMenu.Label className={styles.Label}>
+              Theme - {themesMap[theme as Theme] ?? theme}
+            </DropdownMenu.Label>
+            <DropdownMenu.RadioGroup
+              className={styles.RadioGroup}
+              value={theme}
+              onValueChange={(value) => setTheme(value)}
+            >
+              {Object.entries(themesMap).map(([key, value]) => (
+                <DropdownMenu.RadioItem
+                  className={styles.RadioItem}
+                  value={key}
+                  key={key}
+                >
+                  <DropdownMenu.ItemIndicator className={styles.ItemIndicator}>
+                    <DotFilledIcon />
+                  </DropdownMenu.ItemIndicator>
+                  {value}
+                </DropdownMenu.RadioItem>
+              ))}
+            </DropdownMenu.RadioGroup>
+            <DropdownMenu.Arrow className={styles.Arrow} width={10} height={10} />
+          </DropdownMenu.Content>
+        </DropdownMenu.Portal>
+      </DropdownMenu.Root>
+
+      {/* Delete Dialog */}
+      <Dialog.Root open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className={styles.DialogOverlay} />
+          <Dialog.Content className={styles.DialogContent}>
+            <Dialog.Title className={styles.DialogTitle}>
+              Delete Dashboard
+            </Dialog.Title>
+            <Dialog.Description className={styles.DialogDescription}>
+              Type "DELETE" to delete this dashboard permanently.
+            </Dialog.Description>
+            <input
+              ref={deleteInputRef}
+              className={styles.DialogInput}
+              type="text"
+              name="dashboardDeleteField"
+              required
+              onKeyDown={handleDeleteOnEnter}
+            />
+            <div className={styles.DialogActions}>
+              <button onClick={handleDelete}>Delete</button>
+              <Dialog.Close asChild>
+                <button>Cancel</button>
+              </Dialog.Close>
+            </div>
+            <Dialog.Close asChild>
+              <button className={styles.DialogClose} aria-label="Close">
+                <Cross2Icon />
+              </button>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+
+      {/* Duplicate Dialog */}
+      <Dialog.Root open={duplicateDialogOpen} onOpenChange={setDuplicateDialogOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className={styles.DialogOverlay} />
+          <Dialog.Content className={styles.DialogContent}>
+            <Dialog.Title className={styles.DialogTitle}>
+              Duplicate Dashboard
+            </Dialog.Title>
+            <Dialog.Description className={styles.DialogDescription}>
+              Clone this dashboard by typing in a new name for the duplicate.
+            </Dialog.Description>
+            <input
+              ref={duplicateInputRef}
+              className={styles.DialogInput}
+              type="text"
+              name="dashboardDuplicateField"
+              required
+            />
+            <div className={styles.DialogActions}>
+              <button onClick={handleDuplicate}>Duplicate</button>
+              <Dialog.Close asChild>
+                <button>Cancel</button>
+              </Dialog.Close>
+            </div>
+            <Dialog.Close asChild>
+              <button className={styles.DialogClose} aria-label="Close">
+                <Cross2Icon />
+              </button>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+
+      {/* Column Toggle Dialog */}
+      <Dialog.Root open={columnDialogOpen} onOpenChange={setColumnDialogOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className={styles.DialogOverlay} />
+          <Dialog.Content className={styles.DialogContent}>
+            <Dialog.Title className={styles.DialogTitle}>
+              Column Toggler
+            </Dialog.Title>
+            <Dialog.Description className={styles.DialogDescription}>
+              <strong>Behold, the column toggler.</strong> Use it to change the base number of columns in the dashboard between 8 and
+              12. Use wisely.
+            </Dialog.Description>
+            <ColumnToggle columns={columns} updateColsStatus={updateColsStatus} />
+            <div className={styles.DialogActions}>
+              <Dialog.Close asChild>
+                <button>Done</button>
+              </Dialog.Close>
+            </div>
+            <Dialog.Close asChild>
+              <button className={styles.DialogClose} aria-label="Close">
+                <Cross2Icon />
+              </button>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+
+      {/* Share Dialog */}
+      <Dialog.Root
+        open={shareDialogOpen}
+        onOpenChange={(open) => {
+          setShareDialogOpen(open);
+          if (!open) setShareTarget("ALL");
+        }}
+      >
+        <Dialog.Portal>
+          <Dialog.Overlay className={styles.DialogOverlay} />
+          <Dialog.Content className={styles.DialogContent}>
+            <Dialog.Title className={styles.DialogTitle}>
+              Share Dashboard
+            </Dialog.Title>
+            <Dialog.Description className={styles.DialogDescription}>
+              Share this dashboard in its current state. This will overwrite any
+              dashboard the recipient has with the same name,{" "}
+              <strong>so be careful.</strong>
+            </Dialog.Description>
+            <select
+              className={styles.DialogSelect}
+              value={shareTarget}
+              onChange={(e) => setShareTarget(e.target.value)}
+              onFocus={() => OBR.party.getPlayers().then(setPartyPlayers)}
+            >
+              <option value="ALL">All Players</option>
+              {partyPlayers
+                .filter((p) => p.role === "PLAYER")
+                .map((p) => (
+                  <option key={p.connectionId} value={p.connectionId}>
+                    {p.name}
+                  </option>
+                ))}
+            </select>
+            <div className={styles.DialogActions}>
+              <button onClick={handleShare}>Share</button>
+              <Dialog.Close asChild>
+                <button>Cancel</button>
+              </Dialog.Close>
+            </div>
+            <Dialog.Close asChild>
+              <button className={styles.DialogClose} aria-label="Close">
+                <Cross2Icon />
+              </button>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+    </>
+  );
+});
+
+DashboardMenu.displayName = "DashboardMenu";
+
+export default DashboardMenu;

@@ -2,45 +2,9 @@ import { DotFilledIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { DropdownMenu } from "radix-ui";
 import { useEffect, useState } from "react";
 
+import { modesMap, themesMap, type Mode, type Theme } from "../constants/themeOptions";
 import db from "../dbInstance";
 import styles from "../styles/InfoMenu.module.css";
-
-const modesMap = {
-  dark: "Dark",
-  light: "Light",
-};
-
-const themesMap = {
-  default: "Default",
-  avocado: "Avocado",
-  sapphire: "Sapphire",
-  rose: "Rose",
-  ember: "Ember",
-  forest: "Forest",
-  sunset: "Sunset",
-  aurora: "Aurora",
-  oceanfloor: "Ocean Floor",
-  desertdusk: "Desert Dusk",
-  glacier: "Glacier",
-  emberglow: "Ember Glow",
-  steel: "Steel",
-  royal: "Royal",
-  coralteal: "Coral Teal",
-  goldviolet: "Gold Violet",
-  skynight: "Sky Night",
-  mosswine: "Moss Wine",
-  sandsea: "Sand Sea",
-  berrycitrus: "Berry Citrus",
-  icefire: "Ice Fire",
-  orchidjade: "Orchid Jade",
-  sunforest: "Sun Forest",
-  stormrose: "Storm Rose",
-  charcoal: "Charcoal",
-  jade: "Jade",
-};
-
-type Theme = keyof typeof themesMap;
-type Mode = keyof typeof modesMap;
 
 export const InfoMenu = () => {
   const [theme, setTheme] = useState<Theme>("default");
@@ -81,6 +45,7 @@ export const InfoMenu = () => {
           }}
           className={styles.IconButton}
           aria-label="Customise options"
+          title="Options"
         >
           <HamburgerMenuIcon />
         </button>

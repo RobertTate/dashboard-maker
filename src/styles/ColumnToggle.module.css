@@ -1,3 +1,11 @@
+.columnToggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 1rem;
+}
+
 .columnToggle-label {
   display: inline-block;
   position: relative;
@@ -17,6 +25,7 @@
   inset: 0;
   transition: 0.4s;
   border-radius: 34px;
+  border: 1px solid var(--text);
   background-color: var(--button-active);
   cursor: pointer;
 }

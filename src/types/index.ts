@@ -9,7 +9,7 @@ export type DashboardProps = {
     template: NewDashboardTemplateOptions,
     duplicateDashInputRef?: React.RefObject<HTMLInputElement>,
     contentToDuplicate?: DashboardItemsProps,
-  ) => Promise<void>;
+  ) => Promise<boolean>;
   standalone: boolean;
   role: Role;
 };
@@ -18,8 +18,12 @@ export type SyncingGridProps = {
   dashName: string;
   isLocked: boolean;
   columns: number;
+  mode: string;
+  theme: string;
   updateLockedStatus: (isLockedStatus: boolean) => void;
   updateColsStatus: (columns: number) => void;
+  updateMode: (mode: string) => void;
+  updateTheme: (theme: string) => void;
 };
 
 export type ColumnToggleProps = {
@@ -40,6 +44,8 @@ export type DashboardItemsProps = {
   widgets: WidgetProps[];
   isLocked: boolean;
   columns: number;
+  mode?: string;
+  theme?: string;
 };
 
 export type PremadeDashConfig = {
@@ -55,6 +61,7 @@ export type PopOverProps = {
 export type SharedDashboard = {
   sharedDashboardTitle: string;
   sharedDashboardContent: DashboardItemsProps;
+  target?: string;
 };
 
 export type NewDashboardTemplateOptions = "default" | "5eChar" | "duplicate";
