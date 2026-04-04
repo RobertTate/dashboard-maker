@@ -1,9 +1,12 @@
 import { useRef, useState } from "react";
 
 import AddFolderIcon from "../assets/addFolder.svg?react";
+import DownloadIcon from "../assets/download.svg?react";
 import FireIcon from "../assets/fire.svg?react";
 import {
+  buildFolderExport,
   findAllDashboardsWithinCurrentFolderStruc,
+  generateLayouts,
   getCurrentFolder,
   getSurroundings,
 } from "../functions";
@@ -55,10 +58,10 @@ export const FolderCreator = ({
       return;
     }
 
-    // Don't allow the name "Home"
-    if (newFolderName === "Home") {
+    // Don't allow reserved names
+    if (newFolderName === "Home" || newFolderName === "Premades") {
       folderInput.setCustomValidity(
-        "Sorry, can't call it \"Home\". That's a reserved keyword I'm using.",
+        `Sorry, can't call it "${newFolderName}". That's a reserved keyword I'm using.`,
       );
       folderInput.reportValidity();
       return;
@@ -111,23 +114,16 @@ export const FolderCreator = ({
           acc.push(
             <a
               title={`Click to go to ${curr}`}
-              key={curr}
+              key={`breadcrumb-${index}`}
               className={styles["folder-creator-breadcrumb-link"]}
               onClick={() => {
                 setMenuObject((prevMenuObj) => {
                   const newMenuObj = structuredClone(prevMenuObj);
-                  if (curr === "Home") {
+                  if (index === 0) {
                     newMenuObj.currentFolder = [];
                   } else {
-                    // When Selected Folder is Clicked, remove all currentFolder array entries to the right of the selected folder.
-                    const indexOfSelectedFolder =
-                      newMenuObj.currentFolder.indexOf(curr);
-                    indexOfSelectedFolder !== -1 &&
-                      (newMenuObj.currentFolder =
-                        newMenuObj.currentFolder.slice(
-                          0,
-                          indexOfSelectedFolder + 1,
-                        ));
+                    newMenuObj.currentFolder =
+                      newMenuObj.currentFolder.slice(0, index);
                   }
                   return newMenuObj;
                 });
@@ -140,7 +136,7 @@ export const FolderCreator = ({
         } else {
           acc.push(
             <span
-              key={curr}
+              key={`breadcrumb-${index}`}
               className={styles["folder-creator-breadcrumb-current"]}
             >
               {curr}
@@ -149,7 +145,7 @@ export const FolderCreator = ({
         }
 
         if (!isLast) {
-          acc.push(<span key={`${curr}-span`}> → </span>);
+          acc.push(<span key={`breadcrumb-${index}-sep`}> → </span>);
         }
 
         return acc;
@@ -158,6 +154,29 @@ export const FolderCreator = ({
     );
 
     return breadcrumb;
+  };
+
+  const handleDownloadFolder = async () => {
+    const currentInd = menuObject.currentFolder;
+    if (currentInd.length === 0) return;
+
+    const folderName = currentInd[currentInd.length - 1];
+    const currentFolder = getCurrentFolder(menuObject);
+
+    const folderExport = await buildFolderExport(
+      folderName,
+      currentFolder as Folder,
+    );
+    const jsonString = JSON.stringify(folderExport);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${folderName}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   const handleDeleteFolder = () => {
@@ -186,6 +205,17 @@ export const FolderCreator = ({
 
         newMenuObj.currentFolder.pop();
 
+        // Regenerate layouts so moved-up dashboards are interactive
+        const goUpButton =
+          newMenuObj.currentFolder.length !== 0
+            ? ["MoveDashUpButton"]
+            : [];
+        parentFolder.layouts = generateLayouts([
+          ...goUpButton,
+          ...Object.keys(parentFolder.folders || {}),
+          ...(parentFolder.dashboards || []),
+        ]);
+
         return newMenuObj;
       });
 
@@ -209,6 +239,8 @@ export const FolderCreator = ({
 
   if (menuObject) {
     const isInsideAFolder = menuObject.currentFolder.length !== 0;
+    const isInsidePremades =
+      menuObject.currentFolder.includes("Premades");
 
     return (
       <>
@@ -243,19 +275,34 @@ export const FolderCreator = ({
               <div className={styles["folder-creator-breadcrumb"]}>
                 {generateFolderBreadCrumb()}
               </div>
-              <button
-                className={styles["folder-creator-delete-folder"]}
-                title="Delete this folder."
-                onClick={() => setDeleteZoneIsOpen((prev) => !prev)}
-              >
-                {/* <img alt="Delete Icon" src={fire}></img> */}
-                <FireIcon
-                  className="icon-svg-fire"
-                  style={{
-                    width: "20px",
-                  }}
-                />
-              </button>
+              <div style={{ display: "flex", gap: "4px" }}>
+                {!isInsidePremades && (
+                  <button
+                    className={styles["folder-creator-download-folder"]}
+                    title="Download this folder."
+                    onClick={handleDownloadFolder}
+                  >
+                    <DownloadIcon
+                      className="icon-svg-download"
+                      style={{
+                        width: "20px",
+                      }}
+                    />
+                  </button>
+                )}
+                <button
+                  className={styles["folder-creator-delete-folder"]}
+                  title="Delete this folder."
+                  onClick={() => setDeleteZoneIsOpen((prev) => !prev)}
+                >
+                  <FireIcon
+                    className="icon-svg-fire"
+                    style={{
+                      width: "20px",
+                    }}
+                  />
+                </button>
+              </div>
             </div>
             <div
               className={`${styles["folder-delete-zone"]} ${
