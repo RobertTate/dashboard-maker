@@ -49,6 +49,10 @@
   font-weight: 900;
 }
 
+.folder-creator-download-folder {
+  padding: 0.5rem;
+}
+
 .folder-creator-delete-folder {
   padding: 0.5rem;
   margin-right: 0;

@@ -4,7 +4,12 @@ import DashboardIcon from "../assets/dashboard.svg?react";
 import RefreshIcon from "../assets/refresh.svg?react";
 import UploadIcon from "../assets/upload.svg?react";
 import db from "../dbInstance";
-import { getCurrentFolder, validateUpload } from "../functions";
+import {
+  getCurrentFolder,
+  importFolderExport,
+  validateFolderUpload,
+  validateUpload,
+} from "../functions";
 import {
   useAppStore,
   useInitDashboards,
@@ -15,6 +20,7 @@ import {
 import styles from "../styles/PopOver.module.css";
 import type {
   DashboardItemsProps,
+  FolderExport,
   MenuObject,
   NewDashboardTemplateOptions,
   PopOverProps,
@@ -159,23 +165,75 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
-      const dashboardName = file.name.replace(".json", "");
-      if (dashBoardsArray.includes(dashboardName)) {
-        uploadRef!.current!.setCustomValidity("");
-        uploadRef!.current!.setCustomValidity(
-          "The Dashboard Name Must Be Unique. Rename the file!",
-        );
-        uploadRef!.current!.reportValidity();
-        event.target.value = "";
-      } else {
-        uploadRef!.current!.setCustomValidity("");
-        const reader = new FileReader();
-        reader.onload = async (e) => {
-          const text = e.target && e.target.result;
-          try {
-            const uploadedDashboard: DashboardItemsProps = JSON.parse(
-              text as string,
+      uploadRef!.current!.setCustomValidity("");
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const text = e.target && e.target.result;
+        try {
+          const parsed = JSON.parse(text as string);
+
+          if (parsed?.type === "folder-export") {
+            // Folder import path
+            const isValidFolder = validateFolderUpload(parsed);
+            if (!isValidFolder) {
+              uploadRef!.current!.setCustomValidity("Invalid Folder File!");
+              uploadRef!.current!.reportValidity();
+              event.target.value = "";
+              return;
+            }
+
+            // Validate each dashboard inside the folder export
+            const folderExport = parsed as FolderExport;
+            for (const dashData of Object.values(folderExport.dashboards)) {
+              if (!validateUpload(dashData)) {
+                uploadRef!.current!.setCustomValidity(
+                  "Folder contains invalid dashboard data!",
+                );
+                uploadRef!.current!.reportValidity();
+                event.target.value = "";
+                return;
+              }
+            }
+
+            const currentFolder = getCurrentFolder(menuObject);
+            const existingFolderNames = Object.keys(
+              currentFolder.folders ?? {},
             );
+
+            const { folderName, folder, newDashNames } =
+              await importFolderExport(
+                folderExport,
+                dashBoardsArray,
+                existingFolderNames,
+              );
+
+            for (const name of newDashNames) {
+              updateDashboardsState(name, "add");
+            }
+
+            setMenuObject((prevMenuObj) => {
+              const newMenuObj: MenuObject = structuredClone(prevMenuObj);
+              const current = getCurrentFolder(newMenuObj);
+              if (!current.folders) {
+                current.folders = {};
+              }
+              current.folders[folderName] = folder;
+              return newMenuObj;
+            });
+            setSyncStorage((prev) => prev + 1);
+          } else {
+            // Single dashboard import path
+            const dashboardName = file.name.replace(".json", "");
+            if (dashBoardsArray.includes(dashboardName)) {
+              uploadRef!.current!.setCustomValidity(
+                "The Dashboard Name Must Be Unique. Rename the file!",
+              );
+              uploadRef!.current!.reportValidity();
+              event.target.value = "";
+              return;
+            }
+
+            const uploadedDashboard: DashboardItemsProps = parsed;
             const isValidDashboard = validateUpload(uploadedDashboard);
             if (isValidDashboard) {
               await db.setItem(dashboardName, uploadedDashboard);
@@ -193,27 +251,24 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 return newMenuObj;
               });
             } else {
-              uploadRef!.current!.setCustomValidity("");
               uploadRef!.current!.setCustomValidity("Invalid Dashboard File!");
             }
-          } catch (e) {
-            console.error("Error parsing JSON:", e);
-            uploadRef!.current!.setCustomValidity("");
-            uploadRef!.current!.setCustomValidity("Error Reading the file.");
-          } finally {
-            uploadRef!.current!.reportValidity();
-            event.target.value = "";
           }
-        };
-        reader.onerror = () => {
-          // To debug, check for reader.error
-          uploadRef!.current!.setCustomValidity("");
-          uploadRef!.current!.setCustomValidity("Error Uploading the file.");
+        } catch (e) {
+          console.error("Error parsing JSON:", e);
+          uploadRef!.current!.setCustomValidity("Error Reading the file.");
+        } finally {
           uploadRef!.current!.reportValidity();
           event.target.value = "";
-        };
-        reader.readAsText(file);
-      }
+        }
+      };
+      reader.onerror = () => {
+        uploadRef!.current!.setCustomValidity("");
+        uploadRef!.current!.setCustomValidity("Error Uploading the file.");
+        uploadRef!.current!.reportValidity();
+        event.target.value = "";
+      };
+      reader.readAsText(file);
     }
   };
 
@@ -270,7 +325,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
               <button
                 className="icon-button"
                 id="upload-button"
-                title="Upload a Dashboard."
+                title="Upload a Dashboard or Folder."
                 onClick={() => handleUploadClick()}
               >
                 <UploadIcon

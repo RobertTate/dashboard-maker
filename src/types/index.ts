@@ -112,3 +112,12 @@ export type AppContextProps = {
 export type AppProviderProps = {
   children: ReactElement | ReactElement[];
 };
+
+export type FolderExport = {
+  type: "folder-export";
+  name: string;
+  folderStructure: Folder;
+  dashboards: {
+    [dashName: string]: DashboardItemsProps;
+  };
+};

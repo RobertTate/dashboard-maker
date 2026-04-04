@@ -30,3 +30,27 @@ const schema = {
 };
 
 export const validateUpload = ajv.compile(schema); // Compile the schema to a validation function
+
+const folderExportSchema = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  type: "object",
+  properties: {
+    type: {
+      type: "string",
+      const: "folder-export",
+    },
+    name: {
+      type: "string",
+    },
+    folderStructure: {
+      type: "object",
+    },
+    dashboards: {
+      type: "object",
+    },
+  },
+  required: ["type", "name", "folderStructure", "dashboards"],
+  additionalProperties: false,
+};
+
+export const validateFolderUpload = ajv.compile(folderExportSchema);
