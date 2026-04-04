@@ -489,6 +489,8 @@
 }
 
 [data-mode="dark"] {
+  --svg-fill: brightness(0.5);
+  --svg-fill-alt: brightness(1.25);
   --link-dialog-bg: var(--primary-11);
   --bg: var(--primary-13);
   --bg-hover: var(--primary-9);
@@ -544,6 +546,8 @@
 }
 
 [data-mode="light"] {
+  --svg-fill: brightness(1.5);
+  --svg-fill-alt: brightness(0.65);
   --link-dialog-bg: var(--primary-5);
   --bg: var(--primary-0);
   --bg-hover: var(--primary-2);

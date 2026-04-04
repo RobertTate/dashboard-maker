@@ -259,7 +259,7 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               onKeyDown={handleDeleteOnEnter}
             />
             <div className={styles.DialogActions}>
-              <button onClick={handleDelete}>Submit</button>
+              <button onClick={handleDelete}>Delete</button>
               <Dialog.Close asChild>
                 <button>Cancel</button>
               </Dialog.Close>

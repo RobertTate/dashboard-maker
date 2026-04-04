@@ -41,11 +41,16 @@
     color: var(--icon-disabled);
     pointer-events: none;
   }
+
+  & svg {
+    filter: var(--svg-fill-alt);
+  }
+
   &[data-highlighted] {
     background-color: var(--border-hover);
     color: var(--text-alt);
     & svg {
-      filter: invert();
+      filter: var(--svg-fill);
     }
   }
 }
