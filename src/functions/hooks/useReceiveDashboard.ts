@@ -37,8 +37,14 @@ export const useReceiveDashboard = (
               to: "string",
             });
             const sharedDashboard: SharedDashboard = JSON.parse(stringified);
-            const { sharedDashboardTitle, sharedDashboardContent } =
+            const { sharedDashboardTitle, sharedDashboardContent, target } =
               sharedDashboard;
+
+            if (target && target !== "ALL") {
+              const myConnectionId = await OBR.player.getConnectionId();
+              if (target !== myConnectionId) return;
+            }
+
             await db.setItem(sharedDashboardTitle, sharedDashboardContent);
             setRefreshCount((prev) => prev + 1);
             setMenuObject((prevMenuObj) => {

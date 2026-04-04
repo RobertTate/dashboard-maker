@@ -109,6 +109,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
             : "The Dashboard Name Must Be Unique.";
           inputRefInUse!.current!.setCustomValidity(inputResponse);
           inputRefInUse!.current!.reportValidity();
+          return false;
         } else {
           if (template === "5eChar") {
             const fifthEditionCharTemplate = await import(
@@ -136,12 +137,14 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
           if (duplicateDashInputRef) {
             selectADashboard("");
           }
+          return true;
         }
       } else {
         inputRefInUse!.current!.setCustomValidity(
           "The Dashboard Name Cannot Be Blank.",
         );
         inputRefInUse!.current!.reportValidity();
+        return false;
       }
     },
     [selectADashboard, updateDashboardsState],

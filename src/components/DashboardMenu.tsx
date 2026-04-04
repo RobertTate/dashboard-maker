@@ -1,7 +1,7 @@
 import { Cross2Icon, GearIcon } from "@radix-ui/react-icons";
-import OBR from "@owlbear-rodeo/sdk";
+import OBR, { Player } from "@owlbear-rodeo/sdk";
 import pako from "pako";
-import { memo, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { Dialog, DropdownMenu } from "radix-ui";
 
 import DownloadIcon from "../assets/download.svg?react";
@@ -27,7 +27,7 @@ type DashboardMenuProps = {
     template: "duplicate",
     duplicateDashInputRef: React.RefObject<HTMLInputElement>,
     contentToDuplicate: DashboardItemsProps,
-  ) => Promise<void>;
+  ) => Promise<boolean>;
   standalone: boolean;
   role: Role;
 };
@@ -50,7 +50,8 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
   const [duplicateDialogOpen, setDuplicateDialogOpen] = useState(false);
   const [columnDialogOpen, setColumnDialogOpen] = useState(false);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
-
+  const [partyPlayers, setPartyPlayers] = useState<Player[]>([]);
+  const [shareTarget, setShareTarget] = useState("ALL");
   const deleteInputRef = useRef<HTMLInputElement>(null);
   const duplicateInputRef = useRef<HTMLInputElement>(null);
 
@@ -79,8 +80,10 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
     const currentDashboard: DashboardItemsProps | null =
       await db.getItem(selectedDashboard);
     if (currentDashboard) {
-      await createADashboard("duplicate", duplicateInputRef, currentDashboard);
-      setDuplicateDialogOpen(false);
+      const isDuplicateSuccessful = await createADashboard("duplicate", duplicateInputRef, currentDashboard);
+      if (isDuplicateSuccessful) {
+        setDuplicateDialogOpen(false);
+      }
     } else {
       duplicateInputRef!.current!.setCustomValidity(
         "Something Went Wrong. Good lord.",
@@ -97,6 +100,7 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
         const sharedDashboard: SharedDashboard = {
           sharedDashboardTitle: selectedDashboard,
           sharedDashboardContent: currentDashboard,
+          target: shareTarget,
         };
         const stringified = JSON.stringify(sharedDashboard);
         const compressedUint8Array = pako.gzip(stringified);
@@ -110,11 +114,20 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
           "com.roberttate.dashboard-maker",
           b64EncodedCompressedUint8ArrayString,
         );
-        await OBR.notification.show("Dashboard Sharing Succeeded!", "SUCCESS");
+        const targetName =
+          shareTarget === "ALL"
+            ? "all players"
+            : partyPlayers.find((p) => p.connectionId === shareTarget)?.name ??
+            "player";
+        await OBR.notification.show(
+          `Dashboard shared with ${targetName}!`,
+          "SUCCESS",
+        );
       } catch (e) {
         await OBR.notification.show(`Dashboard Sharing Failed`, "ERROR");
       } finally {
         setShareDialogOpen(false);
+        setShareTarget("ALL");
       }
     }
   };
@@ -145,7 +158,7 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
             aria-label="Dashboard options"
             title="Options"
           >
-            <GearIcon style={{width: "20px", height: "20px"}} />
+            <GearIcon style={{ width: "20px", height: "20px" }} />
           </button>
         </DropdownMenu.Trigger>
 
@@ -216,7 +229,7 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               onSelect={() => setDeleteDialogOpen(true)}
             >
               <span className={styles.LeftSlot}>
-                <FireIcon style={{fill: "var(--fire)"}} />
+                <FireIcon style={{ fill: "var(--fire)" }} />
               </span>
               Delete Dashboard
             </DropdownMenu.Item>
@@ -246,10 +259,10 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               onKeyDown={handleDeleteOnEnter}
             />
             <div className={styles.DialogActions}>
+              <button onClick={handleDelete}>Submit</button>
               <Dialog.Close asChild>
                 <button>Cancel</button>
               </Dialog.Close>
-              <button onClick={handleDelete}>Submit</button>
             </div>
             <Dialog.Close asChild>
               <button className={styles.DialogClose} aria-label="Close">
@@ -279,10 +292,10 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               required
             />
             <div className={styles.DialogActions}>
+              <button onClick={handleDuplicate}>Duplicate</button>
               <Dialog.Close asChild>
                 <button>Cancel</button>
               </Dialog.Close>
-              <button onClick={handleDuplicate}>Submit</button>
             </div>
             <Dialog.Close asChild>
               <button className={styles.DialogClose} aria-label="Close">
@@ -321,7 +334,13 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
       </Dialog.Root>
 
       {/* Share Dialog */}
-      <Dialog.Root open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
+      <Dialog.Root
+        open={shareDialogOpen}
+        onOpenChange={(open) => {
+          setShareDialogOpen(open);
+          if (!open) setShareTarget("ALL");
+        }}
+      >
         <Dialog.Portal>
           <Dialog.Overlay className={styles.DialogOverlay} />
           <Dialog.Content className={styles.DialogContent}>
@@ -329,15 +348,30 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
               Share Dashboard
             </Dialog.Title>
             <Dialog.Description className={styles.DialogDescription}>
-              Do you want to share this dashboard in its current state with your
-              players? Doing so will overwrite any dashboards your players have
-              with the same name, <strong>so be careful.</strong>
+              Share this dashboard in its current state. This will overwrite any
+              dashboard the recipient has with the same name,{" "}
+              <strong>so be careful.</strong>
             </Dialog.Description>
+            <select
+              className={styles.DialogSelect}
+              value={shareTarget}
+              onChange={(e) => setShareTarget(e.target.value)}
+              onFocus={() => OBR.party.getPlayers().then(setPartyPlayers)}
+            >
+              <option value="ALL">All Players</option>
+              {partyPlayers
+                .filter((p) => p.role === "PLAYER")
+                .map((p) => (
+                  <option key={p.connectionId} value={p.connectionId}>
+                    {p.name}
+                  </option>
+                ))}
+            </select>
             <div className={styles.DialogActions}>
-              <Dialog.Close asChild>
-                <button>Don't Share</button>
-              </Dialog.Close>
               <button onClick={handleShare}>Share</button>
+              <Dialog.Close asChild>
+                <button>Cancel</button>
+              </Dialog.Close>
             </div>
             <Dialog.Close asChild>
               <button className={styles.DialogClose} aria-label="Close">

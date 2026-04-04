@@ -9,7 +9,7 @@ export type DashboardProps = {
     template: NewDashboardTemplateOptions,
     duplicateDashInputRef?: React.RefObject<HTMLInputElement>,
     contentToDuplicate?: DashboardItemsProps,
-  ) => Promise<void>;
+  ) => Promise<boolean>;
   standalone: boolean;
   role: Role;
 };
@@ -55,6 +55,7 @@ export type PopOverProps = {
 export type SharedDashboard = {
   sharedDashboardTitle: string;
   sharedDashboardContent: DashboardItemsProps;
+  target?: string;
 };
 
 export type NewDashboardTemplateOptions = "default" | "5eChar" | "duplicate";
