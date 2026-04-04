@@ -1,7 +1,7 @@
 import { Cross2Icon, GearIcon } from "@radix-ui/react-icons";
 import OBR, { Player } from "@owlbear-rodeo/sdk";
 import pako from "pako";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { Dialog, DropdownMenu } from "radix-ui";
 
 import DownloadIcon from "../assets/download.svg?react";
