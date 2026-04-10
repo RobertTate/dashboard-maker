@@ -54,12 +54,9 @@ const SyncingGrid = memo(
     const [widgets, setWidgets] = useState<WidgetProps[] | null>(null);
     const [syncStorage, setSyncStorage] = useState(0);
     const activeToolbarKeyRef = useRef("");
-    const [openTooltip, setOpenTooltip] = useState<{
-      widgetId: string;
-      tooltipId: string;
-    } | null>(null);
-
-    console.log("Rendering SyncingGrid");
+    const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+    const [widgetId, setWidgetId] = useState("");
+    const [tooltipId, setTooltipId] = useState("");
 
     useEffect(() => {
       const getSavedItems = async () => {
@@ -216,7 +213,9 @@ const SyncingGrid = memo(
           );
         });
         setSyncStorage((prev) => prev + 1);
-        setOpenTooltip({ widgetId, tooltipId });
+        setWidgetId(widgetId);
+        setTooltipId(tooltipId);
+        setIsTooltipOpen(true);
       },
       [],
     );
@@ -291,7 +290,9 @@ const SyncingGrid = memo(
 
         e.preventDefault();
         e.stopPropagation();
-        setOpenTooltip({ widgetId, tooltipId });
+        setWidgetId(widgetId);
+        setTooltipId(tooltipId);
+        setIsTooltipOpen(true);
       };
 
       document.addEventListener("click", handleTooltipClick);
@@ -386,6 +387,23 @@ const SyncingGrid = memo(
       };
     }, [columns]);
 
+    const renderTooltip = useMemo(() => {
+      if (!widgets || !isTooltipOpen) return null;
+      const widget = widgets.find((w) => w.id === widgetId);
+      const tooltipContent = widget?.tooltips?.[tooltipId] ?? "";
+
+      return (
+        <TooltipDialog
+          tooltipId={tooltipId}
+          content={tooltipContent}
+          onContentChange={(tooltipId, content) =>
+            updateTooltipContent(widgetId, tooltipId, content)
+          }
+          onClose={() => setIsTooltipOpen(false)}
+        />
+      );
+    }, [widgets, isTooltipOpen, updateTooltipContent]);
+
     return (
       <ActiveToolbarContext.Provider value={activeToolbarKeyRef}>
         {isPending ? (
@@ -411,20 +429,7 @@ const SyncingGrid = memo(
                 {memoizedChildren}
               </ResponsiveReactGridLayout>
             )}
-            {openTooltip && widgets && (() => {
-              const widget = widgets.find((w) => w.id === openTooltip.widgetId);
-              const tooltipContent = widget?.tooltips?.[openTooltip.tooltipId] ?? "";
-              return (
-                <TooltipDialog
-                  tooltipId={openTooltip.tooltipId}
-                  content={tooltipContent}
-                  onContentChange={(tooltipId, content) =>
-                    updateTooltipContent(openTooltip.widgetId, tooltipId, content)
-                  }
-                  onClose={() => setOpenTooltip(null)}
-                />
-              );
-            })()}
+            {renderTooltip}
           </>
         )}
       </ActiveToolbarContext.Provider>

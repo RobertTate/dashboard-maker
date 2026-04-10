@@ -52,12 +52,6 @@
   padding: 6px 0;
 }
 
-@media only screen and (width <=480px) {
-  .dashboard-toolbar-container {
-    display: none;
-  }
-}
-
 .dashboard-toolbar-zone {
   /* Using --baseBorderHover for the disabled styling of undo/redo buttons */
   --baseBorderHover: var(--border) 8a;
@@ -72,7 +66,8 @@
   border-radius: 8px;
   background-color: var(--toolbar-bg-color);
   width: 100%;
-  min-height: 40px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .dashboard-toolbar-zone * {

@@ -62,7 +62,6 @@
 .toolbar {
   /* Match the outer dashboard toolbar styling */
   --baseBorderHover: var(--border) 8a;
-
   display: flex !important;
   z-index: 1;
   justify-content: space-evenly;
@@ -73,7 +72,8 @@
   border: 3px solid transparent;
   border-radius: 8px;
   background-color: var(--toolbar-bg-color);
-  min-height: 40px;
+  padding: 0;
+  gap: 0px;
 
   & [class^="_selectTrigger"] {
     width: unset;
@@ -90,6 +90,16 @@
 
 .toolbar button {
   color: var(--icon);
+  background-color: inherit;
+}
+
+.toolbar button:hover {
+  background-color: inherit;
+  cursor: pointer; 
+}
+
+.toolbar button svg {
+  color: var(--icon);
 }
 
 .toolbar button[data-disabled] svg {
@@ -102,6 +112,11 @@
 
 .toolbar div[role="group"] {
   display: flex;
+}
+
+.toolbar button[data-state='on'] {
+  color: var(--icon);
+  background-color: inherit;
 }
 
 @keyframes fadeIn {
