@@ -26,8 +26,6 @@ type WidgetContainerProps = {
   item: WidgetProps;
   updateWidgetContent: (item: WidgetProps, content: string) => void;
   updateWidgetTextAlignment: (itemId: string, alignment: TextAlignment) => void;
-  activeToolbarKey: string;
-  setActiveToolbarKey: (key: string) => void;
 };
 
 const Widget = memo(
@@ -35,8 +33,6 @@ const Widget = memo(
     item,
     updateWidgetContent,
     updateWidgetTextAlignment,
-    activeToolbarKey,
-    setActiveToolbarKey,
   }: WidgetContainerProps) => {
     const debouncedUpdate = debounce((content: string) => {
       return updateWidgetContent(item, content);
@@ -77,8 +73,6 @@ const Widget = memo(
             toolbarContents: () => (
               <>
                 <CustomToolbar
-                  activeToolbarKey={activeToolbarKey}
-                  setActiveToolbarKey={setActiveToolbarKey}
                   updateWidgetTextAlignment={updateWidgetTextAlignment}
                 />
               </>
