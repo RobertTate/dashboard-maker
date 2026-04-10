@@ -21,6 +21,7 @@ import type {
   WidgetProps,
 } from "../types";
 import randomUUID from "../uid";
+import TooltipDialog from "./TooltipDialog";
 import Widget from "./Widget";
 
 const styleAlignmentMap = {
@@ -53,6 +54,12 @@ const SyncingGrid = memo(
     const [widgets, setWidgets] = useState<WidgetProps[] | null>(null);
     const [syncStorage, setSyncStorage] = useState(0);
     const activeToolbarKeyRef = useRef("");
+    const [openTooltip, setOpenTooltip] = useState<{
+      widgetId: string;
+      tooltipId: string;
+    } | null>(null);
+
+    console.log("Rendering SyncingGrid");
 
     useEffect(() => {
       const getSavedItems = async () => {
@@ -139,64 +146,157 @@ const SyncingGrid = memo(
 
     const addNewWidget = useCallback(() => {
       const uniqueKey = randomUUID();
-
-      const newWidget = {
-        id: uniqueKey,
-        content: "✏️",
-      };
-
-      const newWidgetsArray = [...(widgets ? widgets : []), newWidget];
-
-      setWidgets((prevWidgets) => {
-        return isEqual(prevWidgets, newWidgetsArray)
-          ? prevWidgets
-          : newWidgetsArray;
-      });
+      const newWidget: WidgetProps = { id: uniqueKey, content: "✏️" };
+      setWidgets((prev) => (prev ? [...prev, newWidget] : [newWidget]));
       setSyncStorage((prev) => prev + 1);
-    }, [widgets]);
+    }, []);
 
-    const deleteWidget = useCallback(
-      (selectedWidgetId: string) => {
-        const newWidgetsArray = widgets!.filter((widget) => {
-          return widget.id !== selectedWidgetId;
-        });
-        setWidgets([...newWidgetsArray]);
-        setSyncStorage((prev) => prev + 1);
-      },
-      [widgets],
-    );
+    const deleteWidget = useCallback((selectedWidgetId: string) => {
+      setWidgets((prev) =>
+        prev ? prev.filter((w) => w.id !== selectedWidgetId) : prev,
+      );
+      setSyncStorage((prev) => prev + 1);
+    }, []);
 
     const updateWidgetContent = useCallback(
       (item: WidgetProps, content: string) => {
-        if (widgets) {
-          const updatedWidgetsArray = widgets.map((widget) => {
-            if (widget.id === item.id) {
-              widget.content = content;
-            }
-            return widget;
-          });
-          setWidgets([...updatedWidgetsArray]);
-          setSyncStorage((prev) => prev + 1);
-        }
+        setWidgets((prev) => {
+          if (!prev) return prev;
+          const target = prev.find((w) => w.id === item.id);
+          if (!target || target.content === content) return prev;
+          return prev.map((w) =>
+            w.id === item.id ? { ...w, content } : w,
+          );
+        });
+        setSyncStorage((prev) => prev + 1);
       },
-      [widgets],
+      [],
     );
 
     const updateWidgetTextAlignment = useCallback(
       (itemId: string, alignment: TextAlignment) => {
-        if (widgets) {
-          const updatedWidgetsArray = widgets.map((widget) => {
-            if (widget.id === itemId) {
-              widget.alignment = alignment;
+        setWidgets((prev) => {
+          if (!prev) return prev;
+          const target = prev.find((w) => w.id === itemId);
+          if (!target || target.alignment === alignment) return prev;
+          return prev.map((w) =>
+            w.id === itemId ? { ...w, alignment } : w,
+          );
+        });
+        setSyncStorage((prev) => prev + 1);
+      },
+      [],
+    );
+
+    const updateTooltipContent = useCallback(
+      (widgetId: string, tooltipId: string, content: string) => {
+        setWidgets((prev) => {
+          if (!prev) return prev;
+          const target = prev.find((w) => w.id === widgetId);
+          if (!target || target.tooltips?.[tooltipId] === content) return prev;
+          return prev.map((w) =>
+            w.id === widgetId
+              ? { ...w, tooltips: { ...w.tooltips, [tooltipId]: content } }
+              : w,
+          );
+        });
+        setSyncStorage((prev) => prev + 1);
+      },
+      [],
+    );
+
+    const handleTooltipCreate = useCallback(
+      (widgetId: string, tooltipId: string) => {
+        setWidgets((prev) => {
+          if (!prev) return prev;
+          return prev.map((w) =>
+            w.id === widgetId
+              ? { ...w, tooltips: { ...w.tooltips, [tooltipId]: "✏️" } }
+              : w,
+          );
+        });
+        setSyncStorage((prev) => prev + 1);
+        setOpenTooltip({ widgetId, tooltipId });
+      },
+      [],
+    );
+
+    // Prune orphaned tooltips on unmount (dashboard close)
+    useEffect(() => {
+      return () => {
+        const pruneAllOrphanedTooltips = async () => {
+          const dashboardItems: DashboardItemsProps | null =
+            await db.getItem(dashName);
+          if (!dashboardItems?.widgets) return;
+
+          let changed = false;
+          const updatedWidgets = dashboardItems.widgets.map((widget) => {
+            if (!widget.tooltips || Object.keys(widget.tooltips).length === 0)
+              return widget;
+
+            const tooltipIdPattern = /:tooltip\[.*?\]\{#([^}]+)\}/g;
+            const referencedIds = new Set<string>();
+            let match;
+            while (
+              (match = tooltipIdPattern.exec(widget.content)) !== null
+            ) {
+              referencedIds.add(match[1]);
+            }
+
+            const currentIds = Object.keys(widget.tooltips);
+            const orphanIds = currentIds.filter(
+              (id) => !referencedIds.has(id),
+            );
+
+            if (orphanIds.length > 0) {
+              changed = true;
+              const prunedTooltips = { ...widget.tooltips };
+              for (const id of orphanIds) {
+                delete prunedTooltips[id];
+              }
+              return { ...widget, tooltips: prunedTooltips };
             }
             return widget;
           });
-          setWidgets([...updatedWidgetsArray]);
-          setSyncStorage((prev) => prev + 1);
+
+          if (changed) {
+            await db.setItem(dashName, {
+              ...dashboardItems,
+              widgets: updatedWidgets,
+            });
+          }
+        };
+
+        pruneAllOrphanedTooltips();
+      };
+    }, [dashName]);
+
+    // Document-level click handler for tooltip triggers
+    useEffect(() => {
+      const handleTooltipClick = (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const tooltipTrigger = target.closest("[data-tooltip-id]");
+        if (!tooltipTrigger) return;
+
+        const tooltipId = (tooltipTrigger as HTMLElement).dataset.tooltipId;
+        if (!tooltipId) return;
+
+        // Traverse up to find the grid item ID (widget ID)
+        let el: HTMLElement | null = tooltipTrigger as HTMLElement;
+        while (el && !el.classList.contains("react-grid-item")) {
+          el = el.parentElement;
         }
-      },
-      [widgets],
-    );
+        const widgetId = el?.id;
+        if (!widgetId) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+        setOpenTooltip({ widgetId, tooltipId });
+      };
+
+      document.addEventListener("click", handleTooltipClick);
+      return () => document.removeEventListener("click", handleTooltipClick);
+    }, []);
 
     const memoizedChildren = useMemo(() => {
       const newWidgetChild = (
@@ -245,6 +345,7 @@ const SyncingGrid = memo(
                   item={item}
                   updateWidgetContent={updateWidgetContent}
                   updateWidgetTextAlignment={updateWidgetTextAlignment}
+                  onTooltipCreate={handleTooltipCreate}
                 />
               </div>
               <span
@@ -272,6 +373,7 @@ const SyncingGrid = memo(
       deleteWidget,
       updateWidgetContent,
       updateWidgetTextAlignment,
+      handleTooltipCreate,
     ]);
 
     const memoizedCols = useMemo(() => {
@@ -309,6 +411,20 @@ const SyncingGrid = memo(
                 {memoizedChildren}
               </ResponsiveReactGridLayout>
             )}
+            {openTooltip && widgets && (() => {
+              const widget = widgets.find((w) => w.id === openTooltip.widgetId);
+              const tooltipContent = widget?.tooltips?.[openTooltip.tooltipId] ?? "";
+              return (
+                <TooltipDialog
+                  tooltipId={openTooltip.tooltipId}
+                  content={tooltipContent}
+                  onContentChange={(tooltipId, content) =>
+                    updateTooltipContent(openTooltip.widgetId, tooltipId, content)
+                  }
+                  onClose={() => setOpenTooltip(null)}
+                />
+              );
+            })()}
           </>
         )}
       </ActiveToolbarContext.Provider>

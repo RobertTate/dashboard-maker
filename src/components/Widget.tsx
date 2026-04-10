@@ -14,9 +14,10 @@ import {
   toolbarPlugin,
 } from "@mdxeditor/editor";
 import debounce from "lodash.debounce";
-import { memo } from "react";
+import { memo, useEffect, useMemo } from "react";
 
 import { DiceNotationDirectiveDescriptor } from "../plugins/DiceNotationDirectiveDescriptor";
+import { TooltipDirectiveDescriptor } from "../plugins/TooltipDirectiveDescriptor";
 import { diceNotationMarkdownShortcutPlugin } from "../plugins/diceNotationMarkdownShortcutPlugin";
 import type { TextAlignment, WidgetProps } from "../types";
 import CustomLinkDialog from "./CustomLinkDialog";
@@ -26,6 +27,7 @@ type WidgetContainerProps = {
   item: WidgetProps;
   updateWidgetContent: (item: WidgetProps, content: string) => void;
   updateWidgetTextAlignment: (itemId: string, alignment: TextAlignment) => void;
+  onTooltipCreate: (widgetId: string, tooltipId: string) => void;
 };
 
 const Widget = memo(
@@ -33,13 +35,23 @@ const Widget = memo(
     item,
     updateWidgetContent,
     updateWidgetTextAlignment,
+    onTooltipCreate,
   }: WidgetContainerProps) => {
-    const debouncedUpdate = debounce((content: string) => {
-      return updateWidgetContent(item, content);
-    }, 500);
+    const debouncedUpdate = useMemo(
+      () =>
+        debounce((content: string) => {
+          updateWidgetContent(item, content);
+        }, 500),
+      [item, updateWidgetContent],
+    );
+
+    useEffect(() => {
+      return () => debouncedUpdate.cancel();
+    }, [debouncedUpdate]);
 
     return (
       <MDXEditor
+        key={item.id}
         data-id={item.id}
         markdown={`${item.content}`}
         plugins={[
@@ -67,6 +79,7 @@ const Widget = memo(
             directiveDescriptors: [
               AdmonitionDirectiveDescriptor,
               DiceNotationDirectiveDescriptor,
+              TooltipDirectiveDescriptor,
             ],
           }),
           toolbarPlugin({
@@ -74,6 +87,7 @@ const Widget = memo(
               <>
                 <CustomToolbar
                   updateWidgetTextAlignment={updateWidgetTextAlignment}
+                  onTooltipCreate={onTooltipCreate}
                 />
               </>
             ),

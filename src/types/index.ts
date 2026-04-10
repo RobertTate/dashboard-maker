@@ -37,6 +37,7 @@ export type WidgetProps = {
   id: string;
   content: string;
   alignment?: TextAlignment;
+  tooltips?: Record<string, string>;
 };
 
 export type DashboardItemsProps = {

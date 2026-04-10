@@ -100,7 +100,7 @@
 }
 
 /* This needs to always be reflective of the number of tools in the editor toolbar */
-.dashboard-toolbar-zone > *:nth-last-child(-n + 10) {
+.dashboard-toolbar-zone > *:nth-last-child(-n + 12) {
   display: flex;
 }
 

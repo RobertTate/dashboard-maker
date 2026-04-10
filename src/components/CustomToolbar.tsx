@@ -17,14 +17,16 @@ import { createPortal } from "react-dom";
 
 import { ActiveToolbarContext } from "../ActiveToolbarContext";
 import type { TextAlignment as Alignment } from "../types";
+import { InsertTooltip } from "./InsertTooltip";
 import { TextAlignment } from "./TextAlignment";
 
 type CustomToolbarProps = {
   updateWidgetTextAlignment: (itemId: string, alignment: Alignment) => void;
+  onTooltipCreate: (widgetId: string, tooltipId: string) => void;
 };
 
 export const CustomToolbar = memo((props: CustomToolbarProps) => {
-  const { updateWidgetTextAlignment } = props;
+  const { updateWidgetTextAlignment, onTooltipCreate } = props;
   const activeToolbarKeyRef = useContext(ActiveToolbarContext);
   const activeEditor = useCellValue(activeEditor$);
   const inFocus = useCellValue(inFocus$);
@@ -83,6 +85,10 @@ export const CustomToolbar = memo((props: CustomToolbarProps) => {
           <CreateLink />
           <InsertTable />
           <InsertAdmonition />
+          <InsertTooltip
+            widgetId={activeGridItemId}
+            onTooltipCreate={onTooltipCreate}
+          />
         </>,
         document.getElementById("toolbar") as Element,
       )}
