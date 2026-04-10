@@ -12,21 +12,20 @@ import {
   inFocus$,
   useCellValue,
 } from "@mdxeditor/editor";
-import { memo, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { ActiveToolbarContext } from "../ActiveToolbarContext";
 import type { TextAlignment as Alignment } from "../types";
 import { TextAlignment } from "./TextAlignment";
 
 type CustomToolbarProps = {
-  activeToolbarKey: string;
-  setActiveToolbarKey: (key: string) => void;
   updateWidgetTextAlignment: (itemId: string, alignment: Alignment) => void;
 };
 
 export const CustomToolbar = memo((props: CustomToolbarProps) => {
-  const { activeToolbarKey, setActiveToolbarKey, updateWidgetTextAlignment } =
-    props;
+  const { updateWidgetTextAlignment } = props;
+  const activeToolbarKeyRef = useContext(ActiveToolbarContext);
   const activeEditor = useCellValue(activeEditor$);
   const inFocus = useCellValue(inFocus$);
   const [showToolbar, setShowToolbar] = useState(false);
@@ -35,26 +34,33 @@ export const CustomToolbar = memo((props: CustomToolbarProps) => {
     useState<Alignment>("center");
 
   useEffect(() => {
-    if (activeEditor) {
-      if (activeToolbarKey !== activeEditor._key) {
-        if (inFocus) {
-          const rootEL = activeEditor._rootElement;
-          // Yikes.
-          const gridItem =
-            rootEL?.parentElement?.parentElement?.parentElement?.parentElement
-              ?.parentElement;
-          const gridItemId = gridItem?.id as string;
-          const gridItemTextAlign = gridItem?.dataset.align as Alignment;
-          setActiveGridItemId(gridItemId);
-          setActiveGridItemTextAlign(gridItemTextAlign);
-          setActiveToolbarKey(activeEditor._key);
-          setShowToolbar(true);
-        } else {
+    if (!activeEditor) return;
+
+    if (inFocus) {
+      activeToolbarKeyRef.current = activeEditor._key;
+      const rootEL = activeEditor._rootElement;
+      // Yikes.
+      const gridItem =
+        rootEL?.parentElement?.parentElement?.parentElement?.parentElement
+          ?.parentElement;
+      const gridItemId = gridItem?.id as string;
+      const gridItemTextAlign = gridItem?.dataset.align as Alignment;
+      setActiveGridItemId(gridItemId);
+      setActiveGridItemTextAlign(gridItemTextAlign);
+      setShowToolbar(true);
+    } else {
+      // Defer the hide check so that if another editor's effect claims
+      // the ref first (gaining focus), this toolbar will see the new
+      // owner and hide. If no one else claims it (e.g. toolbar button
+      // click), the toolbar stays visible.
+      const timeout = setTimeout(() => {
+        if (activeToolbarKeyRef.current !== activeEditor._key) {
           setShowToolbar(false);
         }
-      }
+      }, 0);
+      return () => clearTimeout(timeout);
     }
-  }, [activeEditor, activeToolbarKey, inFocus, setActiveToolbarKey]);
+  }, [activeEditor, inFocus, activeToolbarKeyRef]);
 
   return showToolbar ? (
     <>

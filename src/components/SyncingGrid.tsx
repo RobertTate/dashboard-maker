@@ -4,11 +4,13 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   useTransition,
 } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 
+import { ActiveToolbarContext } from "../ActiveToolbarContext";
 import CrossIcon from "../assets/cross.svg?react";
 import db from "../dbInstance";
 import startingLayouts from "../partials/startingLayout";
@@ -50,7 +52,7 @@ const SyncingGrid = memo(
     );
     const [widgets, setWidgets] = useState<WidgetProps[] | null>(null);
     const [syncStorage, setSyncStorage] = useState(0);
-    const [activeToolbarKey, setActiveToolbarKey] = useState<string>("");
+    const activeToolbarKeyRef = useRef("");
 
     useEffect(() => {
       const getSavedItems = async () => {
@@ -243,8 +245,6 @@ const SyncingGrid = memo(
                   item={item}
                   updateWidgetContent={updateWidgetContent}
                   updateWidgetTextAlignment={updateWidgetTextAlignment}
-                  activeToolbarKey={activeToolbarKey}
-                  setActiveToolbarKey={setActiveToolbarKey}
                 />
               </div>
               <span
@@ -268,7 +268,6 @@ const SyncingGrid = memo(
     }, [
       isLocked,
       widgets,
-      activeToolbarKey,
       addNewWidget,
       deleteWidget,
       updateWidgetContent,
@@ -286,7 +285,7 @@ const SyncingGrid = memo(
     }, [columns]);
 
     return (
-      <>
+      <ActiveToolbarContext.Provider value={activeToolbarKeyRef}>
         {isPending ? (
           <div className="lds-ellipsis">
             <div></div>
@@ -312,7 +311,7 @@ const SyncingGrid = memo(
             )}
           </>
         )}
-      </>
+      </ActiveToolbarContext.Provider>
     );
   },
 );
