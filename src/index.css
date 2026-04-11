@@ -647,7 +647,10 @@ button:active {
   color: var(--link);
   font-weight: bold;
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration-style: dashed;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  text-decoration-skip-ink: auto;
 }
 
 .editable-md-widget .tooltip-trigger:hover {

@@ -34,8 +34,6 @@ type TooltipDialogProps = {
 
 const TooltipDialog = memo(
   ({ tooltipId, content, onContentChange, onClose }: TooltipDialogProps) => {
-    useEffect(() => () => console.log("dialog unmounted"), [])
-
     const handleClose = useCallback(() => {
       // Move focus away from the dialog's Lexical editor to prevent
       // undo/redo keystrokes from targeting the unmounted editor
