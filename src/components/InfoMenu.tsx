@@ -39,7 +39,7 @@ export const InfoMenu = () => {
         <button
           style={{
             position: "absolute",
-            top: "22px",
+            top: "20px",
             right: "14px",
             cursor: "pointer",
           }}

@@ -49,7 +49,7 @@ export const useCreateMenuItems = (
       keyIndex += 1;
 
       const folderToReturn = (
-        <div
+        <button
           className="folder"
           key={key}
           title="Click to enter this folder. Drag a dashboard here to put it in the folder."
@@ -78,7 +78,7 @@ export const useCreateMenuItems = (
               </text>
             )}
           </svg>
-        </div>
+        </button>
       );
 
       xPosition += 1;

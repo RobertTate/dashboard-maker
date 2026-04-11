@@ -778,12 +778,12 @@ button:active {
 }
 
 .icon-svg-info {
-  color: var(--info-icon);
+  color: var(--icon);
 }
 
 .icon-svg-info circle,
 .icon-svg-info line {
-  stroke: var(--info-icon);
+  stroke: var(--icon);
 }
 
 html body[data-scroll-locked] {

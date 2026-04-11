@@ -62,10 +62,11 @@
   transition:
     border-color 0.25s,
     background-color 0.25s;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   border-radius: 8px;
   background-color: var(--toolbar-bg-color);
   width: 100%;
+  min-height: 42px;
   overflow-x: auto;
   overflow-y: hidden;
 }
