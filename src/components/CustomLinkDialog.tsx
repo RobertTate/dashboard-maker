@@ -25,13 +25,15 @@ import styles from "../styles/CustomLinkDialog.module.css";
 interface LinkEditFormProps {
   url: string;
   title: string;
-  onSubmit: (link: { url: string; title: string }) => void;
+  text: string;
+  onSubmit: (link: { url: string; title: string, text: string }) => void;
   onCancel: () => void;
 }
 
 interface LinkFormFields {
   url: string;
   title: string;
+  text: string;
 }
 
 const closeLinkDialog$ = Action((r) => {
@@ -47,11 +49,12 @@ const closeLinkDialog$ = Action((r) => {
   );
 });
 
-function LinkEditForm({ url, title, onSubmit, onCancel }: LinkEditFormProps) {
+function LinkEditForm({ url, title, text, onSubmit, onCancel }: LinkEditFormProps) {
   const { register, handleSubmit } = useForm<LinkFormFields>({
     values: {
       url,
       title,
+      text,
     },
   });
   const t = useTranslation();
@@ -157,6 +160,7 @@ export default function LinkDialog() {
             <LinkEditForm
               url={linkDialogState.url}
               title={linkDialogState.title}
+              text={linkDialogState.text}
               onSubmit={updateLink}
               onCancel={cancelLinkEdit.bind(null)}
             />
