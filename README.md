@@ -8,7 +8,7 @@ You get fun boxes to drag around, [markdown style text shortcuts](#formatting-ke
 
 Additionally, a folder system is in place to help you organize your dashboards however you see fit.
 
-All content is saved in your browser. Dashboards are also downloadable, uploadable, and shareable between the GM and their players.
+All content is saved in your browser. Dashboards and folders are downloadable and uploadable, and individual dashboards are shareable between the GM and their players.
 
 **The more you put in Dashboard Maker, the less you have to leave Owlbear Rodeo. Why is this good? Because context switching during a game sucks.**
 
@@ -48,7 +48,7 @@ Dashboard Maker comes with some "Premades". These are dashboards that I made to 
 
 <img style="margin-bottom:-4px" src="./src/assets/toggle.svg" alt="Toggle Icon" width="30"> You can toggle the base number of columns in a dashboard, between either 8 (default) or 12 columns. Note: this only affects the dashboard layout on desktop. Mobile layout is still set to a base of 4 columns.
 
-<img style="margin-bottom:-4px" src="./src/assets/duplicate.svg" alt="Duplicate Icon" width="30"> You can clone/duplicate any dashboard as needed. Right now, this is the best way to rename them (duplicate it, give it a new name, and then delete the old one)
+<img style="margin-bottom:-4px" src="./src/assets/duplicate.svg" alt="Duplicate Icon" width="30"> You can clone/duplicate any dashboard as needed. This is the best way to rename them (duplicate it, give it a new name, and then delete the old one)
 
 <img style="margin-bottom:-4px" src="./src/assets/download.svg" alt="Download Icon" width="30"> You can download/upload dashboards as `json` files, so you can store them offline, share them between browsers, etc!
 
@@ -56,7 +56,7 @@ Dashboard Maker comes with some "Premades". These are dashboards that I made to 
 
 ## Dice Notation
 
-Dashboard Maker now supports a dice notation syntax. Simply type things like "1d6+3" in the editor, hit space, and watch as the text gets captured as "dice notation". Then, you just click on what you typed, and it will roll those dice.
+Dashboard Maker supports a dice notation syntax. Simply type things like "1d6+3" in the editor, hit space, and watch as the text gets captured as "dice notation". Then, you just click on what you typed, and it will roll those dice.
 
 <img src="./docs/DashMakerDicePreview.gif" alt="Dashboard Maker Dice Preview" width="722">
 
@@ -68,7 +68,7 @@ For Players, your roll is shared automatically.
 
 ## Dashboard Searching
 
-Dashboard Maker now comes with an option to tie a token to a dashboard. It's pretty simple: if you have a dashboard named "Boblin" and you also have a token that you've added and named "Boblin", you can use the Dashboard Search option in the token's menu to automatically bring up that dashboard with the matching name.
+Dashboard Maker comes with an option to tie a token to a dashboard. It's pretty simple: if you have a dashboard named "Boblin" and you also have a token that you've added and named "Boblin", you can use the Dashboard Search option in the token's menu to automatically bring up that dashboard with the matching name.
 
 <img src="./docs/DashboardSearchExample.gif" alt="Dashboard Maker Search Example" width="722">
 
@@ -76,7 +76,7 @@ Please note: The token name and the dasboard name must be an exact match for thi
 
 ## Images
 
-Dashboard Maker now supports adding images inside a dashboard content box.
+Dashboard Maker supports adding images inside a dashboard content box.
 
 <img src="./docs/DashMakerImageExample.png" alt="Image Support Example" width="722">
 
@@ -97,7 +97,7 @@ Dashboard Maker now supports adding images inside a dashboard content box.
 
 <img src="./docs/DashboardMakerToolbar1.png" alt="Toolbar Example" width="722">
 
-**Dashboard Maker now comes with an editing toolbar.** This lets you edit and format your content with ease, and also allows you to drop in new content types such as tables, thematic breaks, links, and admonitions.
+**Dashboard Maker comes with an editing toolbar.** This lets you edit and format your content with ease, and also allows you to drop in new content types such as tables, thematic breaks, links, and admonitions. You can even add tooltips for nested content!
 
 ## Formatting Keyboard Shortcuts
 

@@ -319,6 +319,14 @@ button:active {
   display: none;
 }
 
+.editable-md-widget h1 + p:has([data-tooltip-id]) {
+  display: block;
+}
+
+.editable-md-widget div[class="_editImageToolbar_1e2ox_933"] {
+  display: none;
+}
+
 .editable-md-widget li[role="checkbox"] {
   text-decoration: none;
 }
