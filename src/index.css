@@ -183,6 +183,10 @@ button:active {
   border-radius: 6px;
 }
 
+.mdxeditor-popup-container {
+  z-index: 5 !important;
+}
+
 /* Had to override dynamically applied Link Dialog styles, to keep the link dialog in one place. */
 .mdxeditor-popup-container > div:has(div[class^="_linkDialogPopoverContent"]) {
   top: 90vh !important;
@@ -197,6 +201,11 @@ button:active {
   left: 8px !important;
   transform: none !important;
 }
+
+.mdxeditor-popup-container[class^="._popupContainer"] {
+  z-index: 5 !important;
+}
+
 
 /* Styling the Link Dialog */
 .mdxeditor-popup-container
@@ -307,6 +316,14 @@ button:active {
 .editable-md-widget h6 + p:has(br),
 .editable-md-widget ul + p:has(br),
 .editable-md-widget ol + p:has(br) {
+  display: none;
+}
+
+.editable-md-widget h1 + p:has([data-tooltip-id]) {
+  display: block;
+}
+
+.editable-md-widget div[class="_editImageToolbar_1e2ox_933"] {
   display: none;
 }
 
@@ -480,7 +497,7 @@ button:active {
 #dice-box,
 #dice-result-sharing-box {
   position: fixed;
-  z-index: 100;
+  z-index: 202;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -633,6 +650,21 @@ button:active {
   color: var(--link-hover);
 }
 
+.editable-md-widget .tooltip-trigger {
+  cursor: pointer;
+  color: var(--link);
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  text-decoration-skip-ink: auto;
+}
+
+.editable-md-widget .tooltip-trigger:hover {
+  color: var(--link-hover);
+}
+
 .file-system {
   background-color: unset;
   height: auto;
@@ -754,12 +786,12 @@ button:active {
 }
 
 .icon-svg-info {
-  color: var(--info-icon);
+  color: var(--icon);
 }
 
 .icon-svg-info circle,
 .icon-svg-info line {
-  stroke: var(--info-icon);
+  stroke: var(--icon);
 }
 
 html body[data-scroll-locked] {

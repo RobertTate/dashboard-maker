@@ -97,7 +97,6 @@ const Dashboard = memo((props: DashboardProps) => {
             }`}
         >
           <button
-            className="icon-button"
             title="Go Back"
             onClick={() => selectADashboard("")}
           >

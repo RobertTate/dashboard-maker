@@ -299,7 +299,6 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
           <div className={styles["dashboard-creator"]}>
             <div className={styles["dashboard-input"]}>
               <button
-                className="icon-button"
                 title="Refresh the app. Reorder your dashboards. Keep things in sync. Feel in control."
                 onClick={() => setRefreshCount((prev) => prev + 1)}
                 id="refresh-button"
@@ -323,7 +322,6 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
                 }}
               />
               <button
-                className="icon-button"
                 id="upload-button"
                 title="Upload a Dashboard or Folder."
                 onClick={() => handleUploadClick()}
