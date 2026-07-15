@@ -90,7 +90,7 @@ export const CustomToolbar = memo((props: CustomToolbarProps) => {
             onTooltipCreate={onTooltipCreate}
           />
         </>,
-        document.getElementById("toolbar") as Element,
+        document.getElementById("editor-toolbar") as Element,
       )}
     </>
   ) : null;

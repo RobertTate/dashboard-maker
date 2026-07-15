@@ -68,7 +68,7 @@ These reserved names are checked in `createADashboard` to prevent collisions.
 
 ### Widget / Editor Stack
 
-Each widget uses `@mdxeditor/editor` (MDXEditor) with plugins for headings, lists, quotes, images, tables, links, thematic breaks, admonitions, and the custom dice notation directive. The toolbar is rendered into a shared `#toolbar` div. Content updates are debounced (500ms) via lodash.debounce.
+Each widget uses `@mdxeditor/editor` (MDXEditor) with plugins for headings, lists, quotes, images, tables, links, thematic breaks, admonitions, and the custom dice notation directive. The toolbar is rendered into a shared `#editor-toolbar` div. Content updates are debounced (500ms) via lodash.debounce.
 
 ### Styling
 

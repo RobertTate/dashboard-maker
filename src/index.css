@@ -421,7 +421,7 @@ button:active {
   display: none;
 }
 
-#toolbar button {
+#editor-toolbar button {
   margin-right: 0.25rem;
 }
 
