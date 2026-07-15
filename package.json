@@ -12,6 +12,11 @@
     "format:css": "prettier --write **/*.css && stylelint **/*.css --fix",
     "format:all": "prettier . --write"
   },
+  "overrides": {
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^9.0.9"
+    }
+  },
   "dependencies": {
     "@3d-dice/dice-box": "^1.0.12",
     "@3d-dice/dice-parser-interface": "^0.2.1",
@@ -23,11 +28,9 @@
     "@vercel/analytics": "^1.3.1",
     "@vercel/speed-insights": "^1.0.12",
     "ajv": "^8.12.0",
-    "install": "^0.13.0",
     "localforage": "^1.10.0",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
-    "npm": "^11.6.0",
     "pako": "^2.1.0",
     "radix-ui": "^1.4.3",
     "react": "^18.2.0",

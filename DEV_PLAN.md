@@ -45,9 +45,22 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   `useMemo` (no side effects; recompute frequency unchanged). Also clears the
   only ESLint warning, making `npm run lint` green again.
 
-- [ ] **Task 2 — Remove accidental dependencies.**
-  `install` and `npm` in `package.json` `dependencies` are accidental
-  (`npm install install` at some point). Uninstall both; verify build.
+- [x] **Task 2 — Remove accidental dependencies + npm audit.** ✅
+  `install` and `npm` in `package.json` `dependencies` were accidental
+  (`npm install install` at some point). Uninstalled both; nothing in the
+  codebase imported either; lint + build verified.
+  Audit results (was 10 vulns: 6 high, 4 moderate → now 4 moderate):
+  - **Fixed:** minimatch ReDoS (all 6 high) — exact-pinned at 9.0.3 by
+    `@typescript-eslint/typescript-estree`, so `npm audit fix` was a no-op;
+    fixed with a scoped `overrides` entry bumping it to ^9.0.9 (dev-only chain).
+  - **Accepted, documented:** `uuid` <11.1.1 via `@owlbear-rodeo/sdk` (moderate,
+    "no fix available") — advisory only affects v3/v5/v6 calls with a `buf`
+    argument; verified the SDK bundle only calls `v4()` with no args. Not
+    exploitable. Revisit when the SDK updates.
+  - **Deferred:** js-yaml DoS via `@mdxeditor/editor` ≤4.0.3 (moderate) — no
+    fix within js-yaml 4.x; the real fix is the MDXEditor 4.x major upgrade
+    (see stretch tasks). Worst case is a hung tab from maliciously crafted
+    YAML frontmatter in a shared dashboard.
 
 - [ ] **Task 3 — Add vitest + tests for pure functions.**
   Add `vitest` as a devDependency and a `test` script. Cover
@@ -99,6 +112,8 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
 
 ### Stretch (not committed to)
 
+- [ ] Upgrade `@mdxeditor/editor` to 4.x (breaking change; clears the js-yaml
+  audit finding and drops the deferred moderate vuln — see Task 2 notes).
 - [ ] Consolidate `radix-ui` vs `@radix-ui/react-dropdown-menu` (two versions
   of the same library family).
 - [ ] `createADashboard(name, template)` signature cleanup — decouple data
@@ -123,3 +138,9 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   this plan written.
 - **2026-07-15** — Task 1 done: added `widgetId`/`tooltipId` to the
   `renderTooltip` useMemo deps in `SyncingGrid.tsx`. Lint is green again.
+- **2026-07-15** — (unrelated, Robert) renamed editor toolbar portal id
+  `#toolbar` → `#editor-toolbar`; CSS selector + CLAUDE.md updated to match.
+- **2026-07-15** — Task 2 done: removed accidental `install` and `npm`
+  packages from dependencies. Ran npm audit: fixed all 6 high (minimatch, via
+  scoped override), accepted uuid (not exploitable), deferred js-yaml to the
+  MDXEditor 4 stretch upgrade. 10 vulns → 4 moderate.
