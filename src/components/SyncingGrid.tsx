@@ -391,7 +391,6 @@ const SyncingGrid = memo(
       if (!widgets || !isTooltipOpen) return null;
       const widget = widgets.find((w) => w.id === widgetId);
       const tooltipContent = widget?.tooltips?.[tooltipId] ?? "";
-
       return (
         <TooltipDialog
           tooltipId={tooltipId}
@@ -402,7 +401,7 @@ const SyncingGrid = memo(
           onClose={() => setIsTooltipOpen(false)}
         />
       );
-    }, [widgets, isTooltipOpen, updateTooltipContent]);
+    }, [widgets, isTooltipOpen, widgetId, tooltipId, updateTooltipContent]);
 
     return (
       <ActiveToolbarContext.Provider value={activeToolbarKeyRef}>

@@ -22,6 +22,8 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
 ## Ground Rules
 
 - **One task = one commit.** Each task below gets its own commit on this branch.
+- **Verify before commit.** After a task's change is made, Robert reviews it and
+  asks questions; nothing is committed until he gives the go-ahead.
 - The checkbox + progress log update for a task is included in that task's commit.
 - `npm run lint` and `npm run build` must pass before every commit (and
   `npm run test` once it exists, from Task 3 onward).
@@ -34,11 +36,14 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
 
 ### ✅ = done, each with its commit hash once complete
 
-- [ ] **Task 1 — Fix stale tooltip memo bug.**
-  `renderTooltip` in `src/components/SyncingGrid.tsx` omits `widgetId` and
-  `tooltipId` from its `useMemo` deps. Clicking tooltip B while/after tooltip A
-  was open can show stale content. Add the deps. This also clears the only
-  ESLint warning, making `npm run lint` green again.
+- [x] **Task 1 — Fix tooltip memo deps.** ✅
+  `renderTooltip` in `src/components/SyncingGrid.tsx` read `widgetId` and
+  `tooltipId` without listing them in its `useMemo` deps. Not a reachable bug
+  today (the modal dialog + create path happen to always touch a listed dep),
+  but it worked by coincidence and would surface stale-content bugs on any
+  future change to how tooltips open. Added the deps — safe for a JSX-returning
+  `useMemo` (no side effects; recompute frequency unchanged). Also clears the
+  only ESLint warning, making `npm run lint` green again.
 
 - [ ] **Task 2 — Remove accidental dependencies.**
   `install` and `npm` in `package.json` `dependencies` are accidental
@@ -116,3 +121,5 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
 
 - **2026-07-15** — Assessment completed; branch `feature/code-cleanup` created;
   this plan written.
+- **2026-07-15** — Task 1 done: added `widgetId`/`tooltipId` to the
+  `renderTooltip` useMemo deps in `SyncingGrid.tsx`. Lint is green again.
