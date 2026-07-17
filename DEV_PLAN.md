@@ -120,9 +120,12 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   (`useReceiveDashboard` needs no change: senders can only share dashboards
   that already exist under a legal name.)
 
-- [ ] **Task 6 — Dedupe startingMenu in useInitDashboards.**
-  `src/functions/hooks/useInitDashboards.ts` has an identical `startingMenu`
-  construction block copy-pasted in two branches. Extract to one helper.
+- [x] **Task 6 — Dedupe startingMenu in useInitDashboards.** ✅
+  Extracted the twice-copy-pasted `startingMenu` construction into a
+  module-level `buildStartingMenu(keys)` helper and collapsed the two
+  branches into one `storedMenu?.folders` check (fetch the stored menu if
+  the key exists, fall back to the starting menu otherwise). Identical
+  behavior, ~35 fewer lines.
 
 - [ ] **Task 7 — Dedupe useDice broadcast branches.**
   The GM and player branches in `src/functions/hooks/useDice.ts`
@@ -199,3 +202,5 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   reserved-name hole during review → became Task 5.5.
 - **2026-07-17** — Task 5.5 done: reserved names now rejected/renamed in all
   three naming paths (create, upload, folder import). 34 tests passing.
+- **2026-07-17** — Task 6 done: `buildStartingMenu` helper replaces the two
+  copy-pasted blocks in `useInitDashboards`.

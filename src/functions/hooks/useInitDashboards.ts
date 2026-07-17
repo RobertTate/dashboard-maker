@@ -10,6 +10,21 @@ import { MENU_OBJECT_KEY } from "../../constants/dbKeys";
 import db from "../../dbInstance";
 import type { MenuObject } from "../../types";
 
+const buildStartingMenu = (keys: string[]): MenuObject => ({
+  layouts: generateLayouts([...keys, "Premades"]),
+  currentFolder: [],
+  folders: {
+    Premades: {
+      folders: {
+        "5th Edition D&D": {
+          dashboards: keys.filter((key) => key.includes("⭐")),
+        },
+      },
+    },
+  },
+  dashboards: keys.filter((key) => !key.includes("⭐")),
+});
+
 export const useInitDashboards = (
   refreshCount: number,
   setDashboardsArray: React.Dispatch<React.SetStateAction<string[]>>,
@@ -44,48 +59,14 @@ export const useInitDashboards = (
           return newMenuObj;
         });
       } else {
-        if (keys.includes(MENU_OBJECT_KEY)) {
-          const storedMenu = (await db.getItem(MENU_OBJECT_KEY)) as MenuObject;
-          if (storedMenu.folders) {
-            applyPremades(storedMenu, premades);
-            setMenuObject(storedMenu);
-          } else {
-            const startingMenuLayouts = generateLayouts([...keys, "Premades"]);
-            const startingMenu: MenuObject = {
-              layouts: startingMenuLayouts,
-              currentFolder: [],
-              folders: {
-                Premades: {
-                  folders: {
-                    "5th Edition D&D": {
-                      dashboards: [...keys.filter((key) => key.includes("⭐"))],
-                    },
-                  },
-                },
-              },
-              dashboards: [...keys.filter((key) => !key.includes("⭐"))],
-            };
-
-            setMenuObject(startingMenu);
-          }
+        const storedMenu = keys.includes(MENU_OBJECT_KEY)
+          ? ((await db.getItem(MENU_OBJECT_KEY)) as MenuObject)
+          : null;
+        if (storedMenu?.folders) {
+          applyPremades(storedMenu, premades);
+          setMenuObject(storedMenu);
         } else {
-          const startingMenuLayouts = generateLayouts([...keys, "Premades"]);
-          const startingMenu: MenuObject = {
-            layouts: startingMenuLayouts,
-            currentFolder: [],
-            folders: {
-              Premades: {
-                folders: {
-                  "5th Edition D&D": {
-                    dashboards: [...keys.filter((key) => key.includes("⭐"))],
-                  },
-                },
-              },
-            },
-            dashboards: [...keys.filter((key) => !key.includes("⭐"))],
-          };
-
-          setMenuObject(startingMenu);
+          setMenuObject(buildStartingMenu(keys));
         }
       }
     };
