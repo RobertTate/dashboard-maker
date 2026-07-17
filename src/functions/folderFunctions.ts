@@ -1,3 +1,4 @@
+import { RESERVED_DB_KEYS } from "../constants/dbKeys";
 import db from "../dbInstance";
 import type {
   DashboardItemsProps,
@@ -136,7 +137,9 @@ export const importFolderExport = async (
   existingDashNames: string[],
   existingFolderNames: string[],
 ): Promise<{ folderName: string; folder: Folder; newDashNames: string[] }> => {
-  const existingDashSet = new Set(existingDashNames);
+  // Seed with the reserved app-state keys so an imported dashboard can
+  // never be written onto one of them; it gets renamed like any collision.
+  const existingDashSet = new Set([...RESERVED_DB_KEYS, ...existingDashNames]);
   const existingFolderSet = new Set(existingFolderNames);
 
   // Resolve folder name collision

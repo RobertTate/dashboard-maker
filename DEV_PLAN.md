@@ -105,6 +105,21 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   `Dash_Mode_String` / `Dash_Theme_String` don't exist until the user sets a
   mode/theme, naming a dashboard that before then slips through.
 
+- [x] **Task 5.5 — Reject reserved names in every naming path.** ✅
+  Fixed the latent bug spotted in Task 5: reserved-name checks previously only
+  fired when the key already existed in the DB, so before a user first set a
+  mode/theme, a dashboard could be created/uploaded/imported onto
+  `Dash_Mode_String` / `Dash_Theme_String` and later be clobbered.
+  - `createADashboard` (`PopOver.tsx`): reserved check is now a guard clause
+    independent of the uniqueness check.
+  - `handleUpload` single-dashboard path (`PopOver.tsx`): reserved file names
+    rejected with a "rename the file" message.
+  - `importFolderExport` (`folderFunctions.ts`): rename set is seeded with
+    `RESERVED_DB_KEYS`, so a reserved name imports as e.g. "Menu_Object (2)"
+    instead of overwriting app state (tested).
+  (`useReceiveDashboard` needs no change: senders can only share dashboards
+  that already exist under a legal name.)
+
 - [ ] **Task 6 — Dedupe startingMenu in useInitDashboards.**
   `src/functions/hooks/useInitDashboards.ts` has an identical `startingMenu`
   construction block copy-pasted in two branches. Extract to one helper.
@@ -134,10 +149,6 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
 
 ### Stretch (not committed to)
 
-- [ ] Fix the reserved-key collision check in `createADashboard`: reserved
-  names should be rejected always, not only when the key already exists in the
-  DB. Reorder so `RESERVED_DB_KEYS.includes(dashName)` is checked before/
-  independent of `keys.includes(dashName)` (surfaced during Task 5 review).
 - [ ] Friendlier share error when a dashboard exceeds OBR's ~16KB broadcast
   limit: check the encoded length in `handleShare` before broadcasting and
   show a "too large to share" message instead of the generic catch (surfaced
@@ -183,3 +194,8 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   total). Dedup + tests are the real value; the chunked encoding is
   correctness-in-isolation, not a reachable fix (OBR's ~16KB broadcast cap
   keeps payloads well under the fromCharCode limit).
+- **2026-07-17** — Task 5 done: reserved DB keys centralized in
+  `src/constants/dbKeys.ts` across six call sites. Spotted the latent
+  reserved-name hole during review → became Task 5.5.
+- **2026-07-17** — Task 5.5 done: reserved names now rejected/renamed in all
+  three naming paths (create, upload, folder import). 34 tests passing.

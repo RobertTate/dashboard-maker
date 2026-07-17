@@ -197,6 +197,21 @@ describe("importFolderExport", () => {
     expect(result.newDashNames.sort()).toEqual(["Alpha", "Beta"]);
   });
 
+  it("renames imported dashboards that collide with reserved DB keys", async () => {
+    const folderExport = makeExport();
+    folderExport.dashboards = { Menu_Object: makeDashboard() };
+    folderExport.folderStructure = { dashboards: ["Menu_Object"] };
+
+    const result = await importFolderExport(folderExport, [], []);
+
+    expect(result.newDashNames).toEqual(["Menu_Object (2)"]);
+    expect(result.folder.dashboards).toEqual(["Menu_Object (2)"]);
+    expect(mockDb.setItem).not.toHaveBeenCalledWith(
+      "Menu_Object",
+      expect.anything(),
+    );
+  });
+
   it("does not let two imported dashboards collide with each other after renaming", async () => {
     const folderExport = makeExport();
     folderExport.dashboards = {

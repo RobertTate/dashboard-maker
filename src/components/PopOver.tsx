@@ -106,11 +106,17 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
         : newDashInputRef;
       const dashName = inputRefInUse?.current!.value;
       if (dashName) {
+        if (RESERVED_DB_KEYS.includes(dashName)) {
+          inputRefInUse!.current!.setCustomValidity(
+            "Don't call it that! I'm using that for something under the hood.",
+          );
+          inputRefInUse!.current!.reportValidity();
+          return false;
+        }
         if (keys.includes(dashName)) {
-          const inputResponse = RESERVED_DB_KEYS.includes(dashName)
-            ? "Don't call it that! I'm using that for something under the hood."
-            : "The Dashboard Name Must Be Unique.";
-          inputRefInUse!.current!.setCustomValidity(inputResponse);
+          inputRefInUse!.current!.setCustomValidity(
+            "The Dashboard Name Must Be Unique.",
+          );
           inputRefInUse!.current!.reportValidity();
           return false;
         } else {
@@ -221,6 +227,14 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
           } else {
             // Single dashboard import path
             const dashboardName = file.name.replace(".json", "");
+            if (RESERVED_DB_KEYS.includes(dashboardName)) {
+              uploadRef!.current!.setCustomValidity(
+                "That name is reserved for something under the hood. Rename the file!",
+              );
+              uploadRef!.current!.reportValidity();
+              event.target.value = "";
+              return;
+            }
             if (dashBoardsArray.includes(dashboardName)) {
               uploadRef!.current!.setCustomValidity(
                 "The Dashboard Name Must Be Unique. Rename the file!",
