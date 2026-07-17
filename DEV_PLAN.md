@@ -72,11 +72,22 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   Noted quirk (intentional, tested): renaming suffixes append to the full
   name, so a colliding "Alpha (2)" becomes "Alpha (2) (2)", not "Alpha (3)".
 
-- [ ] **Task 4 — Extract shared compress/decompress utils.**
-  The gzip+base64 encode in `DashboardMenu.tsx` (`handleShare`) and decode in
-  `useReceiveDashboard.ts` are inverse copies. Extract to
-  `src/functions/compression.ts` (`compressToB64String` /
-  `decompressFromB64String`), use in both, add tests (round-trip).
+- [x] **Task 4 — Extract shared compress/decompress utils.** ✅
+  Extracted the gzip+base64 encode (`DashboardMenu.tsx` `handleShare`) and
+  decode (`useReceiveDashboard.ts`) into `src/functions/compression.ts`
+  (`compressToB64String` / `decompressFromB64String`), used in both call
+  sites, 4 round-trip tests added (incl. unicode + large payloads).
+  The util encodes in 32k chunks rather than spreading the whole compressed
+  buffer into `String.fromCharCode(...)`. NOTE: this is correctness-in-
+  isolation only, NOT a reachable bug fix — the only caller feeds OBR
+  broadcast, which caps payloads at ~16KB, so the compressed array is always
+  ~12k elements, far below the ~64k `fromCharCode` argument limit that would
+  make the old inline version throw. Kept the chunking because it costs
+  nothing and the util shouldn't be able to throw on large input, but it
+  changes no observable sharing behavior.
+  (Possible follow-up, not done: give `handleShare` a friendly "dashboard too
+  large to share" message when a payload exceeds OBR's 16KB limit — currently
+  it just lands in the generic catch.)
 
 - [ ] **Task 5 — Centralize reserved DB keys.**
   `Menu_Object`, `Dash_Mode_String`, `Dash_Theme_String` are string literals in
@@ -114,6 +125,10 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
 
 ### Stretch (not committed to)
 
+- [ ] Friendlier share error when a dashboard exceeds OBR's ~16KB broadcast
+  limit: check the encoded length in `handleShare` before broadcasting and
+  show a "too large to share" message instead of the generic catch (surfaced
+  during Task 4 review).
 - [ ] Upgrade `@mdxeditor/editor` to 4.x (breaking change; clears the js-yaml
   audit finding and drops the deferred moderate vuln — see Task 2 notes).
 - [ ] Consolidate `radix-ui` vs `@radix-ui/react-dropdown-menu` (two versions
@@ -151,3 +166,7 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
 - **2026-07-17** — Added husky pre-commit hook running `npm test`; verified it
   blocks commits when tests fail. (`prepare` script installs it on
   `npm install`, so it works after a fresh clone.)
+- **2026-07-17** — Task 4 done: compression utils extracted + tested (33 tests
+  total). Dedup + tests are the real value; the chunked encoding is
+  correctness-in-isolation, not a reachable fix (OBR's ~16KB broadcast cap
+  keeps payloads well under the fromCharCode limit).

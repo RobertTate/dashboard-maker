@@ -1,10 +1,10 @@
 import OBR from "@owlbear-rodeo/sdk";
-import pako from "pako";
 import { useEffect } from "react";
 
 import db from "../../dbInstance";
 import type { SharedDashboard } from "../../types";
 import type { MenuObject } from "../../types";
+import { decompressFromB64String } from "../compression";
 import {
   findAllDashboardsWithinCurrentFolderStruc,
   getCurrentFolder,
@@ -22,21 +22,9 @@ export const useReceiveDashboard = (
         "com.roberttate.dashboard-maker",
         async (event) => {
           try {
-            const b64EncodedCompressedUint8ArrayString = event?.data as string;
-            const compressedUint8ArrayString = atob(
-              b64EncodedCompressedUint8ArrayString,
+            const sharedDashboard = decompressFromB64String<SharedDashboard>(
+              event?.data as string,
             );
-            const compressedUint8Array = new Uint8Array(
-              compressedUint8ArrayString.length,
-            );
-            for (let i = 0; i < compressedUint8ArrayString.length; i++) {
-              compressedUint8Array[i] =
-                compressedUint8ArrayString.charCodeAt(i);
-            }
-            const stringified = pako.ungzip(compressedUint8Array, {
-              to: "string",
-            });
-            const sharedDashboard: SharedDashboard = JSON.parse(stringified);
             const { sharedDashboardTitle, sharedDashboardContent, target } =
               sharedDashboard;
 

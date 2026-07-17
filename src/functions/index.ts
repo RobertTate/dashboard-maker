@@ -9,3 +9,4 @@ export {
 } from "./folderFunctions";
 export { checkAndAddPremades, applyPremades } from "./premadesFunctions";
 export { collisionInfo } from "./collisions";
+export { compressToB64String, decompressFromB64String } from "./compression";
