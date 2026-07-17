@@ -8,9 +8,12 @@
     "dev:live": "vite --host 0.0.0.0",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "preview": "vite preview",
     "format:css": "prettier --write **/*.css && stylelint **/*.css --fix",
-    "format:all": "prettier . --write"
+    "format:all": "prettier . --write",
+    "prepare": "husky"
   },
   "overrides": {
     "@typescript-eslint/typescript-estree": {
@@ -52,12 +55,14 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "husky": "^9.1.7",
     "prettier": "3.1.0",
     "stylelint": "^15.11.0",
     "stylelint-config-concentric-order": "^5.2.0",
     "stylelint-config-standard": "^34.0.0",
     "typescript": "^5.0.2",
     "vite": "^6.2.2",
-    "vite-plugin-svgr": "^4.3.0"
+    "vite-plugin-svgr": "^4.3.0",
+    "vitest": "^4.1.10"
   }
 }

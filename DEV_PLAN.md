@@ -25,8 +25,8 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
 - **Verify before commit.** After a task's change is made, Robert reviews it and
   asks questions; nothing is committed until he gives the go-ahead.
 - The checkbox + progress log update for a task is included in that task's commit.
-- `npm run lint` and `npm run build` must pass before every commit (and
-  `npm run test` once it exists, from Task 3 onward).
+- `npm run lint`, `npm run build`, and `npm run test` must pass before every
+  commit.
 - No behavior changes except where a task explicitly says it fixes a bug.
 - Update `CLAUDE.md` / `src/CLAUDE.md` in the same commit when a task changes
   anything they describe (commands, hooks, patterns, file layout).
@@ -62,13 +62,15 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
     (see stretch tasks). Worst case is a hung tab from maliciously crafted
     YAML frontmatter in a shared dashboard.
 
-- [ ] **Task 3 — Add vitest + tests for pure functions.**
-  Add `vitest` as a devDependency and a `test` script. Cover
-  `src/functions/folderFunctions.ts` (folder traversal, recursive dashboard
-  search, folder import with name-collision renaming — mock `dbInstance`),
-  `src/functions/generateLayouts.ts`, and `src/functions/validateUpload.ts`.
-  Update `CLAUDE.md` ("There is no test suite currently" becomes the test
-  command).
+- [x] **Task 3 — Add vitest + tests for pure functions.** ✅
+  Added `vitest` (4.x) with `npm run test` / `test:watch` scripts and
+  `vitest.config.ts` (node environment, `src/**/*.test.ts`). 29 tests in
+  `src/functions/__tests__/` covering `folderFunctions.ts` (traversal,
+  recursive search, export bundling, import with collision renaming —
+  `dbInstance` mocked via `vi.mock`), `generateLayouts.ts`, and
+  `validateUpload.ts`. CLAUDE.md commands + testing notes updated.
+  Noted quirk (intentional, tested): renaming suffixes append to the full
+  name, so a colliding "Alpha (2)" becomes "Alpha (2) (2)", not "Alpha (3)".
 
 - [ ] **Task 4 — Extract shared compress/decompress utils.**
   The gzip+base64 encode in `DashboardMenu.tsx` (`handleShare`) and decode in
@@ -144,3 +146,8 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   packages from dependencies. Ran npm audit: fixed all 6 high (minimatch, via
   scoped override), accepted uuid (not exploitable), deferred js-yaml to the
   MDXEditor 4 stretch upgrade. 10 vulns → 4 moderate.
+- **2026-07-17** — Task 3 done: vitest added, 29 tests passing over
+  `src/functions/` pure logic. Groundwork done; refactor tasks are next.
+- **2026-07-17** — Added husky pre-commit hook running `npm test`; verified it
+  blocks commits when tests fail. (`prepare` script installs it on
+  `npm install`, so it works after a fresh clone.)

@@ -19,10 +19,17 @@ The app also runs in a **standalone mode** (outside Owlbear Rodeo) for demo purp
 - `npm run dev:live` - Dev server exposed on LAN (`--host 0.0.0.0`)
 - `npm run build` - TypeScript check + Vite production build
 - `npm run lint` - ESLint (zero warnings allowed)
+- `npm run test` - Vitest (single run; `npm run test:watch` for watch mode)
+
+A husky pre-commit hook (`.husky/pre-commit`) runs `npm test` on every commit
+and blocks the commit if tests fail.
 - `npm run format:css` - Prettier + Stylelint for CSS files
 - `npm run format:all` - Prettier for everything
 
-There is no test suite currently.
+Tests live in `src/functions/__tests__/` and cover the pure logic in
+`src/functions/` (folder traversal, folder import renaming, layout generation,
+upload validation). Components and hooks are untested; verify those by running
+the app. Tests that touch persistence mock `src/dbInstance.ts` with `vi.mock`.
 
 ## Deployment
 
