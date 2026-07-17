@@ -89,12 +89,21 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   large to share" message when a payload exceeds OBR's 16KB limit — currently
   it just lands in the generic catch.)
 
-- [ ] **Task 5 — Centralize reserved DB keys.**
-  `Menu_Object`, `Dash_Mode_String`, `Dash_Theme_String` are string literals in
-  `PopOver.tsx` (createADashboard collision check) and `DashboardFileSystem.tsx`
-  (filter, which currently only excludes `Menu_Object`). Export a
-  `RESERVED_DB_KEYS` constant from `src/constants/` and use it in both places;
-  the file-system filter should exclude all three.
+- [x] **Task 5 — Centralize reserved DB keys.** ✅
+  Added `src/constants/dbKeys.ts` exporting named keys `MENU_OBJECT_KEY`,
+  `MODE_KEY`, `THEME_KEY` plus a `RESERVED_DB_KEYS` array. Replaced the string
+  literals across all six call sites (`PopOver.tsx` collision check,
+  `DashboardFileSystem.tsx` filter, `InfoMenu.tsx`, `main.tsx`,
+  `useSyncStorage.ts`, `useInitDashboards.ts`) — turned out to be more than the
+  two the plan noted. The file-system filter now excludes all three reserved
+  keys via `RESERVED_DB_KEYS` (was only excluding `Menu_Object`). Behavior is
+  otherwise unchanged; the literals now live in exactly one place. CLAUDE.md's
+  "Reserved DB keys" note points to the constants file.
+  Latent bug spotted, NOT fixed here (kept task a pure refactor — see log /
+  stretch): the `createADashboard` collision check only rejects a reserved key
+  when it already exists in the DB (`keys.includes(dashName)` guards it). Since
+  `Dash_Mode_String` / `Dash_Theme_String` don't exist until the user sets a
+  mode/theme, naming a dashboard that before then slips through.
 
 - [ ] **Task 6 — Dedupe startingMenu in useInitDashboards.**
   `src/functions/hooks/useInitDashboards.ts` has an identical `startingMenu`
@@ -125,6 +134,10 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
 
 ### Stretch (not committed to)
 
+- [ ] Fix the reserved-key collision check in `createADashboard`: reserved
+  names should be rejected always, not only when the key already exists in the
+  DB. Reorder so `RESERVED_DB_KEYS.includes(dashName)` is checked before/
+  independent of `keys.includes(dashName)` (surfaced during Task 5 review).
 - [ ] Friendlier share error when a dashboard exceeds OBR's ~16KB broadcast
   limit: check the encoded length in `handleShare` before broadcasting and
   show a "too large to share" message instead of the generic catch (surfaced

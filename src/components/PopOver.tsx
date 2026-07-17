@@ -3,6 +3,7 @@ import { memo, useCallback, useRef, useState } from "react";
 import DashboardIcon from "../assets/dashboard.svg?react";
 import RefreshIcon from "../assets/refresh.svg?react";
 import UploadIcon from "../assets/upload.svg?react";
+import { RESERVED_DB_KEYS } from "../constants/dbKeys";
 import db from "../dbInstance";
 import {
   getCurrentFolder,
@@ -106,11 +107,7 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
       const dashName = inputRefInUse?.current!.value;
       if (dashName) {
         if (keys.includes(dashName)) {
-          const inputResponse = [
-            "Menu_Object",
-            "Dash_Mode_String",
-            "Dash_Theme_String"
-          ].includes(dashName)
+          const inputResponse = RESERVED_DB_KEYS.includes(dashName)
             ? "Don't call it that! I'm using that for something under the hood."
             : "The Dashboard Name Must Be Unique.";
           inputRefInUse!.current!.setCustomValidity(inputResponse);

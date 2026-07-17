@@ -6,6 +6,7 @@ import {
   generateLayouts,
   getCurrentFolder,
 } from "../";
+import { MENU_OBJECT_KEY } from "../../constants/dbKeys";
 import db from "../../dbInstance";
 import type { MenuObject } from "../../types";
 
@@ -43,8 +44,8 @@ export const useInitDashboards = (
           return newMenuObj;
         });
       } else {
-        if (keys.includes("Menu_Object")) {
-          const storedMenu = (await db.getItem("Menu_Object")) as MenuObject;
+        if (keys.includes(MENU_OBJECT_KEY)) {
+          const storedMenu = (await db.getItem(MENU_OBJECT_KEY)) as MenuObject;
           if (storedMenu.folders) {
             applyPremades(storedMenu, premades);
             setMenuObject(storedMenu);

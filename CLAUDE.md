@@ -62,7 +62,9 @@ All data lives in **IndexedDB via localforage** (`src/dbInstance.ts`). Each dash
 - `Dash_Mode_String` - Light/dark mode preference
 - `Dash_Theme_String` - Color theme preference
 
-These reserved names are checked in `createADashboard` to prevent collisions.
+These names are defined in `src/constants/dbKeys.ts` (`MENU_OBJECT_KEY`,
+`MODE_KEY`, `THEME_KEY`, and the `RESERVED_DB_KEYS` array) and checked in
+`createADashboard` to prevent collisions.
 
 ### Key Subsystems
 

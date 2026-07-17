@@ -6,6 +6,7 @@ import ReactGridLayout, {
   WidthProvider,
 } from "react-grid-layout";
 
+import { RESERVED_DB_KEYS } from "../constants/dbKeys";
 import {
   collisionInfo,
   generateLayouts,
@@ -52,7 +53,7 @@ const DashboardFileSystem = memo(
     // Filter out dashboards that are not part of the current folder
     const filteredDashboards = useMemo(() => {
       return dashBoardsArray.filter((dash) => {
-        if (dash === "Menu_Object") return false;
+        if (RESERVED_DB_KEYS.includes(dash)) return false;
         return currentFolderObject.dashboards?.includes(dash);
       });
     }, [dashBoardsArray, currentFolderObject]);

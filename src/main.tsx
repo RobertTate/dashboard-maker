@@ -6,6 +6,7 @@ import ReactDOM from "react-dom/client";
 
 import App from "./App.tsx";
 import { AppProvider } from "./AppProvider.tsx";
+import { MODE_KEY, THEME_KEY } from "./constants/dbKeys";
 import db from "./dbInstance";
 import "./dbInstance.ts";
 import "./index.css";
@@ -18,7 +19,7 @@ const setMode = async (e: MediaQueryList | MediaQueryListEvent) => {
   let mode = null;
 
   if (firstCall) {
-    mode = (await db.getItem("Dash_Mode_String")) as string;
+    mode = (await db.getItem(MODE_KEY)) as string;
   }
 
   if (mode && firstCall) {
@@ -33,7 +34,7 @@ const setMode = async (e: MediaQueryList | MediaQueryListEvent) => {
 };
 
 const setTheme = async () => {
-  const theme = (await db.getItem("Dash_Theme_String")) as string;
+  const theme = (await db.getItem(THEME_KEY)) as string;
   if (theme) {
     document.documentElement.setAttribute("data-theme", theme);
   } else {
