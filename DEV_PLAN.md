@@ -174,8 +174,12 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   limit: check the encoded length in `handleShare` before broadcasting and
   show a "too large to share" message instead of the generic catch (surfaced
   during Task 4 review).
-- [ ] Upgrade `@mdxeditor/editor` to 4.x (breaking change; clears the js-yaml
-  audit finding and drops the deferred moderate vuln — see Task 2 notes).
+- [x] Upgrade `@mdxeditor/editor` to 4.x ✅ (2026-07-18). Release-notes review
+  via GitHub MCP: the only 4.0.0 breaking change is Sandpack plugin removal,
+  which this app never used; 4.0.4 bumps js-yaml to 4.2.0, clearing the
+  deferred Task 2 audit finding. Robert bumped to ^4.0.4 and manually tested
+  the editor; tests/lint/build green. Audit is now down to the two accepted
+  uuid moderates (unreachable — see Task 2 notes).
 - [ ] Consolidate `radix-ui` vs `@radix-ui/react-dropdown-menu` (two versions
   of the same library family).
 - [ ] `createADashboard(name, template)` signature cleanup — decouple data
