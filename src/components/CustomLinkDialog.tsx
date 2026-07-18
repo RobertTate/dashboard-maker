@@ -21,6 +21,55 @@ import { useForm } from "react-hook-form";
 
 import styles from "../styles/CustomLinkDialog.module.css";
 
+// Not yet in TypeScript's dom lib: Permissions Policy introspection
+// (document.permissionsPolicy in current Chrome, document.featurePolicy in
+// older versions).
+type PolicyCapableDocument = Document & {
+  permissionsPolicy?: { allowsFeature: (feature: string) => boolean };
+  featurePolicy?: { allowsFeature: (feature: string) => boolean };
+};
+
+/**
+ * Chrome blocks navigator.clipboard in cross-origin iframes unless the
+ * embedder sets allow="clipboard-write", and OBR's extension iframes don't —
+ * so inside Owlbear Rodeo only the execCommand fallback works. Merely
+ * calling a policy-blocked API logs a console [Violation] even when the
+ * rejection is caught, so check the policy up front and skip the call
+ * entirely when it would be blocked.
+ */
+const clipboardWriteAllowed = (): boolean => {
+  const doc = document as PolicyCapableDocument;
+  const policy = doc.permissionsPolicy ?? doc.featurePolicy;
+  // Browsers without the introspection API: assume allowed and let the
+  // try/catch sort it out.
+  return policy ? policy.allowsFeature("clipboard-write") : true;
+};
+
+const copyToClipboard = async (text: string): Promise<boolean> => {
+  if (window.navigator.clipboard && clipboardWriteAllowed()) {
+    try {
+      await window.navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // fall through to the legacy path
+    }
+  }
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    return document.execCommand("copy");
+  } catch {
+    return false;
+  } finally {
+    document.body.removeChild(textarea);
+  }
+};
+
 interface LinkEditFormProps {
   url: string;
   title: string;
@@ -206,15 +255,20 @@ export default function LinkDialog() {
                         "linkPreview.copyToClipboard",
                         "Copy to clipboard",
                       )}
-                      onClick={() => {
-                        void window.navigator.clipboard
-                          .writeText(linkDialogState.url)
-                          .then(() => {
+                      onClick={(e) => {
+                        const copyButton = e.currentTarget;
+                        void copyToClipboard(linkDialogState.url).then(
+                          (copied) => {
+                            // The fallback moves focus to a temp textarea;
+                            // restore it so the link popover stays open.
+                            copyButton.focus();
+                            if (!copied) return;
                             setCopyUrlTooltipOpen(true);
                             setTimeout(() => {
                               setCopyUrlTooltipOpen(false);
                             }, 1000);
-                          });
+                          },
+                        );
                       }}
                     >
                       {copyUrlTooltipOpen

@@ -268,6 +268,17 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
 - **2026-07-18** — Stretch: MDXEditor 4.0.4 upgrade (Robert bumped + tested;
   js-yaml audit finding cleared). Radix consolidation + phantom-dependency
   fix (7 undeclared imports made explicit, 2 dead deps removed).
+- **2026-07-18** — Fixed link-dialog "Copy to clipboard" (found by Robert
+  while testing): Chrome now blocks the async Clipboard API in cross-origin
+  iframes without allow="clipboard-write", which OBR's extension iframes
+  don't set — so it broke inside OBR (standalone unaffected).
+  `copyToClipboard` helper in `CustomLinkDialog` checks
+  `permissionsPolicy.allowsFeature("clipboard-write")` up front (merely
+  calling the blocked API logs a console [Violation] even when caught),
+  falls back to `document.execCommand("copy")`, and restores button focus
+  so the popover stays open. Upstream angles (not pursued): OBR could add clipboard-write
+  to its extension iframe allow-list; MDXEditor's own LinkDialog has the
+  same bug.
   Pre-existing quirk noticed, untouched: the move-up drop branch does
   `parentFolder.dashboards?.push(...)` — if a parent folder somehow lacked a
   `dashboards` array the dashboard would drop out of the tree. Root always
