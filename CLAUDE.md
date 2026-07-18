@@ -93,3 +93,4 @@ Each widget uses `@mdxeditor/editor` (MDXEditor) with plugins for headings, list
 - The `SyncingGrid` uses a `syncStorage` counter pattern - incrementing it triggers a `useEffect` that persists the current layout + widgets to localforage. This is the primary save mechanism.
 - `react-grid-layout` layouts are compared with `lodash.isequal` to avoid unnecessary re-renders and save cycles.
 - The `cancelDrag` CSS class is used on elements inside grid items that should not trigger drag behavior (editor content, toolbar, delete buttons).
+- `react-grid-layout` clones its children with its own `ref` (`GridItem.js` `cloneElement`), **silently discarding any ref you set on a grid child**. To get DOM handles to grid items (e.g. drag drop-targets in `DashboardFileSystem`), query the DOM (`data-*` attribute selectors) instead of attaching refs. `onClick` and other props survive the clone.

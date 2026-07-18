@@ -135,22 +135,38 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   the `RollBroadcast` shape). GM keeps the share button; players still
   auto-share. Behavior unchanged.
 
-- [ ] **Task 8 — Refactor DashboardFileSystem event wiring.**
-  The riskiest task; do last, in isolation.
-  Current problems in `src/components/DashboardFileSystem.tsx` +
+- [x] **Task 8 — Refactor DashboardFileSystem event wiring.** ✅
+  Scope decision (2026-07-18, with Robert): full fix approved, split into two
+  commits — Task 8 (wiring, zero persisted-data impact) then Task 8.5 (name
+  keys + migration of saved `Menu_Object` layouts).
+  This task: in `src/components/DashboardFileSystem.tsx` +
   `src/functions/hooks/useCreateMenuItems.tsx`:
-  - Folder/up-button clicks are wired via `document.querySelectorAll` +
-    native listeners in effects instead of React handlers.
-  - Drag targets are identified by `element.textContent`, which breaks when
-    names render truncated (SVG `textLength` path) and is fragile generally.
-  - Grid items use incrementing array indices as React keys.
-  Changes: use folder/dashboard **names** as keys and read identity from
-  `data-*` attributes (`data-dash`, `data-folder`, already half in place),
-  never `textContent`; replace the querySelector effects with React `onClick`
-  handlers (a plain click still needs to be distinguished from a drag via the
-  existing `isDragging` threshold logic). Verify by running the app: enter/exit
-  folders, drag dash into folder, drag dash up a level, reorder items, and
-  confirm layouts persist after refresh.
+  - Replace the `document.querySelectorAll(".folder")` / `.moveFolderUp`
+    native-listener effects with React `onClick` handlers passed into
+    `useCreateMenuItems`.
+  - Collect collision targets (folders + up button) via React callback refs
+    into a Map instead of DOM queries.
+  - Drag identity from `data-*` only: dragged dashboard from
+    `element.dataset.dash`, drop target from `dataset.folder` /
+    `data-up-folder` — never `textContent`.
+  - React keys stay index-based in this commit (they're coupled to persisted
+    layout ids; changing them is Task 8.5).
+  Verify by running the app: enter/exit folders, drag dash into folder, drag
+  dash up a level, reorder items, layouts persist after refresh.
+
+- [ ] **Task 8.5 — Name-based layout keys + saved-layout migration.**
+  Change `generateLayouts` to key entries by item **name** (the arrays passed
+  in are already names, incl. the "MoveDashUpButton" sentinel), key the grid
+  children by name in `useCreateMenuItems`, and add a pure, tested
+  `migrateLayoutKeys(menuObject, dbKeys)` that walks the folder tree once on
+  load and remaps legacy numeric layout ids (`"0"`, `"1"`…) to names using the
+  historical render order: `[MoveDashUpButton (non-root only), ...folder
+  names, ...dashboards filtered by db-key order]`. NOTE: dashboards render in
+  **db-key (alphabetical) order** via `dashBoardsArray`, not folder-array
+  order — the migration must replicate that or positions will remap wrong.
+  Fixes the long-standing index-shift scrambling on delete. Worst failure
+  mode if wrong: tiles render in wrong positions once; self-heals on next
+  drag; no content/folder-tree data at risk.
 
 ### Stretch (not committed to)
 
@@ -208,3 +224,16 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   copy-pasted blocks in `useInitDashboards`.
 - **2026-07-17** — Task 7 done: `broadcastRollResult` helper dedupes the
   GM/player dice-roll broadcast blocks in `useDice`.
+- **2026-07-18** — Task 8 done: folder/up-button clicks are React `onClick`
+  handlers passed into `useCreateMenuItems`; drag identity reads
+  `dataset.dash` / `dataset.folder`, never `textContent`. Keys unchanged
+  (Task 8.5). First attempt collected drop targets via callback refs on grid
+  children — broken in Robert's manual test (drag-into-folder dead) because
+  react-grid-layout clones children with its own `ref`, discarding ours
+  (documented in CLAUDE.md Gotchas). Final approach: snapshot
+  `[data-folder], [data-up-folder]` elements once per drag in
+  `handleDragStart`.
+  Pre-existing quirk noticed, untouched: the move-up drop branch does
+  `parentFolder.dashboards?.push(...)` — if a parent folder somehow lacked a
+  `dashboards` array the dashboard would drop out of the tree. Root always
+  has one, so likely unreachable; candidate micro-fix for 8.5.

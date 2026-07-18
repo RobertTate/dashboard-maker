@@ -3,10 +3,16 @@ import { useMemo } from "react";
 import MoveUpIcon from "../../assets/moveUp.svg?react";
 import type { FolderSystem, MenuObject } from "../../types";
 
+export type MenuItemHandlers = {
+  onFolderClick: (folderName: string) => void;
+  onMoveUpClick: () => void;
+};
+
 export const useCreateMenuItems = (
   menuObject: MenuObject,
   filteredFolders: FolderSystem,
   filteredDashboards: string[],
+  { onFolderClick, onMoveUpClick }: MenuItemHandlers,
 ) => {
   const memoizedChildren = useMemo(() => {
     let keyIndex = 0;
@@ -23,6 +29,7 @@ export const useCreateMenuItems = (
           key={key}
           data-up-folder={true}
           className="moveFolderUp"
+          onClick={onMoveUpClick}
           data-grid={{
             static: true,
             x: xPosition,
@@ -31,7 +38,6 @@ export const useCreateMenuItems = (
             h: 1,
           }}
         >
-          {/* <img src={moveUp} alt="Move Up Icon" /> */}
           <MoveUpIcon
             className="icon-svg"
             style={{
@@ -54,6 +60,7 @@ export const useCreateMenuItems = (
           key={key}
           title="Click to enter this folder. Drag a dashboard here to put it in the folder."
           data-folder={folderName}
+          onClick={() => onFolderClick(folderName)}
           data-grid={{
             static: true,
             x: xPosition,
@@ -131,7 +138,13 @@ export const useCreateMenuItems = (
     });
 
     return [...backButton, ...folders, ...dashboards];
-  }, [filteredDashboards, filteredFolders, menuObject.currentFolder]);
+  }, [
+    filteredDashboards,
+    filteredFolders,
+    menuObject.currentFolder,
+    onFolderClick,
+    onMoveUpClick,
+  ]);
 
   return memoizedChildren;
 };
