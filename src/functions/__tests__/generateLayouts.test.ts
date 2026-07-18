@@ -11,11 +11,11 @@ describe("generateLayouts", () => {
     }
   });
 
-  it("creates one grid item per dashboard, keyed by index", () => {
+  it("creates one grid item per dashboard, keyed by name", () => {
     const layouts = generateLayouts(["A", "B", "C", "D"]);
     for (const breakpoint of Object.values(layouts)) {
       expect(breakpoint).toHaveLength(4);
-      expect(breakpoint.map((item) => item.i)).toEqual(["0", "1", "2", "3"]);
+      expect(breakpoint.map((item) => item.i)).toEqual(["A", "B", "C", "D"]);
     }
   });
 

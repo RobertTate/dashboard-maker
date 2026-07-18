@@ -27,7 +27,10 @@ export const generateLayouts = (myDashboards: string[]) => {
           y: row,
           w: width,
           h: 1,
-          i: String(i),
+          // Layout entries are keyed by item name so they stay attached to
+          // the right tile as items are added/removed (grid children use
+          // the same names as React keys).
+          i: myDashboards[i],
           isBounded: true,
         };
 

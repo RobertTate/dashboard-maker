@@ -21,12 +21,11 @@ export const useCreateMenuItems = (
     let backButton: JSX.Element[] = [];
 
     if (menuObject.currentFolder.length !== 0) {
-      const key = keyIndex;
       keyIndex += 1;
       backButton = [
         <button
           title={`Click to go up a level. Drag a dashboard here to bring it up a level.`}
-          key={key}
+          key="MoveDashUpButton"
           data-up-folder={true}
           className="moveFolderUp"
           onClick={onMoveUpClick}
@@ -57,7 +56,7 @@ export const useCreateMenuItems = (
       const folderToReturn = (
         <button
           className="folder"
-          key={key}
+          key={folderName}
           title="Click to enter this folder. Drag a dashboard here to put it in the folder."
           data-folder={folderName}
           onClick={() => onFolderClick(folderName)}
@@ -106,7 +105,7 @@ export const useCreateMenuItems = (
         <button
           title={`Click to view and edit this dashboard.`}
           data-dash={dash}
-          key={key}
+          key={dash}
         >
           <svg viewBox="0 0 194 18" style={{ width: "100%", height: "100%" }}>
             {dash.length >= 26 ? (

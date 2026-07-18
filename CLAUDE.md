@@ -68,7 +68,7 @@ These names are defined in `src/constants/dbKeys.ts` (`MENU_OBJECT_KEY`,
 
 ### Key Subsystems
 
-- **Folder system** (`src/functions/folderFunctions.ts`): Nested folder structure stored in `MenuObject`. `currentFolder` is a path array used to traverse the tree. The home screen grid is also a `react-grid-layout` instance, so folders/dashboards are draggable.
+- **Folder system** (`src/functions/folderFunctions.ts`): Nested folder structure stored in `MenuObject`. `currentFolder` is a path array used to traverse the tree. The home screen grid is also a `react-grid-layout` instance, so folders/dashboards are draggable. Grid layout entries (and React keys) are keyed by **item name**; legacy numeric-id layouts in existing DBs are remapped once on load by `migrateLayoutKeys` (`src/functions/migrateLayoutKeys.ts`).
 - **Dice rolling** (`src/functions/hooks/useDice.ts`): Uses `@3d-dice/dice-box` for 3D rendering. Dice notation (e.g. "1d6+3") is detected via a custom MDXEditor markdown shortcut plugin (`src/plugins/`) and rendered as clickable `<span data-dice-notation="...">` elements. Click handlers are attached at the document level.
 - **Dashboard sharing** (`Dashboard.tsx`): GM can broadcast a compressed (pako gzip + base64) dashboard to all players via `OBR.broadcast`. Players receive it in `useReceiveDashboard`.
 - **Dice roll sharing**: GM can optionally share rolls; player rolls are shared automatically. Uses `OBR.broadcast` with channel `com.roberttate.dashboard-maker-dice-notification`.

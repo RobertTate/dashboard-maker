@@ -338,7 +338,10 @@ const DashboardFileSystem = memo(
               }
 
               // Add Dashboard to parent folder
-              parentFolder.dashboards?.push(dashboardName);
+              if (!parentFolder.dashboards) {
+                parentFolder.dashboards = [];
+              }
+              parentFolder.dashboards.push(dashboardName);
 
               return newMenuObj;
             });

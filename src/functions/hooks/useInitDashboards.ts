@@ -5,13 +5,21 @@ import {
   checkAndAddPremades,
   generateLayouts,
   getCurrentFolder,
+  migrateLayoutKeys,
 } from "../";
-import { MENU_OBJECT_KEY } from "../../constants/dbKeys";
+import { MENU_OBJECT_KEY, RESERVED_DB_KEYS } from "../../constants/dbKeys";
 import db from "../../dbInstance";
 import type { MenuObject } from "../../types";
 
 const buildStartingMenu = (keys: string[]): MenuObject => ({
-  layouts: generateLayouts([...keys, "Premades"]),
+  // Layout order mirrors render order: folders first, then dashboards
+  // (reserved app-state keys and premades never render at the root).
+  layouts: generateLayouts([
+    "Premades",
+    ...keys.filter(
+      (key) => !key.includes("⭐") && !RESERVED_DB_KEYS.includes(key),
+    ),
+  ]),
   currentFolder: [],
   folders: {
     Premades: {
@@ -64,6 +72,7 @@ export const useInitDashboards = (
           : null;
         if (storedMenu?.folders) {
           applyPremades(storedMenu, premades);
+          migrateLayoutKeys(storedMenu, keys);
           setMenuObject(storedMenu);
         } else {
           setMenuObject(buildStartingMenu(keys));

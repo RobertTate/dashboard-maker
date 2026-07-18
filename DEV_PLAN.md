@@ -154,7 +154,7 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   Verify by running the app: enter/exit folders, drag dash into folder, drag
   dash up a level, reorder items, layouts persist after refresh.
 
-- [ ] **Task 8.5 — Name-based layout keys + saved-layout migration.**
+- [x] **Task 8.5 — Name-based layout keys + saved-layout migration.** ✅
   Change `generateLayouts` to key entries by item **name** (the arrays passed
   in are already names, incl. the "MoveDashUpButton" sentinel), key the grid
   children by name in `useCreateMenuItems`, and add a pure, tested
@@ -233,6 +233,26 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   (documented in CLAUDE.md Gotchas). Final approach: snapshot
   `[data-folder], [data-up-folder]` elements once per drag in
   `handleDragStart`.
+- **2026-07-18** — Task 8.5 done: `generateLayouts` + grid children keyed by
+  item name; `migrateLayoutKeys` (pure, 6 tests) remaps legacy numeric layout
+  ids on load using historical render order (folders first, dashboards in
+  db-key order, reserved keys excluded, `MoveDashUpButton` sentinel at index
+  0 inside folders; ambiguous all-numeric names skipped → auto-heal).
+  `buildStartingMenu` layout order now mirrors render order. Also fixed the
+  move-up-drop quirk: parent folder without a `dashboards` array now gets one
+  instead of silently dropping the dashboard.
+  Post-review addition (Robert saw left-column stacking in folders whose
+  legacy layouts had drifted under the old index scheme): migration now
+  guarantees "faithful or clean" — if a **legacy** remap doesn't cover every
+  item in every breakpoint, that folder's layout is regenerated via
+  `generateLayouts` (same clean fill as the refresh button) instead of
+  letting react-grid-layout auto-stack uncovered tiles. Scoped to the legacy
+  path only after Robert asked whether the migration is guaranteed
+  single-run: it executes every load but early-returns on name-keyed
+  layouts, so partial coverage from normal incremental changes (dash dragged
+  into a closed folder) is left for the grid to auto-place — an every-load
+  coverage fallback would have reset such folders' arrangements. 42 tests
+  passing.
   Pre-existing quirk noticed, untouched: the move-up drop branch does
   `parentFolder.dashboards?.push(...)` — if a parent folder somehow lacked a
   `dashboards` array the dashboard would drop out of the tree. Root always
