@@ -2,7 +2,11 @@
 import DiceBox from "@3d-dice/dice-box";
 // @ts-expect-error SOL
 import DiceParser from "@3d-dice/dice-parser-interface";
-import { DiceRoller, type RollBase } from "@3d-dice/dice-roller-parser";
+import {
+  DiceRoller,
+  type RollBase,
+  type RootType,
+} from "@3d-dice/dice-roller-parser";
 // @ts-expect-error SOL
 import DisplayResults from "@3d-dice/dice-ui/src/displayResults";
 import OBR from "@owlbear-rodeo/sdk";
@@ -15,6 +19,25 @@ const DP = new DiceParser();
 const DiceResults = new DisplayResults("#dice-box");
 
 type DiceBoxInstance = InstanceType<typeof DiceBox>;
+
+const broadcastRollResult = async (
+  finalResults: RollBase,
+  parsedNotationForMods: RootType,
+) => {
+  try {
+    const playerName = await OBR.player.getName();
+    await OBR.broadcast.sendMessage(
+      "com.roberttate.dashboard-maker-dice-notification",
+      {
+        finalResults,
+        parsedNotationForMods,
+        playerName,
+      },
+    );
+  } catch (e) {
+    await OBR.notification.show(`Something went wrong`, "ERROR");
+  }
+};
 
 export const useDice = () => {
   const [dice, setDice] = useState<DiceBoxInstance>(null);
@@ -113,36 +136,12 @@ export const useDice = () => {
             shareButton.appendChild(svgEl);
             diceResultsBox?.appendChild(shareButton);
 
-            shareButton.addEventListener("click", async () => {
-              try {
-                const playerName = await OBR.player.getName();
-                await OBR.broadcast.sendMessage(
-                  "com.roberttate.dashboard-maker-dice-notification",
-                  {
-                    finalResults,
-                    parsedNotationForMods,
-                    playerName,
-                  },
-                );
-              } catch (e) {
-                await OBR.notification.show(`Something went wrong`, "ERROR");
-              }
-            });
+            shareButton.addEventListener("click", () =>
+              broadcastRollResult(finalResults, parsedNotationForMods),
+            );
           } else {
             // Players dont get to choose to share their roll result
-            try {
-              const playerName = await OBR.player.getName();
-              await OBR.broadcast.sendMessage(
-                "com.roberttate.dashboard-maker-dice-notification",
-                {
-                  finalResults,
-                  parsedNotationForMods,
-                  playerName,
-                },
-              );
-            } catch (e) {
-              await OBR.notification.show(`Something went wrong`, "ERROR");
-            }
+            await broadcastRollResult(finalResults, parsedNotationForMods);
           }
         }
       };

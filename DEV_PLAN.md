@@ -127,11 +127,13 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   the key exists, fall back to the starting menu otherwise). Identical
   behavior, ~35 fewer lines.
 
-- [ ] **Task 7 — Dedupe useDice broadcast branches.**
-  The GM and player branches in `src/functions/hooks/useDice.ts`
-  (`onRollComplete`) contain an identical "broadcast roll result" block.
-  Extract a shared `broadcastRollResult` helper; GM keeps the share button,
-  players auto-share.
+- [x] **Task 7 — Dedupe useDice broadcast branches.** ✅
+  Extracted the identical "get player name → broadcast roll → error
+  notification" block from the GM share-button handler and the player
+  auto-share branch into a module-level `broadcastRollResult(finalResults,
+  parsedNotationForMods)` helper (typed with `RollBase` / `RootType`, matching
+  the `RollBroadcast` shape). GM keeps the share button; players still
+  auto-share. Behavior unchanged.
 
 - [ ] **Task 8 — Refactor DashboardFileSystem event wiring.**
   The riskiest task; do last, in isolation.
@@ -204,3 +206,5 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   three naming paths (create, upload, folder import). 34 tests passing.
 - **2026-07-17** — Task 6 done: `buildStartingMenu` helper replaces the two
   copy-pasted blocks in `useInitDashboards`.
+- **2026-07-17** — Task 7 done: `broadcastRollResult` helper dedupes the
+  GM/player dice-roll broadcast blocks in `useDice`.
