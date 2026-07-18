@@ -180,8 +180,16 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   deferred Task 2 audit finding. Robert bumped to ^4.0.4 and manually tested
   the editor; tests/lint/build green. Audit is now down to the two accepted
   uuid moderates (unreachable — see Task 2 notes).
-- [ ] Consolidate `radix-ui` vs `@radix-ui/react-dropdown-menu` (two versions
-  of the same library family).
+- [x] Consolidate Radix packages + fix phantom dependencies ✅ (2026-07-18).
+  Bigger than advertised: the two individually-declared Radix packages
+  (`react-dropdown-menu`, `react-visually-hidden`) were completely unused and
+  are removed; meanwhile SEVEN packages were imported in src/ without being
+  declared, riding on MDXEditor's transitive deps (`@radix-ui/react-dialog`,
+  `react-popover`, `react-tooltip`, `react-icons`, `classnames`,
+  `react-hook-form`, `@mdxeditor/gurx` — the latter three in
+  `CustomLinkDialog`, adapted from MDXEditor source). Primitives now import
+  from the `radix-ui` bundle; the rest are declared explicitly. `npm ls`
+  confirms single deduped copies of everything shared with MDXEditor.
 - [ ] `createADashboard(name, template)` signature cleanup — decouple data
   logic from input-ref/`setCustomValidity` UI (see assessment; only worth it
   when a third creation path appears).
@@ -257,6 +265,9 @@ plus `CLAUDE.md` and `src/CLAUDE.md` before continuing the work.
   into a closed folder) is left for the grid to auto-place — an every-load
   coverage fallback would have reset such folders' arrangements. 42 tests
   passing.
+- **2026-07-18** — Stretch: MDXEditor 4.0.4 upgrade (Robert bumped + tested;
+  js-yaml audit finding cleared). Radix consolidation + phantom-dependency
+  fix (7 undeclared imports made explicit, 2 dead deps removed).
   Pre-existing quirk noticed, untouched: the move-up drop branch does
   `parentFolder.dashboards?.push(...)` — if a parent folder somehow lacked a
   `dashboards` array the dashboard would drop out of the tree. Root always

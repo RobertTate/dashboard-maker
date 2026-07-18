@@ -14,9 +14,8 @@ import {
   usePublisher,
   withLatestFrom,
 } from "@mdxeditor/gurx";
-import * as Popover from "@radix-ui/react-popover";
-import * as Tooltip from "@radix-ui/react-tooltip";
 import classNames from "classnames";
+import { Popover, Tooltip } from "radix-ui";
 import React from "react";
 import { useForm } from "react-hook-form";
 

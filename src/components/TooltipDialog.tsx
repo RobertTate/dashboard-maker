@@ -13,8 +13,7 @@ import {
   thematicBreakPlugin,
   toolbarPlugin,
 } from "@mdxeditor/editor";
-import * as Dialog from "@radix-ui/react-dialog";
-import { VisuallyHidden } from "radix-ui";
+import { Dialog, VisuallyHidden } from "radix-ui";
 import debounce from "lodash.debounce";
 import { memo, useCallback, useEffect, useMemo } from "react";
 
