@@ -5,9 +5,33 @@ import {
   checkAndAddPremades,
   generateLayouts,
   getCurrentFolder,
+  migrateLayoutKeys,
 } from "../";
+import { MENU_OBJECT_KEY, RESERVED_DB_KEYS } from "../../constants/dbKeys";
 import db from "../../dbInstance";
 import type { MenuObject } from "../../types";
+
+const buildStartingMenu = (keys: string[]): MenuObject => ({
+  // Layout order mirrors render order: folders first, then dashboards
+  // (reserved app-state keys and premades never render at the root).
+  layouts: generateLayouts([
+    "Premades",
+    ...keys.filter(
+      (key) => !key.includes("⭐") && !RESERVED_DB_KEYS.includes(key),
+    ),
+  ]),
+  currentFolder: [],
+  folders: {
+    Premades: {
+      folders: {
+        "5th Edition D&D": {
+          dashboards: keys.filter((key) => key.includes("⭐")),
+        },
+      },
+    },
+  },
+  dashboards: keys.filter((key) => !key.includes("⭐")),
+});
 
 export const useInitDashboards = (
   refreshCount: number,
@@ -43,48 +67,15 @@ export const useInitDashboards = (
           return newMenuObj;
         });
       } else {
-        if (keys.includes("Menu_Object")) {
-          const storedMenu = (await db.getItem("Menu_Object")) as MenuObject;
-          if (storedMenu.folders) {
-            applyPremades(storedMenu, premades);
-            setMenuObject(storedMenu);
-          } else {
-            const startingMenuLayouts = generateLayouts([...keys, "Premades"]);
-            const startingMenu: MenuObject = {
-              layouts: startingMenuLayouts,
-              currentFolder: [],
-              folders: {
-                Premades: {
-                  folders: {
-                    "5th Edition D&D": {
-                      dashboards: [...keys.filter((key) => key.includes("⭐"))],
-                    },
-                  },
-                },
-              },
-              dashboards: [...keys.filter((key) => !key.includes("⭐"))],
-            };
-
-            setMenuObject(startingMenu);
-          }
+        const storedMenu = keys.includes(MENU_OBJECT_KEY)
+          ? ((await db.getItem(MENU_OBJECT_KEY)) as MenuObject)
+          : null;
+        if (storedMenu?.folders) {
+          applyPremades(storedMenu, premades);
+          migrateLayoutKeys(storedMenu, keys);
+          setMenuObject(storedMenu);
         } else {
-          const startingMenuLayouts = generateLayouts([...keys, "Premades"]);
-          const startingMenu: MenuObject = {
-            layouts: startingMenuLayouts,
-            currentFolder: [],
-            folders: {
-              Premades: {
-                folders: {
-                  "5th Edition D&D": {
-                    dashboards: [...keys.filter((key) => key.includes("⭐"))],
-                  },
-                },
-              },
-            },
-            dashboards: [...keys.filter((key) => !key.includes("⭐"))],
-          };
-
-          setMenuObject(startingMenu);
+          setMenuObject(buildStartingMenu(keys));
         }
       }
     };

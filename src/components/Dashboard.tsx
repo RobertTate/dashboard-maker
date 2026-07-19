@@ -64,7 +64,7 @@ const Dashboard = memo((props: DashboardProps) => {
       id={isLocked ? "locked-dash" : "unlocked-dash"}
     >
       <div className={`${styles["dashboard-toolbar-container"]} cancelDrag`}>
-        <div className={`${styles["dashboard-toolbar-zone"]}`} id="toolbar">
+        <div className={`${styles["dashboard-toolbar-zone"]}`} id="editor-toolbar">
           <p className={styles["dashboard-toolbar-zone-placeholder"]}>
             Useful Links: &nbsp;
             <a

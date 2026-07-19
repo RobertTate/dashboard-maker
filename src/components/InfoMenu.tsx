@@ -2,6 +2,7 @@ import { DotFilledIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { DropdownMenu } from "radix-ui";
 import { useEffect, useState } from "react";
 
+import { MODE_KEY, THEME_KEY } from "../constants/dbKeys";
 import { modesMap, themesMap, type Mode, type Theme } from "../constants/themeOptions";
 import db from "../dbInstance";
 import styles from "../styles/InfoMenu.module.css";
@@ -16,14 +17,14 @@ export const InfoMenu = () => {
 
   useEffect(() => {
     const checkForSetTheme = async () => {
-      const theme = (await db.getItem("Dash_Theme_String")) as Theme;
+      const theme = (await db.getItem(THEME_KEY)) as Theme;
       if (theme) {
         setTheme(theme);
       }
     };
 
     const checkForSetMode = async () => {
-      const mode = (await db.getItem("Dash_Mode_String")) as Mode;
+      const mode = (await db.getItem(MODE_KEY)) as Mode;
       if (mode) {
         setMode(mode);
       }
@@ -85,7 +86,7 @@ export const InfoMenu = () => {
             onValueChange={(value) => {
               setMode(value as Mode);
               document.documentElement.setAttribute("data-mode", value);
-              db.setItem("Dash_Mode_String", value);
+              db.setItem(MODE_KEY, value);
             }}
           >
             {Object.entries(modesMap).map((entry) => {
@@ -115,7 +116,7 @@ export const InfoMenu = () => {
             onValueChange={(value) => {
               setTheme(value as Theme);
               document.documentElement.setAttribute("data-theme", value);
-              db.setItem("Dash_Theme_String", value);
+              db.setItem(THEME_KEY, value);
             }}
           >
             {Object.entries(themesMap).map((entry) => {

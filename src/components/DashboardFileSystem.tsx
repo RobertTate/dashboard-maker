@@ -1,11 +1,12 @@
 import isEqual from "lodash.isequal";
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useMemo, useRef, useState } from "react";
 import ReactGridLayout, {
   type ItemCallback,
   Responsive,
   WidthProvider,
 } from "react-grid-layout";
 
+import { RESERVED_DB_KEYS } from "../constants/dbKeys";
 import {
   collisionInfo,
   generateLayouts,
@@ -27,12 +28,36 @@ const DashboardFileSystem = memo(
     setSyncStorage,
   }: DashboardFileSystemProps) => {
     const { selectADashboard } = useAppStore();
-    const folderRefs = useRef<HTMLDivElement[]>([]);
-    const folderUpBtnRef = useRef<HTMLButtonElement | null>(null);
+    // Drop targets for dashboard drags (folders + the move-up button).
+    // Snapshotted once per drag in handleDragStart. Collected via a DOM
+    // query rather than refs because react-grid-layout clones its children
+    // with its own ref, discarding any ref we set on them.
+    const collidablesRef = useRef<HTMLElement[]>([]);
     const ResponsiveReactGridLayout = useMemo(
       () => WidthProvider(Responsive),
       [],
     );
+
+    const onFolderClick = useCallback(
+      (folderName: string) => {
+        setMenuObject((prevMenuObj) => {
+          const newMenuObj: MenuObject = structuredClone(prevMenuObj);
+          newMenuObj.currentFolder.push(folderName);
+          return newMenuObj;
+        });
+        setSyncStorage((prev) => prev + 1);
+      },
+      [setMenuObject, setSyncStorage],
+    );
+
+    const onMoveUpClick = useCallback(() => {
+      setMenuObject((prevMenuObj) => {
+        const newMenuObj: MenuObject = structuredClone(prevMenuObj);
+        newMenuObj.currentFolder.pop();
+        return newMenuObj;
+      });
+      setSyncStorage((prev) => prev + 1);
+    }, [setMenuObject, setSyncStorage]);
 
     const currentFolderObject = useMemo(() => {
       return getCurrentFolder(menuObject);
@@ -52,7 +77,7 @@ const DashboardFileSystem = memo(
     // Filter out dashboards that are not part of the current folder
     const filteredDashboards = useMemo(() => {
       return dashBoardsArray.filter((dash) => {
-        if (dash === "Menu_Object") return false;
+        if (RESERVED_DB_KEYS.includes(dash)) return false;
         return currentFolderObject.dashboards?.includes(dash);
       });
     }, [dashBoardsArray, currentFolderObject]);
@@ -122,61 +147,8 @@ const DashboardFileSystem = memo(
       menuObject,
       filteredFolders,
       filteredDashboards,
+      { onFolderClick, onMoveUpClick },
     );
-
-    // Whenever the folder list or layout changes in a way that might affect .folder elements:
-    useEffect(() => {
-      const currentFolders =
-        document.querySelectorAll<HTMLDivElement>(".folder");
-
-      folderRefs.current = Array.from(currentFolders);
-
-      // Set the Current Folder
-      const handleClick = (event: MouseEvent) => {
-        const currentTarget = event.currentTarget as HTMLDivElement;
-        setMenuObject((prevMenuObj) => {
-          const newMenuObj: MenuObject = structuredClone(prevMenuObj);
-          newMenuObj.currentFolder.push(currentTarget.textContent as string);
-          return newMenuObj;
-        });
-        setSyncStorage((prev) => prev + 1);
-      };
-
-      folderRefs.current.forEach((folderRef) => {
-        folderRef.addEventListener("click", handleClick);
-      });
-
-      return () => {
-        folderRefs.current.forEach((folderRef) => {
-          folderRef.removeEventListener("click", handleClick);
-        });
-      };
-    }, [filteredFolders, setMenuObject, setSyncStorage]);
-
-    useEffect(() => {
-      const folderUpBtn =
-        document.querySelector<HTMLButtonElement>(".moveFolderUp");
-
-      // Set the Current Folder
-      const handleClick = () => {
-        setMenuObject((prevMenuObj) => {
-          const newMenuObj: MenuObject = structuredClone(prevMenuObj);
-          newMenuObj.currentFolder.pop();
-          return newMenuObj;
-        });
-        setSyncStorage((prev) => prev + 1);
-      };
-
-      if (folderUpBtn) {
-        folderUpBtnRef.current = folderUpBtn as HTMLButtonElement;
-        folderUpBtnRef.current.addEventListener("click", handleClick);
-      }
-
-      return () => {
-        folderUpBtnRef.current &&
-          folderUpBtnRef.current.removeEventListener("click", handleClick);
-      };
-    }, [filteredFolders, setMenuObject, setSyncStorage]);
 
     const [mouseDownPos, setMouseDownPos] = useState<{
       x: number;
@@ -192,6 +164,11 @@ const DashboardFileSystem = memo(
       _placeholder,
       event,
     ) => {
+      collidablesRef.current = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          "[data-folder], [data-up-folder]",
+        ),
+      );
       if (event.clientX && event.clientY) {
         setMouseDownPos({ x: event.clientX, y: event.clientY });
       } else if ((event as unknown as TouchEvent)?.touches) {
@@ -215,11 +192,7 @@ const DashboardFileSystem = memo(
       let mostOverlappedCollidable: HTMLElement | null = null;
       let highestOverlapArea = 0;
 
-      let collidables: HTMLElement[] = folderRefs.current;
-
-      if (folderUpBtnRef.current) {
-        collidables = [...collidables, folderUpBtnRef.current];
-      }
+      const collidables = collidablesRef.current;
 
       // If a dashboard is colliding with a folder, do some logic.
       for (const el of collidables) {
@@ -279,11 +252,7 @@ const DashboardFileSystem = memo(
     ) => {
       setIsDragging(false);
 
-      let collidables: HTMLElement[] = folderRefs.current;
-
-      if (folderUpBtnRef.current) {
-        collidables = [...collidables, folderUpBtnRef.current];
-      }
+      const collidables = collidablesRef.current;
 
       collidables.forEach((item) => {
         if (item) {
@@ -306,12 +275,11 @@ const DashboardFileSystem = memo(
           }
         }
 
-        if (mostOverlappedCollidable) {
-          const dashboardName = element.textContent as string;
-
+        const dashboardName = element.dataset.dash;
+        if (mostOverlappedCollidable && dashboardName) {
           // Handle dragging a dash into a folder
           if (mostOverlappedCollidable.dataset.folder) {
-            const folderName = mostOverlappedCollidable.textContent as string;
+            const folderName = mostOverlappedCollidable.dataset.folder;
             setMenuObject((prevMenuObj) => {
               const newMenuObj: MenuObject = structuredClone(prevMenuObj);
               if (!folderName) return prevMenuObj;
@@ -370,7 +338,10 @@ const DashboardFileSystem = memo(
               }
 
               // Add Dashboard to parent folder
-              parentFolder.dashboards?.push(dashboardName);
+              if (!parentFolder.dashboards) {
+                parentFolder.dashboards = [];
+              }
+              parentFolder.dashboards.push(dashboardName);
 
               return newMenuObj;
             });

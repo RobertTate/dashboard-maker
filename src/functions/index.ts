@@ -9,3 +9,5 @@ export {
 } from "./folderFunctions";
 export { checkAndAddPremades, applyPremades } from "./premadesFunctions";
 export { collisionInfo } from "./collisions";
+export { compressToB64String, decompressFromB64String } from "./compression";
+export { migrateLayoutKeys, MOVE_UP_BUTTON_KEY } from "./migrateLayoutKeys";

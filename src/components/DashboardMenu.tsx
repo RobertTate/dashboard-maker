@@ -1,6 +1,5 @@
 import { Cross2Icon, DotFilledIcon, GearIcon } from "@radix-ui/react-icons";
 import OBR, { Player } from "@owlbear-rodeo/sdk";
-import pako from "pako";
 import { memo, useRef, useState } from "react";
 import { Dialog, DropdownMenu } from "radix-ui";
 
@@ -13,6 +12,7 @@ import ToggleIcon from "../assets/toggle.svg?react";
 import UnlockedIcon from "../assets/unlocked.svg?react";
 import { modesMap, themesMap, type Mode, type Theme } from "../constants/themeOptions";
 import db from "../dbInstance";
+import { compressToB64String } from "../functions";
 import { useAppStore } from "../functions/hooks";
 import styles from "../styles/DashboardMenu.module.css";
 import type { DashboardItemsProps, Role, SharedDashboard } from "../types";
@@ -111,17 +111,9 @@ const DashboardMenu = memo((props: DashboardMenuProps) => {
           sharedDashboardContent: currentDashboard,
           target: shareTarget,
         };
-        const stringified = JSON.stringify(sharedDashboard);
-        const compressedUint8Array = pako.gzip(stringified);
-        const compressedUint8ArrayString = String.fromCharCode(
-          ...compressedUint8Array,
-        );
-        const b64EncodedCompressedUint8ArrayString = btoa(
-          compressedUint8ArrayString,
-        );
         await OBR.broadcast.sendMessage(
           "com.roberttate.dashboard-maker",
-          b64EncodedCompressedUint8ArrayString,
+          compressToB64String(sharedDashboard),
         );
         const targetName =
           shareTarget === "ALL"

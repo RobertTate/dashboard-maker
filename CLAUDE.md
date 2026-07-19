@@ -19,10 +19,17 @@ The app also runs in a **standalone mode** (outside Owlbear Rodeo) for demo purp
 - `npm run dev:live` - Dev server exposed on LAN (`--host 0.0.0.0`)
 - `npm run build` - TypeScript check + Vite production build
 - `npm run lint` - ESLint (zero warnings allowed)
+- `npm run test` - Vitest (single run; `npm run test:watch` for watch mode)
+
+A husky pre-commit hook (`.husky/pre-commit`) runs `npm test` on every commit
+and blocks the commit if tests fail.
 - `npm run format:css` - Prettier + Stylelint for CSS files
 - `npm run format:all` - Prettier for everything
 
-There is no test suite currently.
+Tests live in `src/functions/__tests__/` and cover the pure logic in
+`src/functions/` (folder traversal, folder import renaming, layout generation,
+upload validation). Components and hooks are untested; verify those by running
+the app. Tests that touch persistence mock `src/dbInstance.ts` with `vi.mock`.
 
 ## Deployment
 
@@ -55,11 +62,13 @@ All data lives in **IndexedDB via localforage** (`src/dbInstance.ts`). Each dash
 - `Dash_Mode_String` - Light/dark mode preference
 - `Dash_Theme_String` - Color theme preference
 
-These reserved names are checked in `createADashboard` to prevent collisions.
+These names are defined in `src/constants/dbKeys.ts` (`MENU_OBJECT_KEY`,
+`MODE_KEY`, `THEME_KEY`, and the `RESERVED_DB_KEYS` array) and checked in
+`createADashboard` to prevent collisions.
 
 ### Key Subsystems
 
-- **Folder system** (`src/functions/folderFunctions.ts`): Nested folder structure stored in `MenuObject`. `currentFolder` is a path array used to traverse the tree. The home screen grid is also a `react-grid-layout` instance, so folders/dashboards are draggable.
+- **Folder system** (`src/functions/folderFunctions.ts`): Nested folder structure stored in `MenuObject`. `currentFolder` is a path array used to traverse the tree. The home screen grid is also a `react-grid-layout` instance, so folders/dashboards are draggable. Grid layout entries (and React keys) are keyed by **item name**; legacy numeric-id layouts in existing DBs are remapped once on load by `migrateLayoutKeys` (`src/functions/migrateLayoutKeys.ts`).
 - **Dice rolling** (`src/functions/hooks/useDice.ts`): Uses `@3d-dice/dice-box` for 3D rendering. Dice notation (e.g. "1d6+3") is detected via a custom MDXEditor markdown shortcut plugin (`src/plugins/`) and rendered as clickable `<span data-dice-notation="...">` elements. Click handlers are attached at the document level.
 - **Dashboard sharing** (`Dashboard.tsx`): GM can broadcast a compressed (pako gzip + base64) dashboard to all players via `OBR.broadcast`. Players receive it in `useReceiveDashboard`.
 - **Dice roll sharing**: GM can optionally share rolls; player rolls are shared automatically. Uses `OBR.broadcast` with channel `com.roberttate.dashboard-maker-dice-notification`.
@@ -68,7 +77,7 @@ These reserved names are checked in `createADashboard` to prevent collisions.
 
 ### Widget / Editor Stack
 
-Each widget uses `@mdxeditor/editor` (MDXEditor) with plugins for headings, lists, quotes, images, tables, links, thematic breaks, admonitions, and the custom dice notation directive. The toolbar is rendered into a shared `#toolbar` div. Content updates are debounced (500ms) via lodash.debounce.
+Each widget uses `@mdxeditor/editor` (MDXEditor) with plugins for headings, lists, quotes, images, tables, links, thematic breaks, admonitions, and the custom dice notation directive. The toolbar is rendered into a shared `#editor-toolbar` div. Content updates are debounced (500ms) via lodash.debounce.
 
 ### Styling
 
@@ -84,3 +93,4 @@ Each widget uses `@mdxeditor/editor` (MDXEditor) with plugins for headings, list
 - The `SyncingGrid` uses a `syncStorage` counter pattern - incrementing it triggers a `useEffect` that persists the current layout + widgets to localforage. This is the primary save mechanism.
 - `react-grid-layout` layouts are compared with `lodash.isequal` to avoid unnecessary re-renders and save cycles.
 - The `cancelDrag` CSS class is used on elements inside grid items that should not trigger drag behavior (editor content, toolbar, delete buttons).
+- `react-grid-layout` clones its children with its own `ref` (`GridItem.js` `cloneElement`), **silently discarding any ref you set on a grid child**. To get DOM handles to grid items (e.g. drag drop-targets in `DashboardFileSystem`), query the DOM (`data-*` attribute selectors) instead of attaching refs. `onClick` and other props survive the clone.
