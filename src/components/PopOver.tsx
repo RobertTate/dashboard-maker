@@ -30,6 +30,7 @@ import Dashboard from "./Dashboard";
 import DashboardFileSystem from "./DashboardFileSystem.tsx";
 import { FolderCreator } from "./FolderCreator";
 import { InfoMenu } from "./InfoMenu.tsx";
+import { PatreonMenu } from "./PatreonMenu.tsx";
 
 const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
   const { selectedDashboard, selectADashboard } = useAppStore();
@@ -306,7 +307,10 @@ const PopOver = memo(({ standalone = false, role }: PopOverProps) => {
             Dashboard Maker
           </h1>
           <h3>GM Screens, Character Sheets, and Whatever Else.</h3>
-          <InfoMenu />
+          <div className={styles["info-menus-container"]}>
+            <InfoMenu />
+            <PatreonMenu />
+          </div>
           <div className={styles["dashboard-creator"]}>
             <div className={styles["dashboard-input"]}>
               <button

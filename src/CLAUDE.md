@@ -7,7 +7,7 @@ main.tsx
 └── AppProvider (context: selectedDashboard)
     └── App (OBR init, role detection, global hooks)
         └── PopOver (home screen OR dashboard view)
-            ├── [Home] DashboardFileSystem, FolderCreator, InfoMenu
+            ├── [Home] DashboardFileSystem, FolderCreator, InfoMenu, PatreonMenu
             └── [Dashboard] Dashboard
                 └── SyncingGrid (react-grid-layout)
                     └── Widget (MDXEditor instance per grid item)
