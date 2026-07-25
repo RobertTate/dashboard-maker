@@ -122,3 +122,11 @@ export type FolderExport = {
     [dashName: string]: DashboardItemsProps;
   };
 };
+
+export type AnnouncementProps = {
+  id: string;
+  date: string;
+  title: string;
+  excerpt: string;
+  url: string;
+};

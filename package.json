@@ -10,6 +10,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test": "vitest run",
     "test:watch": "vitest",
+    "announcements:pull": "node scripts/pull-announcements.mjs",
     "preview": "vite preview",
     "format:css": "prettier --write **/*.css && stylelint **/*.css --fix",
     "format:all": "prettier . --write",

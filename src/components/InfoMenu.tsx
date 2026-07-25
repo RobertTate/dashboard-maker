@@ -39,9 +39,6 @@ export const InfoMenu = () => {
       <DropdownMenu.Trigger asChild>
         <button
           style={{
-            position: "absolute",
-            top: "20px",
-            right: "14px",
             cursor: "pointer",
           }}
           className={styles.IconButton}

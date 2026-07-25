@@ -5,6 +5,16 @@
   height: auto;
 }
 
+.pop-over h1 {
+  margin-right: 6.25rem;
+}
+
+@media (max-width: 600px) {
+  .pop-over h1 {
+    font-size: 2.75rem;
+  }
+}
+
 .pop-over h3 {
   font-weight: 100;
 }
@@ -55,4 +65,27 @@
   top: 12px;
   right: 12px;
   cursor: pointer;
+}
+
+.info-menus-container {
+  position: absolute;
+  top: 20px;
+  right: 14px;
+  display: flex;
+  gap: 8px;
+
+  &:has(*[data-state="open"]) {
+    transform: translate(8px, -8px);
+  }
+}
+
+@media (max-width: 600px) {
+  .info-menus-container {
+    top: 13px;
+  }
+}
+
+
+body:has(div[role="dialog"]) .info-menus-container {
+  transform: translate(8px, -8px);
 }

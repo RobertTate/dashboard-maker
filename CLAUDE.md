@@ -25,6 +25,11 @@ A husky pre-commit hook (`.husky/pre-commit`) runs `npm test` on every commit
 and blocks the commit if tests fail.
 - `npm run format:css` - Prettier + Stylelint for CSS files
 - `npm run format:all` - Prettier for everything
+- `npm run announcements:pull` - Pull latest public Patreon posts into
+  `src/announcements.json` (committed content-as-code; see
+  `scripts/pull-announcements.mjs` and `PREMIUM_PLAN.md` Phase 1.5). Needs
+  Patreon creds in `.env.local`; self-refreshes tokens on 401 and rewrites
+  `.env.local`. Run from one machine only.
 
 Tests live in `src/functions/__tests__/` and cover the pure logic in
 `src/functions/` (folder traversal, folder import renaming, layout generation,
@@ -61,10 +66,12 @@ All data lives in **IndexedDB via localforage** (`src/dbInstance.ts`). Each dash
 - `Menu_Object` - Folder structure and layout state
 - `Dash_Mode_String` - Light/dark mode preference
 - `Dash_Theme_String` - Color theme preference
+- `Dash_Announcement_Seen_String` - Newest Patreon announcement id the user has seen
 
 These names are defined in `src/constants/dbKeys.ts` (`MENU_OBJECT_KEY`,
-`MODE_KEY`, `THEME_KEY`, and the `RESERVED_DB_KEYS` array) and checked in
-`createADashboard` to prevent collisions.
+`MODE_KEY`, `THEME_KEY`, `LAST_SEEN_ANNOUNCEMENT_KEY`, and the
+`RESERVED_DB_KEYS` array) and checked in `createADashboard` to prevent
+collisions.
 
 ### Key Subsystems
 
