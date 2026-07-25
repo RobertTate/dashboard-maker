@@ -6,8 +6,17 @@ import {
   generateLayouts,
   getCurrentFolder,
   migrateLayoutKeys,
+  sortDashboards,
 } from "../";
-import { MENU_OBJECT_KEY, RESERVED_DB_KEYS } from "../../constants/dbKeys";
+import {
+  MENU_OBJECT_KEY,
+  RESERVED_DB_KEYS,
+  SORT_ORDER_KEY,
+} from "../../constants/dbKeys";
+import {
+  DEFAULT_SORT_ORDER,
+  type SortOrder,
+} from "../../constants/sortOptions";
 import db from "../../dbInstance";
 import type { MenuObject } from "../../types";
 
@@ -48,6 +57,9 @@ export const useInitDashboards = (
       setDashboardsArray(keys);
 
       if (refreshCount > 0) {
+        const sortOrder =
+          ((await db.getItem(SORT_ORDER_KEY)) as SortOrder | null) ??
+          DEFAULT_SORT_ORDER;
         setMenuObject((prevMenuObj) => {
           const newMenuObj: MenuObject = structuredClone(prevMenuObj);
           const isTopLevel = newMenuObj?.currentFolder?.length === 0;
@@ -56,9 +68,10 @@ export const useInitDashboards = (
           }
           applyPremades(newMenuObj, premades);
           const currentFolder = getCurrentFolder(newMenuObj);
+          // Folders keep their stored order; only dashboards are sorted.
           const layoutsArray = [
             ...(Object.keys(currentFolder.folders || {}) || []),
-            ...(currentFolder.dashboards || []),
+            ...sortDashboards(currentFolder.dashboards || [], sortOrder),
           ];
           if (!isTopLevel) {
             layoutsArray.unshift("MoveDashUpButton");
