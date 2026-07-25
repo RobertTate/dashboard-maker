@@ -67,10 +67,11 @@ All data lives in **IndexedDB via localforage** (`src/dbInstance.ts`). Each dash
 - `Dash_Mode_String` - Light/dark mode preference
 - `Dash_Theme_String` - Color theme preference
 - `Dash_Announcement_Seen_String` - Newest Patreon announcement id the user has seen
+- `Dash_Sort_Order_String` - "Sort Dashboards By" preference applied to dashboards (not folders) when the refresh button rebuilds the current folder's layout (`insertion` | `az`, see `src/constants/sortOptions.ts` and `src/functions/sortDashboards.ts`)
 
 These names are defined in `src/constants/dbKeys.ts` (`MENU_OBJECT_KEY`,
-`MODE_KEY`, `THEME_KEY`, `LAST_SEEN_ANNOUNCEMENT_KEY`, and the
-`RESERVED_DB_KEYS` array) and checked in `createADashboard` to prevent
+`MODE_KEY`, `THEME_KEY`, `LAST_SEEN_ANNOUNCEMENT_KEY`, `SORT_ORDER_KEY`, and
+the `RESERVED_DB_KEYS` array) and checked in `createADashboard` to prevent
 collisions.
 
 ### Key Subsystems
